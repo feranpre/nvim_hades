@@ -37,8 +37,8 @@ local opts = {
   },
 }
 
--- lazy setup (load of plugins is done in ~/.config/lua/caronte/init.lua)
+-- lazy setup (load of plugins is done in ~/.config/lua/hades/init.lua)
 -- require("lazy").setup({
---  { import = "caronte.plugins.core" },
---  { import = "caronte.plugins.editor" },
+--  { import = "hades.plugins.core" },
+--  { import = "hades.plugins.editor" },
 --}, opts)

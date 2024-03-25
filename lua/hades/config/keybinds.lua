@@ -71,6 +71,15 @@ keymap("n", "<leader>wJ", "<C-w>J", opts, "move window to the bottom [<C-w>J]")
 keymap("n", "<leader>wL", "<C-w>L", opts, "move window to the left [<C-w>L]")
 keymap("n", "<leader>wH", "<C-w>H", opts, "move window to the right [<C-w>H]")
 
+-- buffer
+if wk ~= nil then
+  wk.register({
+    ["<leader>b"] = { name = "+[b]uffers" },
+  })
+  keymap("n", "<leader>bl", "<cmd>Telescope buffers<cr>", opts, "Telescope [b]uffer list")
+  keymap("n", "<leader>bd", "<cmd>bd<cr>", opts, "[b]uffer [d]elete")
+end
+
 -- indenting
 keymap("v", "<", "<gv", opts, "un-Indent selected text")
 keymap("v", ">", ">gv", opts, "indent selected text")

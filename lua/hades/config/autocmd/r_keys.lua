@@ -1,5 +1,5 @@
 local opts = { noremap = true, silent = true, desc = nil }
-local keymap = require("caronte.misc.utils").keymap
+local keymap = require("hades.misc.utils").keymap
 
 local function set_r_keymaps()
   local opts = { buffer = 0 }
