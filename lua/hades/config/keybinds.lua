@@ -85,25 +85,37 @@ keymap("v", "<", "<gv", opts, "un-Indent selected text")
 keymap("v", ">", ">gv", opts, "indent selected text")
 
 -- -------------------------------------
--- ------------------------------------- SLIME
+-- ------------------------------------- R.nvim
 -- -------------------------------------
-if vim.g.slime_target ~= nil then
-  -- local slime_run = require("hades.misc.slime_utils")
-  wk.register({ ["<LocalLeader>s"] = { name = "+[S]end (REPL)" } })
-  keymap("n", "<C-CR>", "<Plug>SlimeParagraphSend", opts, "other window")
-  keymap("n", "<LocalLeader>sp", "<Plug>SlimeParagraphSend", opts, "other window")
-
-  keymap(
-    "n",
-    "<LocalLeader>sl",
-    "<cmd>SlimeSend1 devtools::load_all('.')<CR>",
-    opts,
-    "R - load all files (for a package)"
-  )
-  -- keymap("n", "<localleader>rs", slime_run.send_cell, opts, "other window")
-  -- keymap("n", "<leader>rr", slime_run.send_cell, opts, "other window")
+if isModuleAvailable("r") then
+  vim.api.nvim_create_autocmd({ "FileType", "BufEnter", "BufWinEnter" }, {
+    pattern = { "*.r", "*.R" },
+    callback = function(ev)
+      keymap("n", "<F3>", "<cmd>Telescope buffers<cr>", opts, "asersd")
+    end,
+  })
 end
 
+-- -------------------------------------
+-- ------------------------------------- SLIME
+-- -------------------------------------
+-- if vim.g.slime_target ~= nil then
+--   -- local slime_run = require("hades.misc.slime_utils")
+--   wk.register({ ["<LocalLeader>s"] = { name = "+[S]end (REPL)" } })
+--   keymap("n", "<C-CR>", "<Plug>SlimeParagraphSend", opts, "other window")
+--   keymap("n", "<LocalLeader>sp", "<Plug>SlimeParagraphSend", opts, "other window")
+--
+--   keymap(
+--     "n",
+--     "<LocalLeader>sl",
+--     "<cmd>SlimeSend1 devtools::load_all('.')<CR>",
+--     opts,
+--     "R - load all files (for a package)"
+--   )
+--   -- keymap("n", "<localleader>rs", slime_run.send_cell, opts, "other window")
+--   -- keymap("n", "<leader>rr", slime_run.send_cell, opts, "other window")
+-- end
+--
 -- -------------------------------------
 -- ------------------------------------- FILE TREE
 -- -------------------------------------
@@ -222,10 +234,10 @@ if isModuleAvailable("quarto") then
           a = { ":QuartoSendAll<cr>", "run [a]ll" },
           b = { ":QuartoSendBelow<cr>", "run [b]elow" },
         },
-        e = { require("otter").export, "[e]xport" },
+        -- e = { require("otter").export, "[e]xport" },
         E = {
           function()
-            require("otter").export(true)
+            -- require("otter").export(true)
           end,
           "[E]xport with overwrite",
         },

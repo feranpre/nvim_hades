@@ -3,7 +3,7 @@
 return {
   "jpalardy/vim-slime",
   -- "chadvoegele/nvim-slime",
-  enabled = true,
+  enabled = false,
   init = function()
     vim.g.slime_target = "neovim"
     -- vim.g.slime_target = 'tmux'
