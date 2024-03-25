@@ -1,7 +1,7 @@
 local opts = { noremap = true, silent = true, desc = nil }
 
-local keymap = require("caronte.misc.utils").keymap
-local isModuleAvailable = require("caronte.misc.utils").isModuleAvailable
+local keymap = require("hades.misc.utils").keymap
+local isModuleAvailable = require("hades.misc.utils").isModuleAvailable
 
 local wk = nil
 if isModuleAvailable("which-key") then
@@ -79,7 +79,7 @@ keymap("v", ">", ">gv", opts, "indent selected text")
 -- ------------------------------------- SLIME
 -- -------------------------------------
 if vim.g.slime_target ~= nil then
-  -- local slime_run = require("caronte.misc.slime_utils")
+  -- local slime_run = require("hades.misc.slime_utils")
   wk.register({ ["<LocalLeader>s"] = { name = "+[S]end (REPL)" } })
   keymap("n", "<C-CR>", "<Plug>SlimeParagraphSend", opts, "other window")
   keymap("n", "<LocalLeader>sp", "<Plug>SlimeParagraphSend", opts, "other window")

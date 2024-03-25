@@ -1,16 +1,16 @@
-require("caronte.config.globals")
-require("caronte.config.lazy")
+require("hades.config.globals")
+require("hades.config.lazy")
 
 require("lazy").setup({
-  { import = "caronte.plugins.lsp" },
-  { import = "caronte.plugins.editor" },
-  { import = "caronte.plugins.code" },
+  { import = "hades.plugins.lsp" },
+  { import = "hades.plugins.editor" },
+  { import = "hades.plugins.code" },
 })
 
-require("caronte.config.options")
-require("caronte.config.keybinds")
-require("caronte.config.colors")
--- require("caronte.config.autocmd")
+require("hades.config.options")
+require("hades.config.keybinds")
+require("hades.config.colors")
+-- require("hades.config.autocmd")
 
--- require("caronte.config.autocmd.r_keys")
-require("caronte.config.autocmd.term_keys")
+-- require("hades.config.autocmd.r_keys")
+require("hades.config.autocmd.term_keys")

@@ -1,1 +1,1 @@
-require("caronte")
+require("hades")
