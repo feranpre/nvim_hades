@@ -1,6 +1,7 @@
 local opts = { noremap = true, silent = true, desc = nil }
 
 local keymap = require("hades.misc.utils").keymap
+local keymap_buffer = require("hades.misc.utils").keymap_buffer
 local isModuleAvailable = require("hades.misc.utils").isModuleAvailable
 
 local wk = nil
@@ -87,11 +88,18 @@ keymap("v", ">", ">gv", opts, "indent selected text")
 -- -------------------------------------
 -- ------------------------------------- R.nvim
 -- -------------------------------------
+
 if isModuleAvailable("r") then
-  vim.api.nvim_create_autocmd({ "FileType", "BufEnter", "BufWinEnter" }, {
-    pattern = { "*.r", "*.R" },
+  vim.api.nvim_create_autocmd({ "FileType", "VimEnter" }, {
+    pattern = "r",
     callback = function(ev)
-      keymap("n", "<F3>", "<cmd>Telescope buffers<cr>", opts, "asersd")
+      -- local send = require("r.send").cmd
+      -- keymap_buffer(0, "n", "<localleader>ll", send("devtools::load_all()"), opts, "asersd")
+
+      local b_opts = { buffer = 0 }
+      wk.register({ ["<localleader>"] = { name = "Comandos para R" } }, b_opts)
+      keymap_buffer(0, "n", "<localleader>rs", "<Plug>RStart<cr>", opts, "asersd")
+      keymap_buffer(0, "n", "<localleader>rq", "<Plug>RClose<cr>", opts, "asersd")
     end,
   })
 end
