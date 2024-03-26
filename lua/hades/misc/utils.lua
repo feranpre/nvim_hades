@@ -9,7 +9,7 @@ function M.isModuleAvailable(name)
     for _, searcher in ipairs(package.loaders) do
       local loader = searcher(name)
       print()
-      if type(loader) == "function" then
+      if type(loader) == 'function' then
         package.preload[name] = loader
         return true
       end
@@ -26,7 +26,7 @@ end
 function M.keymap(mode, keys, func, opts, desc)
   local local_opts = opts
   if desc then
-    local_opts["desc"] = desc
+    local_opts['desc'] = desc
   end
   -- vim.api.nvim_set_keymap(mode, keys, func, local_opts)
   vim.keymap.set(mode, keys, func, local_opts)
@@ -34,37 +34,37 @@ end
 
 function M.keymap_buffer(buffer, mode, keys, func, opts, desc)
   local local_opts = opts
-  local_opts["buffer"] = buffer
+  local_opts['buffer'] = buffer
   if desc then
-    local_opts["desc"] = desc
+    local_opts['desc'] = desc
   end
   -- vim.api.nvim_buf_set_keymap(buffer, mode, keys, func, local_opts)
   vim.keymap.set(mode, keys, func, local_opts)
 end
 
 function M.get_all_lua_files(search_folder)
-  local config_path = vim.fn.stdpath("config") .. "/lua/"
+  local config_path = vim.fn.stdpath('config') .. '/lua/'
   local folder_path = config_path .. search_folder
   local lua_files = {}
   local handle = vim.loop.fs_scandir(folder_path)
-  -- print("FILES for -> ".. folder_path)
+  -- print('FILES for -> '.. folder_path)
   if handle then
     while true do
       local name, type = vim.loop.fs_scandir_next(handle)
       if not name then
         break
       end
-      local path = folder_path .. "/" .. name
+      local path = folder_path .. '/' .. name
 
-      if type == "file" then
-        if name:match("%.lua$") then
-          local relative_path = path:gsub("%.lua$", "")
-          relative_path = relative_path:gsub("^" .. config_path, ""):gsub("/", ".")
+      if type == 'file' then
+        if name:match('%.lua$') then
+          local relative_path = path:gsub('%.lua$', '')
+          relative_path = relative_path:gsub('^' .. config_path, ''):gsub('/', '.')
           table.insert(lua_files, relative_path)
         end
-      elseif type == "directory" then
-        local relative_path = path:gsub("^" .. config_path, "")
-        -- print("Mirando : ".. path .. "   y entrando en " .. relative_path)
+      elseif type == 'directory' then
+        local relative_path = path:gsub('^' .. config_path, '')
+        -- print('Mirando : '.. path .. '   y entrando en ' .. relative_path)
         local subfolder_lua_files = M.get_all_lua_files(relative_path)
         for _, subfile_path in ipairs(subfolder_lua_files) do
           table.insert(lua_files, subfile_path)
@@ -78,7 +78,7 @@ end
 function M.load_all_lua_files(folder)
   local lua_files = M.get_all_lua_files(folder)
   for _, file_path in ipairs(lua_files) do
-    -- print("CARGANDO: " .. file_path)
+    -- print('CARGANDO: ' .. file_path)
     require(file_path)
   end
 end
@@ -90,7 +90,7 @@ end
 -- Define a function to display LSP hover information in a custom popup window
 function M.custom_lsp_hover()
   local params = vim.lsp.util.make_position_params()
-  local result = vim.lsp.buf_request_sync(0, "textDocument/hover", params, 1000)
+  local result = vim.lsp.buf_request_sync(0, 'textDocument/hover', params, 1000)
 
   if not result or not result[1] or not result[1].result then
     return
@@ -108,19 +108,19 @@ function M.custom_lsp_hover()
   local col = math.floor((win_width - width) / 2)
 
   local border = {
-    { "╭", "FloatBorder" },
-    { "─", "FloatBorder" },
-    { "╮", "FloatBorder" },
-    { "│", "FloatBorder" },
-    { "╯", "FloatBorder" },
-    { "─", "FloatBorder" },
-    { "╰", "FloatBorder" },
-    { "│", "FloatBorder" },
+    { '╭', 'FloatBorder' },
+    { '─', 'FloatBorder' },
+    { '╮', 'FloatBorder' },
+    { '│', 'FloatBorder' },
+    { '╯', 'FloatBorder' },
+    { '─', 'FloatBorder' },
+    { '╰', 'FloatBorder' },
+    { '│', 'FloatBorder' },
   }
 
   local opts = {
-    style = "minimal",
-    relative = "editor",
+    style = 'minimal',
+    relative = 'editor',
     width = width,
     height = height,
     row = row,
@@ -131,10 +131,10 @@ function M.custom_lsp_hover()
   local bufnr, winnr
   bufnr, winnr = vim.api.nvim_open_win(0, true, opts)
   vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, contents)
-  vim.api.nvim_win_set_option(winnr, "winhl", "Normal:Normal")
+  vim.api.nvim_win_set_option(winnr, 'winhl', 'Normal:Normal')
 
   -- Set up key mapping to close the hover popup
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "<Esc>", ":q<CR>", { noremap = true, silent = true })
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Esc>', ':q<CR>', { noremap = true, silent = true })
 end
 
 -- Map a key to trigger the custom LSP hover function

@@ -1,5 +1,5 @@
 return {
-  "echasnovski/mini.clue",
+  'echasnovski/mini.clue',
   enabled = false,
   version = false,
 }

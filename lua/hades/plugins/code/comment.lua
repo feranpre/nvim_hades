@@ -4,7 +4,7 @@ return {
         -- add any options here
     },
     config = function()
-      require("Comment").setup()
+      require('Comment').setup()
     end,
     lazy = false,
 }

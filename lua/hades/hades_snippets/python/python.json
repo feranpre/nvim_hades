@@ -1,24 +1,24 @@
 {
-    "funciones corta": {
-        "prefix": "func",
-        "body": [
-            "def ${1:func_name}(${2:arg1}, ${3:arg2}):",
-            "\t\"\"\"",
-            "\tDescription",
-            "\t\"\"\"",
-            "\t${4:pass}"
+    'funciones corta': {
+        'prefix': 'func',
+        'body': [
+            'def ${1:func_name}(${2:arg1}, ${3:arg2}):',
+            '\t\'\'\'',
+            '\tDescription',
+            '\t\'\'\'',
+            '\t${4:pass}'
         ],
-        "description": "Doc corta para funciones"
+        'description': 'Doc corta para funciones'
     },
-    "try/except": {
-        "prefix": "try/except",
-        "body": [
-            "try:",
-            "\t${1:command}",
-            "except ${2:expression} as ${3:error_detail}:",
-            "\tprint(f\"There was an error {error_detail}\")",
-            "\t${4:pass}"
+    'try/except': {
+        'prefix': 'try/except',
+        'body': [
+            'try:',
+            '\t${1:command}',
+            'except ${2:expression} as ${3:error_detail}:',
+            '\tprint(f\'There was an error {error_detail}\')',
+            '\t${4:pass}'
         ],
-        "description": "Code snippet for a try/except statement"
+        'description': 'Code snippet for a try/except statement'
     }
 }

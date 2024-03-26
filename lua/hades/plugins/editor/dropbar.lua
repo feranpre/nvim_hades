@@ -1,13 +1,13 @@
 -- This will show current symbols (as in markdown headers) as breadcrumbs
 return { -- or show symbols in the current file as breadcrumbs
-  "Bekaboo/dropbar.nvim",
+  'Bekaboo/dropbar.nvim',
   enabled = false,
   dependencies = {
-    "nvim-telescope/telescope-fzf-native.nvim",
+    'nvim-telescope/telescope-fzf-native.nvim',
   },
   config = function()
     -- turn off global option for windowline
     vim.opt.winbar = nil
-    vim.keymap.set("n", "<leader>ls", require("dropbar.api").pick, { desc = "[s]ymbols" })
+    vim.keymap.set('n', '<leader>ls', require('dropbar.api').pick, { desc = '[s]ymbols' })
   end,
 }

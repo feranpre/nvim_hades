@@ -1,7 +1,7 @@
 return {
-  "nvim-neorg/neorg",
+  'nvim-neorg/neorg',
   enabled = false,
   config = function()
-    require("neorg").setup({})
+    require('neorg').setup({})
   end,
 }

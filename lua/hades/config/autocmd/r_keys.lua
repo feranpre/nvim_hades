@@ -1,24 +1,24 @@
 local opts = { noremap = true, silent = true, desc = nil }
-local keymap = require("hades.misc.utils").keymap
+local keymap = require('hades.misc.utils').keymap
 
 local function set_r_keymaps()
   local opts = { buffer = 0 }
-  -- keymap("n", "<LocalLeader>la", require("Nvim-R").RAction("devtools::load_all()"), opts, "[L]oad all")
-  keymap("n", "<LocalLeader>la", "<cmd>call SendCmndToR('devtools::load_all()')<cr>", opts, "[L]oad all")
-  -- vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
-  -- vim.keymap.set("t", "<C-h>", [[<Cmd>wincmd h<CR>]], opts)
-  -- vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], opts)
-  -- vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], opts)
-  -- vim.keymap.set("t", "<C-l>", [[<Cmd>wincmd l<CR>]], opts)
+  -- keymap('n', '<LocalLeader>la', require('Nvim-R').RAction('devtools::load_all()'), opts, '[L]oad all')
+  keymap('n', '<LocalLeader>la', '<cmd>call SendCmndToR('devtools::load_all()')<cr>', opts, '[L]oad all')
+  -- vim.keymap.set('t', '<esc>', [[<C-\><C-n>]], opts)
+  -- vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
+  -- vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
+  -- vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)
+  -- vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], opts)
 end
-vim.api.nvim_create_autocmd({ "myNvimR" }, {
-  pattern = { "r" },
+vim.api.nvim_create_autocmd({ 'myNvimR' }, {
+  pattern = { 'r' },
   callback = function(_)
-    vim.cmd.setlocal("nonumber")
+    vim.cmd.setlocal('nonumber')
     set_r_keymaps()
   end,
 })
--- vim.cmd("augroup myNvimR")
--- vim.cmd("au!")
--- vim.cmd("autocmd FileType r lua set_r_keymaps()")
--- vim.cmd("augroup end")
+-- vim.cmd('augroup myNvimR')
+-- vim.cmd('au!')
+-- vim.cmd('autocmd FileType r lua set_r_keymaps()')
+-- vim.cmd('augroup end')

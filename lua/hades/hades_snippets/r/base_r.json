@@ -1,0 +1,9 @@
+{
+  'rm': {
+    'prefix': 'rm',
+    'body': ['rm(list=ls())'
+    ],
+    'description': 'description'
+  },
+
+}
