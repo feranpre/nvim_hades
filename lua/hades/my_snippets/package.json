@@ -1,0 +1,34 @@
+{
+    "name": "hades-snippets",
+    "engines": {
+        "vscode": "^1.11.0"
+    },
+    "contributes": {
+        "snippets": [
+            {
+                "language": "python",
+                "path": "./python/python.json"
+            },
+            {
+                "language": "python",
+                "path": "./python/pytest.json"
+            },
+            {
+                "language": "python",
+                "path": "./python/pydoc.json"
+            },
+            {
+                "language": "lua",
+                "path": "./lua/lua.json"
+            },
+            {
+                "language": "json",
+                "path": "./json/json.json"
+            },
+            {
+                "language": "markdown",
+                "path": "./markdown/markdown.json"
+            }
+        ]
+    }
+}

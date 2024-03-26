@@ -96,10 +96,65 @@ if isModuleAvailable("r") then
       -- local send = require("r.send").cmd
       -- keymap_buffer(0, "n", "<localleader>ll", send("devtools::load_all()"), opts, "asersd")
 
-      local b_opts = { buffer = 0 }
-      wk.register({ ["<localleader>"] = { name = "Comandos para R" } }, b_opts)
-      keymap_buffer(0, "n", "<localleader>rs", "<Plug>RStart<cr>", opts, "asersd")
-      keymap_buffer(0, "n", "<localleader>rq", "<Plug>RClose<cr>", opts, "asersd")
+      if wk ~= nil then
+        local b_opts = { buffer = 0 }
+        -- wk.register({ ["<localleader>"] = { name = "[R] commands" } }, b_opts)
+        wk.register({ ["<localleader>r"] = { name = "[R] start/stop" } }, b_opts)
+        wk.register({ ["<localleader>s"] = { name = "[s]end to R" } }, b_opts)
+        wk.register({ ["<localleader>b"] = { name = "[b]uild tools" } }, b_opts)
+      end
+
+      -- start/stop R
+      keymap_buffer(0, "n", "<localleader>rs", "<Plug>RStart<cr>", opts, "[s]tart R console")
+      keymap_buffer(0, "n", "<localleader>rq", "<Plug>RClose<cr>", opts, "[q]uit R console (no save)")
+
+      -- Send code
+      keymap_buffer(0, "n", "<C-CR>", "<Plug>RDSendLine", opts, "send [l]ine and move down")
+      keymap_buffer(0, "v", "<C-CR>", "<Plug>RDSendSelection", opts, "send [l]ine and move down")
+      keymap_buffer(0, "n", "<localleader>sl", "<Plug>RDSendLine", opts, "send [l]ine and move down")
+      keymap_buffer(0, "n", "<C-S-CR>", "<Plug>RDSendParagraph", opts, "send [p]aragraph and move down")
+      keymap_buffer(0, "n", "<localleader>sl", "<Plug>RDSendParagraph", opts, "send [p]aragraph and move down")
+
+      keymap_buffer(0, "n", "<localleader>sf", "<Plug>RSendFile", opts, "send [f]ile")
+      -- Helpers
+
+      keymap_buffer(
+        0,
+        "n",
+        "<localleader>bl",
+        "<cmd>lua require('r.send').cmd('devtools::load_all()')<CR>",
+        opts,
+        "[l]oad all files"
+      )
+      keymap_buffer(
+        0,
+        "n",
+        "<localleader>bb",
+        "<cmd>lua require('r.send').cmd('devtools::build()')<CR>",
+        opts,
+        "[b]uild pkg"
+      )
+      keymap_buffer(
+        0,
+        "n",
+        "<localleader>bi",
+        "<cmd>lua require('r.send').cmd('devtools::install(args = \"--preclean --with-keep.source --no-multiarch\")')<CR>",
+        opts,
+        "[b]uild pkg"
+      )
+
+      keymap_buffer(
+        0,
+        "n",
+        "<localleader>bd",
+        '<cmd>lua require(\'r.send\').cmd(\'devtools::document(roclets = c("rd", "collate", "namespace", "vignette"))\')<CR>',
+        opts,
+        "[b]uild pkg"
+      )
+
+      -- Objects
+
+      keymap_buffer(0, "n", "<localleader>o", "<Plug>ROBToggle", opts, "[o]bject inspector toggle")
     end,
   })
 end
@@ -107,22 +162,22 @@ end
 -- -------------------------------------
 -- ------------------------------------- SLIME
 -- -------------------------------------
--- if vim.g.slime_target ~= nil then
---   -- local slime_run = require("hades.misc.slime_utils")
---   wk.register({ ["<LocalLeader>s"] = { name = "+[S]end (REPL)" } })
---   keymap("n", "<C-CR>", "<Plug>SlimeParagraphSend", opts, "other window")
---   keymap("n", "<LocalLeader>sp", "<Plug>SlimeParagraphSend", opts, "other window")
---
---   keymap(
---     "n",
---     "<LocalLeader>sl",
---     "<cmd>SlimeSend1 devtools::load_all('.')<CR>",
---     opts,
---     "R - load all files (for a package)"
---   )
---   -- keymap("n", "<localleader>rs", slime_run.send_cell, opts, "other window")
---   -- keymap("n", "<leader>rr", slime_run.send_cell, opts, "other window")
--- end
+if vim.g.slime_target ~= nil then
+  -- local slime_run = require("hades.misc.slime_utils")
+  wk.register({ ["<LocalLeader>s"] = { name = "+[S]end (REPL)" } })
+  keymap("n", "<C-CR>", "<Plug>SlimeParagraphSend", opts, "other window")
+  keymap("n", "<LocalLeader>sp", "<Plug>SlimeParagraphSend", opts, "other window")
+
+  keymap(
+    "n",
+    "<LocalLeader>sl",
+    "<cmd>SlimeSend1 devtools::load_all('.')<CR>",
+    opts,
+    "R - load all files (for a package)"
+  )
+  -- keymap("n", "<localleader>rs", slime_run.send_cell, opts, "other window")
+  -- keymap("n", "<leader>rr", slime_run.send_cell, opts, "other window")
+end
 --
 -- -------------------------------------
 -- ------------------------------------- FILE TREE

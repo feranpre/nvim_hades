@@ -1,0 +1,9 @@
+{
+    "keybind": {
+        "prefix": "keymap",
+        "body": [
+            "keymap(${1:n},'${2:<leader><C-q>}','${3:<cmd>Telescope help_tags<CR>', opts, '${4: descripcion}'})"
+        ],
+        "descripcion": "Crea keybind comand para keybinds.lua"
+    }
+}
