@@ -14,3 +14,4 @@ require("hades.config.colors")
 
 -- require("hades.config.autocmd.r_keys")
 require("hades.config.autocmd.term_keys")
+require("luasnip.loaders.from_vscode").load({ paths = { "~/.config/nvim/lua/hades/hades_snippets" } })
