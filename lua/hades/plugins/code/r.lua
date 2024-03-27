@@ -1,15 +1,15 @@
 return {
-  'R-nvim/R.nvim',
+  "R-nvim/R.nvim",
   -- 'jalvesaq/Nvim-R', -- this plugin is obsolete
   enabled = true,
   lazy = false,
   dependencies = {
-    'R-nvim/cmp-r',
+    "R-nvim/cmp-r",
     {
-      'hrsh7th/nvim-cmp',
+      "hrsh7th/nvim-cmp",
       -- config = function()
-        -- require('cmp').setup({ sources = { { name = 'cmp_r' } } })
-        -- require('cmp_r').setup({})
+      -- require('cmp').setup({ sources = { { name = 'cmp_r' } } })
+      -- require('cmp_r').setup({})
       -- end,
     },
   },
@@ -17,11 +17,19 @@ return {
     --   -- Create a table with the options to be passed to setup()
     local opts = {
       -- R_args = { '--quiet', '--no-save' },
-      R_args = { '--no-save' },
+      R_args = { "--no-save" },
       assign = false, -- convert Meta-- to <-
       auto_quit = true,
       user_maps_only = true,
 
+      Rout_more_colors = true,
+      objbr_allnames = true,
+      objbr_auto_start = true,
+      objbr_h = 10,
+      objbr_opendf = false,
+      objbr_openlist = false,
+      objbr_place = "console,below",
+      --   objbr_w = 40,
       -- auto_quit = true,
       -- RStudio_cmd = '/usr/lib/rstudio',
       --   hook = {
@@ -55,7 +63,7 @@ return {
     --   opts.auto_start = 1
     --   opts.objbr_auto_start = true
     -- end
-    require('r').setup(opts)
+    require("r").setup(opts)
   end,
 }
 
