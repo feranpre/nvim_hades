@@ -1,9 +1,8 @@
 {
-  'rm': {
-    'prefix': 'rm',
-    'body': ['rm(list=ls())'
-    ],
-    'description': 'description'
+  "rm": {
+    "prefix": "rm",
+    "body": ["rm(list=ls())"],
+    "description": "description"
   },
 
 }

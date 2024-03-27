@@ -1,7 +1,7 @@
 {
-  'cabecera_html': {
-    'prefix': 'cabecera_html',
-    'body': ['
+  "cabecera_html": {
+    "prefix": "cabecera_html",
+    "body": ["
       #' ---
       #' title: '${1:Resultados temporales}'
       #' author: 'Fernando Andres-Pretel'
@@ -34,14 +34,14 @@
       ${2:CODIGO}
 
 
-      '],
-    'description': 'cabecera para archivos HTML en R'
+      "],
+    "description": "cabecera para archivos HTML en R"
   },
-  'carga_datos': {
-    'prefix': 'carga_datos',
-    'body': [
-      '
-      rm(list=ls())
+  "carga_datos": {
+    "prefix": "carga_datos",
+    "body": [
+      "
+       rm(list=ls())
       dir.create('DATOS_BASE', showWarnings = FALSE)
       dir.create('DATOS_R', showWarnings = FALSE)
       dir.create('GRAFICOS', showWarnings = FALSE)
@@ -52,11 +52,10 @@
       DATOS = janitor::clean_names(DATOS)
       names(DATOS) = toupper(names(DATOS))
 
-      save(DATOS,file='DATOS_R/DATOS.RData')      
-    
-      '
+      save(DATOS,file='DATOS_R/DATOS.RData')         
+      "
     ],
-    'description': 'carga datos más habituales'
+    "description": "carga datos más habituales"
   }
 
 }

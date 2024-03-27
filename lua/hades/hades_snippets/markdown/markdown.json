@@ -1,9 +1,9 @@
 {
-    'create link': {
-        'prefix': 'link',
-        'body': [
-            '[${1:text}](${2:link})'
+    "create link": {
+        "prefix": "link",
+        "body": [
+            "[${1:text}](${2:link})"
         ],
-        'description': 'Link creation'
+        "description": "Link creation"
     }
 }

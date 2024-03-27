@@ -1,63 +1,63 @@
 {
-    'doc funciones corta': {
-        'prefix': 'doc-f-corta',
-        'body': [
-            '\'\'\'',
-            '${1:Brief description}',
-            '\'\'\''
+    "doc funciones corta": {
+        "prefix": "doc-f-corta",
+        "body": [
+            "\"\"\"",
+            "${1:Brief description}",
+            "\"\"\""
         ],
-        'description': 'Doc corta para funciones'
+        "description": "Doc corta para funciones"
     },
-    'doc funciones completa': {
-        'prefix': 'doc-f-full',
-        'body': [
-            '\'\'\'',
-            '${1:Brief description}',
-            '',
-            '${2:Detailed description}',
-            '',
-            'Args:',
-            '\t${3:arg1}: ${4:type and descripcion}',
-            '',
-            'Returns:',
-            '\t${5:type and descripcion}',
-            '',
-            'Example:',
-            '\t#${6:Description of the example}',
-            '\t${7:use_function(arg1, arg2)}',
-            '\'\'\''
+    "doc funciones completa": {
+        "prefix": "doc-f-full",
+        "body": [
+            "\"\"\"",
+            "${1:Brief description}",
+            "",
+            "${2:Detailed description}",
+            "",
+            "Args:",
+            "\t${3:arg1}: ${4:type and descripcion}",
+            "",
+            "Returns:",
+            "\t${5:type and descripcion}",
+            "",
+            "Example:",
+            "\t#${6:Description of the example}",
+            "\t${7:use_function(arg1, arg2)}",
+            "\"\"\""
         ],
-        'description': 'Doc completa para funciones'
+        "description": "Doc completa para funciones"
     },
-    'doc funciones - param': {
-        'prefix': ':param',
-        'body': [
-            '\t${1:arg1}: ${2:type and descripcion}'
+    "doc funciones - param": {
+        "prefix": ":param",
+        "body": [
+            "\t${1:arg1}: ${2:type and descripcion}"
         ],
-        'description': 'Documentación de parámetro para funciones'
+        "description": "Documentación de parámetro para funciones"
     },
-    'doc modules': {
-        'prefix': 'doc-m',
-        'body': [
-            '\'\'\'',
-            '${1:Module name} - ${2:Brief description}',
-            '',
-            '${3:Detailed description}',
-            '',
-            'Functions:',
-            '\t- `add_numbers`: Adds two numbers together and returns the result',
-            '\t- `add_numbers`: Adds two numbers together and returns the result',
-            '',
-            'Usage:',
-            '\t```python',
-            '\timport my module',
-            '',
-            '\tresult = my_module.add_numbers(3,5)',
-            '\tprint(result) #output 8',
-            '\t```',
-            'Author: Fernando Andres-Pretel',
-            '\'\'\''
+    "doc modules": {
+        "prefix": "doc-m",
+        "body": [
+            "\"\"\"",
+            "${1:Module name} - ${2:Brief description}",
+            "",
+            "${3:Detailed description}",
+            "",
+            "Functions:",
+            "\t- `add_numbers`: Adds two numbers together and returns the result",
+            "\t- `add_numbers`: Adds two numbers together and returns the result",
+            "",
+            "Usage:",
+            "\t```python",
+            "\timport my module",
+            "",
+            "\tresult = my_module.add_numbers(3,5)",
+            "\tprint(result) #output 8",
+            "\t```",
+            "Author: Fernando Andres-Pretel",
+            "\"\"\""
         ],
-        'description': 'Doc para modulos python'
+        "description": "Doc para modulos python"
     }
 }
