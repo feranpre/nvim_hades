@@ -3,6 +3,7 @@ local opts = { noremap = true, silent = true, desc = nil }
 local keymap = require("hades.misc.utils").keymap
 local keymap_buffer = require("hades.misc.utils").keymap_buffer
 local isModuleAvailable = require("hades.misc.utils").isModuleAvailable
+local generate_html_from_rscript = require("hades.misc.utils").generate_html_from_rscript
 
 local wk = nil
 if isModuleAvailable("which-key") then
@@ -105,11 +106,13 @@ if isModuleAvailable("r") then
         wk.register({ ["<localleader>r"] = { name = "[R] start/stop" } }, b_opts)
         wk.register({ ["<localleader>s"] = { name = "[s]end to R" } }, b_opts)
         wk.register({ ["<localleader>b"] = { name = "[b]uild tools" } }, b_opts)
+        wk.register({ ["<localleader>k"] = { name = "[k]nitting tools" } }, b_opts)
       end
 
       -- start/stop R
       keymap_buffer(0, "n", "<localleader>rs", "<Plug>RStart<cr>", opts, "[s]tart R console")
       keymap_buffer(0, "n", "<localleader>rq", "<Plug>RClose<cr>", opts, "[q]uit R console (no save)")
+      keymap_buffer(0, "n", "<localleader>rw", "<Plug>RSaveClose<cr>", opts, "quit and [w]rite R console")
 
       -- Send code
       keymap_buffer(0, "n", "<C-CR>", "<Plug>RDSendLine", opts, "send [l]ine and move down")
@@ -119,7 +122,22 @@ if isModuleAvailable("r") then
       keymap_buffer(0, "n", "<localleader>sl", "<Plug>RDSendParagraph", opts, "send [p]aragraph and move down")
 
       keymap_buffer(0, "n", "<localleader>sf", "<Plug>RSendFile", opts, "send [f]ile")
-      -- Helpers
+
+      -- keymap_buffer(0, "n", "<localleader>ks", "<Plug>RSweave", opts, "[s]weave file")
+
+      -- Help
+      keymap_buffer(0, "n", "<localleader>h", "<Plug>RHelp", opts, "[h]elp for item under cursor")
+
+      -- Knit
+      keymap_buffer(
+        0,
+        "n",
+        "<localleader>kh",
+        '<cmd>lua require("hades.misc.utils").generate_html_from_rscript("' .. vim.fn.expand("%:p") .. '")<CR>',
+        opts,
+        "[h]tml [k]nit"
+      )
+      -- Build
 
       keymap_buffer(
         0,
@@ -156,7 +174,6 @@ if isModuleAvailable("r") then
       )
 
       -- Objects
-
       keymap_buffer(0, "n", "<localleader>o", "<Plug>ROBToggle", opts, "[o]bject inspector toggle")
     end,
   })

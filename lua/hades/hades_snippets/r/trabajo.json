@@ -1,4 +1,13 @@
 {
+  "chunk": {
+    "prefix": "chunk",
+    "body": [
+      "
+      #+ , results = 'asis', echo = FALSE, message = FALSE, warning = FALSE, eval =TRUE, fig.width = 5, fig.height = 5, unit = 'cm'
+      "
+    ],
+    "description": "insert html chunk"
+  },
   "cabecera_html": {
     "prefix": "cabecera_html",
     "body": ["
