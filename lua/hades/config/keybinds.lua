@@ -123,19 +123,27 @@ if isModuleAvailable("r") then
 
       keymap_buffer(0, "n", "<localleader>sf", "<Plug>RSendFile", opts, "send [f]ile")
 
-      -- keymap_buffer(0, "n", "<localleader>ks", "<Plug>RSweave", opts, "[s]weave file")
-
-      -- Help
+      -- Help/print
       keymap_buffer(0, "n", "<localleader>h", "<Plug>RHelp", opts, "[h]elp for item under cursor")
+      keymap_buffer(0, "n", "<localleader>p", "<Plug>RObjectPr", opts, "[p]rint object under cursor")
 
       -- Knit
       keymap_buffer(
         0,
         "n",
         "<localleader>kh",
-        '<cmd>lua require("hades.misc.utils").generate_html_from_rscript("' .. vim.fn.expand("%:p") .. '")<CR>',
+        '<cmd>lua require("hades.misc.r_utils").spin_r("' .. vim.fn.expand("%:p") .. '", "html")<CR>',
         opts,
         "[h]tml [k]nit"
+      )
+
+      keymap_buffer(
+        0,
+        "n",
+        "<localleader>kp",
+        '<cmd>lua require("hades.misc.r_utils").spin_r("' .. vim.fn.expand("%:p") .. '", "pdf")<CR>',
+        opts,
+        "[p]df [k]nit"
       )
       -- Build
 
@@ -161,7 +169,7 @@ if isModuleAvailable("r") then
         "<localleader>bi",
         "<cmd>lua require('r.send').cmd('devtools::install(args = \"--preclean --with-keep.source --no-multiarch\")')<CR>",
         opts,
-        "[b]uild pkg"
+        "[i]nstall pkg"
       )
 
       keymap_buffer(
@@ -170,7 +178,7 @@ if isModuleAvailable("r") then
         "<localleader>bd",
         '<cmd>lua require(\'r.send\').cmd(\'devtools::document(roclets = c("rd", "collate", "namespace", "vignette"))\')<CR>',
         opts,
-        "[b]uild pkg"
+        "[d]ocument pkg"
       )
 
       -- Objects
