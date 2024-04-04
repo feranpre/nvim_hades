@@ -1,5 +1,6 @@
 return {
   "swaits/scratch.nvim",
+  enabled = false,
   lazy = true,
   keys = {
     { "<leader>bs", "<cmd>Scratch<cr>", desc = "Scratch Buffer", mode = "n" },
