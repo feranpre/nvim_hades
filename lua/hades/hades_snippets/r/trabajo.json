@@ -4,14 +4,15 @@
     "body": [
       "
       linters: linters_with_defaults(
-    line_length_linter(120),
-    commented_code_linter = NULL,
-    assignment_linter = NULL,
-    trailing_whitespace_linter = NULL,
-    object_name_linter = NULL
-  )
-exclusions: list(
-  )"
+                    line_length_linter(120),
+                    commented_code_linter = NULL,
+                    assignment_linter = NULL,
+                    trailing_whitespace_linter = NULL,
+                    object_name_linter = NULL
+                )
+                exclusions: list(
+                  )
+      "
     ],
     "description": "base de lintr"
   },
