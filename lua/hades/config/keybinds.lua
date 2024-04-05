@@ -114,12 +114,15 @@ if isModuleAvailable("r") then
       keymap_buffer(0, "n", "<localleader>rq", "<Plug>RClose<cr>", opts, "[q]uit R console (no save)")
       keymap_buffer(0, "n", "<localleader>rw", "<Plug>RSaveClose<cr>", opts, "quit and [w]rite R console")
 
+      -- console
+      keymap_buffer(0, "n", "<localleader>rl", "<Plug>RClearConsole<cr>", opts, "c[l]ear the R console")
+
       -- Send code
       keymap_buffer(0, "n", "<C-CR>", "<Plug>RDSendLine", opts, "send [l]ine and move down")
       keymap_buffer(0, "v", "<C-CR>", "<Plug>RDSendSelection", opts, "send [l]ine and move down")
       keymap_buffer(0, "n", "<localleader>sl", "<Plug>RDSendLine", opts, "send [l]ine and move down")
       keymap_buffer(0, "n", "<C-S-CR>", "<Plug>RDSendParagraph", opts, "send [p]aragraph and move down")
-      keymap_buffer(0, "n", "<localleader>sl", "<Plug>RDSendParagraph", opts, "send [p]aragraph and move down")
+      keymap_buffer(0, "n", "<localleader>sp", "<Plug>RDSendParagraph", opts, "send [p]aragraph and move down")
 
       keymap_buffer(0, "n", "<localleader>sf", "<Plug>RSendFile", opts, "send [f]ile")
 
