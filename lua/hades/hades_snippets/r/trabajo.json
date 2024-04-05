@@ -67,7 +67,7 @@
     "prefix": "carga_datos",
     "body": [
       "
-       rm(list=ls())
+      rm(list=ls())
       dir.create('DATOS_BASE', showWarnings = FALSE)
       dir.create('DATOS_R', showWarnings = FALSE)
       dir.create('GRAFICOS', showWarnings = FALSE)

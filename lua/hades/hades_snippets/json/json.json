@@ -4,9 +4,9 @@
         "body": [
             "\"${1:snippet name}\": {",
             "\t\"prefix\": \"${2:trigger}\",",
-            "\t\"body\": [",
+            "\t\"body\": [\"",
             "\t\t${4:snippet body}",
-            "\t],",
+            "\t\"],",
             "\t\"description\": \"${3:description}\"",
             "}"
         ],

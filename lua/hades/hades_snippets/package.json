@@ -36,6 +36,10 @@
       {
         "language": "r",
         "path": "./r/base_r.json"
+      },
+      {
+        "language": "r",
+        "path": "./r/graficos.json"
       }
 
     ]
