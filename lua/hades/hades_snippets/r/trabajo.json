@@ -1,4 +1,22 @@
 {
+  "project": {
+    "prefix": "project_Rproj",
+    "body": ["
+      Version: 1.0
+      RestoreWorkspace: Default
+      SaveWorkspace: Default
+      AlwaysSaveHistory: Default
+      
+      EnableCodeIndexing: Yes
+      UseSpacesForTab: Yes
+      NumSpacesForTab: 2
+      Encoding: UTF-8
+      
+      RnwWeave: Sweave
+      LaTeX: XeLaTeX
+    "],
+    "description": "project file"
+  },
   "lintr": {
     "prefix": "lintr",
     "body": [
@@ -10,8 +28,7 @@
                     trailing_whitespace_linter = NULL,
                     object_name_linter = NULL
                 )
-                exclusions: list(
-                  )
+      exclusions: list()
       "
     ],
     "description": "base de lintr"
