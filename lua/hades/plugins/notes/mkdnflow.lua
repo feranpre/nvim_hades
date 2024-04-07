@@ -1,8 +1,8 @@
 return {
-  'jakewvincent/mkdnflow.nvim',
+  "jakewvincent/mkdnflow.nvim",
   enabled = false,
   config = function()
-    local mkdnflow = require('mkdnflow')
+    local mkdnflow = require("mkdnflow")
     mkdnflow.setup({})
   end,
 }

@@ -10,6 +10,7 @@ if isModuleAvailable("which-key") then
   wk = require("which-key")
   wk.register({
     ["<leader>l"] = { name = "+[L]azy" },
+    ["g"] = { name = "+[g]o" },
   })
   keymap("n", "<leader>ll", "<cmd>Lazy<cr>", opts, "open [L]azy window")
   keymap("n", "<F2>", "<cmd>WhichKey<cr>", opts, "[k]eybinds - help")
