@@ -4,5 +4,282 @@
     "body": ["rm(list=ls())"],
     "description": "description"
   },
+  "teoria": {
+    "prefix": "teoria",
+    "body": ["
+	#' # Teoría
+	#' 
+	#' ## Tipos de variables
+	#' 
+	#' Consideramos 3 tipos de variables:
+	#' 
+	#' **Variables numéricas**
+	#' Consideramos una variablen numérica aquella en la que los valores almacenados son
+	#' números que actuan como tales. Por ejemplo alguien que pesa 100 kilos pesa el doble
+	#' que alguien que pesa 50
+	#' 
+	#' **Variables categóricas**
+	#' Son aquellas cuyos valores son categorías, bien recogidas como texto (ej: 'hombre' y 'mujer')
+	#' o como números (ej: 1 = hombre, 2 = mujer).
+	#' 
+	#' Si la variable categórica es recogida de forma numérica este número es irrelevante
+	#' y puede ser cambiado de forma aleatoria, los hombres podrían pasar a ser -9 y las mujeres
+	#' 50 sin que haya ninguna implicación. Siempre que la misma categoría mantenga un único
+	#' número el valor asignado no tiene importancia.
+	#' 
+	#' **Variables ordinales**
+	#' Son las variables  que se recogen como número pero el número solo nos da un sentido
+	#' de orden (sin magnitud), por ejemplo la clasificación T de los tumores:
+	#' 
+	#' 1- T1
+	#'
+	#' 2- T2
+	#'
+	#' 3- T3
+	#'
+	#' 4- T4
+	#' 
+	#' Estos valores tienen sentido y representan un orden creciente de peligrosidad del tumor,
+	#' pero un T4 no es el doble de peligroso que un T2 a pesar de que 4 es el doble de 2. 
+	#' 
+	#' Por lo tanto a pesar de que son números y el valor es importante, solo es importante
+	#' en relación al ORDEN, podríamos cambiar T4 por 20 y daría igual porque no deja
+	#' de ser el último valor y por lo tanto el de más riesgo.
+	#' 
+	#' Los valores no son matemáticamente operables más allá del orden que representan 
+	#'
+	#' ## Descripción de variables numéricas
+	#' 
+	#' ### Numéricas
+	#' 
+	#' Las variables numéricas se describen usando **media** (mean) y **desviación típica** (sd: standard deviation)
+	#' si la variable sigue una **distribución normal**. Si la variable no sigue esta
+	#' distribución se usa **mediana** (median) y **rango intercuartílico** (IQR: inter-quantile range), aunque
+	#' yo soy más partidario de dar Q1 y Q3 en vez del rango intercuartil.
+	#' 
+	#' Para saber si las variables son normales o no tenemos que mirar la columna **is.normal**
+	#' si es TRUE nos dice que **SI** es normal. Si nos dice que es FALSE significa que **NO** es normal.
+	#' En estos análisis la comparación de normalidad se hace usando Shapiro-Wilk (un valor de p < 0.05 indica que no es normal).
+	#' 
+	#' Tradicionalmente en el entorno sanitario se ha indicado que se debe usar Kolmogorov-Smirnof
+	#' para comprobar normalidad, pero esto es un error. Shapiro-Wilks es más potente y si
+	#' una distribución fuera tan grande que no puede usarse este test (n > 5000) entonces
+	#' usariamos la corrección de Lilliefor para Kolmogorov-Smirnof.
+	#' 
+	#' Esto viene indicado en las tablas de descripción de variables numéricas que vemos en los análisis.
+	#' 
+	#' 
+	#' 
+	#' ### Variables categóricas
+	#' 
+	#' Cuando las variables son categóricas (incluyendo las ordinales) la descripción
+	#' se hace usando **frecuencias** (conteo de sujetos en cada categoría) y **frecuencias relativas**
+	#' que proporción de la muestra representa la frecuencia de esa categoría.
+	#' 
+	#'
+	#' ## Comparaciones 
+	#' 
+	#' ### Variables numéricas vs Grupos
+	#'
+	#' Cuando vamos a comprar variables debemos mirar tanto la normalidad de las distrubciones
+	#' 
+	#' **OJO AL PLURAL**
+	#'
+	#' Digamos que queremos comprara edad por sexo, en realidad lo que queremo es comparar
+	#' dos distribuciones de edad:
+	#'
+	#' - Las edades de personas que son hombres
+	#' - Las edades de personas que son mujeres
+	#'
+	#' Estas dos 'variables' (edad_hombre y edad_mujer) tienen cada una una normalidad y por
+	#' eso en la tabla de descripción de los grupos os doy un valor de normalidad para cada una.
+	#'
+	#' Si tenemos dos distribuciones (dos grupos) y ambos son normales entonces usaremos:
+	#'
+	#' - t de Student (si las varianzas son normales)
+	#' - test de Welch (si no lo son)
+	#'
+	#' No entraré en más detalle sobre la elección de estos test, de eso ya me he encargado
+	#' yo al programar el sistema. Vosotros solo teneis que saber que el test de Welch
+	#' es una variación de la t de Student cuando las varianzas no son homogeneas
+	#'
+	#' Si no son normales usamos el test de Wilcoxon-Mann-Whitney (también llamado U de Mann-Whitney)
+	#'
+	#' También podemos tener más de dos grupos, en este caso usaríamos ANOVA (si todos son normales)
+	#'  y Kruskal-Wallis si no lo son. En ambos test la p resultante nos indica si exiten
+	#'  diferencias entre los grupos, pero como tenemos más de dos grupos lo que no sabemos
+	#'  es entre qué grupos hay diferencias (podrían ser entre todos y podría ser solo entre el grupo 1 y 3).
+	#'
+	#'  El problema que hay es que si comparamos grupos todos contra todos acabo (usando t de Student por ejemplo)
+	#'  al hacer tantas comparaciones la probabilidad de que una de estadísticamente
+	#'  significativa por casualidad son muy muy grandes.
+	#'  
+	#'  La solución es usar un test **ad-hoc** que me 'castiga' por cada comparación que hago.
+	#'
+	#'  La selección cocreta del test depende de muchas cosas pero de cualquier manera
+	#'  el test concreto viene indicado y solo teneis que nombrarlo. Basta saber que se
+	#'  comparan todos los grupos con todos y que te da una p para cada comparacion.
+	#'
+	#'  No mireis los test ad-hoc si el test principal no es estadísticamente significativo.
+	#'
+	#'
+	#' ### Compracion de varialbes categóricas
+	#'
+	#'  Cuando comparamos variables categóricas lo que estmos es intentando determinar
+	#'  si son independientes o no.
+	#'
+	#'  **Asociación no implica causalidad**
+	#'
+	#'  Intentad alejaros de la asignación de causalidad y simplmente pensad en que son
+	#'  independientes, o no.
+	#'
+	#'  En estas comparaciones hay dos test principamente:
+	#'
+	#'  - Chi² de Pearson
+	#'  - test exacto de Fisher
+	#'
+	#'  El sistema selecciona el correcto en base a la frecuencia **esperada**, si
+	#'  hay alguna casilla con una frecuencia **esperada** inferior a 5 usa Fisher.
+	#'  
+	#'  La frecuencia esperada no se muestra en la tabla. En la tabla lo que veis
+	#'  es la **frecuencia observada**. 
+	#'
+	#'
+	#'  Para describir los datos si que recomiendo hacerlo desde el factor 'que influye' hacia
+	#'  el 'resultado', es decir
+	#'
+	#'  'Un 20% de los accidentados **con cinturon de seguridad** acabaron **muriendo**'
+	#'
+	#'  y NO
+	#'
+	#'  'El 80% de los muertos llevaba cinturon de seguridad'
+	#'
+	#'
+	#'  Siempre dentro del efecto que se considera que inflye se describe el resultado.
+	#'
+	#'
+  #' ## Ejemplos de texto
+	#'
+	#'
+	#' ### Numéricas
+	#'
+	#' La mediana de edad de la muestra fue de 74 años (Q1-Q3:65-80). Al comparar esta edad
+	#' en función del sexo vemos que las mujeres eran más jovenes (mediana de 72.5; 68-78.5), 
+	#' mientras que los hombres tenían edad mediana de 74 (xxx-xx). Estas diferencias
+	#' no fueron estadísticamente signficativas (p=0.11)
+	#'
+	#' ### Categóricas
+	#'
+	#' Se ha comparado la distribución de muertos y no muertos dentro de los accidentados
+	#' que llevaban cinturon de seguridad y los que no. Entre los que llevaban cinturón
+	#' hemos encontrado un 20% (n=xxx) de muertos, mientras que este valor llega al
+	#' 65% (n=xxx) entre los que no llevaban cinturon. La comparación es estadísticamente 
+	#' signficativa (p<0.001) lo que nos indica que estas variables no son independientes (o que están asociadas)
+	#' 
+	#' 
+	#'
+	#'
+    "],
+    "description": "teoria"
+  },
+"cox": {
+  "prefix": "cox",
+  "body": ["
 
+  "],
+  "description": "cox"
+},
+"superviencia": {
+  "prefix": "supervivencia",
+  "body": [
+    "
+	#' 
+	#' 
+	#' # Supervivencia Global
+	#' 
+	#' 
+	#' 
+	#' ## Eventos Globales
+	#' 
+	#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
+	SURVIVAL <- DATOS
+	SURVIVAL$TIEMPO <- DATOS$TIEMPO_SURV
+	SURVIVAL$EXITUS <- DATOS$RECAIDA
+	
+	knitr::kable(udaicR::freq(SURVIVAL, EXITUS))
+	
+	
+	#' 
+	#' ## Tabla de supervivencia
+	#' 
+	#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
+	
+	surv <- survival::Surv(time = SURVIVAL$TIEMPO, event = SURVIVAL$EXITUS)
+	surv.global <- survival::survfit(surv ~ 1)
+	surv.global.df <- data.frame(surv.global$time,
+	                          surv.global$n.risk,
+	                          surv.global$n.event,
+	                          # surv.global$n.censor,
+	                          surv.global$surv,
+	                          surv.global$lower,
+	                          surv.global$upper
+	                          )
+	
+	names(surv.global.df) <- c('Time','n.Risk', 'n.Event', 'Surv', 'CI95-Low', 'CI95-High')
+	
+	print(knitr::kable(surv.global.df[surv.global.df$n.Event > 0,]))
+	
+	#+, error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
+	print(surv.global)
+	
+	
+	#' 
+	#' ## Kaplan-Meier
+	#' 
+	#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
+	survminer::ggsurvplot(surv.global, data = SURVIVAL)
+	
+	
+	
+	
+	
+	#' 
+	#' # Supervivencia por SEXO
+	#' 
+	#' 
+	#' 
+	#' 
+	#' ## Tabla de supervivencia
+	#' 
+	#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
+	
+	surv <- survival::Surv(time = SURVIVAL$TIEMPO, event = SURVIVAL$EXITUS)
+	surv.fit <- survival::survfit(surv ~ SEXO, data = SURVIVAL)
+	surv.fit.df <- data.frame(surv.fit$time,
+	                      surv.fit$n.risk,
+	                      surv.fit$n.event,
+	                      # surv.fit$n.censor,
+                        surv.fit$surv,
+	                      surv.fit$lower,
+	                      surv.fit$upper
+	)
+	
+	names(surv.fit.df) <- c('Time','n.Risk', 'n.Event', 'Surv', 'CI95-Low', 'CI95-High')
+	# print(knitr::kable(surv.fit.df[surv.fit.df$n.Event > 0,]))
+	
+	#+, error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
+	summary(surv.fit)
+	print(surv.fit)
+	
+	survival::survdiff(surv ~ SEXO, data = SURVIVAL, na.action = na.omit, subset = NULL)
+	
+	
+	#' 
+	#' ## Kaplan-Meier
+	#' 
+	#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
+	survminer::ggsurvplot(surv.fit, data = SURVIVAL, pval = TRUE, risk.table = T)
+  "],
+  "description": "Calculos basicos de supervivencia"
+}
 }
