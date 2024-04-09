@@ -58,7 +58,7 @@
       #'            collapsed: true
       #' ---
       #+ , echo=FALSE, include=FALSE
-      rm(list = ls())
+      rm(list = ls(all.names = TRUE))
       DATOS <- NULL
       load('DATOS_R/DATOS.RData')
 
@@ -84,7 +84,7 @@
     "prefix": "carga_datos",
     "body": [
       "
-      rm(list=ls())
+      rm(list=ls(all.names = TRUE))
       dir.create('DATOS_BASE', showWarnings = FALSE)
       dir.create('DATOS_R', showWarnings = FALSE)
       dir.create('GRAFICOS', showWarnings = FALSE)

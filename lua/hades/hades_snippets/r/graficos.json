@@ -2,14 +2,13 @@
   "boxplot": {
     "prefix": "boxplot",
     "body": [
-    "
-      ggplot(DATOS, aes(y = mpg, x = am, fill = am)) +
+    "ggplot(DATOS, aes(y = mpg, x = am, fill = am)) +
         geom_violin(alpha = 0.3) +
         geom_boxplot(width = 0.4, alpha = 0.5) +
         geom_jitter(width = 0.1, alpha = 0.4, size = 5) +
         stat_summary(fun.y = mean, show.legend = FALSE, geom = \"point\", shape = 15, color = \"black\", size = 10) +
         labs(x = \"automatic vs manual\", y = \"mpg\", fill = \"color\")
-      "],
+    "],
     "description": "ggplot2 boxplot with stuff"
   }
 }
