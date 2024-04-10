@@ -76,7 +76,7 @@ if wk ~= nil then
     ["<leader>b"] = { name = "+[b]uffers" },
   })
   keymap("n", "<leader>bl", "<cmd>Telescope buffers<cr>", opts, "Telescope [b]uffer list")
-  keymap("n", "<leader>bd", "<cmd>bd<cr>", opts, "[b]uffer [d]elete")
+  keymap("n", "<leader>bd", "<cmd>bp<bar>sp<bar>bn<bar>bd<CR>", opts, "[b]uffer [d]elete")
 end
 
 -- indenting
