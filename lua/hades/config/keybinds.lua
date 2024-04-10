@@ -130,6 +130,7 @@ if isModuleAvailable("r") then
       -- Help/print
       keymap_buffer(0, "n", "<localleader>h", "<Plug>RHelp", opts, "[h]elp for item under cursor")
       keymap_buffer(0, "n", "<localleader>p", "<Plug>RObjectPr", opts, "[p]rint object under cursor")
+      keymap_buffer(0, "n", "<localleader>vd", "<Plug>RViewDFa", opts, "[v]iew [d]ata.frame head")
 
       -- Knit
       keymap_buffer(

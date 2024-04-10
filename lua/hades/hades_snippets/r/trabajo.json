@@ -91,6 +91,7 @@
       dir.create('versiones', showWarnings = FALSE)
 
 
+      DATOS <- foreign::read.spss('DATOS_BASE/Datos.sav', to.data.frame = TRUE)
       DATOS <- readxl::read_excel('DATOS_BASE/Datos.xlsx', sheet = 1)
       DATOS = janitor::clean_names(DATOS)
       names(DATOS) = toupper(names(DATOS))
