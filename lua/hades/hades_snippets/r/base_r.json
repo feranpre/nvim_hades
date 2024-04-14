@@ -1,7 +1,7 @@
 {
   "rm": {
     "prefix": "rm",
-    "body": ["rm(list=ls())"],
+    "body": ["rm(list=ls(all.names = TRUE))"],
     "description": "description"
   },
   "teoria": {

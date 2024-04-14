@@ -37,7 +37,7 @@
     "prefix": "chunk",
     "body": [
       "
-      #+ , results = 'asis', echo = FALSE, message = FALSE, warning = FALSE, eval =TRUE, fig.width = 5, fig.height = 5, unit = 'cm'
+      #+ , results = 'asis', echo = FALSE, message = FALSE, warning = FALSE, eval =TRUE, fig.width = 5, fig.height = 5, unit = 'cm', comments = ''
       "
     ],
     "description": "insert html chunk"

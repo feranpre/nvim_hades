@@ -250,6 +250,7 @@ end
 -- -------------------------------------
 if vim.g.loaded_undotree ~= nil then
   keymap("n", "<leader><F5>", "<cmd>UndotreeToggle<CR>", opts, "undotree")
+  keymap("n", "<C-u>", "<cmd>UndotreeToggle<CR>", opts, "undotree")
 end
 
 -- -------------------------------------
@@ -394,4 +395,37 @@ if isModuleAvailable("toggleterm") then
   end
   keymap("n", "<leader>tt", "<cmd>ToggleTerm<cr>", opts, "[t]oggle [t]erm")
   keymap("n", "<leader>tr", "<cmd>vsplit term://R<cr>", opts, "new [r] terminal")
+end
+
+-- -------- HARPOON
+
+if isModuleAvailable("harpoon") then
+  local harpoon = require("harpoon")
+  keymap("n", "<leader>a", function()
+    harpoon:list():add()
+  end, opts, "[a]dd file to harpoon list")
+  keymap("n", "<C-e>", function()
+    harpoon.ui:toggle_quick_menu(harpoon:list())
+  end, opts, "toggl[e] harpoon list")
+
+  keymap("n", "<C-1>", function()
+    harpoon:list():select(1)
+  end, opts, "harpoon list - 1")
+  keymap("n", "<C-2>", function()
+    harpoon:list():select(2)
+  end, opts, "harpoon list - 2")
+  keymap("n", "<C-3>", function()
+    harpoon:list():select(3)
+  end, opts, "harpoon list - 3")
+  keymap("n", "<C-4>", function()
+    harpoon:list():select(4)
+  end, opts, "harpoon list - 4")
+
+  -- Toggle previous & next buffers stored within Harpoon list
+  keymap("n", "<C-S-P>", function()
+    harpoon:list():prev()
+  end, opts, "[p]revious harpool file")
+  keymap("n", "<C-S-N>", function()
+    harpoon:list():next()
+  end, opts, "[n]ext harpoon file")
 end
