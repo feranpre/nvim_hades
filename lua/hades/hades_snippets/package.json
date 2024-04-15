@@ -31,6 +31,10 @@
       },
       {
         "language": "r",
+        "path": "./r/regresion.json"
+      },
+      {
+        "language": "r",
         "path": "./r/trabajo.json"
       },
       {
