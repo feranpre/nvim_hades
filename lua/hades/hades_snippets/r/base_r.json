@@ -107,7 +107,7 @@ variables.reg <- c('HTO_NUM','GRADO_RD_DXM_NUM', 'QUISTE_VERT_SIZE_NE_6M_CAT_3_N
 	#'
 	#' Si tenemos dos distribuciones (dos grupos) y ambos son normales entonces usaremos:
 	#'
-	#' - t de Student (si las varianzas son normales)
+	#' - t de Student (si las varianzas son iguales)
 	#' - test de Welch (si no lo son)
 	#'
 	#' No entraré en más detalle sobre la elección de estos test, de eso ya me he encargado
@@ -214,8 +214,8 @@ variables.reg <- c('HTO_NUM','GRADO_RD_DXM_NUM', 'QUISTE_VERT_SIZE_NE_6M_CAT_3_N
 	#' 
 	#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
 	SURVIVAL <- DATOS
-	SURVIVAL\$TIEMPO <- DATOS\$TIEMPO_SURV
-	SURVIVAL\$EXITUS <- DATOS\$RECAIDA
+	SURVIVAL\\$TIEMPO <- DATOS\\$TIEMPO_SURV
+	SURVIVAL\\$EXITUS <- DATOS\\$RECAIDA
 	
 	knitr::kable(udaicR::freq(SURVIVAL, EXITUS))
 	
@@ -225,20 +225,20 @@ variables.reg <- c('HTO_NUM','GRADO_RD_DXM_NUM', 'QUISTE_VERT_SIZE_NE_6M_CAT_3_N
 	#' 
 	#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
 	
-	surv <- survival::Surv(time = SURVIVAL\$TIEMPO, event = SURVIVAL\$EXITUS)
+	surv <- survival::Surv(time = SURVIVAL\\$TIEMPO, event = SURVIVAL\\$EXITUS)
 	surv.global <- survival::survfit(surv ~ 1)
-	surv.global.df <- data.frame(surv.global\$time,
-	                          surv.global\$n.risk,
-	                          surv.global\$n.event,
-	                          # surv.global\$n.censor,
-	                          surv.global\$surv,
-	                          surv.global\$lower,
-	                          surv.global\$upper
+	surv.global.df <- data.frame(surv.global\\$time,
+	                          surv.global\\$n.risk,
+	                          surv.global\\$n.event,
+	                          # surv.global\\$n.censor,
+	                          surv.global\\$surv,
+	                          surv.global\\$lower,
+	                          surv.global\\$upper
 	                          )
 	
 	names(surv.global.df) <- c('Time','n.Risk', 'n.Event', 'Surv', 'CI95-Low', 'CI95-High')
 	
-	print(knitr::kable(surv.global.df[surv.global.df\$n.Event > 0,]))
+	print(knitr::kable(surv.global.df[surv.global.df\\$n.Event > 0,]))
 	
 	#+, error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
 	print(surv.global)
@@ -264,19 +264,19 @@ variables.reg <- c('HTO_NUM','GRADO_RD_DXM_NUM', 'QUISTE_VERT_SIZE_NE_6M_CAT_3_N
 	#' 
 	#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
 	
-	surv <- survival::Surv(time = SURVIVAL\$TIEMPO, event = SURVIVAL\$EXITUS)
+	surv <- survival::Surv(time = SURVIVAL\\$TIEMPO, event = SURVIVAL\\$EXITUS)
 	surv.fit <- survival::survfit(surv ~ SEXO, data = SURVIVAL)
-	surv.fit.df <- data.frame(surv.fit\$time,
-	                      surv.fit\$n.risk,
-	                      surv.fit\$n.event,
-	                      # surv.fit\$n.censor,
-                        surv.fit\$surv,
-	                      surv.fit\$lower,
-	                      surv.fit\$upper
+	surv.fit.df <- data.frame(surv.fit\\$time,
+	                      surv.fit\\$n.risk,
+	                      surv.fit\\$n.event,
+	                      # surv.fit\\$n.censor,
+                        surv.fit\\$surv,
+	                      surv.fit\\$lower,
+	                      surv.fit\\$upper
 	)
 	
 	names(surv.fit.df) <- c('Time','n.Risk', 'n.Event', 'Surv', 'CI95-Low', 'CI95-High')
-	# print(knitr::kable(surv.fit.df[surv.fit.df\$n.Event > 0,]))
+	# print(knitr::kable(surv.fit.df[surv.fit.df\\$n.Event > 0,]))
 	
 	#+, error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
 	summary(surv.fit)
