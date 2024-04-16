@@ -86,6 +86,7 @@
       "
       rm(list=ls(all.names = TRUE))
       dir.create('DATOS_BASE', showWarnings = FALSE)
+      dir.create('DATOS_EXPORTADOS', showWarnings = FALSE)
       dir.create('DATOS_R', showWarnings = FALSE)
       dir.create('GRAFICOS', showWarnings = FALSE)
       dir.create('versiones', showWarnings = FALSE)
