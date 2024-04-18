@@ -84,7 +84,6 @@
     "prefix": "carga_datos",
     "body": [
       "
-      rm(list=ls(all.names = TRUE))
       dir.create('DATOS_BASE', showWarnings = FALSE)
       dir.create('DATOS_EXPORTADOS', showWarnings = FALSE)
       dir.create('DATOS_R', showWarnings = FALSE)
@@ -92,6 +91,7 @@
       dir.create('versiones', showWarnings = FALSE)
 
 
+      rm(list=ls(all.names = TRUE))
       DATOS <- foreign::read.spss('DATOS_BASE/Datos.sav', to.data.frame = TRUE)
       DATOS <- readxl::read_excel('DATOS_BASE/Datos.xlsx', sheet = 1)
       DATOS = janitor::clean_names(DATOS)
