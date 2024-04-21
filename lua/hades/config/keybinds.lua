@@ -90,6 +90,17 @@ keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
+-- Spelling --
+keymap("n", "]s", "]s", opts, "next misspelled word")
+keymap("n", "[s", "[s", opts, "prev misspelled word")
+keymap("n", "zg", "zg", opts, "[g]ood word to add to dictionary (spelling)")
+keymap("n", "zG", "zG", opts, "[G]ood word to add to internal dictionary (spelling)")
+keymap("n", "zug", "zug", opts, "[u]ndo add [g]ood word to dictionary (spelling)")
+keymap("n", "zuG", "zuG", opts, "[u]ndo add [G]ood word to internal dictionary (spelling)")
+keymap("n", "zw", "zw", opts, "[w]rong word to add to dictionary (spelling)")
+keymap("n", "zW", "zW", opts, "[W]rong word to add to internal dictionary (spelling)")
+keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
+
 -- -------------------------------------
 -- ------------------------------------- R.nvim
 -- -------------------------------------
@@ -404,9 +415,9 @@ if isModuleAvailable("harpoon") then
   keymap("n", "<leader>a", function()
     harpoon:list():add()
   end, opts, "[a]dd file to harpoon list")
-  keymap("n", "<C-e>", function()
+  keymap("n", "<C-q>", function()
     harpoon.ui:toggle_quick_menu(harpoon:list())
-  end, opts, "toggl[e] harpoon list")
+  end, opts, "[q]uick harpoon list")
 
   keymap("n", "<C-1>", function()
     harpoon:list():select(1)
@@ -420,6 +431,21 @@ if isModuleAvailable("harpoon") then
   keymap("n", "<C-4>", function()
     harpoon:list():select(4)
   end, opts, "harpoon list - 4")
+  keymap("n", "<C-5>", function()
+    harpoon:list():select(5)
+  end, opts, "harpoon list - 5")
+  keymap("n", "<C-6>", function()
+    harpoon:list():select(6)
+  end, opts, "harpoon list - 6")
+  keymap("n", "<C-7>", function()
+    harpoon:list():select(7)
+  end, opts, "harpoon list - 7")
+  keymap("n", "<C-8>", function()
+    harpoon:list():select(8)
+  end, opts, "harpoon list - 8")
+  keymap("n", "<C-9>", function()
+    harpoon:list():select(9)
+  end, opts, "harpoon list - 9")
 
   -- Toggle previous & next buffers stored within Harpoon list
   keymap("n", "<C-S-P>", function()
