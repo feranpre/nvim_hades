@@ -37,7 +37,7 @@
     "prefix": "chunk",
     "body": [
       "
-      #+ , results = 'asis', echo = FALSE, message = FALSE, warning = FALSE, eval =TRUE, fig.width = 5, fig.height = 5, unit = 'cm', comments = ''
+      #+ , results = 'asis', echo = FALSE, message = FALSE, warning = FALSE, eval =TRUE, fig.width = 10, fig.height = 10, unit = 'cm', comments = ''
       "
     ],
     "description": "insert html chunk"
@@ -48,7 +48,6 @@
       #' ---
       #' title: '${1:Resultados temporales}'
       #' author: 'Fernando Andres-Pretel'
-      #' date: '`r format(Sys.time(), '%d %B, %Y')`'
       #' output:
       #'    html_document:
       #'         toc: yes
@@ -64,19 +63,9 @@
 
 
       #' # Titulo 1
-      #' Formula:
-      #'
-      #' $$
-      #' H_0: \\tilde\\mu = \\tilde\\mu\\\\\\
-      #' H_1: \\tilde\\mu \\ne \\tilde\\mu_0
-      #' $$
-      #'
-      #' web para las formulas [aqui](https://rpruim.github.io/s341/S19/from-class/MathinRmd.html)
       #'
       #+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''
       ${2:CODIGO}
-
-
       "],
     "description": "cabecera para archivos HTML en R"
   },
@@ -92,12 +81,12 @@
 
 
       rm(list=ls(all.names = TRUE))
-      DATOS <- foreign::read.spss('DATOS_BASE/Datos.sav', to.data.frame = TRUE)
-      DATOS <- readxl::read_excel('DATOS_BASE/Datos.xlsx', sheet = 1)
+      DATOS <- foreign::read.spss('./DATOS_BASE/Datos.sav', to.data.frame = TRUE)
+      DATOS <- readxl::read_excel('./DATOS_BASE/Datos.xlsx', sheet = 1)
       DATOS = janitor::clean_names(DATOS)
       names(DATOS) = toupper(names(DATOS))
 
-      save(DATOS,file='DATOS_R/DATOS.RData')         
+      save(DATOS,file='./DATOS_R/DATOS.RData')         
       "
     ],
     "description": "carga datos más habituales"

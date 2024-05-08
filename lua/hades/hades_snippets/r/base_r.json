@@ -1,15 +1,4 @@
 {
- "reg_log_bin": {
- "prefix": "reg_log_bin",
- "body": [
-"
-#'
-#' ## Modelo saturado
-#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-variables.reg <- c('HTO_NUM','GRADO_RD_DXM_NUM', 'QUISTE_VERT_SIZE_NE_6M_CAT_3_NUM')
-"],
-      "description": "Regresión logística binaria"
-    },
  "rm": {
     "prefix": "rm",
     "body": ["rm(list=ls(all.names = TRUE))"],

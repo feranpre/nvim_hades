@@ -2,19 +2,19 @@
   "reg_log_bin": {
     "prefix": "reg_log_bin",
     "body": [
-      "
-      #'
-      #' ## Modelo saturado
-      #'
-      #'
-      #+ , results = 'asis', error = TRUE, eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-      variables.reg <- c('HTO_NUM','GRADO_RD_DXM_NUM', 'QUISTE_VERT_SIZE_NE_6M_CAT_3_NUM')
-      DATOS.LIMPIOS <- na.omit(DATOS[,variables.reg])
+    "
+    #'
+    #' ## Modelo saturado
+    #'
+    #'
+    #+ , results = 'asis', error = TRUE, eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
+    variables.reg <- c('HTO_NUM','GRADO_RD_DXM_NUM', 'QUISTE_VERT_SIZE_NE_6M_CAT_3_NUM')
+    DATOS.LIMPIOS <- na.omit(DATOS[,variables.reg])
     (model.design <- paste0(names(DATOS.LIMPIOS)[1], ' ~ ', paste(names(DATOS.LIMPIOS)[2:ncol(DATOS.LIMPIOS)],collapse=' + ')))
     modelo.1.SATURADO <- glm(as.formula(model.design),
     data = DATOS.LIMPIOS, family = 'binomial')
     sum.modelo.1.saturado <- as.data.frame(summary(modelo.1.SATURADO)\\$coefficients)
-    names(sum.modelo.2.saturado)<-c('Coefficient', 'Std. Error', 'Wald', 'p')
+    names(sum.modelo.1.saturado)<-c('Coefficient', 'Std. Error', 'Wald', 'p')
     knitr::kable(cbind(OR = exp(modelo.1.SATURADO\\$coefficients), exp(confint(modelo.1.SATURADO)),sum.modelo.1.saturado))
 
     #knitr::kable(cbind(OR = exp(modelo.1.SATURADO\\$coefficients), exp(confint(modelo.1.SATURADO)), Wald = summary(modelo.1.SATURADO)\\$coefficients[,3], p = summary(modelo.1.SATURADO)\\$coefficients[,'Pr(>|z|)']))
@@ -83,7 +83,7 @@
     "],
     "description": "Regresion logistica binaria"
   }, 
-"reg_lineal_mult": {
+  "reg_lineal_mult": {
   "prefix": "reg_lineal_mult",
   "body": [
   "
