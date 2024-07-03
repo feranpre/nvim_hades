@@ -30,6 +30,12 @@ return {
       objbr_opendf = false,
       objbr_openlist = false,
       objbr_place = "console,below",
+
+      -- TMUX
+      external_term = false,
+      -- external_term = "alacritty",
+      -- config_tmux = true,
+
       --   objbr_w = 40,
       -- auto_quit = true,
       -- RStudio_cmd = '/usr/lib/rstudio',

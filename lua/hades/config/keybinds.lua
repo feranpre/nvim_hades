@@ -77,6 +77,7 @@ if wk ~= nil then
   })
   keymap("n", "<leader>bl", "<cmd>Telescope buffers<cr>", opts, "Telescope [b]uffer list")
   keymap("n", "<leader>bd", "<cmd>bp<bar>sp<bar>bn<bar>bd<CR>", opts, "[b]uffer [d]elete")
+  keymap("n", "<leader>bD", "<cmd>%bd|e#<CR>", opts, "[b]uffer [D]elete all but current")
 end
 
 -- indenting
