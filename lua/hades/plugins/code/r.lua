@@ -5,13 +5,8 @@ return {
   lazy = false,
   dependencies = {
     "R-nvim/cmp-r",
-    {
-      "hrsh7th/nvim-cmp",
-      -- config = function()
-      -- require('cmp').setup({ sources = { { name = 'cmp_r' } } })
-      -- require('cmp_r').setup({})
-      -- end,
-    },
+    -- "nvim-treesitter/nvim-treesitter-textobjects", -- BROKEN
+    "hrsh7th/nvim-cmp",
   },
   config = function()
     --   -- Create a table with the options to be passed to setup()

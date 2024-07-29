@@ -402,7 +402,8 @@ if isModuleAvailable("toggleterm") then
   local term = require("toggleterm")
   if wk ~= nil then
     wk.register({
-      ["<leader>t"] = { name = "[t]erminal" },
+      "<leader>t",
+      group = "[t]erminal",
     })
   end
   keymap("n", "<leader>tt", "<cmd>ToggleTerm<cr>", opts, "[t]oggle [t]erm")

@@ -1,22 +1,21 @@
 local configs = function()
-  require('nvim-treesitter.configs').setup({
+  require("nvim-treesitter.configs").setup({
     ensure_installed = {
-      'lua',
-      'regex',
-      'json',
-      'html',
-      'css',
-      'bash',
-      'yaml',
-      'vim',
-      'vimdoc',
-      'r',
-      'python',
-      'markdown',
-      'markdown_inline',
-      'r',
-      'julia',
-      'mermaid',
+      "lua",
+      "regex",
+      "json",
+      "html",
+      "css",
+      "bash",
+      "yaml",
+      "vim",
+      "vimdoc",
+      "r",
+      "python",
+      "markdown",
+      "markdown_inline",
+      "julia",
+      "mermaid",
     },
     auto_install = true,
     sync_install = false,
@@ -30,30 +29,30 @@ local configs = function()
         lookahead = true,
         keymaps = {
           -- You can use the capture groups defined in textobjects.scm
-          ['af'] = '@function.outer',
-          ['if'] = '@function.inner',
-          ['ac'] = '@class.outer',
-          ['ic'] = '@class.inner',
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ac"] = "@class.outer",
+          ["ic"] = "@class.inner",
         },
       },
       move = {
         enable = true,
         set_jumps = true, -- whether to set jumps in the jumplist
         goto_next_start = {
-          [']m'] = '@function.outer',
-          [']]'] = '@class.inner',
+          ["]m"] = "@function.outer",
+          ["]]"] = "@class.inner",
         },
         goto_next_end = {
-          [']M'] = '@function.outer',
-          [']['] = '@class.outer',
+          ["]M"] = "@function.outer",
+          ["]["] = "@class.outer",
         },
         goto_previous_start = {
-          ['[m'] = '@function.outer',
-          ['[['] = '@class.inner',
+          ["[m"] = "@function.outer",
+          ["[["] = "@class.inner",
         },
         goto_previous_end = {
-          ['[M'] = '@function.outer',
-          ['[]'] = '@class.outer',
+          ["[M"] = "@function.outer",
+          ["[]"] = "@class.outer",
         },
       },
     },
@@ -63,11 +62,9 @@ local configs = function()
 end
 
 return {
-  'nvim-treesitter/nvim-treesitter',
-  dependencies = {
-    { 'nvim-treesitter/nvim-treesitter-textobjects' },
-  },
-  build = ':TSUpdate',
+  "nvim-treesitter/nvim-treesitter",
+  enabled = true,
+  build = ":TSUpdate",
   lazy = false,
   config = configs,
 }
