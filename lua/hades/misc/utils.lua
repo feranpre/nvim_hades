@@ -26,7 +26,8 @@ end
 function M.keymap(mode, keys, func, opts, desc)
   local local_opts = opts
   if desc then
-    local_opts["desc"] = desc
+    -- local_opts["desc"] = desc
+    local_opts.desc = desc
   end
   -- vim.api.nvim_set_keymap(mode, keys, func, local_opts)
   vim.keymap.set(mode, keys, func, local_opts)

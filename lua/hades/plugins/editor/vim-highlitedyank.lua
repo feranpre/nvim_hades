@@ -1,4 +1,5 @@
 return {
-'machakann/vim-highlightedyank',
-lazy = false,
+  "machakann/vim-highlightedyank",
+  enabled = true,
+  lazy = false,
 }

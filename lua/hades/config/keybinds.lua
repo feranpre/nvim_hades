@@ -15,6 +15,9 @@ if isModuleAvailable("which-key") then
   keymap("n", "<leader>ll", "<cmd>Lazy<cr>", opts, "open [L]azy window")
   keymap("n", "<F2>", "<cmd>WhichKey<cr>", opts, "[k]eybinds - help")
   keymap("n", "<leader>k", "<cmd>WhichKey<cr>", opts, "[k]eybinds - help")
+  keymap("n", "<leader>?", function()
+    wk.show({ global = false })
+  end, opts, "[?] buffer keybinds")
 end
 
 -- Press jk fast to enter
@@ -77,10 +80,10 @@ if wk ~= nil then
     "<leader>b",
     group = "+[b]uffers",
   })
-  keymap("n", "<leader>bl", "<cmd>Telescope buffers<cr>", opts, "Telescope [b]uffer list")
-  keymap("n", "<leader>bd", "<cmd>bp<bar>sp<bar>bn<bar>bd<CR>", opts, "[b]uffer [d]elete")
-  keymap("n", "<leader>bD", "<cmd>%bd|e#<CR>", opts, "[b]uffer [D]elete all but current")
 end
+keymap("n", "<leader>bl", "<cmd>Telescope buffers<cr>", opts, "Telescope [b]uffer list")
+keymap("n", "<leader>bd", "<cmd>bp<bar>sp<bar>bn<bar>bd<CR>", opts, "[b]uffer [d]elete")
+keymap("n", "<leader>bD", "<cmd>%bd|e#<CR>", opts, "[b]uffer [D]elete all but current")
 
 -- indenting
 keymap("v", "<", "<gv", opts, "un-Indent selected text")
@@ -107,17 +110,18 @@ keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
 -- -------------------------------------
 -- ------------------------------------- R.nvim
 -- -------------------------------------
-
+-- vim.g.maplocalleader = ","
+-- vim.api.nvim_buf_set_keymap(0, "n", "<localleader>t", ":echo 'Test mapping'<CR>", { noremap = true, silent = true })
 if isModuleAvailable("r") then
-  vim.api.nvim_create_autocmd({ "FileType", "VimEnter" }, {
+  vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
     pattern = "r",
     callback = function(ev)
-      print("-- Loading R keys --")
+      print("-- Loading R keys --", ev.buf)
       -- local send = require('r.send').cmd
       -- keymap_buffer(0, "n", "<localleader>ll", send("devtools::load_all()"), opts, "asersd")
 
       if wk ~= nil then
-        local b_opts = { buffer = 0 }
+        local b_opts = { buffer = ev.buf }
         -- wk.register({ ["<localleader>"] = { name = "[R] commands" } }, b_opts)
         wk.add({ "<localleader>r", group = "[R] start/stop" }, b_opts)
         wk.add({ "<localleader>s", group = "[s]end to R" }, b_opts)
@@ -126,30 +130,30 @@ if isModuleAvailable("r") then
       end
 
       -- start/stop R
-      keymap_buffer(0, "n", "<localleader>rs", "<Plug>RStart<cr>", opts, "[s]tart R console")
-      keymap_buffer(0, "n", "<localleader>rq", "<Plug>RClose<cr>", opts, "[q]uit R console (no save)")
-      keymap_buffer(0, "n", "<localleader>rw", "<Plug>RSaveClose<cr>", opts, "quit and [w]rite R console")
+      keymap_buffer(ev.buf, "n", "<localleader>rs", "<Plug>RStart<cr>", opts, "[s]tart R console")
+      keymap_buffer(ev.buf, "n", "<localleader>rq", "<Plug>RClose<cr>", opts, "[q]uit R console (no save)")
+      keymap_buffer(ev.buf, "n", "<localleader>rw", "<Plug>RSaveClose<cr>", opts, "quit and [w]rite R console")
 
       -- console
-      keymap_buffer(0, "n", "<localleader>rl", "<Plug>RClearConsole<cr>", opts, "c[l]ear the R console")
+      keymap_buffer(ev.buf, "n", "<localleader>rl", "<Plug>RClearConsole<cr>", opts, "c[l]ear the R console")
 
       -- Send code
-      keymap_buffer(0, "n", "<C-CR>", "<Plug>RDSendLine", opts, "send [l]ine and move down")
-      keymap_buffer(0, "v", "<C-CR>", "<Plug>RDSendSelection", opts, "send [l]ine and move down")
-      keymap_buffer(0, "n", "<localleader>sl", "<Plug>RDSendLine", opts, "send [l]ine and move down")
-      keymap_buffer(0, "n", "<C-S-CR>", "<Plug>RDSendParagraph", opts, "send [p]aragraph and move down")
-      keymap_buffer(0, "n", "<localleader>sp", "<Plug>RDSendParagraph", opts, "send [p]aragraph and move down")
+      keymap_buffer(ev.buf, "n", "<C-CR>", "<Plug>RDSendLine", opts, "send [l]ine and move down")
+      keymap_buffer(ev.buf, "v", "<C-CR>", "<Plug>RDSendSelection", opts, "send [l]ine and move down")
+      keymap_buffer(ev.buf, "n", "<localleader>sl", "<Plug>RDSendLine", opts, "send [l]ine and move down")
+      keymap_buffer(ev.buf, "n", "<C-S-CR>", "<Plug>RDSendParagraph", opts, "send [p]aragraph and move down")
+      keymap_buffer(ev.buf, "n", "<localleader>sp", "<Plug>RDSendParagraph", opts, "send [p]aragraph and move down")
 
-      keymap_buffer(0, "n", "<localleader>sf", "<Plug>RSendFile", opts, "send [f]ile")
+      keymap_buffer(ev.buf, "n", "<localleader>sf", "<Plug>RSendFile", opts, "send [f]ile")
 
       -- Help/print
-      keymap_buffer(0, "n", "<localleader>h", "<Plug>RHelp", opts, "[h]elp for item under cursor")
-      keymap_buffer(0, "n", "<localleader>p", "<Plug>RObjectPr", opts, "[p]rint object under cursor")
-      keymap_buffer(0, "n", "<localleader>vd", "<Plug>RViewDFa", opts, "[v]iew [d]ata.frame head")
+      keymap_buffer(ev.buf, "n", "<localleader>h", "<Plug>RHelp", opts, "[h]elp for item under cursor")
+      keymap_buffer(ev.buf, "n", "<localleader>p", "<Plug>RObjectPr", opts, "[p]rint object under cursor")
+      keymap_buffer(ev.buf, "n", "<localleader>vd", "<Plug>RViewDFa", opts, "[v]iew [d]ata.frame head")
 
       -- Knit
       keymap_buffer(
-        0,
+        ev.buf,
         "n",
         "<localleader>kh",
         '<cmd>lua require("hades.misc.r_utils").spin_r("' .. vim.fn.expand("%:p") .. '", "html")<CR>',
@@ -158,7 +162,7 @@ if isModuleAvailable("r") then
       )
 
       keymap_buffer(
-        0,
+        ev.buf,
         "n",
         "<localleader>kp",
         '<cmd>lua require("hades.misc.r_utils").spin_r("' .. vim.fn.expand("%:p") .. '", "pdf")<CR>',
@@ -168,7 +172,7 @@ if isModuleAvailable("r") then
       -- Build
 
       keymap_buffer(
-        0,
+        ev.buf,
         "n",
         "<localleader>bl",
         "<cmd>lua require('r.send').cmd('devtools::load_all()')<CR>",
@@ -176,7 +180,7 @@ if isModuleAvailable("r") then
         "[l]oad all files"
       )
       keymap_buffer(
-        0,
+        ev.buf,
         "n",
         "<localleader>bb",
         "<cmd>lua require('r.send').cmd('devtools::build()')<CR>",
@@ -184,7 +188,7 @@ if isModuleAvailable("r") then
         "[b]uild pkg"
       )
       keymap_buffer(
-        0,
+        ev.buf,
         "n",
         "<localleader>bi",
         "<cmd>lua require('r.send').cmd('devtools::install(args = \"--preclean --with-keep.source --no-multiarch\")')<CR>",
@@ -193,7 +197,7 @@ if isModuleAvailable("r") then
       )
 
       keymap_buffer(
-        0,
+        ev.buf,
         "n",
         "<localleader>bd",
         '<cmd>lua require(\'r.send\').cmd(\'devtools::document(roclets = c("rd", "collate", "namespace", "vignette"))\')<CR>',
@@ -202,7 +206,7 @@ if isModuleAvailable("r") then
       )
 
       -- Objects
-      keymap_buffer(0, "n", "<localleader>o", "<Plug>ROBToggle", opts, "[o]bject inspector toggle")
+      keymap_buffer(ev.buf, "n", "<localleader>o", "<Plug>ROBToggle", opts, "[o]bject inspector toggle")
     end,
   })
 end
@@ -294,7 +298,7 @@ if isModuleAvailable("telescope.builtin") then
   keymap("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts, "[f]ind [f]ile")
   keymap("n", "<leader>fk", "<cmd>Telescope keymaps<CR>", opts, "find [k]eymaps")
   keymap("n", "<leader>fr", "<cmd>Telescope oldfiles<CR>", opts, "find [r]ecent file")
-  keymap("n", "<leader>fs", "<cmd>Telescope live_grep<CR>", opts, "find [s]tring in this dir")
+  keymap("n", "<leader>fs", "<cmd>Telescope live_grep<CR>", opts, "find string in this [d]ir")
   keymap("n", "<leader>fg", "<cmd>Telescope grep_string<CR>", opts, "find string under cursor in dir")
   keymap("n", "<leader>fb", "<cmd>Telescope buffers<CR>", opts, "find [b]uffer")
   keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", opts, "find in [h]elp")

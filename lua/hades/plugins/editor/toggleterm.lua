@@ -1,5 +1,6 @@
 return { -- terminal
-  'akinsho/toggleterm.nvim',
+  "akinsho/toggleterm.nvim",
+  enabled = true,
   opts = {
     -- size = 20 | function(term)
     --   if term.direction == 'horizontal' then
@@ -9,7 +10,7 @@ return { -- terminal
     --   end
     -- end,
     -- -- open_mapping = [[<c-\>]],
-    direction = 'horizontal',
+    direction = "horizontal",
     start_in_insert = true,
   },
 }
