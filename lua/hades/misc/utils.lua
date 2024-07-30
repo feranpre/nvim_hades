@@ -33,13 +33,13 @@ function M.keymap(mode, keys, func, opts, desc)
 end
 
 function M.keymap_buffer(buffer, mode, keys, func, opts, desc)
-  local local_opts = opts
-  local_opts["buffer"] = buffer
+  -- local local_opts = opts
+  -- local_opts["buffer"] = buffer
   if desc then
-    local_opts["desc"] = desc
+    opts.desc = desc
   end
-  -- vim.api.nvim_buf_set_keymap(buffer, mode, keys, func, local_opts)
-  vim.keymap.set(mode, keys, func, local_opts)
+  vim.api.nvim_buf_set_keymap(buffer, mode, keys, func, opts)
+  -- vim.keymap.set(mode, keys, func, local_opts)
 end
 
 function M.get_all_lua_files(search_folder)

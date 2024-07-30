@@ -13,7 +13,7 @@ return {
     local opts = {
       -- R_args = { '--quiet', '--no-save' },
       R_args = { "--no-save" },
-      assign = false, -- convert Meta-- to <-
+      -- assign = false, -- convert Meta-- to <-
       auto_quit = true,
       user_maps_only = true,
 

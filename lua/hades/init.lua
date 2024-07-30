@@ -14,4 +14,4 @@ require("hades.config.colors")
 -- require('hades.config.autocmd')
 
 -- require('hades.config.autocmd.r_keys')
-require("hades.config.autocmd.term_keys")
+-- require("hades.config.autocmd.term_keys")

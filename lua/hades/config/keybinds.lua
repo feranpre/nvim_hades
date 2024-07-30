@@ -8,9 +8,9 @@ local generate_html_from_rscript = require("hades.misc.utils").generate_html_fro
 local wk = nil
 if isModuleAvailable("which-key") then
   wk = require("which-key")
-  wk.register({
-    ["<leader>l"] = { name = "+[L]azy" },
-    ["g"] = { name = "+[g]o" },
+  wk.add({
+    { "<leader>l", group = "+[L]azy" },
+    { "g", group = "+[g]o" },
   })
   keymap("n", "<leader>ll", "<cmd>Lazy<cr>", opts, "open [L]azy window")
   keymap("n", "<F2>", "<cmd>WhichKey<cr>", opts, "[k]eybinds - help")
@@ -36,8 +36,9 @@ keymap({ "n", "v" }, "<leader>y", '"+y', opts, "[y]ank out of nvim")
 
 -- windows
 if wk ~= nil then
-  wk.register({
-    ["<leader>w"] = { name = "+[w]indows" },
+  wk.add({
+    "<leader>w",
+    group = "+[w]indows",
   })
 end
 
@@ -72,8 +73,9 @@ keymap("n", "<leader>wH", "<C-w>H", opts, "move window to the right [<C-w>H]")
 
 -- buffer
 if wk ~= nil then
-  wk.register({
-    ["<leader>b"] = { name = "+[b]uffers" },
+  wk.add({
+    "<leader>b",
+    group = "+[b]uffers",
   })
   keymap("n", "<leader>bl", "<cmd>Telescope buffers<cr>", opts, "Telescope [b]uffer list")
   keymap("n", "<leader>bd", "<cmd>bp<bar>sp<bar>bn<bar>bd<CR>", opts, "[b]uffer [d]elete")
@@ -110,16 +112,17 @@ if isModuleAvailable("r") then
   vim.api.nvim_create_autocmd({ "FileType", "VimEnter" }, {
     pattern = "r",
     callback = function(ev)
+      print("-- Loading R keys --")
       -- local send = require('r.send').cmd
       -- keymap_buffer(0, "n", "<localleader>ll", send("devtools::load_all()"), opts, "asersd")
 
       if wk ~= nil then
         local b_opts = { buffer = 0 }
         -- wk.register({ ["<localleader>"] = { name = "[R] commands" } }, b_opts)
-        wk.register({ ["<localleader>r"] = { name = "[R] start/stop" } }, b_opts)
-        wk.register({ ["<localleader>s"] = { name = "[s]end to R" } }, b_opts)
-        wk.register({ ["<localleader>b"] = { name = "[b]uild tools" } }, b_opts)
-        wk.register({ ["<localleader>k"] = { name = "[k]nitting tools" } }, b_opts)
+        wk.add({ "<localleader>r", group = "[R] start/stop" }, b_opts)
+        wk.add({ "<localleader>s", group = "[s]end to R" }, b_opts)
+        wk.add({ "<localleader>b", group = "[b]uild tools" }, b_opts)
+        wk.add({ "<localleader>k", group = "[k]nitting tools" }, b_opts)
       end
 
       -- start/stop R
@@ -231,7 +234,7 @@ end
 -- -------------------------------------
 if vim.g.slime_target ~= nil then
   -- local slime_run = require('hades.misc.slime_utils')
-  wk.register({ ["<LocalLeader>s"] = { name = "+[S]end (REPL)" } })
+  wk.add({ "<LocalLeader>s", group = "+[S]end (REPL)" })
   keymap("n", "<C-CR>", "<Plug>SlimeParagraphSend", opts, "other window")
   keymap("n", "<LocalLeader>sp", "<Plug>SlimeParagraphSend", opts, "other window")
 
@@ -281,8 +284,9 @@ end
 -- -------------------------------------
 if isModuleAvailable("telescope.builtin") then
   if wk ~= nil then
-    wk.register({
-      ["<leader>f"] = { name = "+[f]ind (telescope)" },
+    wk.add({
+      "<leader>f",
+      group = "+[f]ind (telescope)",
     })
   end
   -- Telescope --
@@ -320,25 +324,72 @@ if isModuleAvailable("lspconfig") then
       -- Buffer local mappings.
       -- See `:help vim.lsp.*` for documentation on any of the below functions
       -- local opts = { buffer = ev.buf }
-      keymap("n", "gR", "<cmd>Telescope lsp_references<CR>", opts, "LSP -> show definition references")
-      keymap("n", "gD", vim.lsp.buf.declaration, opts, "LSP -> go to definition")
-      keymap("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts, "LSP -> show lsp definitions")
-      keymap("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts, "LSP -> show implementations") -- show lsp implementations
-      keymap("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts, "LSP -> show type definitions") -- show lsp implementations
+      keymap_buffer(0, "n", "gR", "<cmd>Telescope lsp_references<CR>", opts, "LSP -> show definition references")
+      keymap_buffer(0, "n", "gD", "<cmd>lua vim.lsp.buf.declaration() <CR>", opts, "LSP -> go to definition")
+      keymap_buffer(0, "n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts, "LSP -> show lsp definitions")
+      keymap_buffer(0, "n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts, "LSP -> show implementations") -- show lsp implementations
+      keymap_buffer(0, "n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts, "LSP -> show type definitions") -- show lsp implementations
 
-      keymap({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts, "LSP -> see available code actions") -- show lsp implementations
+      keymap_buffer(
+        0,
+        "n",
+        "<leader>ca",
+        "<cmd>lua vim.lsp.buf.code_action()<CR>",
+        opts,
+        "LSP -> see available code actions"
+      ) -- show lsp implementations
+      keymap_buffer(
+        0,
+        "v",
+        "<leader>ca",
+        "<cmd>lua vim.lsp.buf.code_action()<CR>",
+        opts,
+        "LSP -> see available code actions"
+      ) -- show lsp implementations
 
-      keymap("n", "<leader>rn", vim.lsp.buf.rename, opts, "LSP -> smart rename") -- smart rename
-      keymap("n", "<leader>d", vim.diagnostic.open_float, opts, "LSP -> show line diagnostics") -- smart rename
-      keymap("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts, "LSP -> show buffer diagnostics") -- show lsp implementations
-      keymap("n", "<leader>[d", vim.diagnostic.goto_prev, opts, "LSP -> go to prev diagnostic")
-      keymap("n", "<leader>]d", vim.diagnostic.goto_next, opts, "LSP -> go to next diagnostic")
+      keymap_buffer(0, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename() <CR>", opts, "LSP -> smart rename") -- smart rename
+      keymap_buffer(
+        0,
+        "n",
+        "<leader>d",
+        "<cmd>lua vim.diagnostic.open_float() <CR>",
+        opts,
+        "LSP -> show line diagnostics"
+      ) -- smart rename
+      keymap_buffer(
+        0,
+        "n",
+        "<leader>D",
+        "<cmd>Telescope diagnostics bufnr=0<CR>",
+        opts,
+        "LSP -> show buffer diagnostics"
+      ) -- show lsp implementations
+      keymap_buffer(
+        0,
+        "n",
+        "<leader>[d",
+        "<cmd>lua vim.diagnostic.goto_prev()<CR>",
+        opts,
+        "LSP -> go to prev diagnostic"
+      )
+      keymap_buffer(
+        0,
+        "n",
+        "<leader>]d",
+        "<cmd>lua vim.diagnostic.goto_next()<CR>",
+        opts,
+        "LSP -> go to next diagnostic"
+      )
 
-      keymap("n", "K", vim.lsp.buf.hover, opts, "LSP -> Show documentation for whatever is under cursor")
-      -- keymap("n", "K", function()
-      --   custom_lsp_hover()
-      -- end, opts, "LSP -> Show documentation for whatever is under cursor")
-      keymap("n", "<leader>rs", "<cmd>LspRestart<CR>", opts, "LSP -> restart LSP")
+      keymap_buffer(
+        0,
+        "n",
+        "K",
+        "<cmd>lua vim.lsp.buf.hover()<CR>",
+        opts,
+        "LSP -> Show documentation for whatever is under cursor"
+      )
+      keymap_buffer(0, "n", "<leader>rs", "<cmd>LspRestart<CR>", opts, "LSP -> restart LSP")
     end,
   })
 end
@@ -368,40 +419,40 @@ if isModuleAvailable("luasnip") then
 end
 
 -- -------- QUARTO
-
-if isModuleAvailable("quarto") then
-  local quarto = require("quarto")
-  if wk ~= nil then
-    wk.register({
-      ["<leader>q"] = {
-        name = "+[q]uarto",
-        a = { ":QuartoActivate<cr>", "[a]ctivate" },
-        p = { ":lua require('quarto').quartoPreview()<cr>", "[p]review" },
-        q = { ":lua require('quarto').quartoClosePreview()<cr>", "[q]uiet preview" },
-        h = { ":QuartoHelp ", "[h]elp" },
-        r = {
-          name = "[r]un",
-          r = { ":QuartoSendAbove<cr>", "to cu[r]sor" },
-          a = { ":QuartoSendAll<cr>", "run [a]ll" },
-          b = { ":QuartoSendBelow<cr>", "run [b]elow" },
-        },
-        -- e = { require('otter").export, "[e]xport" },
-        E = {
-          function()
-            -- require('otter").export(true)
-          end,
-          "[E]xport with overwrite",
-        },
-      },
-    })
-  end
-end
-
+--
+-- if isModuleAvailable("quarto") then
+--   local quarto = require("quarto")
+--   if wk ~= nil then
+--     wk.add({
+--       ["<leader>q"] = {
+--         name = "+[q]uarto",
+--         a = { ":QuartoActivate<cr>", "[a]ctivate" },
+--         p = { ":lua require('quarto').quartoPreview()<cr>", "[p]review" },
+--         q = { ":lua require('quarto').quartoClosePreview()<cr>", "[q]uiet preview" },
+--         h = { ":QuartoHelp ", "[h]elp" },
+--         r = {
+--           name = "[r]un",
+--           r = { ":QuartoSendAbove<cr>", "to cu[r]sor" },
+--           a = { ":QuartoSendAll<cr>", "run [a]ll" },
+--           b = { ":QuartoSendBelow<cr>", "run [b]elow" },
+--         },
+--         -- e = { require('otter").export, "[e]xport" },
+--         E = {
+--           function()
+--             -- require('otter").export(true)
+--           end,
+--           "[E]xport with overwrite",
+--         },
+--       },
+--     })
+--   end
+-- end
+--
 -- -------- TERMINAL
 if isModuleAvailable("toggleterm") then
   local term = require("toggleterm")
   if wk ~= nil then
-    wk.register({
+    wk.add({
       "<leader>t",
       group = "[t]erminal",
     })
