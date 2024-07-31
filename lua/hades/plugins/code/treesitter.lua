@@ -11,6 +11,7 @@ local configs = function()
       "vim",
       "vimdoc",
       "r",
+      "rnoweb",
       "python",
       "markdown",
       "markdown_inline",
