@@ -26,9 +26,9 @@ keymap("i", "kj", "<ESC>", opts, "exit insert mode")
 keymap("n", "<ESC>", "<cmd>nohl<cr>", opts, "remove hilights")
 
 -- Navigate buffers
-keymap("n", "<S-l>", ":bnext<CR>", opts, "next buffer")
-keymap("n", "<S-h>", ":bprevious<CR>", opts, "previous buffer")
-keymap("n", "<C-q>", ":q<CR>", opts, "[q]uit buffer")
+keymap("n", "<S-l>", "<cmd>bnext<CR>", opts, "next buffer")
+keymap("n", "<S-h>", "<cmd>bprevious<CR>", opts, "previous buffer")
+keymap("n", "<C-q>", "<cmd>q<CR>", opts, "[q]uit buffer")
 
 -- save file
 keymap({ "i", "v", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", opts, "[s]ave file")
@@ -524,7 +524,7 @@ if isModuleAvailable("quarto") then
   -- keymap("n", "<C-CR>", fer_quarto.send_cell(), opts, "[q]uarto send files")
   keymap("n", "<C-CR>", send_cell, opts, "[q]uarto send files")
   keymap("n", "<m-i>", insert_r_chunk, opts, "insert R code chunk [q]uarto send files")
-  keymap("n", "<leader>qp", "<cmd>lua require('quarto').quertoPreview()<CR>", opts, "quarto [p]review")
+  keymap("n", "<leader>qp", "<cmd>lua require('quarto').quartoPreview()<CR>", opts, "quarto [p]review")
   -- robar todo de [aqui](https://github.com/jmbuhr/quarto-nvim-kickstarter/blob/main/lua/config/keymap.lua)
 end
 --
@@ -588,3 +588,5 @@ if isModuleAvailable("harpoon") then
     harpoon:list():next()
   end, opts, "[n]ext harpoon file")
 end
+
+keymap("n", "<leader>vs", "<cmd>VenvSelect<cr>", opts, "[v]env [s]election")
