@@ -1,18 +1,23 @@
-local opts = { noremap = true, silent = true, desc = nil }
-local keymap = require("hades.misc.utils").keymap
-local keymap_buffer = require("hades.misc.utils").keymap_buffer
 local isModuleAvailable = require("hades.misc.utils").isModuleAvailable
-
 if isModuleAvailable("r") then
   vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
+    desc = "r file binds",
     pattern = "r",
     callback = function(ev)
+      local opts = { noremap = true, silent = true, desc = nil }
+      -- local keymap = require("hades.misc.utils").keymap
+      local keymap_buffer = require("hades.misc.utils").keymap_buffer
+
+      local wk = require("which-key")
       print("-- Loading R keys --", ev.buf)
       -- local send = require('r.send').cmd
       -- keymap_buffer(0, "n", "<localleader>ll", send("devtools::load_all()"), opts, "asersd")
 
       if wk ~= nil then
         local b_opts = { buffer = ev.buf }
+        vim.keymap.set("n", "<localleader>", function()
+          require("which-key").show(",")
+        end, { buffer = true })
         -- wk.register({ ["<localleader>"] = { name = "[R] commands" } }, b_opts)
         wk.add({ "<localleader>r", group = "[R] start/stop" }, b_opts)
         wk.add({ "<localleader>s", group = "[s]end to R" }, b_opts)
@@ -60,6 +65,8 @@ if isModuleAvailable("r") then
         opts,
         "[p]df [k]nit"
       )
+      --
+      keymap_buffer(ev.buf, "n", "<localleader>kP", "<Plug>RMakePDF", opts, "make PDF")
       -- Build
 
       keymap_buffer(

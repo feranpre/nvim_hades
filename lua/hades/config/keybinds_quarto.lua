@@ -135,10 +135,10 @@ if isModuleAvailable("quarto") then
   keymap("n", "<m-I>", insert_py_chunk, opts, "[I]nsert PYTHON chunk")
 
   -- TERMINALS
-  keymap("n", "<leader>cr", function()
+  keymap("n", "<leader>rs", function()
     vim.b["quarto_is_r_mode"] = true
     new_terminal_r()
-  end, opts, "new [R] terminal")
+  end, opts, "[R] [s]tart terminal")
 
   keymap("n", "<leader>cp", new_terminal_python, opts, "new [p]ython terminal")
   keymap("n", "<leader>ci", new_terminal_ipython, opts, "new [i]python terminal")
@@ -173,4 +173,21 @@ if isModuleAvailable("quarto") then
   keymap("n", "<C-CR>", "<Plug>SlimeLineSend", opts, "other window")
   keymap("v", "<C-CR>", "<Plug>SlimeRegionSend", opts, "other window")
   keymap("n", "<C-S-CR>", "<Plug>SlimeParagraphSend", opts, "other window")
+  keymap("n", "<localleader>bl", "<cmd>SlimeSend1 devtools::load_all('.')<CR>", opts, "[b]uild a[l]l")
+  keymap("n", "<leader>rl", "<cmd>SlimeSend1 devtools::load_all('.')<CR>", opts, "[R] [l]oad package")
+  keymap("n", "<leader>rb", "<cmd>SlimeSend1 devtools::build()<CR>", opts, "[R] [b]uild package")
+  keymap(
+    "n",
+    "<leader>ri",
+    "<cmd>SlimeSend1 devtools::install(args = '--preclean --with-keep.source --no-multiarch')<CR>",
+    opts,
+    "[R] [i]nstall package"
+  )
+  keymap(
+    "n",
+    "<leader>rd",
+    "<cmd>SlimeSend1 devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))<CR>",
+    opts,
+    "[R] [d]ocument package"
+  )
 end

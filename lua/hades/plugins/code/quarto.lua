@@ -67,6 +67,7 @@ return {
       vim.g.slime_target = "neovim"
       vim.g.slime_no_mappings = true
       vim.g.slime_python_ipython = 1
+      vim.g.slime_preserve_curspos = 0 -- dont preserve cursor position
     end,
     config = function()
       vim.g.slime_input_pid = false

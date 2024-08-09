@@ -233,56 +233,35 @@ if isModuleAvailable("lspconfig") then
       keymap_buffer(0, "n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts, "LSP -> show implementations") -- show lsp implementations
       keymap_buffer(0, "n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts, "LSP -> show type definitions") -- show lsp implementations
 
-      keymap_buffer(
-        0,
-        "n",
-        "<leader>ca",
-        "<cmd>lua vim.lsp.buf.code_action()<CR>",
-        opts,
-        "LSP -> see available code actions"
-      ) -- show lsp implementations
-      keymap_buffer(
-        0,
-        "v",
-        "<leader>ca",
-        "<cmd>lua vim.lsp.buf.code_action()<CR>",
-        opts,
-        "LSP -> see available code actions"
-      ) -- show lsp implementations
+      -- keymap_buffer(
+      --   0,
+      --   "n",
+      --   "<leader>la",
+      --   "<cmd>lua vim.lsp.buf.code_action()<CR>",
+      --   opts,
+      --   "LSP -> see available code actions"
+      -- ) -- show lsp implementations
+      keymap_buffer(0, "v", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts, "[l]sp code [a]ctions") -- show lsp implementations
 
-      keymap_buffer(0, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename() <CR>", opts, "LSP -> smart rename") -- smart rename
+      keymap_buffer(0, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename() <CR>", opts, "[l]sp [r]ename in scope") -- smart rename
       keymap_buffer(
         0,
         "n",
-        "<leader>d",
+        "<leader>ld",
         "<cmd>lua vim.diagnostic.open_float() <CR>",
         opts,
-        "LSP -> show line diagnostics"
+        "[l]sp [d]iagnostics (line)"
       ) -- smart rename
       keymap_buffer(
         0,
         "n",
-        "<leader>D",
+        "<leader>lD",
         "<cmd>Telescope diagnostics bufnr=0<CR>",
         opts,
-        "LSP -> show buffer diagnostics"
+        "[l]sp [D]iagnostics (buffer)"
       ) -- show lsp implementations
-      keymap_buffer(
-        0,
-        "n",
-        "<leader>[d",
-        "<cmd>lua vim.diagnostic.goto_prev()<CR>",
-        opts,
-        "LSP -> go to prev diagnostic"
-      )
-      keymap_buffer(
-        0,
-        "n",
-        "<leader>]d",
-        "<cmd>lua vim.diagnostic.goto_next()<CR>",
-        opts,
-        "LSP -> go to next diagnostic"
-      )
+      keymap_buffer(0, "n", "<leader>[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts, "lsp - prev diagnostic")
+      keymap_buffer(0, "n", "<leader>]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts, "lsp - next diagnostic")
 
       keymap_buffer(
         0,
@@ -292,7 +271,7 @@ if isModuleAvailable("lspconfig") then
         opts,
         "LSP -> Show documentation for whatever is under cursor"
       )
-      keymap_buffer(0, "n", "<leader>rs", "<cmd>LspRestart<CR>", opts, "LSP -> restart LSP")
+      keymap_buffer(0, "n", "<leader>ls", "<cmd>LspRestart<CR>", opts, "[l]sp [s]tart/restart LSP")
     end,
   })
 end

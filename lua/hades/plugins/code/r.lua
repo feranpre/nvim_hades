@@ -1,7 +1,7 @@
 return {
   "R-nvim/R.nvim",
   -- 'jalvesaq/Nvim-R', -- this plugin is obsolete
-  enabled = false,
+  enabled = true,
   lazy = false,
   dependencies = {
     "R-nvim/cmp-r",
