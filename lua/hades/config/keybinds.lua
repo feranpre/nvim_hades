@@ -110,106 +110,12 @@ keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
 -- -------------------------------------
 -- ------------------------------------- R.nvim
 -- -------------------------------------
--- vim.g.maplocalleader = ","
--- vim.api.nvim_buf_set_keymap(0, "n", "<localleader>t", ":echo 'Test mapping'<CR>", { noremap = true, silent = true })
-if isModuleAvailable("r") then
-  vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
-    pattern = "r",
-    callback = function(ev)
-      print("-- Loading R keys --", ev.buf)
-      -- local send = require('r.send').cmd
-      -- keymap_buffer(0, "n", "<localleader>ll", send("devtools::load_all()"), opts, "asersd")
+require("hades.config.keybinds_r_nvim")
 
-      if wk ~= nil then
-        local b_opts = { buffer = ev.buf }
-        -- wk.register({ ["<localleader>"] = { name = "[R] commands" } }, b_opts)
-        wk.add({ "<localleader>r", group = "[R] start/stop" }, b_opts)
-        wk.add({ "<localleader>s", group = "[s]end to R" }, b_opts)
-        wk.add({ "<localleader>b", group = "[b]uild tools" }, b_opts)
-        wk.add({ "<localleader>k", group = "[k]nitting tools" }, b_opts)
-      end
-
-      -- start/stop R
-      keymap_buffer(ev.buf, "n", "<localleader>rs", "<Plug>RStart<cr>", opts, "[s]tart R console")
-      keymap_buffer(ev.buf, "n", "<localleader>rq", "<Plug>RClose<cr>", opts, "[q]uit R console (no save)")
-      keymap_buffer(ev.buf, "n", "<localleader>rw", "<Plug>RSaveClose<cr>", opts, "quit and [w]rite R console")
-
-      -- console
-      keymap_buffer(ev.buf, "n", "<localleader>rl", "<Plug>RClearConsole<cr>", opts, "c[l]ear the R console")
-
-      -- Send code
-      keymap_buffer(ev.buf, "n", "<C-CR>", "<Plug>RDSendLine", opts, "send [l]ine and move down")
-      keymap_buffer(ev.buf, "v", "<C-CR>", "<Plug>RDSendSelection", opts, "send [l]ine and move down")
-      keymap_buffer(ev.buf, "n", "<localleader>sl", "<Plug>RDSendLine", opts, "send [l]ine and move down")
-      keymap_buffer(ev.buf, "n", "<C-S-CR>", "<Plug>RDSendParagraph", opts, "send [p]aragraph and move down")
-      keymap_buffer(ev.buf, "n", "<localleader>sp", "<Plug>RDSendParagraph", opts, "send [p]aragraph and move down")
-
-      keymap_buffer(ev.buf, "n", "<localleader>sf", "<Plug>RSendFile", opts, "send [f]ile")
-
-      -- Help/print
-      keymap_buffer(ev.buf, "n", "<localleader>h", "<Plug>RHelp", opts, "[h]elp for item under cursor")
-      keymap_buffer(ev.buf, "n", "<localleader>p", "<Plug>RObjectPr", opts, "[p]rint object under cursor")
-      keymap_buffer(ev.buf, "n", "<localleader>vd", "<Plug>RViewDFa", opts, "[v]iew [d]ata.frame head")
-
-      -- Knit
-      keymap_buffer(
-        ev.buf,
-        "n",
-        "<localleader>kh",
-        '<cmd>lua require("hades.misc.r_utils").spin_r("' .. vim.fn.expand("%:p") .. '", "html")<CR>',
-        opts,
-        "[h]tml [k]nit"
-      )
-
-      keymap_buffer(
-        ev.buf,
-        "n",
-        "<localleader>kp",
-        '<cmd>lua require("hades.misc.r_utils").spin_r("' .. vim.fn.expand("%:p") .. '", "pdf")<CR>',
-        opts,
-        "[p]df [k]nit"
-      )
-      -- Build
-
-      keymap_buffer(
-        ev.buf,
-        "n",
-        "<localleader>bl",
-        "<cmd>lua require('r.send').cmd('devtools::load_all()')<CR>",
-        opts,
-        "[l]oad all files"
-      )
-      keymap_buffer(
-        ev.buf,
-        "n",
-        "<localleader>bb",
-        "<cmd>lua require('r.send').cmd('devtools::build()')<CR>",
-        opts,
-        "[b]uild pkg"
-      )
-      keymap_buffer(
-        ev.buf,
-        "n",
-        "<localleader>bi",
-        "<cmd>lua require('r.send').cmd('devtools::install(args = \"--preclean --with-keep.source --no-multiarch\")')<CR>",
-        opts,
-        "[i]nstall pkg"
-      )
-
-      keymap_buffer(
-        ev.buf,
-        "n",
-        "<localleader>bd",
-        '<cmd>lua require(\'r.send\').cmd(\'devtools::document(roclets = c("rd", "collate", "namespace", "vignette"))\')<CR>',
-        opts,
-        "[d]ocument pkg"
-      )
-
-      -- Objects
-      keymap_buffer(ev.buf, "n", "<localleader>o", "<Plug>ROBToggle", opts, "[o]bject inspector toggle")
-    end,
-  })
-end
+-- -------------------------------------
+-- ------------------------------------- QUARTO
+-- -------------------------------------
+require("hades.config.keybinds_quarto")
 
 -- -------------------------------------
 -- ------------------------------------- SPECTRE
@@ -236,23 +142,23 @@ end
 -- -------------------------------------
 -- ------------------------------------- SLIME
 -- -------------------------------------
-if vim.g.slime_target ~= nil then
-  -- local slime_run = require('hades.misc.slime_utils')
-  wk.add({ "<LocalLeader>s", group = "+[S]end (REPL)" })
-  keymap("n", "<C-CR>", "<Plug>SlimeParagraphSend", opts, "other window")
-  keymap("n", "<LocalLeader>sp", "<Plug>SlimeParagraphSend", opts, "other window")
-
-  keymap(
-    "n",
-    "<LocalLeader>sl",
-    "<cmd>SlimeSend1 devtools::load_all('.')<CR>",
-    opts,
-    "R - load all files (for a package)"
-  )
-  -- keymap("n", "<localleader>rs", slime_run.send_cell, opts, "other window")
-  -- keymap("n", "<leader>rr", slime_run.send_cell, opts, "other window")
-end
+-- if vim.g.slime_target ~= nil then
+--   -- local slime_run = require('hades.misc.slime_utils')
+--   wk.add({ "<LocalLeader>s", group = "+[S]end (REPL)" })
+--   keymap("n", "<C-CR>", "<Plug>SlimeParagraphSend", opts, "other window")
+--   keymap("n", "<LocalLeader>sp", "<Plug>SlimeParagraphSend", opts, "other window")
 --
+--   keymap(
+--     "n",
+--     "<LocalLeader>sl",
+--     "<cmd>SlimeSend1 devtools::load_all('.')<CR>",
+--     opts,
+--     "R - load all files (for a package)"
+--   )
+--   -- keymap("n", "<localleader>rs", slime_run.send_cell, opts, "other window")
+--   -- keymap("n", "<leader>rr", slime_run.send_cell, opts, "other window")
+-- end
+
 -- -------------------------------------
 -- ------------------------------------- FILE TREE
 -- -------------------------------------
@@ -300,24 +206,17 @@ if isModuleAvailable("telescope.builtin") then
   keymap("n", "<leader>fr", "<cmd>Telescope oldfiles<CR>", opts, "find [r]ecent file")
   keymap("n", "<leader>fs", "<cmd>Telescope live_grep<CR>", opts, "find string in this [d]ir")
   keymap("n", "<leader>fg", "<cmd>Telescope grep_string<CR>", opts, "find string under cursor in dir")
-  keymap("n", "<leader>fb", "<cmd>Telescope buffers<CR>", opts, "find [b]uffer")
+  keymap("n", "<leader>fb", "<cmd>Telescope current_buffer_fuzzy_find<CR>", opts, "find in [b]uffer (fuzzy find)")
+  keymap("n", "<leader>fB", "<cmd>Telescope buffers<CR>", opts, "find [b]uffer")
   keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", opts, "find in [h]elp")
-
-  -- local actions = require('telescope.actions')
-  -- keymap("n", "<Down>", function()
-  --   actions.move_selection_next()
-  -- end, opts, "Telescope -> next item in list")
-  -- keymap("n", "<Up>", function()
-  --   actions.move_selection_previous()
-  -- end, opts, "Telescope -> previous item in list")
-  --
-  -- keymap("i", "<C-q>", function()
-  --   actions.send_selected_to_qflist()
-  --   actions.open_qflist()
-  -- end, opts, "move to prev result")
+  keymap("n", "<leader>fq", "<cmd>Telescope quickfix<CR>", opts, "find [q]uick fix")
+  keymap("n", "<leader>vc", "<cmd>Telescope colorscheme<CR>", opts, "[v]im [c]olosrcheme")
 end
 
--- ------ LSP CONFIG
+-- -------------------------------------
+-- ------------------------------------- LSP CONFIG
+-- -------------------------------------
+
 if isModuleAvailable("lspconfig") then
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -398,7 +297,10 @@ if isModuleAvailable("lspconfig") then
   })
 end
 
--- ------ CMP
+-- -------------------------------------
+-- ------------------------------------- CMP
+-- -------------------------------------
+
 if isModuleAvailable("cmp") then
   local cmp = require("cmp")
   local cmp_select = { behavior = cmp.SelectBehavior.Select }
@@ -414,6 +316,9 @@ end
 -- ------ LuaSnips
 if isModuleAvailable("luasnip") then
   local ls = require("luasnip")
+  keymap("i", "<C-CR>", function()
+    ls.jump(1)
+  end, opts, "jump to next snippet item")
   keymap("i", "<C-l>", function()
     ls.jump(1)
   end, opts, "jump to next snippet item")
@@ -422,112 +327,6 @@ if isModuleAvailable("luasnip") then
   end, opts, "jump to prev snippet item")
 end
 
--- -------- QUARTO
---
-local function send_cell()
-  if vim.b["quarto_is_r_mode"] == nil then
-    vim.fn["slime#send_cell"]()
-    return
-  end
-  if vim.b["quarto_is_r_mode"] == true then
-    vim.g.slime_python_ipython = 0
-    local is_python = require("otter.tools.functions").is_otter_language_context("python")
-    if is_python and not vim.b["reticulate_running"] then
-      vim.fn["slime#send"]("reticulate::repl_python()" .. "\r")
-      vim.b["reticulate_running"] = true
-    end
-    if not is_python and vim.b["reticulate_running"] then
-      vim.fn["slime#send"]("exit" .. "\r")
-      vim.b["reticulate_running"] = false
-    end
-    vim.fn["slime#send_cell"]()
-  end
-end
-
---- Send code to terminal with vim-slime
---- If an R terminal has been opend, this is in r_mode
---- and will handle python code via reticulate when sent
---- from a python chunk.
-local slime_send_region_cmd = ":<C-u>call slime#send_op(visualmode(), 1)<CR>"
-slime_send_region_cmd = vim.api.nvim_replace_termcodes(slime_send_region_cmd, true, false, true)
-local function send_region()
-  -- if filetyps is not quarto, just send_region
-  if vim.bo.filetype ~= "quarto" or vim.b["quarto_is_r_mode"] == nil then
-    vim.cmd("normal" .. slime_send_region_cmd)
-    return
-  end
-  if vim.b["quarto_is_r_mode"] == true then
-    vim.g.slime_python_ipython = 0
-    local is_python = require("otter.tools.functions").is_otter_language_context("python")
-    if is_python and not vim.b["reticulate_running"] then
-      vim.fn["slime#send"]("reticulate::repl_python()" .. "\r")
-      vim.b["reticulate_running"] = true
-    end
-    if not is_python and vim.b["reticulate_running"] then
-      vim.fn["slime#send"]("exit" .. "\r")
-      vim.b["reticulate_running"] = false
-    end
-    vim.cmd("normal" .. slime_send_region_cmd)
-  end
-end
-
-local is_code_chunk = function()
-  local current, _ = require("otter.keeper").get_current_language_context()
-  if current then
-    return true
-  else
-    return false
-  end
-end
-
---- Insert code chunk of given language
---- Splits current chunk if already within a chunk
---- @param lang string
-local insert_code_chunk = function(lang)
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "n", true)
-  local keys
-  if is_code_chunk() then
-    keys = [[o```<cr><cr>```{]] .. lang .. [[}<esc>o]]
-  else
-    keys = [[o```{]] .. lang .. [[}<cr>```<esc>O]]
-  end
-  keys = vim.api.nvim_replace_termcodes(keys, true, false, true)
-  vim.api.nvim_feedkeys(keys, "n", false)
-end
-
-local insert_r_chunk = function()
-  insert_code_chunk("r")
-end
-
-local insert_py_chunk = function()
-  insert_code_chunk("python")
-end
-
-local insert_lua_chunk = function()
-  insert_code_chunk("lua")
-end
-
-local insert_julia_chunk = function()
-  insert_code_chunk("julia")
-end
-
-local insert_bash_chunk = function()
-  insert_code_chunk("bash")
-end
-
-local insert_ojs_chunk = function()
-  insert_code_chunk("ojs")
-end
-
-if isModuleAvailable("quarto") then
-  -- local fer_quarto = require("hades.misc.slime_utils")
-  -- keymap("n", "<C-CR>", fer_quarto.send_cell(), opts, "[q]uarto send files")
-  keymap("n", "<C-CR>", send_cell, opts, "[q]uarto send files")
-  keymap("n", "<m-i>", insert_r_chunk, opts, "insert R code chunk [q]uarto send files")
-  keymap("n", "<leader>qp", "<cmd>lua require('quarto').quartoPreview()<CR>", opts, "quarto [p]review")
-  -- robar todo de [aqui](https://github.com/jmbuhr/quarto-nvim-kickstarter/blob/main/lua/config/keymap.lua)
-end
---
 -- -------- TERMINAL
 if isModuleAvailable("toggleterm") then
   local term = require("toggleterm")

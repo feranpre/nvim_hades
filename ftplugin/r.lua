@@ -3,3 +3,4 @@
 
 -- keymap("n", "<LocalLeader>la", "<cmd>call SendCmdToR('devtools::load_all()')<cr>", opts, "[L]oad all")
 -- keymap("n", "<LocalLeader>sl", require("Nvim-R").RSendLine, opts, "[L]oad all")
+vim.b.slime_cell_delimiter = "#\\s\\=%%"

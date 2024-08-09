@@ -1,3 +1,7 @@
+-- create a conda environment
+-- install in the conda environment "python3 -m pip install jupyter matplotlib plotly"
+-- after that it shoud work
+
 return {
 
   { -- requires plugins in lua/plugins/treesitter.lua and lua/plugins/lsp.lua
@@ -33,7 +37,8 @@ return {
     },
   },
 
-  { -- send code from python/r/qmd documets to a terminal or REPL
+  {
+    -- send code from python/r/qmd documets to a terminal or REPL
     -- like ipython, R, bash
     "jpalardy/vim-slime",
     dev = false,
@@ -68,17 +73,6 @@ return {
       vim.g.slime_suggest_default = true
       vim.g.slime_menu_config = false
       vim.g.slime_neovim_ignore_unlisted = true
-
-      local function mark_terminal()
-        local job_id = vim.b.terminal_job_id
-        vim.print("job_id: " .. job_id)
-      end
-
-      local function set_terminal()
-        vim.fn.call("slime#config", {})
-      end
-      vim.keymap.set("n", "<leader>cm", mark_terminal, { desc = "[m]ark terminal" })
-      vim.keymap.set("n", "<leader>cs", set_terminal, { desc = "[s]et terminal" })
     end,
   },
 
@@ -109,15 +103,15 @@ return {
     },
     config = function(_, opts)
       require("img-clip").setup(opts)
-      vim.keymap.set("n", "<leader>ii", ":PasteImage<cr>", { desc = "insert [i]mage from clipboard" })
+      -- vim.keymap.set("n", "<leader>ii", ":PasteImage<cr>", { desc = "insert [i]mage from clipboard" })
     end,
   },
 
   { -- preview equations
     "jbyuki/nabla.nvim",
-    keys = {
-      { "<leader>qm", ':lua require"nabla".toggle_virt()<cr>', desc = "toggle [m]ath equations" },
-    },
+    -- keys = {
+    --   { "<leader>qm", ':lua require"nabla".toggle_virt()<cr>', desc = "toggle [m]ath equations" },
+    -- },
   },
 
   {

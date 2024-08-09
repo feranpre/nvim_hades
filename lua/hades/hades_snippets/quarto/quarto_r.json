@@ -1,0 +1,36 @@
+{
+  "rcode": {
+    "prefix": "rcode",
+    "body": ["```{r} ", 
+      "#| label: ''",
+      "#| echo: false ",
+      "$1",
+      "```"],
+    "description": "r code"
+  },
+  "rchunk": {
+    "prefix": "rchunk",
+    "body": [
+      "```{r}",
+      "#| echo: false ",
+      "```"
+    ],
+    "description": "rchunk"
+  },
+
+  "rfig": {
+    "prefix": "rfig",
+    "body": [
+      "```{r}",
+      "#| echo: false ",
+      "#| label: ",
+      "#| fig-cap: ",
+      "#| fig-alt: ",
+      "#| fig-height: 1.5",
+      "#| fig-width: 6",
+      "```"
+    ],
+    "description": "rfig"
+  }
+
+}

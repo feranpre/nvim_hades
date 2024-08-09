@@ -44,8 +44,15 @@
       {
         "language": "r",
         "path": "./r/graficos.json"
+      }, 
+      {
+        "language": "quarto",
+        "path": "./quarto/quarto_base.json"
+      },
+      {
+        "language": "quarto",
+        "path": "./quarto/quarto_r.json"
       }
-
     ]
   }
 }

@@ -1,3 +1,8 @@
+-- vim.cmd.colorscheme("onedark")
+-- vim.cmd.colorscheme("onelight")
+-- vim.cmd.colorscheme("onedark_vivid")
+-- vim.cmd.colorscheme("onedark_dark")
+
 -- set colorscheme and overwrite highlights
 -- vim.cmd.colorscheme("catppuccin-frappe")
 vim.cmd.colorscheme("catppuccin-mocha")

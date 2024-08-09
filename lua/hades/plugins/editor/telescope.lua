@@ -1,7 +1,7 @@
 local config = function()
-  local telescope = require('telescope')
+  local telescope = require("telescope")
   -- local actions = require 'telescope.actions'
-  local previewers = require('telescope.previewers')
+  local previewers = require("telescope.previewers")
   local new_maker = function(filepath, bufnr, opts)
     opts = opts or {}
     filepath = vim.fn.expand(filepath)
@@ -19,82 +19,86 @@ local config = function()
   telescope.setup({
     buffer_previewer_maker = new_maker,
     file_ignore_patterns = {
-      'node_modules',
-      '%_files/*.html',
-      '%_cache',
-      '.git/',
-      'site_libs',
-      '.venv',
+      "node_modules",
+      "%_files/*.html",
+      "%_cache",
+      ".git/",
+      "site_libs",
+      ".venv",
     },
-    layout_strategy = 'flex',
-    sorting_strategy = 'ascending',
+    layout_strategy = "flex",
+    sorting_strategy = "ascending",
     layout_config = {
-      prompt_position = 'top',
+      prompt_position = "top",
     },
     pickers = {
       find_files = {
-        theme = 'dropdown',
+        theme = "dropdown",
         previewer = true,
         hidden = false,
         find_command = {
-          'rg',
-          '--files',
-          '--hidden',
-          '--glob',
-          '!.git/*',
-          '--glob',
-          '!**/.Rpro.user/*',
-          '--glob',
-          '!_site/*',
-          '--glob',
-          '!docs/**/*.html',
-          '-L',
+          "rg",
+          "--files",
+          "--hidden",
+          "--glob",
+          "!.git/*",
+          "--glob",
+          "!**/.Rpro.user/*",
+          "--glob",
+          "!_site/*",
+          "--glob",
+          "!docs/**/*.html",
+          "-L",
         },
       },
       live_grep = {
-        theme = 'dropdown',
+        theme = "dropdown",
         previewer = false,
       },
       find_buffers = {
-        theme = 'dropdown',
+        theme = "dropdown",
         previewer = false,
       },
       keymaps = {
-        theme = 'dropdown',
+        theme = "dropdown",
         previewer = false,
       },
     },
     extensions = {
-      ['ui-select'] = {
-        require('telescope.themes').get_dropdown(),
+      ["ui-select"] = {
+        require("telescope.themes").get_dropdown(),
       },
       fzf = {
         fuzzy = true, -- false will only do exact matching
         override_generic_sorter = true, -- override the generic sorter
         override_file_sorter = true, -- override the file sorter
-        case_mode = 'smart_case', -- or 'ignore_case' or 'respect_case'
+        case_mode = "smart_case", -- or 'ignore_case' or 'respect_case'
       },
     },
   })
+  telescope.load_extension("fzf")
+  telescope.load_extension("ui-select")
+  telescope.load_extension("dap")
+  telescope.load_extension("zotero")
 end
 
 return {
-  'nvim-telescope/telescope.nvim',
+  "nvim-telescope/telescope.nvim",
   lazy = true,
   dependencies = {
-    { 'nvim-lua/plenary.nvim' },
-    { 'nvim-telescope/telescope-ui-select.nvim' },
-    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-    { 'nvim-telescope/telescope-dap.nvim' },
+    { "nvim-lua/plenary.nvim" },
+    { "nvim-telescope/telescope-ui-select.nvim" },
+    { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    { "nvim-telescope/telescope-dap.nvim" },
     {
-      'jmbuhr/telescope-zotero.nvim',
+      "jmbuhr/telescope-zotero.nvim",
       enabled = true,
       dev = false,
       dependencies = {
-        { 'kkharji/sqlite.lua' },
+        { "kkharji/sqlite.lua" },
       },
       config = function()
-        vim.keymap.set('n', '<leader>fz', ':Telescope zotero<cr>', { desc = '[z]otero' })
+        -- vim.keymap.set('n', '<leader>fz', ':Telescope zotero<cr>', { desc = '[z]otero' })
       end,
     },
   },

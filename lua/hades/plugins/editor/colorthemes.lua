@@ -1,34 +1,45 @@
 return {
-  { "shaunsingh/nord.nvim", enabled = false, lazy = false, priority = 1000 },
-  { "folke/tokyonight.nvim", enabled = false, lazy = false, priority = 1000 },
-  { "EdenEast/nightfox.nvim", enabled = false, lazy = false, priority = 1000 },
+  { "shaunsingh/nord.nvim", enabled = true, lazy = false, priority = 1000 },
+  { "folke/tokyonight.nvim", enabled = true, lazy = false, priority = 1000 },
+  { "EdenEast/nightfox.nvim", enabled = true, lazy = false, priority = 1000 },
   {
     "catppuccin/nvim",
+    enabled = true,
     name = "catppuccin",
     lazy = true, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
-    enabled = true,
+    config = function()
+      -- vim.cmd.colorscheme("catppuccin-mocha")
+      -- vim.cmd.colorscheme("catppuccin-mocha")
+    end,
   },
   {
     "olimorris/onedarkpro.nvim",
-    enabled = false,
+    enabled = true,
     lazy = false,
     priority = 1000,
+    config = function()
+      -- vim.cmd.colorscheme("onedark")
+      -- vim.cmd.colorscheme("onelight")
+      -- vim.cmd.colorscheme("onedark_vivid")
+      -- vim.cmd.colorscheme("onedark_dark")
+    end,
   },
 
   {
     "neanias/everforest-nvim",
-    enabled = false,
+    enabled = true,
     lazy = false,
     priority = 1000,
   },
   {
     "loctvl842/monokai-pro.nvim",
-    enabled = false,
+    enabled = true,
     lazy = false,
     priority = 1000,
     config = function()
       require("monokai-pro").setup()
+      -- vim.cmd.colorscheme("monokai-pro")
     end,
   },
 
