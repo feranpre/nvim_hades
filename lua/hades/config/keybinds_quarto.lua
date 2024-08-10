@@ -158,6 +158,11 @@ if isModuleAvailable("quarto") then
   keymap("n", "<leader>ii", "<cmd>PasteImage<cr>", opts, "insert [i]mage from clipboard")
 
   -- ------------------------
+  -- ------------------------ otter
+  -- ------------------------
+  -- keymap("n", "<leader>oa", require("otter").activate, opts, "[o]tter [a]ctivate (toggle)")
+
+  -- ------------------------
   -- ------------------------ SLIME
   -- ------------------------
   local function mark_terminal()
