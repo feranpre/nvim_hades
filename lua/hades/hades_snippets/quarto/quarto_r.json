@@ -2,7 +2,6 @@
   "rcode": {
     "prefix": "rcode",
     "body": ["```{r} ", 
-      "# label: ''",
       "#| echo: false ",
       "#| results: 'asis'",
       "$1",
