@@ -32,7 +32,7 @@ keymap("n", "<C-q>", "<cmd>q<CR>", opts, "[q]uit buffer")
 
 -- save file
 keymap({ "i", "v", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", opts, "[s]ave file")
-keymap("n", "<leader>Q", "<cmd>qa<cr>", opts, "[q]uit all")
+keymap("n", "<leader>qq", "<cmd>qa<cr>", opts, "[q]uit all")
 
 -- Uber yank --
 keymap({ "n", "v" }, "<leader>y", '"+y', opts, "[y]ank out of nvim")

@@ -128,8 +128,8 @@ if isModuleAvailable("quarto") then
   -- keymap("n", "<C-CR>", fer_quarto.send_cell(), opts, "[q]uarto send files")
   keymap("n", "<C-CR>", send_cell, opts, "[q]uarto send cell")
   -- keymap("n", "<C-CR>", send_cell, opts, "[q]uarto send files")
-  keymap("n", "<leader>qp", "<cmd>lua require('quarto').quartoPreview()<CR>", opts, "quarto [p]review")
-  keymap("n", "<leader>qp", "<cmd>lua require('quarto').quartoClosePreview()<CR>", opts, "quarto [q]uit preview")
+  keymap("n", "<leader>qp", "<cmd>lua require('quarto').quartoPreview()<CR>", opts, "[q]uarto [p]review")
+  keymap("n", "<leader>qc", "<cmd>lua require('quarto').quartoClosePreview()<CR>", opts, "[q]uarto [c]lose preview")
 
   -- CHUNKS
   keymap("n", "<m-i>", insert_r_chunk, opts, "[i]nsert R chunk")
