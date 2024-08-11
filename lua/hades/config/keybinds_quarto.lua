@@ -126,9 +126,10 @@ if isModuleAvailable("quarto") then
 
   -- local fer_quarto = require("hades.misc.slime_utils")
   -- keymap("n", "<C-CR>", fer_quarto.send_cell(), opts, "[q]uarto send files")
-  keymap("n", "<C-CR>", send_cell, opts, "[q]uarto send files")
-  keymap("n", "<C-CR>", send_cell, opts, "[q]uarto send files")
+  keymap("n", "<C-CR>", send_cell, opts, "[q]uarto send cell")
+  -- keymap("n", "<C-CR>", send_cell, opts, "[q]uarto send files")
   keymap("n", "<leader>qp", "<cmd>lua require('quarto').quartoPreview()<CR>", opts, "quarto [p]review")
+  keymap("n", "<leader>qp", "<cmd>lua require('quarto').quartoClosePreview()<CR>", opts, "quarto [q]uit preview")
 
   -- CHUNKS
   keymap("n", "<m-i>", insert_r_chunk, opts, "[i]nsert R chunk")
