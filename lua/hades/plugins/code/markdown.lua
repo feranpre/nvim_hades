@@ -1,10 +1,10 @@
 return {
   "MeanderingProgrammer/render-markdown.nvim",
   opts = {
-    file_types = { "markdown", "norg", "rmd", "org", "qmd" },
+    file_types = { "markdown", "norg", "rmd", "org", "quarto" },
   },
   dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
-  ft = { "markdown", "norg", "rmd", "org", "qmd" },
+  ft = { "markdown", "norg", "rmd", "org", "quarto" },
   config = function(_, opts)
     require("render-markdown").setup(opts)
     -- LazyVim.toggle.map("<leader>um", {

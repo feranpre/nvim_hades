@@ -18,7 +18,7 @@ return {
       user_maps_only = true,
 
       Rout_more_colors = true,
-      rconsole_width = 40,
+      rconsole_width = 80,
       objbr_allnames = true,
       objbr_auto_start = false,
       objbr_h = 10,
