@@ -2,8 +2,9 @@
   "rcode": {
     "prefix": "rcode",
     "body": ["```{r} ", 
-      "#| label: ''",
+      "# label: ''",
       "#| echo: false ",
+      "#| results: 'asis'",
       "$1",
       "```"],
     "description": "r code"
@@ -13,6 +14,8 @@
     "body": [
       "```{r}",
       "#| echo: false ",
+      "#| results: 'asis'",
+      "$1",
       "```"
     ],
     "description": "rchunk"
