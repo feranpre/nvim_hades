@@ -2,7 +2,7 @@ local isModuleAvailable = require("hades.misc.utils").isModuleAvailable
 if isModuleAvailable("r") then
   vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
     desc = "r file binds",
-    pattern = "r",
+    pattern = { "r", "quarto" },
     callback = function(ev)
       local opts = { noremap = true, silent = true, desc = nil }
       -- local keymap = require("hades.misc.utils").keymap

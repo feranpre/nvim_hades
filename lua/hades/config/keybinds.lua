@@ -115,7 +115,9 @@ require("hades.config.keybinds_r_nvim")
 -- -------------------------------------
 -- ------------------------------------- QUARTO
 -- -------------------------------------
-require("hades.config.keybinds_quarto")
+-- require("hades.config.keybinds_quarto")
+-- keymap("n", "<leader>qp", "<cmd>lua require('quarto').quartoPreview()<CR>", opts, "[q]uarto [p]review")
+-- keymap("n", "<leader>qc", "<cmd>lua require('quarto').quartoClosePreview()<CR>", opts, "[q]uarto [c]lose preview")
 
 -- -------------------------------------
 -- ------------------------------------- SPECTRE

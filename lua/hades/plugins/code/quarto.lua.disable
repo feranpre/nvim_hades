@@ -7,30 +7,19 @@ return {
   { -- requires plugins in lua/plugins/treesitter.lua and lua/plugins/lsp.lua
     -- for complete functionality (language features)
     "quarto-dev/quarto-nvim",
+    enabled = false,
     ft = { "quarto" },
     dev = false,
-    opts = {},
+    opts = {
+      lspFeatures = {
+        languages = { "r", "python", "julia", "bash", "lua", "html" },
+      },
+    },
     dependencies = {
       -- for language features in code cells
       -- configured in lua/plugins/lsp.lua and
       -- added as a nvim-cmp source in lua/plugins/completion.lua
-      "jmbuhr/otter.nvim",
-    },
-  },
-  {
-    -- for lsp features in code cells / embedded code
-    "jmbuhr/otter.nvim",
-    dev = false,
-    dependencies = {
-      {
-        "neovim/nvim-lspconfig",
-        "nvim-treesitter/nvim-treesitter",
-      },
-    },
-    opts = {
-      verbose = {
-        no_code_found = false,
-      },
+      -- "jmbuhr/otter.nvim",
     },
   },
   { -- directly open ipynb files as quarto docuements
@@ -56,6 +45,7 @@ return {
     -- send code from python/r/qmd documets to a terminal or REPL
     -- like ipython, R, bash
     "jpalardy/vim-slime",
+    enabled = false,
     dev = false,
     init = function()
       vim.b["quarto_is_python_chunk"] = false
