@@ -72,22 +72,30 @@
   "carga_datos": {
     "prefix": "carga_datos",
     "body": [
-      "
-      dir.create('DATOS_BASE', showWarnings = FALSE)
-      dir.create('DATOS_EXPORTADOS', showWarnings = FALSE)
-      dir.create('DATOS_R', showWarnings = FALSE)
-      dir.create('GRAFICOS', showWarnings = FALSE)
-      dir.create('versiones', showWarnings = FALSE)
-
-
-      rm(list=ls(all.names = TRUE))
-      DATOS <- foreign::read.spss('./DATOS_BASE/Datos.sav', to.data.frame = TRUE)
-      DATOS <- readxl::read_excel('./DATOS_BASE/Datos.xlsx', sheet = 1)
-      DATOS = janitor::clean_names(DATOS)
-      names(DATOS) = toupper(names(DATOS))
-
-      save(DATOS,file='./DATOS_R/DATOS.RData')         
-      "
+      
+     "dir.create('DATOS_BASE', showWarnings = FALSE)",
+     "dir.create('DATOS_EXPORTADOS', showWarnings = FALSE)",
+     "dir.create('DATOS_R', showWarnings = FALSE)",
+     "dir.create('GRAFICOS', showWarnings = FALSE)",
+     "dir.create('versiones', showWarnings = FALSE)",
+     "",
+     "",
+     "list.of.packages <- c('ggplot2', 'janitor', 'readxl', 'foreign')",
+     "new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[, 'Package'])]",
+     "if (length(new.packages)) install.packages(new.packages, dependencies = TRUE)",
+     "rm(list=ls(all.names = TRUE))",
+     "",
+     "",
+     "DATOS <- foreign::read.spss('./DATOS_BASE/Datos.sav', to.data.frame = TRUE)",
+     "DATOS <- readxl::read_excel('./DATOS_BASE/Datos.xlsx', sheet = 1)",
+     "DATOS = janitor::clean_names(DATOS)",
+     "names(DATOS) = toupper(names(DATOS))",
+     "",
+     "",
+     "",
+     "",
+     "save(DATOS,file='./DATOS_R/DATOS.RData')         "
+      
     ],
     "description": "carga datos más habituales"
   }
