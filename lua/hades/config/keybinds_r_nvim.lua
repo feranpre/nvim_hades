@@ -44,6 +44,7 @@ if isModuleAvailable("r") then
 
       -- Quarto
       keymap_buffer(ev.buf, "n", "<localleader>qp", "<Plug>RQuartoPreview", opts, "[q]uarto [p]review")
+      keymap_buffer(ev.buf, "n", "<localleader>qs", "<Plug>RQuartoStop", opts, "[q]uarto [s]top")
       keymap_buffer(ev.buf, "n", "<localleader>qr", "<Plug>RQuartoRender", opts, "[q]uarto [r]ender")
 
       -- Help/print

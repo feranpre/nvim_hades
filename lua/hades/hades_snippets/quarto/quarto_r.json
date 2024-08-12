@@ -33,6 +33,70 @@
       "```"
     ],
     "description": "rfig"
+  },
+  "cabecera": {
+    "prefix": "cabecera",
+    "body": [
+      "---",
+      "title: $1",
+      "author: Fernando Andrés Pretel",
+      "format: ",
+      "    # docx:",
+      "      # reference-doc: custom-reference-doc.docx",
+      "    pdf:",
+      "      documentclass: scrartcl",
+      "      papersize: a4paper",
+      "      toc: true",
+      "      toc-depth: 2",
+      "      number-sections: true",
+      "      number-depth: 4",
+      "      colorlinks: true",
+      "      mainfont: DejaVu Sans",
+      "      mathfont: DejaVu Math TeX Gyre",
+      "      monofont: Source Code Pro",
+      "      geometry:",
+      "      - inner=3cm",
+      "      - outer=4cm",
+      "      - top=3cm",
+      "      - bottom=4cm",
+      "      - headsep=22pt",
+      "      - headheight=11pt",
+      "      - footskip=33pt",
+      "      - ignorehead",
+      "      - ignorefoot",
+      "      - heightrounded",
+      "      linestretch: 1.5",
+      "      header-includes: |",
+      "        \\usepackage{pdflscape}",
+      "        \\newcommand{\\blandscape}{\\begin{landscape}}",
+      "        \\newcommand{\\elandscape}{\\end{landscape}}",
+      "---",
+      "# Seccion sin numero {.unnumbered}",
+      "# Seccion sin numero ni entrada en el indice {.unnumbered .unlisted}",
+      "$2"
+    ],
+    "description": "Cabecera básica yaml para quarto"
+  }, 
+  "new page": {
+    "prefix": "new_page",
+    "body": ["\\newpage"],
+    "description": "latex new page"
+  },
+  "small": {
+    "prefix": "small",
+    "body": ["\\begingroup\\small", "$1","\\endgroup"],
+    "description": "font resize (latex)"
+  },
+  "tiny": {
+    "prefix": "tiny",
+    "body": ["\\begingroup\\tiny", "$1","\\endgroup"],
+    "description": "font resize (latex)"
+  },
+  "tbl-create": {
+    "prefix": "tbl-create",
+    "body": ["::: {#tbl-${1:nombre_tabla}}","TABLA" ,"${2:titulo_tabla}",":::"],
+    "description": "insert table caption for later reference"
   }
+
 
 }
