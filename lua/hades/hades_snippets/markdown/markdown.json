@@ -8,7 +8,7 @@
   }, 
   "sec_add": {
     "prefix": "sec_add",
-    "body": ["# ${1:section_title} {#sec-${1:section_title}}"],
+    "body": ["{1:section_title} {#sec-${1:section_title}}"],
     "description": "add a section ref"
   },
   "sec_ref": {
