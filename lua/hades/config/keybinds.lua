@@ -370,3 +370,6 @@ if isModuleAvailable("harpoon") then
 end
 
 keymap("n", "<leader>vs", "<cmd>VenvSelect<cr>", opts, "[v]env [s]election")
+keymap("n", "<leader>go", function()
+  require("auto-pandoc").run_pandoc()
+end, opts, "[g]o [o]utput PDF")

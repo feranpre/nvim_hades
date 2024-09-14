@@ -7,7 +7,7 @@ require("lazy").setup({
   { import = "hades.plugins.lsp" },
   { import = "hades.plugins.code" },
   { import = "hades.plugins.editor" },
-  --   { import = "hades.plugins.notes" },
+  { import = "hades.plugins.notes" },
 })
 
 require("hades.config.options")

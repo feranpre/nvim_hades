@@ -1,6 +1,6 @@
 return {
   "sokinpui/open-in-obsidian.nvim",
-  enabled = true,
+  enabled = false,
 
   config = function()
     require("obs")
