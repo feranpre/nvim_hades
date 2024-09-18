@@ -1,6 +1,7 @@
 return {
   {
     "benlubas/molten-nvim",
+    enabled = false,
     -- version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
     dependencies = { "3rd/image.nvim" },
     build = ":UpdateRemotePlugins",
@@ -13,6 +14,7 @@ return {
   {
     -- see the image.nvim readme for more information about configuring this plugin
     "3rd/image.nvim",
+    enabled = false,
     opts = {
       backend = "ueberzug", -- whatever backend you would like to use
       max_width = 100,
@@ -25,6 +27,7 @@ return {
   },
   {
     "vhyrro/luarocks.nvim",
+    enabled = false,
     priority = 1001, -- this plugin needs to run before anything else
     opts = {
       rocks = { "magick" },
