@@ -1,43 +1,93 @@
 {
-  'cabecera_html': {
-    'prefix': 'cabecera_html',
-    'body': ['
-      #' ---
-      #' title: 'Resultados temporales'
-      #' author: 'Fernando Andres-Pretel'
-      #' date: '`r format(Sys.time(), '%d %B, %Y')`'
-      #' output:
-      #'    html_document:
-      #'         toc: yes
-      #'         toc_depth: 4
-      #'         number_sections: true
-      #'         toc_float:
-      #'            collapsed: true
-      #' ---
-
-      #+ , echo=FALSE, include=FALSE
-      rm(list = ls())
-      DATOS <- NULL
-      load('DATOS_R/DATOS.RData')
-
-      dir.create('GRAFICOS', showWarnings = FALSE)
-
-      #' # Titulo 1
-      #' Formula:
-      #'
-      #' \$\$
-      #'  H_0: \tilde\mu = \tilde\mu_0\\
-      #'  H_1: \tilde\mu \ne \tilde\mu_0
-      #' \$\$
-      #'
-      #' web para las formulas [aqui](https://rpruim.github.io/s341/S19/from-class/MathinRmd.html)
-      #'
-      #+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''
-
-      ${1:CODE}
-      '],
-    'description': 'description'
+  "project": {
+    "prefix": "project_Rproj",
+    "body": [
+      "Version: 1.0",
+      "RestoreWorkspace: Default",
+      "SaveWorkspace: Default",
+      "AlwaysSaveHistory: Default",
+      "",
+      "EnableCodeIndexing: Yes",
+      "UseSpacesForTab: Yes",
+      "NumSpacesForTab: 2",
+      "Encoding: UTF-8",
+      "",
+      "RnwWeave: Sweave",
+      "LaTeX: XeLaTeX"
+    ],
+    "description": "project file"
+  },
+  "lintr": {
+    "prefix": "lintr",
+    "body": [
+      "linters: linters_with_defaults(",
+      "              line_length_linter(120),",
+      "              commented_code_linter = NULL,",
+      "              assignment_linter = NULL,",
+      "              trailing_whitespace_linter = NULL,",
+      "              object_name_linter = NULL",
+      "          )",
+      "exclusions: list()"
+    ],
+    "description": "base de lintr"
+  },
+  "chunk": {
+    "prefix": "chunk",
+    "body": ["#+ , results = 'asis', echo = FALSE, message = FALSE, warning = FALSE, eval =TRUE, fig.width = 10, fig.height = 10, unit = 'cm', comments = ''"],
+    "description": "insert html chunk"
+  },
+  "cabecera_html": {
+    "prefix": "cabecera_html",
+    "body": [
+      "#' ---",
+      "#' title: '${1:Resultados temporales}'",
+      "#' author: 'Fernando Andres-Pretel'",
+      "#' output:",
+      "#'    html_document:",
+      "#'         toc: yes",
+      "#'         toc_depth: 4",
+      "#'         number_sections: true",
+      "#'         toc_float:",
+      "#'            collapsed: true",
+      "#' ---",
+      "#+ , echo=FALSE, include=FALSE",
+      "rm(list = ls(all.names = TRUE))",
+      "DATOS <- NULL",
+      "load('DATOS_R/DATOS.RData')",
+      "#' # Titulo 1",
+      "#'",
+      "#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''",
+      "${2:CODIGO}"
+      ],
+    "description": "cabecera para archivos HTML en R",
+  },
+  "carga_datos": {
+    "prefix": "carga_datos",
+    "body": [
+     "dir.create('DATOS_BASE', showWarnings = FALSE)",
+     "dir.create('DATOS_EXPORTADOS', showWarnings = FALSE)",
+     "dir.create('DATOS_R', showWarnings = FALSE)",
+     "dir.create('GRAFICOS', showWarnings = FALSE)",
+     "dir.create('versiones', showWarnings = FALSE)",
+     "",
+     "",
+     "list.of.packages <- c('ggplot2', 'janitor', 'readxl', 'foreign')",
+     "new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[, 'Package'])]",
+     "if (length(new.packages)) install.packages(new.packages, dependencies = TRUE)",
+     "rm(list=ls(all.names = TRUE))",
+     "",
+     "",
+     "DATOS <- foreign::read.spss('./DATOS_BASE/Datos.sav', to.data.frame = TRUE)",
+     "DATOS <- readxl::read_excel('./DATOS_BASE/Datos.xlsx', sheet = 1)",
+     "DATOS = janitor::clean_names(DATOS)",
+     "names(DATOS) = toupper(names(DATOS))",
+     "",
+     "",
+     "",
+     "",
+     "save(DATOS,file='./DATOS_R/DATOS.RData')"
+    ],
+    "description": "carga datos más habituales",
   }
-
 
 }
