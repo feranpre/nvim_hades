@@ -373,3 +373,8 @@ keymap("n", "<leader>vs", "<cmd>VenvSelect<cr>", opts, "[v]env [s]election")
 keymap("n", "<leader>go", function()
   require("auto-pandoc").run_pandoc()
 end, opts, "[g]o [o]utput PDF")
+
+-- md-pdf
+-- keymap("n", "<leader>qp", function()
+--   require("md-pdf").convert_md_to_pdf()
+-- end, opts, "render [p]df (md-pdf plugin)")

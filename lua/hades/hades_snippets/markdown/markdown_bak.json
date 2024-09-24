@@ -1,0 +1,21 @@
+{
+  "create link": {
+    "prefix": "link",
+    "body": [
+      "[${1:text}](${2:link})"
+    ],
+    "description": "Link creation"
+  }, 
+  "sec_add": {
+    "prefix": "sec_add",
+    "body": ["{#sec-${1:section_title}}"],
+    "description": "add a section ref"
+  },
+  "sec_ref": {
+    "prefix": "sec_ref",
+    "body": ["@sec-${1:section_title}"],
+    "description": "section reference"
+  }, 
+
+
+}

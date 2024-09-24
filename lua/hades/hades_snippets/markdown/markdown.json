@@ -15,5 +15,43 @@
     "prefix": "sec_ref",
     "body": ["@sec-${1:section_title}"],
     "description": "section reference"
+  }, 
+  "cabecera": {
+    "prefix": "cabecera_md",
+    "body": [
+      "---",
+      "title: ${1:titulo}",
+      "author: Fernando Andrés Pretel",
+      "format: ",
+      "    pdf:",
+      "      documentclass: scrartcl",
+      "      papersize: a4paper",
+      "      toc: true",
+      "      toc-depth: 2",
+      "      number-sections: true",
+      "      number-depth: 4",
+      "      colorlinks: true",
+      "      mainfont: DejaVu Sans",
+      "      mathfont: DejaVu Math TeX Gyre",
+      "      monofont: Source Code Pro",
+      "      geometry:",
+      "      - inner=3cm",
+      "      - outer=4cm",
+      "      - top=3cm",
+      "      - bottom=4cm",
+      "      - headsep=22pt",
+      "      - headheight=11pt",
+      "      - footskip=33pt",
+      "      - ignorehead",
+      "      - ignorefoot",
+      "      - heightrounded",
+      "      linestretch: 1.5",
+      "      header-includes: |",
+      "        \\usepackage{pdflscape}",
+      "        \\newcommand{\\blandscape}{\\begin{landscape}}",
+      "        \\newcommand{\\elandscape}{\\end{landscape}}",
+      "---"
+    ],
+    "description": "Cabecera básica yaml para md"
   }
 }
