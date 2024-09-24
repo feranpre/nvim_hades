@@ -2,244 +2,243 @@
   "reg_log_bin": {
     "prefix": "reg_log_bin",
     "body": [
-    "
-    #'
-    #' ## Modelo saturado
-    #'
-    #'
-    #+ , results = 'asis', error = TRUE, eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-    variables.reg <- c('HTO_NUM','GRADO_RD_DXM_NUM', 'QUISTE_VERT_SIZE_NE_6M_CAT_3_NUM')
-    DATOS.LIMPIOS <- na.omit(DATOS[,variables.reg])
-    (model.design <- paste0(names(DATOS.LIMPIOS)[1], ' ~ ', paste(names(DATOS.LIMPIOS)[2:ncol(DATOS.LIMPIOS)],collapse=' + ')))
-    modelo.1.SATURADO <- glm(as.formula(model.design),
-    data = DATOS.LIMPIOS, family = 'binomial')
-    sum.modelo.1.saturado <- as.data.frame(summary(modelo.1.SATURADO)\\$coefficients)
-    names(sum.modelo.1.saturado)<-c('Coefficient', 'Std. Error', 'Wald', 'p')
-    knitr::kable(cbind(OR = exp(modelo.1.SATURADO\\$coefficients), exp(confint(modelo.1.SATURADO)),sum.modelo.1.saturado))
-
-    #knitr::kable(cbind(OR = exp(modelo.1.SATURADO\\$coefficients), exp(confint(modelo.1.SATURADO)), Wald = summary(modelo.1.SATURADO)\\$coefficients[,3], p = summary(modelo.1.SATURADO)\\$coefficients[,'Pr(>|z|)']))
-    #summary(modelo.1.SATURADO)
-    knitr::kable(DescTools::PseudoR2(modelo.1.SATURADO, which = c('McFadden', 'CoxSnell', 'Nagelkerke')))
-
-    #+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-    ResourceSelection::hoslem.test(x= modelo.1.SATURADO\\$y, fitted(modelo.1.SATURADO))
-
-
-    #'
-    #'
-    #' ### Curva ROC
-    #'
-    #'
-    #+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-    #................... SOBRE UNA VARIABLE SIN MAS ....................
-    # roc_full_resolution <- pROC::roc(DATOS\\$INDEPEND_NUM,DATOS\\$CABNEU_GLIA)
-    #.................. SOBRE UN MODELO DE REGRESION ...................
-    prediction <- predict(modelo.1.SATURADO, DATOS, type = 'response')
-    roc_full_resolution <- pROC::roc(dplyr::pull(DATOS, variables.reg[1]), prediction)
-
-    cat(paste('AUC =', pROC::auc(roc_full_resolution)))
-
-    roc.plot <- pROC::ggroc(roc_full_resolution, legacy.axes =T)
-    roc.plot + ggplot2::annotate('text', x = .75, y = .25, label = paste('AUC =', round(pROC::auc(roc_full_resolution), 3)))
-    knitr::kable(pROC::coords(roc_full_resolution))
-
-
-    #'
-    #' ## Modelo por pasos
-    #'
-    #'
-    #+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-    modelo.1.STEP <- MASS::stepAIC(modelo.1.SATURADO, direction = 'both', trace = 1)
-
-    #+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-    sum.modelo.1.step <- as.data.frame(summary(modelo.1.STEP)\\$coefficients)
-    names(sum.modelo.1.step)<-c('Coefficient', 'Std. Error', 'Wald', 'p')
-    knitr::kable(cbind(OR = exp(modelo.1.STEP\\$coefficients), exp(confint(modelo.1.STEP)), sum.modelo.1.step))
-    # knitr::kable(cbind(OR = exp(modelo.1.STEP\\$coefficients), exp(confint(modelo.1.STEP)), Wald = summary(modelo.1.STEP)\\$coefficients[,3], p = summary(modelo.1.STEP)\\$coefficients[,'Pr(>|z|)']))
-    # summary(modelo.1.STEP)
-    knitr::kable(DescTools::PseudoR2(modelo.1.STEP, which = c('McFadden', 'CoxSnell', 'Nagelkerke')))
-
-    #+ , echo = FALSE, message = FALSE, warning = FALSE, eval =TRUE, fig.width = 5, fig.height = 5, unit = 'cm'
-    ResourceSelection::hoslem.test(x= modelo.1.STEP\\$y, fitted(modelo.1.STEP))
-
-
-    #'
-    #'
-    #' ### Curva ROC
-    #'
-    #'
-    #+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-    #................... SOBRE UNA VARIABLE SIN MAS ....................
-    # roc_full_resolution <- pROC::roc(DATOS\\$INDEPEND_NUM,DATOS\\$CABNEU_GLIA)
-    #.................. SOBRE UN MODELO DE REGRESION ...................
-    prediction <- predict(modelo.1.STEP, DATOS, type = 'response')
-    roc_full_resolution <- pROC::roc(dplyr::pull(DATOS, variables.reg[1]), prediction)
-
-    cat(paste('AUC =', pROC::auc(roc_full_resolution)))
-
-    roc.plot <- pROC::ggroc(roc_full_resolution, legacy.axes =T)
-    roc.plot + ggplot2::annotate('text', x = .75, y = .25, label = paste('AUC =', round(pROC::auc(roc_full_resolution), 3)))
-    knitr::kable(pROC::coords(roc_full_resolution))
-    "],
+      "#'",
+      "#' ## Modelo saturado",
+      "#'",
+      "#'",
+      "#+ , results = 'asis', error = TRUE, eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''",
+      "variables.reg <- c('HTO_NUM','GRADO_RD_DXM_NUM', 'QUISTE_VERT_SIZE_NE_6M_CAT_3_NUM')",
+      "DATOS.LIMPIOS <- na.omit(DATOS[,variables.reg])",
+      "(model.design <- paste0(names(DATOS.LIMPIOS)[1], ' ~ ', paste(names(DATOS.LIMPIOS)[2:ncol(DATOS.LIMPIOS)],collapse=' + ')))",
+      "modelo.1.SATURADO <- glm(as.formula(model.design),",
+      "data = DATOS.LIMPIOS, family = 'binomial')",
+      "sum.modelo.1.saturado <- as.data.frame(summary(modelo.1.SATURADO)\\$coefficients)",
+      "names(sum.modelo.1.saturado)<-c('Coefficient', 'Std. Error', 'Wald', 'p')",
+      "knitr::kable(cbind(OR = exp(modelo.1.SATURADO\\$coefficients), exp(confint(modelo.1.SATURADO)),sum.modelo.1.saturado))",
+      "",
+      "#knitr::kable(cbind(OR = exp(modelo.1.SATURADO\\$coefficients), exp(confint(modelo.1.SATURADO)), Wald = summary(modelo.1.SATURADO)\\$coefficients[,3], p = summary(modelo.1.SATURADO)\\$coefficients[,'Pr(>|z|)']))",
+      "#summary(modelo.1.SATURADO)",
+      "knitr::kable(DescTools::PseudoR2(modelo.1.SATURADO, which = c('McFadden', 'CoxSnell', 'Nagelkerke')))",
+      "",
+      "#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''",
+      "ResourceSelection::hoslem.test(x= modelo.1.SATURADO\\$y, fitted(modelo.1.SATURADO))",
+      "",
+      "",
+      "#'",
+      "#'",
+      "#' ### Curva ROC",
+      "#'",
+      "#'",
+      "#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''",
+      "#................... SOBRE UNA VARIABLE SIN MAS ....................",
+      "# roc_full_resolution <- pROC::roc(DATOS\\$INDEPEND_NUM,DATOS\\$CABNEU_GLIA)",
+      "#.................. SOBRE UN MODELO DE REGRESION ...................",
+      "prediction <- predict(modelo.1.SATURADO, DATOS, type = 'response')",
+      "roc_full_resolution <- pROC::roc(dplyr::pull(DATOS, variables.reg[1]), prediction)",
+      "",
+      "cat(paste('AUC =', pROC::auc(roc_full_resolution)))",
+      "",
+      "roc.plot <- pROC::ggroc(roc_full_resolution, legacy.axes =T)",
+      "roc.plot + ggplot2::annotate('text', x = .75, y = .25, label = paste('AUC =', round(pROC::auc(roc_full_resolution), 3)))",
+      "knitr::kable(pROC::coords(roc_full_resolution))",
+      "",
+      "",
+      "#'",
+      "#' ## Modelo por pasos",
+      "#'",
+      "#'",
+      "#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''",
+      "modelo.1.STEP <- MASS::stepAIC(modelo.1.SATURADO, direction = 'both', trace = 1)",
+      "",
+      "#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''",
+      "sum.modelo.1.step <- as.data.frame(summary(modelo.1.STEP)\\$coefficients)",
+      "names(sum.modelo.1.step)<-c('Coefficient', 'Std. Error', 'Wald', 'p')",
+      "knitr::kable(cbind(OR = exp(modelo.1.STEP\\$coefficients), exp(confint(modelo.1.STEP)), sum.modelo.1.step))",
+      "# knitr::kable(cbind(OR = exp(modelo.1.STEP\\$coefficients), exp(confint(modelo.1.STEP)), Wald = summary(modelo.1.STEP)\\$coefficients[,3], p = summary(modelo.1.STEP)\\$coefficients[,'Pr(>|z|)']))",
+      "# summary(modelo.1.STEP)",
+      "knitr::kable(DescTools::PseudoR2(modelo.1.STEP, which = c('McFadden', 'CoxSnell', 'Nagelkerke')))",
+      "",
+      "#+ , echo = FALSE, message = FALSE, warning = FALSE, eval =TRUE, fig.width = 5, fig.height = 5, unit = 'cm'",
+      "ResourceSelection::hoslem.test(x= modelo.1.STEP\\$y, fitted(modelo.1.STEP))",
+      "",
+      "",
+      "#'",
+      "#'",
+      "#' ### Curva ROC",
+      "#'",
+      "#'",
+      "#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''",
+      "#................... SOBRE UNA VARIABLE SIN MAS ....................",
+      "# roc_full_resolution <- pROC::roc(DATOS\\$INDEPEND_NUM,DATOS\\$CABNEU_GLIA)",
+      "#.................. SOBRE UN MODELO DE REGRESION ...................",
+      "prediction <- predict(modelo.1.STEP, DATOS, type = 'response')",
+      "roc_full_resolution <- pROC::roc(dplyr::pull(DATOS, variables.reg[1]), prediction)",
+      "",
+      "cat(paste('AUC =', pROC::auc(roc_full_resolution)))",
+      "",
+      "roc.plot <- pROC::ggroc(roc_full_resolution, legacy.axes =T)",
+      "roc.plot + ggplot2::annotate('text', x = .75, y = .25, label = paste('AUC =', round(pROC::auc(roc_full_resolution), 3)))",
+      "knitr::kable(pROC::coords(roc_full_resolution))"
+    ],
     "description": "Regresion logistica binaria"
   }, 
   "reg_lineal_mult": {
-  "prefix": "reg_lineal_mult",
-  "body": [
-  "
-	#' # MODELO REGRESION LINEAL
-	#'
-	#+ , eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''
-
-	# LA PRIMERA es la dependiente
-	vars.modelo.inicial <- c('UTILITYCARMEN', 'PAINVAS', 'RELIEFLIKERT',
-	                        'SLEEPINESS', 'NERVOUS', 'LNMORPHDD')
-
-
-	#'
-	#' ## - Selección de variables para el modelo saturado
-	#+ , echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'
-	# 'RELIEFLIKERT0', 'RELIEFLIKERT1', 'RELIEFLIKERT2', 'RELIEFLIKERT3', 'RELIEFLIKERT4',
-	DATOS.reg <- DATOS[ , vars.modelo.inicial]
-
-	#' ## - Comprobar linearidad
-	#'
-	#' Se interpreta como cabe esperar, comprobar que las correlaciones no son muy altas... esas cosas
-	#+ , echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'
-	# install.packages('GGally')
-	GGally::ggpairs(DATOS.reg)
-
-	#' ## - Modelo saturado
-	#'
-	#+ , include=FALSE, eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''
-	(intercept.design <- paste0(names(DATOS.reg)[1], ' ~ 1'))
-	(intercept.model <- lm(as.formula(intercept.design), data = DATOS))
-
-
-	#+ ,results='asis', echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'
-
-	(model.design <- paste0(names(DATOS.reg)[1], ' ~ ', paste(names(DATOS.reg)[2:ncol(DATOS.reg)],collapse=' + ')))
-	model <- lm(as.formula(model.design), data=DATOS.reg)
-	
-	summary_f_model = summary(model)
-	f_model = data.frame(summary_f_model\\$coefficients)
-	names(f_model) = c('estimate','std_error','t_value','p.value')
-	print(knitr::kable(f_model))
-	cat('\\nR²:', summary_f_model\\$r.squared,'\\n')
-	cat('\\nAdjusted R²:', summary_f_model\\$adj.r.squared,'\\n')
-
-
-	#' ## - Seleccion de modelos
-	#'
-	#' Esta funcion realiza TODOS los modelos posibles y saca información relativa a
-	#'
-	#' + Mallow's cp
-	#' + R² ajustada y sin ajustar
-	#' + Akaike's Information Criterion
-	#' + Sawa's bayesian information criterion
-	#' + Schwarz's bayes information criterion
-	#'
-	#' En general más alto es mejor.
-	#'
-	#' El número bajo los puntos indica el modelo al que se refiere el punto.
-	#'
-	#' La tabla de modelos está bajo los gráficos
-	#'
-	#'
-	#+ , echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'
-	test <- olsrr::ols_step_all_possible(model)
-	plot(test)
-
-
-	#
-	# ### Lista de todos los modelos posibles
-	#
-	#+ , results = 'asis', eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''
-	knitr::kable(test[[1]])
-
-
-	#'
-	#'
-	#' ### Modelos por pasos
-	#'
-	#' Parámetros:
-	#'
-	#' - model: el modelo
-	#' - pent: p-valor para entrar en el modelo (default = 0.1)
-	#' - prem: p-valor para salir del modelo (default = 0.3)
-	#' - details: si queremos o no los detalles de cada paso (default = FALSE)
-	#'
-	#+ , results='asis', echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'
-	final.model <- olsrr::ols_step_both_p(model, pem=0.1, prem=0.3, details=FALSE)
-
-	knitr::kable(final.model\\$metrics)
-
-	#' ## - Seleccion del modelo final
-	#+ , results='asis', echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'
-
-
-	summary_f_model = summary(final.model\\$model)
-	f_model = data.frame(summary_f_model\\$coefficients)
-	names(f_model) = c('estimate','std_error','t_value','p.value')
-	print(knitr::kable(f_model))
-	cat('\\nR²:', summary_f_model\\$r.squared,'\\n')
-	cat('\\nAdjusted R²:', summary_f_model\\$adj.r.squared,'\\n')
-
-	#'
-	#' ## - Supuestos
-	#'
-	#' ### (1) - Multicolinearidad usando (VIF)
-	#'
-	#'  + Si <=1: No existe correlacion
-	#'  + Si (>1 , <5): Correlación moderada (pasable)
-	#'  + Si >5: Correlación excesivamente alta
-	#'
-	#+ , results='asis', echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'
-	# install.packages('car')
-	vif = tryCatch(car::vif(final.model\\$model),
-		 error = function(e){
-		   print('No se puede calcular VIF:')
-		   print(e)
-		 })
-	knitr::kable(vif)
-	if (any(vif>5)) {
-	  cat('\\n #### Explicar un VIF alto\\n')
-	  knitr::kable(correlation::correlation(DATOS.reg))  
-	}
-
-
-	#'
-	#'
-	#'
-	#' ### (2) - Distribución normal de los residuos del modelo
-	#'
-	#+ , results='asis',echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'
-	cat('\\nShapiro-Wilk p:',shapiro.test(residuals(final.model\\$model))\\$p.value,'\\n')
-
-	#'
-	#'
-	#'
-	#' ### (3) - Homocedasticidad (varianza de residuos)
-	#'
-	#+ , echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'
-	# Creamos un modelo  ajustado y lo comparamos con los residuos
-	plot(fitted(final.model\\$model), residuals(final.model\\$model))
-	# añadimos la linea en 0, los puntos deberían ser 'homogeneos'
-	abline(h = 0, lty = 2)
-
-	#'
-	#' #### - Bartlett test para igualdad de varianzas
-	#'
-	#' Valores de p inferiores a 0.05 indican que las varianzas NO son iguales
-	#'
-	#+ results = 'asis', eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''
-	g.residuos <- c(rep(TRUE, length(fitted(final.model\\$model))),
-		        rep(FALSE, length(residuals(final.model\\$model))))
-
-	cat('\\nBartlett p:',bartlett.test(c(fitted(final.model\\$model), residuals(final.model\\$model)) ~ g.residuos)\\$p.value,'\\n')
-
-  "],
-  "description": "Regresion lineal multiple"
-}
+    "prefix": "reg_lineal_mult",
+    "body": [
+      "#' # MODELO REGRESION LINEAL",
+      "#'",
+      "#+ , eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''",
+      "",
+      "# LA PRIMERA es la dependiente",
+      "vars.modelo.inicial <- c('UTILITYCARMEN', 'PAINVAS', 'RELIEFLIKERT',",
+      "                        'SLEEPINESS', 'NERVOUS', 'LNMORPHDD')",
+      "",
+      "",
+      "#'",
+      "#' ## - Selección de variables para el modelo saturado",
+      "#+ , echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'",
+      "# 'RELIEFLIKERT0', 'RELIEFLIKERT1', 'RELIEFLIKERT2', 'RELIEFLIKERT3', 'RELIEFLIKERT4',",
+      "DATOS.reg <- DATOS[ , vars.modelo.inicial]",
+      "",
+      "#' ## - Comprobar linearidad",
+      "#'",
+      "#' Se interpreta como cabe esperar, comprobar que las correlaciones no son muy altas... esas cosas",
+      "#+ , echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'",
+      "# install.packages('GGally')",
+      "GGally::ggpairs(DATOS.reg)",
+      "",
+      "#' ## - Modelo saturado",
+      "#'",
+      "#+ , include=FALSE, eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''",
+      "(intercept.design <- paste0(names(DATOS.reg)[1], ' ~ 1'))",
+      "(intercept.model <- lm(as.formula(intercept.design), data = DATOS))",
+      "",
+      "",
+      "#+ ,results='asis', echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'",
+      "",
+      "(model.design <- paste0(names(DATOS.reg)[1], ' ~ ', paste(names(DATOS.reg)[2:ncol(DATOS.reg)],collapse=' + ')))",
+      "model <- lm(as.formula(model.design), data=DATOS.reg)",
+      "",
+      "summary_f_model = summary(model)",
+      "f_model = data.frame(summary_f_model\\$coefficients)",
+      "names(f_model) = c('estimate','std_error','t_value','p.value')",
+      "f_model <- cbind(f_model, confint(model))",
+      "print(knitr::kable(f_model))",
+      "cat('\\nR²:', summary_f_model\\$r.squared,'\\n')",
+      "cat('\\nAdjusted R²:', summary_f_model\\$adj.r.squared,'\\n')",
+      "",
+      "",
+      "#' ## - Seleccion de modelos",
+      "#'",
+      "#' Esta funcion realiza TODOS los modelos posibles y saca información relativa a",
+      "#'",
+      "#' + Mallow's cp",
+      "#' + R² ajustada y sin ajustar",
+      "#' + Akaike's Information Criterion",
+      "#' + Sawa's bayesian information criterion",
+      "#' + Schwarz's bayes information criterion",
+      "#'",
+      "#' En general más alto es mejor.",
+      "#'",
+      "#' El número bajo los puntos indica el modelo al que se refiere el punto.",
+      "#'",
+      "#' La tabla de modelos está bajo los gráficos",
+      "#'",
+      "#'",
+      "#+ , echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'",
+      "test <- olsrr::ols_step_all_possible(model)",
+      "plot(test)",
+      "",
+      "",
+      "#",
+      "# ### Lista de todos los modelos posibles",
+      "#",
+      "#+ , results = 'asis', eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''",
+      "knitr::kable(test[[1]])",
+      "",
+      "",
+      "#'",
+      "#'",
+      "#' ### Modelos por pasos",
+      "#'",
+      "#' Parámetros:",
+      "#'",
+      "#' - model: el modelo",
+      "#' - pent: p-valor para entrar en el modelo (default = 0.1)",
+      "#' - prem: p-valor para salir del modelo (default = 0.3)",
+      "#' - details: si queremos o no los detalles de cada paso (default = FALSE)",
+      "#'",
+      "#+ , results='asis', echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'",
+      "final.model <- olsrr::ols_step_both_p(model, pem=0.1, prem=0.3, details=FALSE)",
+      "",
+      "knitr::kable(final.model\\$metrics)",
+      "",
+      "#' ## - Seleccion del modelo final",
+      "#+ , results='asis', echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'",
+      "",
+      "",
+      "summary_f_model = summary(final.model\\$model)",
+      "f_model = data.frame(summary_f_model\\$coefficients)",
+      "names(f_model) = c('estimate','std_error','t_value','p.value')",
+      "f_model <- cbind(f_model, confint(final.model$model))",
+      "print(knitr::kable(f_model))",
+      "cat('\\nR²:', summary_f_model\\$r.squared,'\\n')",
+      "cat('\\nAdjusted R²:', summary_f_model\\$adj.r.squared,'\\n')",
+      "",
+      "#'",
+      "#' ## - Supuestos",
+      "#'",
+      "#' ### (1) - Multicolinearidad usando (VIF)",
+      "#'",
+      "#'  + Si <=1: No existe correlacion",
+      "#'  + Si (>1 , <5): Correlación moderada (pasable)",
+      "#'  + Si >5: Correlación excesivamente alta",
+      "#'",
+      "#+ , results='asis', echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'",
+      "# install.packages('car')",
+      "vif = tryCatch(car::vif(final.model\\$model),",
+      "	 error = function(e){",
+      "	   print('No se puede calcular VIF:')",
+      "	   print(e)",
+      "	 })",
+      "knitr::kable(vif)",
+      "if (any(vif>5)) {",
+      "  cat('\\n #### Explicar un VIF alto\\n')",
+      "  knitr::kable(correlation::correlation(DATOS.reg))  ",
+      "}",
+      "",
+      "",
+      "#'",
+      "#'",
+      "#'",
+      "#' ### (2) - Distribución normal de los residuos del modelo",
+      "#'",
+      "#+ , results='asis',echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'",
+      "cat('\\nShapiro-Wilk p:',shapiro.test(residuals(final.model\\$model))\\$p.value,'\\n')",
+      "",
+      "#'",
+      "#'",
+      "#'",
+      "#' ### (3) - Homocedasticidad (varianza de residuos)",
+      "#'",
+      "#+ , echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'",
+      "# Creamos un modelo  ajustado y lo comparamos con los residuos",
+      "plot(fitted(final.model\\$model), residuals(final.model\\$model))",
+      "# añadimos la linea en 0, los puntos deberían ser 'homogeneos'",
+      "abline(h = 0, lty = 2)",
+      "",
+      "#'",
+      "#' #### - Bartlett test para igualdad de varianzas",
+      "#'",
+      "#' Valores de p inferiores a 0.05 indican que las varianzas NO son iguales",
+      "#'",
+      "#+ results = 'asis', eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''",
+      "g.residuos <- c(rep(TRUE, length(fitted(final.model\\$model))),",
+      "	        rep(FALSE, length(residuals(final.model\\$model))))",
+      "",
+      "cat('\\nBartlett p:',bartlett.test(c(fitted(final.model\\$model), residuals(final.model\\$model)) ~ g.residuos)\\$p.value,'\\n')"
+    ],
+    "description": "Regresion lineal multiple"
+  }
 }
 
