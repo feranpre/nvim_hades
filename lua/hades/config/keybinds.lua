@@ -3,7 +3,19 @@ local opts = { noremap = true, silent = true, desc = nil }
 local keymap = require("hades.misc.utils").keymap
 local keymap_buffer = require("hades.misc.utils").keymap_buffer
 local isModuleAvailable = require("hades.misc.utils").isModuleAvailable
-local generate_html_from_rscript = require("hades.misc.utils").generate_html_from_rscript
+-- local generate_html_from_rscript = require("hades.misc.utils").generate_html_from_rscript
+-- Define the function to call the pandoc2pdf.py script
+function PandocToPDF()
+  -- Get the filename of the current buffer
+  local filename = vim.api.nvim_buf_get_name(0)
+
+  -- Call the shell command
+  vim.fn.system("pandoc2pdf.py " .. vim.fn.shellescape(filename))
+
+  -- Optionally print a message
+  print("Converted " .. filename .. " to PDF")
+end
+keymap("n", "<leader>p", "<cmd>lua PandocToPDF()<CR>", opts, "pdf")
 
 local wk = nil
 if isModuleAvailable("which-key") then
