@@ -19,20 +19,30 @@
   "cabecera": {
     "prefix": "cabecera_md",
     "body": [
-"---",
-"title: 2024-104 Nuria Cascales (Cambios) ",
-"author: Fernando Andrés Pretel",
-"titlepage: true",
-"toc: false ",
-"toc-depth: 2",
-"number-sections: true",
-"number-depth: 4",
-"colorlinks: true",
-"mainfont: DejaVu Sans",
-"mathfont: DejaVu Math TeX Gyre",
-"monofont: Source Code Pro",
-"---"
+             "---",
+             "title: 2024-104 Nuria Cascales (Cambios) ",
+             "author: Fernando Andrés Pretel",
+             "titlepage: true",
+             "toc: false ",
+             "toc-depth: 2",
+             "number-sections: true",
+             "number-depth: 4",
+             "colorlinks: true",
+             "mainfont: DejaVu Sans",
+             "mathfont: DejaVu Math TeX Gyre",
+             "monofont: Source Code Pro",
+             "---"
     ],
     "description": "Cabecera básica yaml para md"
+  }, 
+  "nota": {
+    "prefix": ["note", "nota"],
+    "body":[
+        "> **NOTE**",
+        "> ",
+        "> text",
+        ""
+    ],
+    "description": "Note box"
   }
 }
