@@ -1,6 +1,6 @@
 return {
   "jakewvincent/mkdnflow.nvim",
-  enabled = false,
+  enabled = true,
   config = function()
     local mkdnflow = require("mkdnflow")
     mkdnflow.setup({})
