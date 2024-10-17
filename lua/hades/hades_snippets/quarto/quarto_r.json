@@ -26,7 +26,7 @@
       "```{r}",
       "#| echo: false ",
       "#| label: ",
-      "#| fig-cap: ",
+      "#| fig-cap: 'caption'",
       "#| fig-alt: ",
       "#| fig-height: 1.5",
       "#| fig-width: 6",
