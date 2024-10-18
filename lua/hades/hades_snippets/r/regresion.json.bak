@@ -7,7 +7,7 @@
       "variables.reg <- c('HTO_NUM','GRADO_RD_DXM_NUM', 'QUISTE_VERT_SIZE_NE_6M_CAT_3_NUM')",
       "DATOS.LIMPIOS <- na.omit(DATOS[,variables.reg])",
       "cat('\\n **Categorías de la variable resultado**: ', levels(factor(unlist(DATOS[, variables.reg[1]]))),'\\n')",
-      "cat('\\nLa primera categoría es la referencia y la segunda es el resultado\\n\\n')",
+      "cat('\\nLa primera categoría es la referencia y la segunda es el \'resultado\'\\n\\n')",
       "cat(paste0('\\n\\n- ', levels(factor(DATOS.LIMPIOS[, variables.reg[1]]))))",
       "#' ## Modelo saturado",
       "#'",
@@ -82,12 +82,10 @@
       "",
       "roc.plot <- pROC::ggroc(roc_full_resolution, legacy.axes =T)",
       "roc.plot + ggplot2::annotate('text', x = .75, y = .25, label = paste('AUC =', round(pROC::auc(roc_full_resolution), 3)))",
-      "knitr::kable(pROC::coords(roc_full_resolution))",
-      ""
+      "knitr::kable(pROC::coords(roc_full_resolution))"
     ],
     "description": "Regresion logistica binaria"
   }, 
-
   "reg_lineal_mult": {
     "prefix": "reg_lineal_mult",
     "body": [
