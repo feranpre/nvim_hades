@@ -5,8 +5,8 @@ return {
   -- 'chadvoegele/nvim-slime',
   enabled = true,
   init = function()
-    vim.g.slime_target = "neovim"
-    -- vim.g.slime_target = 'tmux'
+    -- vim.g.slime_target = "neovim"
+    vim.g.slime_target = "tmux"
 
     vim.g.slime_default_config = {
       socket_name = "default",
@@ -16,7 +16,6 @@ return {
     -- vim.g.slime_no_mappings = 1
 
     vim.g.slime_python_ipython = 1
-
     -- require('which-key').register({
     --   ['<leader>cm'] = { mark_terminal, 'mark terminal' },
     --   ['<leader>cs'] = { set_terminal, 'set terminal' },

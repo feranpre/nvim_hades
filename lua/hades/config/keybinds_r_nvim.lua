@@ -36,10 +36,9 @@ if isModuleAvailable("r") then
       -- Send code
       keymap_buffer(ev.buf, "n", "<C-CR>", "<Plug>RDSendLine", opts, "send [l]ine and move down")
       keymap_buffer(ev.buf, "v", "<C-CR>", "<Plug>RDSendSelection", opts, "send [l]ine and move down")
-      keymap_buffer(ev.buf, "n", "<localleader>sl", "<Plug>RDSendLine", opts, "send [l]ine and move down")
       keymap_buffer(ev.buf, "n", "<C-S-CR>", "<Plug>RDSendParagraph", opts, "send [p]aragraph and move down")
       keymap_buffer(ev.buf, "n", "<localleader>sp", "<Plug>RDSendParagraph", opts, "send [p]aragraph and move down")
-
+      keymap_buffer(ev.buf, "n", "<localleader>sl", "<Plug>RDSendLine", opts, "send [l]ine and move down")
       keymap_buffer(ev.buf, "n", "<localleader>sf", "<Plug>RSendFile", opts, "send [f]ile")
 
       -- Quarto

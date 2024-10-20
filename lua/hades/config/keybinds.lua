@@ -3,6 +3,12 @@ local opts = { noremap = true, silent = true, desc = nil }
 local keymap = require("hades.misc.utils").keymap
 local keymap_buffer = require("hades.misc.utils").keymap_buffer
 local isModuleAvailable = require("hades.misc.utils").isModuleAvailable
+
+-- -------------------------------------
+-- ------------------------------------- R.nvim
+-- -------------------------------------
+-- require("hades.config.keybinds_r_nvim")
+
 -- local generate_html_from_rscript = require("hades.misc.utils").generate_html_from_rscript
 -- Define the function to call the pandoc2pdf.py script
 function PandocToPDF()
@@ -120,11 +126,6 @@ keymap("n", "zW", "zW", opts, "[W]rong word to add to internal dictionary (spell
 keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
 
 -- -------------------------------------
--- ------------------------------------- R.nvim
--- -------------------------------------
-require("hades.config.keybinds_r_nvim")
-
--- -------------------------------------
 -- ------------------------------------- QUARTO
 -- -------------------------------------
 -- require("hades.config.keybinds_quarto")
@@ -157,20 +158,17 @@ end
 -- ------------------------------------- SLIME
 -- -------------------------------------
 -- if vim.g.slime_target ~= nil then
---   -- local slime_run = require('hades.misc.slime_utils')
---   wk.add({ "<LocalLeader>s", group = "+[S]end (REPL)" })
---   keymap("n", "<C-CR>", "<Plug>SlimeParagraphSend", opts, "other window")
---   keymap("n", "<LocalLeader>sp", "<Plug>SlimeParagraphSend", opts, "other window")
---
---   keymap(
---     "n",
---     "<LocalLeader>sl",
---     "<cmd>SlimeSend1 devtools::load_all('.')<CR>",
---     opts,
---     "R - load all files (for a package)"
---   )
---   -- keymap("n", "<localleader>rs", slime_run.send_cell, opts, "other window")
---   -- keymap("n", "<leader>rr", slime_run.send_cell, opts, "other window")
+-- local slime_run = require("hades.misc.slime_utils")
+if wk ~= nil then
+  wk.add({ "<LocalLeader>sl", group = "+[S]end (REPL)" })
+end
+keymap("n", "<C-CR>", "<Plug>SlimeParagraphSend", opts, "other window")
+keymap("n", "<LocalLeader>sp", "<Plug>SlimeParagraphSend", opts, "[s]end [p]aragraph")
+
+keymap("n", "<LocalLeader>bl", "<cmd>SlimeSend1 devtools::load_all('.')<CR>", opts, "[b]uild [l]oad all")
+keymap("n", "<LocalLeader>tc", "<cmd>SlimeConfig<CR>", opts, "[t]erminal [c]onfig")
+-- keymap("n", "<localleader>rs", slime_run.send_cell, opts, "other window")
+-- keymap("n", "<leader>rr", slime_run.send_cell, opts, "other window")
 -- end
 
 -- -------------------------------------
