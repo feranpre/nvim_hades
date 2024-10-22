@@ -2,20 +2,35 @@ local M = {}
 --
 -- Test if module is loaded
 --
-function M.isModuleAvailable(name)
-  if package.loaded[name] then
+-- function M.isModuleAvailable(name)
+--   if package.loaded[name] then
+--     return true
+--   else
+--     for _, searcher in ipairs(package.loaders) do
+--       local loader = searcher(name)
+--       print()
+--       if type(loader) == "function" then
+--         package.preload[name] = loader
+--         return true
+--       end
+--     end
+--     return false
+--   end
+-- end
+--
+
+function M.isModuleAvailable(plugin_name)
+  local plugin = require("lazy.core.config").plugins[plugin_name]
+  return plugin and plugin._.loaded
+end
+
+function M.isCommandAvailable(command)
+  -- return true
+  if vim.fn.executable(command) == 1 then
     return true
-  else
-    for _, searcher in ipairs(package.loaders) do
-      local loader = searcher(name)
-      print()
-      if type(loader) == "function" then
-        package.preload[name] = loader
-        return true
-      end
-    end
-    return false
   end
+
+  return false
 end
 
 function M.isModuleInstalled(name)

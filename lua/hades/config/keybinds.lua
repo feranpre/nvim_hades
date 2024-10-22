@@ -3,11 +3,50 @@ local opts = { noremap = true, silent = true, desc = nil }
 local keymap = require("hades.misc.utils").keymap
 local keymap_buffer = require("hades.misc.utils").keymap_buffer
 local isModuleAvailable = require("hades.misc.utils").isModuleAvailable
+-- local isAvailable = require("hades.misc.utils").isAvailable
 
+local wk = nil
+if isModuleAvailable("which-key.nvim") then
+  print("which-key - keys loaded")
+  wk = require("which-key")
+  wk.add({
+    { "<leader>l", group = "+[L]azy" },
+    { "g", group = "+[g]o" },
+  })
+  vim.keymap.set("n", "<localleader>", function()
+    wk.show(",")
+  end, { buffer = true })
+
+  keymap("n", "<leader>ll", "<cmd>Lazy<cr>", opts, "open [L]azy window")
+  keymap("n", "<F2>", "<cmd>WhichKey<cr>", opts, "[k]eybinds - help")
+  keymap("n", "<leader>k", "<cmd>WhichKey<cr>", opts, "[k]eybinds - help")
+  keymap("n", "<leader>?", function()
+    wk.show({ global = false })
+  end, opts, "[?] buffer keybinds")
+end
+
+keymap("n", "<localleader>ip", function()
+  local venv = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX")
+  if venv ~= nil then
+    -- in the form of /home/benlubas/.virtualenvs/VENV_NAME
+    venv = string.match(venv, "/.+/(.+)")
+    vim.cmd(("MoltenInit %s"):format(venv))
+  else
+    vim.cmd("MoltenInit python3")
+  end
+end, opts, "Initialize Molten for python3")
 -- -------------------------------------
 -- ------------------------------------- R.nvim
 -- -------------------------------------
--- require("hades.config.keybinds_r_nvim")
+if isModuleAvailable("R.nvim") then
+  print("R.nvim - keys loaded")
+  require("hades.config.keybinds_r_nvim")
+end
+
+if isModuleAvailable("vim-slime") then
+  print("vim-slime - keys loaded")
+  require("hades.config.keybinds_slime_nvim")
+end
 
 -- local generate_html_from_rscript = require("hades.misc.utils").generate_html_from_rscript
 -- Define the function to call the pandoc2pdf.py script
@@ -22,21 +61,6 @@ function PandocToPDF()
   print("Converted " .. filename .. " to PDF")
 end
 keymap("n", "<leader>p", "<cmd>lua PandocToPDF()<CR>", opts, "pdf")
-
-local wk = nil
-if isModuleAvailable("which-key") then
-  wk = require("which-key")
-  wk.add({
-    { "<leader>l", group = "+[L]azy" },
-    { "g", group = "+[g]o" },
-  })
-  keymap("n", "<leader>ll", "<cmd>Lazy<cr>", opts, "open [L]azy window")
-  keymap("n", "<F2>", "<cmd>WhichKey<cr>", opts, "[k]eybinds - help")
-  keymap("n", "<leader>k", "<cmd>WhichKey<cr>", opts, "[k]eybinds - help")
-  keymap("n", "<leader>?", function()
-    wk.show({ global = false })
-  end, opts, "[?] buffer keybinds")
-end
 
 -- Press jk fast to enter
 keymap("i", "kj", "<ESC>", opts, "exit insert mode")
@@ -135,7 +159,8 @@ keymap("n", "<leader>qc", "<cmd>lua require('quarto').quartoClosePreview()<CR>",
 -- -------------------------------------
 -- ------------------------------------- SPECTRE
 -- -------------------------------------
-if isModuleAvailable("spectre") then
+if isModuleAvailable("nvim-spectre") then
+  print("nvim-spectre - keys loaded")
   keymap("n", "<leader>S", "<cmd>lua require('spectre').toggle()<CR>", opts, "Toggle Spectre")
   keymap(
     "n",
@@ -159,16 +184,20 @@ end
 -- -------------------------------------
 -- if vim.g.slime_target ~= nil then
 -- local slime_run = require("hades.misc.slime_utils")
-if wk ~= nil then
-  wk.add({ "<LocalLeader>sl", group = "+[S]end (REPL)" })
-end
-keymap("n", "<C-CR>", "<Plug>SlimeParagraphSend", opts, "other window")
-keymap("n", "<LocalLeader>sp", "<Plug>SlimeParagraphSend", opts, "[s]end [p]aragraph")
-
-keymap("n", "<LocalLeader>bl", "<cmd>SlimeSend1 devtools::load_all('.')<CR>", opts, "[b]uild [l]oad all")
-keymap("n", "<LocalLeader>tc", "<cmd>SlimeConfig<CR>", opts, "[t]erminal [c]onfig")
--- keymap("n", "<localleader>rs", slime_run.send_cell, opts, "other window")
--- keymap("n", "<leader>rr", slime_run.send_cell, opts, "other window")
+-- print("SILIME???")
+-- print(isModuleAvailable("vim-slime"))
+-- if isModuleAvailable("vim-slime") then
+--   print("vim-slime - keys loaded")
+--   if wk ~= nil then
+--     wk.add({ "<LocalLeader>sl", group = "+[S]end (REPL)" })
+--   end
+--   keymap("n", "<C-CR>", "<Plug>SlimeParagraphSend", opts, "other window")
+--   keymap("n", "<localleader>sp", "<Plug>SlimeParagraphSend", opts, "[s]end [p]aragraph")
+--
+--   keymap("n", "<LocalLeader>bl", "<cmd>SlimeSend1 devtools::load_all('.')<CR>", opts, "[b]uild [l]oad all")
+--   keymap("n", "<LocalLeader>tc", "<cmd>SlimeConfig<CR>", opts, "[t]erminal [c]onfig")
+--   -- keymap("n", "<localleader>rs", slime_run.send_cell, opts, "other window")
+--   -- keymap("n", "<leader>rr", slime_run.send_cell, opts, "other window")
 -- end
 
 -- -------------------------------------
@@ -176,7 +205,8 @@ keymap("n", "<LocalLeader>tc", "<cmd>SlimeConfig<CR>", opts, "[t]erminal [c]onfi
 -- -------------------------------------
 -- if isModuleAvailable("nvim-tree") then
 --   keymap("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", opts, "open [e]xplorer") -- abre el navegador
-if isModuleAvailable("neo-tree") then
+if isModuleAvailable("neo-tree.nvim") then
+  print("neo-tree - keys loaded")
   keymap("n", "<leader>e", ":Neotree toggle<CR>", opts, "open explorer") -- abre el navegador
 else
   keymap("n", "<leader>e", ":Lex 30<CR>", opts, "open [e]xplorer") -- abre el navegador
@@ -193,7 +223,8 @@ end
 -- -------------------------------------
 -- ------------------------------------- TMUX NAV
 -- -------------------------------------
-if isModuleAvailable("tmux-navigator") then
+if isModuleAvailable("vim-tmux-navigator.nvim") then
+  print("vim-tmux-navigator - keys loaded")
   keymap("n", "<C-h>", "<cmd>TmuxNavigateLeft<cr>", opts, "navigate to the left window")
   keymap("n", "<C-j>", "<cmd>TmuxNavigateDown<cr>", opts, "navigate to the lower window")
   keymap("n", "<C-k>", "<cmd>TmuxNavigateUp<cr>", opts, "navigate to the upper window")
@@ -204,7 +235,8 @@ end
 -- -------------------------------------
 -- ------------------------------------- TELESCOPE
 -- -------------------------------------
-if isModuleAvailable("telescope.builtin") then
+if isModuleAvailable("telescope.nvim") then
+  print("telescope - keys loaded")
   if wk ~= nil then
     wk.add({
       "<leader>f",
@@ -229,7 +261,8 @@ end
 -- ------------------------------------- LSP CONFIG
 -- -------------------------------------
 
-if isModuleAvailable("lspconfig") then
+if isModuleAvailable("nvim-lspconfig") then
+  print("nvim-lspconfig - keys loaded")
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
     callback = function(ev)
@@ -292,7 +325,8 @@ end
 -- ------------------------------------- CMP
 -- -------------------------------------
 
-if isModuleAvailable("cmp") then
+if isModuleAvailable("cmp-nvim-lsp") then
+  print("cmp-nvim-lsp - keys loaded")
   local cmp = require("cmp")
   local cmp_select = { behavior = cmp.SelectBehavior.Select }
   keymap("i", "<C-p>", cmp.mapping.select_prev_item(cmp_select), opts, "[p]rev autocomplete item")
@@ -305,7 +339,8 @@ if isModuleAvailable("cmp") then
 end
 
 -- ------ LuaSnips
-if isModuleAvailable("luasnip") then
+if isModuleAvailable("LuaSnip") then
+  print("LuaSnip - keys loaded")
   local ls = require("luasnip")
   keymap("i", "<C-CR>", function()
     ls.jump(1)
@@ -319,7 +354,8 @@ if isModuleAvailable("luasnip") then
 end
 
 -- -------- TERMINAL
-if isModuleAvailable("toggleterm") then
+if isModuleAvailable("toggleterm.nvim") then
+  print("toggleterm - keys loaded")
   local term = require("toggleterm")
   if wk ~= nil then
     wk.add({
@@ -334,6 +370,7 @@ end
 -- -------- HARPOON
 
 if isModuleAvailable("harpoon") then
+  print("harpoon - keys loaded")
   local harpoon = require("harpoon")
   keymap("n", "<leader>a", function()
     harpoon:list():add()

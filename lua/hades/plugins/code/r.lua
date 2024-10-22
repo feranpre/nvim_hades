@@ -2,7 +2,7 @@ return {
   {
     "R-nvim/R.nvim",
     -- 'jalvesaq/Nvim-R', -- this plugin is obsolete
-    enabled = false,
+    enabled = true,
     lazy = false,
     dependencies = {
       "R-nvim/cmp-r",
@@ -13,7 +13,7 @@ return {
       --   -- Create a table with the options to be passed to setup()
       local opts = {
         -- R_args = { '--quiet', '--no-save' },
-        R_args = { "--no-save" },
+        R_args = { "--quiet --no-save" },
         -- assign = false, -- convert Meta-- to <-
         auto_quit = true,
         user_maps_only = true,
@@ -28,7 +28,8 @@ return {
         objbr_place = "console,below",
 
         -- TMUX
-        external_term = false,
+        -- external_term = false,
+        external_term = "tmux split-window -h -l 80",
         -- external_term = "alacritty",
         -- config_tmux = true,
 

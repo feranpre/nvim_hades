@@ -3,7 +3,7 @@
 return {
   "jpalardy/vim-slime",
   -- 'chadvoegele/nvim-slime',
-  enabled = true,
+  enabled = false,
   init = function()
     -- vim.g.slime_target = "neovim"
     vim.g.slime_target = "tmux"
@@ -13,7 +13,7 @@ return {
       target_pane = "{last}",
     }
 
-    -- vim.g.slime_no_mappings = 1
+    vim.g.slime_no_mappings = 1
 
     vim.g.slime_python_ipython = 1
     -- require('which-key').register({

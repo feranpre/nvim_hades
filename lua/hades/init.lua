@@ -1,6 +1,6 @@
--- vim.g.maplocalleader = ","
-
+vim.g.maplocalleader = ","
 require("hades.config.globals")
+
 require("hades.config.lazy")
 
 require("lazy").setup({
@@ -20,7 +20,7 @@ require("hades.config.colors")
 vim.api.nvim_buf_set_keymap(
   0,
   "n",
-  "<localleader>t",
+  "<localleader>tt",
   -- ":echo 'Test mapping'<CR>",
   ":lua print('Test mapping')<CR>",
   { noremap = true, silent = true }
