@@ -28,8 +28,8 @@ return {
         objbr_place = "console,below",
 
         -- TMUX
-        -- external_term = false,
-        external_term = "tmux split-window -h -l 80",
+        external_term = false,
+        -- external_term = "tmux split-window -h -l 80",
         -- external_term = "alacritty",
         -- config_tmux = true,
 
