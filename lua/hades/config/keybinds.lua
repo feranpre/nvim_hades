@@ -1,3 +1,4 @@
+local debug = false
 local opts = { noremap = true, silent = true, desc = nil }
 
 local keymap = require("hades.misc.utils").keymap
@@ -7,7 +8,9 @@ local isModuleAvailable = require("hades.misc.utils").isModuleAvailable
 
 local wk = nil
 if isModuleAvailable("which-key.nvim") then
-  print("which-key - keys loaded")
+  if debug then
+    print("which-key - keys loaded")
+  end
   wk = require("which-key")
   wk.add({
     { "<leader>l", group = "+[L]azy" },
@@ -39,12 +42,16 @@ end
 -- ------------------------------------- R.nvim
 -- -------------------------------------
 if isModuleAvailable("R.nvim") then
-  print("R.nvim - keys loaded")
+  if debug then
+    print("R.nvim - keys loaded")
+  end
   require("hades.config.keybinds_r_nvim")
 end
 
 if isModuleAvailable("vim-slime") then
-  print("vim-slime - keys loaded")
+  if debug then
+    print("vim-slime - keys loaded")
+  end
   require("hades.config.keybinds_slime_nvim")
 end
 
@@ -160,7 +167,9 @@ keymap("n", "<leader>qc", "<cmd>lua require('quarto').quartoClosePreview()<CR>",
 -- ------------------------------------- SPECTRE
 -- -------------------------------------
 if isModuleAvailable("nvim-spectre") then
-  print("nvim-spectre - keys loaded")
+  if debug then
+    print("nvim-spectre - keys loaded")
+  end
   keymap("n", "<leader>S", "<cmd>lua require('spectre').toggle()<CR>", opts, "Toggle Spectre")
   keymap(
     "n",
@@ -206,7 +215,9 @@ end
 -- if isModuleAvailable("nvim-tree") then
 --   keymap("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", opts, "open [e]xplorer") -- abre el navegador
 if isModuleAvailable("neo-tree.nvim") then
-  print("neo-tree - keys loaded")
+  if debug then
+    print("neo-tree - keys loaded")
+  end
   keymap("n", "<leader>e", ":Neotree toggle<CR>", opts, "open explorer") -- abre el navegador
 else
   keymap("n", "<leader>e", ":Lex 30<CR>", opts, "open [e]xplorer") -- abre el navegador
@@ -224,7 +235,9 @@ end
 -- ------------------------------------- TMUX NAV
 -- -------------------------------------
 if isModuleAvailable("vim-tmux-navigator.nvim") then
-  print("vim-tmux-navigator - keys loaded")
+  if debug then
+    print("vim-tmux-navigator - keys loaded")
+  end
   keymap("n", "<C-h>", "<cmd>TmuxNavigateLeft<cr>", opts, "navigate to the left window")
   keymap("n", "<C-j>", "<cmd>TmuxNavigateDown<cr>", opts, "navigate to the lower window")
   keymap("n", "<C-k>", "<cmd>TmuxNavigateUp<cr>", opts, "navigate to the upper window")
@@ -236,7 +249,9 @@ end
 -- ------------------------------------- TELESCOPE
 -- -------------------------------------
 if isModuleAvailable("telescope.nvim") then
-  print("telescope - keys loaded")
+  if debug then
+    print("telescope - keys loaded")
+  end
   if wk ~= nil then
     wk.add({
       "<leader>f",
@@ -262,7 +277,9 @@ end
 -- -------------------------------------
 
 if isModuleAvailable("nvim-lspconfig") then
-  print("nvim-lspconfig - keys loaded")
+  if debug then
+    print("nvim-lspconfig - keys loaded")
+  end
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
     callback = function(ev)
@@ -326,7 +343,9 @@ end
 -- -------------------------------------
 
 if isModuleAvailable("cmp-nvim-lsp") then
-  print("cmp-nvim-lsp - keys loaded")
+  if debug then
+    print("cmp-nvim-lsp - keys loaded")
+  end
   local cmp = require("cmp")
   local cmp_select = { behavior = cmp.SelectBehavior.Select }
   keymap("i", "<C-p>", cmp.mapping.select_prev_item(cmp_select), opts, "[p]rev autocomplete item")
@@ -340,7 +359,9 @@ end
 
 -- ------ LuaSnips
 if isModuleAvailable("LuaSnip") then
-  print("LuaSnip - keys loaded")
+  if debug then
+    print("LuaSnip - keys loaded")
+  end
   local ls = require("luasnip")
   keymap("i", "<C-CR>", function()
     ls.jump(1)
@@ -355,7 +376,9 @@ end
 
 -- -------- TERMINAL
 if isModuleAvailable("toggleterm.nvim") then
-  print("toggleterm - keys loaded")
+  if debug then
+    print("toggleterm - keys loaded")
+  end
   local term = require("toggleterm")
   if wk ~= nil then
     wk.add({
@@ -370,7 +393,9 @@ end
 -- -------- HARPOON
 
 if isModuleAvailable("harpoon") then
-  print("harpoon - keys loaded")
+  if debug then
+    print("harpoon - keys loaded")
+  end
   local harpoon = require("harpoon")
   keymap("n", "<leader>a", function()
     harpoon:list():add()
