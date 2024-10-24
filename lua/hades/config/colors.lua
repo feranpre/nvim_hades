@@ -3,11 +3,12 @@
 -- vim.cmd.colorscheme("onedark_vivid")
 -- vim.cmd.colorscheme("onedark_dark")
 
+-- vim.cmd.colorscheme("nord")
 -- set colorscheme and overwrite highlights
 -- vim.cmd.colorscheme("catppuccin-frappe")
--- vim.cmd.colorscheme("catppuccin-mocha")
+vim.cmd.colorscheme("catppuccin-mocha")
 -- vim.cmd.colorscheme("dracula")
-vim.cmd.colorscheme("dracula-soft")
+-- vim.cmd.colorscheme("dracula-soft")
 -- vim.cmd("colorscheme onedark")
 -- vim.cmd("colorscheme monokai-pro")
 
