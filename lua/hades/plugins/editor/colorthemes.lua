@@ -1,13 +1,13 @@
 return {
-  { "shaunsingh/nord.nvim", enabled = true, lazy = false, priority = 1000 },
-  { "folke/tokyonight.nvim", enabled = true, lazy = false, priority = 1000 },
-  { "EdenEast/nightfox.nvim", enabled = true, lazy = false, priority = 1000 },
-  { "navarasu/onedark.nvim", enabled = true, lazy = false, priority = 1000 },
+  { "shaunsingh/nord.nvim", enabled = false, lazy = false, priority = 1000 },
+  { "folke/tokyonight.nvim", enabled = false, lazy = false, priority = 1000 },
+  { "EdenEast/nightfox.nvim", enabled = false, lazy = false, priority = 1000 },
+  { "navarasu/onedark.nvim", enabled = false, lazy = false, priority = 1000 },
   {
     "catppuccin/nvim",
-    enabled = true,
+    enabled = false,
     name = "catppuccin",
-    lazy = true, -- make sure we load this during startup if it is your main colorscheme
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
       -- vim.cmd.colorscheme("catppuccin-mocha")
@@ -89,13 +89,13 @@ return {
   },
   {
     "neanias/everforest-nvim",
-    enabled = true,
+    enabled = false,
     lazy = false,
     priority = 1000,
   },
   {
     "loctvl842/monokai-pro.nvim",
-    enabled = true,
+    enabled = false,
     lazy = false,
     priority = 1000,
     config = function()
@@ -103,7 +103,6 @@ return {
       -- vim.cmd.colorscheme("monokai-pro")
     end,
   },
-
   -- color html colors
   {
     "NvChad/nvim-colorizer.lua",
