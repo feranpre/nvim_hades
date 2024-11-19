@@ -106,7 +106,7 @@ return {
   -- color html colors
   {
     "NvChad/nvim-colorizer.lua",
-    enabled = true,
+    enabled = false,
     opts = {
       filetypes = { "*" },
       RGB = true, -- #RGB hex codes
@@ -132,5 +132,12 @@ return {
       -- all the sub-options of filetypes apply to buftypes
       buftypes = {},
     },
+  },
+  {
+    "brenoprata10/nvim-highlight-colors",
+    enabled = true,
+    config = function()
+      require("nvim-highlight-colors").setup({})
+    end,
   },
 }
