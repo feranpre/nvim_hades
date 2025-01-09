@@ -28,7 +28,7 @@ return {
     --
     -- -- BLINK
     --
-    local capabilities = require('blink.cmp').get_lsp_capabilities()
+    local capabilities = require("blink.cmp").get_lsp_capabilities()
 
     --
     -- -- SYMBOLS
@@ -66,28 +66,26 @@ return {
       -- },
     })
 
-
-    --
-    -- -- ------------------------------------------------------------------------------------
-    -- -- R
-    -- -- ------------------------------------------------------------------------------------
-    -- lspconfig.r_language_server.setup({
-    --   capabilities = capabilities,
-    --   flags = lsp_flags,
-    --   settings = {
-    --     r = {
-    --       lsp = {
-    --         rich_documentation = false,
-    --         -- allow_right_assign = true,
-    --         -- T_and_F_symbol_linter = false,
-    --       },
-    --       diagnostics = true,
-    --       -- disabled = { "commented_code_linter" },
-    --       -- disabled = { "assignment_linter", "commentedCode" },
-    --       -- },
-    --       -- assignment_linter = NULL,
-    --     },
-    --   },
-    -- })
+    -- ------------------------------------------------------------------------------------
+    -- R
+    -- ------------------------------------------------------------------------------------
+    lspconfig.r_language_server.setup({
+      capabilities = capabilities,
+      flags = lsp_flags,
+      settings = {
+        r = {
+          lsp = {
+            rich_documentation = false,
+            -- allow_right_assign = true,
+            -- T_and_F_symbol_linter = false,
+          },
+          diagnostics = true,
+          -- disabled = { "commented_code_linter" },
+          -- disabled = { "assignment_linter", "commentedCode" },
+          -- },
+          -- assignment_linter = NULL,
+        },
+      },
+    })
   end,
 }

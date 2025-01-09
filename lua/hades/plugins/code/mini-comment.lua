@@ -1,6 +1,7 @@
 return {
-   	{ 'echasnovski/mini.comment', 
-    version = '*',
+  {
+    "echasnovski/mini.comment",
+    version = "*",
     config = function()
       require("mini.comment").setup()
       -- require("mini.comment").setup({
@@ -8,8 +9,6 @@ return {
       --     ignore_blank_lien = false, -- dont comment blank lines
       --   }
       -- })
-
     end,
-
   },
 }

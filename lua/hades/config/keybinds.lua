@@ -1,3 +1,4 @@
+-- TODO: limpiar comentarios
 local live_multigrep = require("hades.misc.telescope_multigrep").live_multigrep
 
 local keymap = require("hades.misc.utils").keymap
@@ -96,6 +97,28 @@ keymap("n", "zw", "zw", opts, "[w]rong word to add to dictionary (spelling)")
 keymap("n", "zW", "zW", opts, "[W]rong word to add to internal dictionary (spelling)")
 keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
 
+-- -------------------------------------
+-- ------------------------------------- TMUX NAV
+-- -------------------------------------
+if isModuleAvailable("vim-tmux-navigator.nvim") then
+  if debug then
+    print("vim-tmux-navigator - keys loaded")
+  end
+  keymap("n", "<C-h>", "<cmd>TmuxNavigateLeft<cr>", opts, "navigate to the left window")
+  keymap("n", "<C-j>", "<cmd>TmuxNavigateDown<cr>", opts, "navigate to the lower window")
+  keymap("n", "<C-k>", "<cmd>TmuxNavigateUp<cr>", opts, "navigate to the upper window")
+  keymap("n", "<C-l>", "<cmd>TmuxNavigateRight<cr>", opts, "navigate to the right window")
+  -- keymap("n", "<cmd>TmuxNavigatePrevious<cr>", opts, "navigate to the   window")
+else
+  if debug then
+    print("vim-tmux-navigator NOT DETECTED - default keys loaded")
+  end
+
+  keymap("n", "<C-h>", "<C-w>h", opts, "navigate to the left window")
+  keymap("n", "<C-j>", "<C-w>j", opts, "navigate to the lower window")
+  keymap("n", "<C-k>", "<C-w>k", opts, "navigate to the upper window")
+  keymap("n", "<C-l>", "<C-w>l", opts, "navigate to the right window")
+end
 
 -- -------------------------------------
 -- ------------------------------------- TELESCOPE
@@ -113,21 +136,23 @@ if isModuleAvailable("telescope") then
   keymap("n", "<leader>fr", require("telescope.builtin").oldfiles, opts, "[f]ind [r]ecent file")
   keymap("n", "<leader>fg", live_multigrep, opts, "[f]ind string in this [d]ir")
   keymap("n", "<leader>fs", require("telescope.builtin").grep_string, opts, "[f]ind string under cursor in dir")
-  keymap("n", "<leader>fb", require("telescope.builtin").current_buffer_fuzzy_find, opts,
-    "[f]ind in [b]uffer (fuzzy find)")
+  keymap(
+    "n",
+    "<leader>fb",
+    require("telescope.builtin").current_buffer_fuzzy_find,
+    opts,
+    "[f]ind in [b]uffer (fuzzy find)"
+  )
   keymap("n", "<leader>fB", require("telescope.builtin").buffers, opts, "[f]ind [b]uffer")
   keymap("n", "<leader>fh", require("telescope.builtin").help_tags, opts, "[f]ind in [h]elp")
   keymap("n", "<leader>fq", require("telescope.builtin").quickfix, opts, "[f]ind [q]uick fix")
   keymap("n", "<leader>vc", require("telescope.builtin").colorscheme, opts, "[v]im [c]olosrcheme")
   keymap("n", "<leader>fc", function()
-    require("telescope.builtin").find_files {
-      cwd = vim.fn.stdpath("config")
-    }
-  end
-  , opts, "[f]ind nvim [c]onfig file")
+    require("telescope.builtin").find_files({
+      cwd = vim.fn.stdpath("config"),
+    })
+  end, opts, "[f]ind nvim [c]onfig file")
 end
-
-
 
 -- -------------------------------------
 -- ------------------------------------- LSP CONFIG
@@ -156,8 +181,22 @@ if isModuleAvailable("lspconfig") then
       keymap_buffer(0, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename() <CR>", opts, "[l]sp [r]ename in scope") -- smart rename
 
       -- diagnostics
-      keymap_buffer(0, "n", "<leader>ld", "<cmd>lua vim.diagnostic.open_float() <CR>", opts, "[l]sp [d]iagnostics (line)")
-      keymap_buffer(0, "n", "<leader>lD", "<cmd>Telescope diagnostics bufnr=0<CR>", opts, "[l]sp [D]iagnostics (buffer)") -- show lsp implementations
+      keymap_buffer(
+        0,
+        "n",
+        "<leader>ld",
+        "<cmd>lua vim.diagnostic.open_float() <CR>",
+        opts,
+        "[l]sp [d]iagnostics (line)"
+      )
+      keymap_buffer(
+        0,
+        "n",
+        "<leader>lD",
+        "<cmd>Telescope diagnostics bufnr=0<CR>",
+        opts,
+        "[l]sp [D]iagnostics (buffer)"
+      ) -- show lsp implementations
 
       -- move through diagnostic
       keymap_buffer(0, "n", "<M-j>", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts, "lsp - prev diagnostic")
@@ -182,4 +221,38 @@ if isModuleAvailable("lspconfig") then
       keymap_buffer(0, "n", "<leader>ls", "<cmd>LspRestart<CR>", opts, "[l]sp [s]tart/restart LSP")
     end,
   })
+end
+
+--
+-- OIL
+--
+if isModuleAvailable("oil") then
+  keymap("n", "<leader>e", "<cmd>Oil<CR>", opts, "[e]xplore with Oil current directory")
+end
+
+--
+-- TODO-COMMENTS
+--
+if isModuleAvailable("todo-comments") then
+  keymap("n", "<leader>ft", "<cmd>TodoTelescope<CR>", opts, "[f]ind TODO tags (telescope)")
+end
+
+--
+-- SNACKS
+--
+if isModuleAvailable("snacks") then
+  print("Snacks detected")
+  keymap("n", "<leader>n", "<cmd>lua Snacks.notifier.show_history()<CR>", opts, "[n]otifier history")
+  keymap("n", "<leader>bd", "<cmd>lua Snacks.bufdelete()<CR>", opts, "[b]uffer [d]elete")
+  keymap("n", "<leader>bD", "<cmd>lua Snacks.bufdelete.other()<CR>", opts, "[b]uffer [D]elete others")
+end
+
+--
+-- R
+--
+if isModuleAvailable("r") then
+  if debug then
+    print("R.nvim - keys loaded")
+  end
+  require("hades.config.keybinds_r")
 end
