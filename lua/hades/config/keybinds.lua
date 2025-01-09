@@ -109,14 +109,15 @@ if isModuleAvailable("telescope") then
   -- Telescope --
   -- Find files in project
   keymap("n", "<leader>ff", require("telescope.builtin").find_files, opts, "[f]ind [f]ile")
-  keymap("n", "<leader>fk", require("telescope.builtin").keymaps, opts, "find [k]eymaps")
-  keymap("n", "<leader>fr", require("telescope.builtin").oldfiles, opts, "find [r]ecent file")
-  keymap("n", "<leader>fs", live_multigrep, opts, "find string in this [d]ir")
-  keymap("n", "<leader>fg", require("telescope.builtin").grep_string, opts, "find string under cursor in dir")
-  keymap("n", "<leader>fb", require("telescope.builtin").current_buffer_fuzzy_find, opts, "find in [b]uffer (fuzzy find)")
-  keymap("n", "<leader>fB", require("telescope.builtin").buffers, opts, "find [b]uffer")
-  keymap("n", "<leader>fh", require("telescope.builtin").help_tags, opts, "find in [h]elp")
-  keymap("n", "<leader>fq", require("telescope.builtin").quickfix, opts, "find [q]uick fix")
+  keymap("n", "<leader>fk", require("telescope.builtin").keymaps, opts, "[f]ind [k]eymaps")
+  keymap("n", "<leader>fr", require("telescope.builtin").oldfiles, opts, "[f]ind [r]ecent file")
+  keymap("n", "<leader>fg", live_multigrep, opts, "[f]ind string in this [d]ir")
+  keymap("n", "<leader>fs", require("telescope.builtin").grep_string, opts, "[f]ind string under cursor in dir")
+  keymap("n", "<leader>fb", require("telescope.builtin").current_buffer_fuzzy_find, opts,
+    "[f]ind in [b]uffer (fuzzy find)")
+  keymap("n", "<leader>fB", require("telescope.builtin").buffers, opts, "[f]ind [b]uffer")
+  keymap("n", "<leader>fh", require("telescope.builtin").help_tags, opts, "[f]ind in [h]elp")
+  keymap("n", "<leader>fq", require("telescope.builtin").quickfix, opts, "[f]ind [q]uick fix")
   keymap("n", "<leader>vc", require("telescope.builtin").colorscheme, opts, "[v]im [c]olosrcheme")
   keymap("n", "<leader>fc", function()
     require("telescope.builtin").find_files {
@@ -124,4 +125,61 @@ if isModuleAvailable("telescope") then
     }
   end
   , opts, "[f]ind nvim [c]onfig file")
+end
+
+
+
+-- -------------------------------------
+-- ------------------------------------- LSP CONFIG
+-- -------------------------------------
+
+if isModuleAvailable("lspconfig") then
+  if debug then
+    print("nvim-lspconfig - keys loaded")
+  end
+  vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+    callback = function(ev)
+      -- Enable completion triggered by <c-x><c-o>
+      vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+
+      -- Buffer local mappings.
+      -- See `:help vim.lsp.*` for documentation on any of the below functions
+      -- local opts = { buffer = ev.buf }
+
+      -- references
+      keymap_buffer(0, "n", "gR", "<cmd>Telescope lsp_references<CR>", opts, "LSP -> show definition references")
+      keymap_buffer(0, "n", "grr", "<cmd>lua vim.lsp.buf.references()<CR>", opts, "LSP -> show references") -- show lsp implementations
+
+      -- rename
+      keymap_buffer(0, "n", "grn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts, "LSP -> rename in scope")          -- show lsp implementations
+      keymap_buffer(0, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename() <CR>", opts, "[l]sp [r]ename in scope") -- smart rename
+
+      -- diagnostics
+      keymap_buffer(0, "n", "<leader>ld", "<cmd>lua vim.diagnostic.open_float() <CR>", opts, "[l]sp [d]iagnostics (line)")
+      keymap_buffer(0, "n", "<leader>lD", "<cmd>Telescope diagnostics bufnr=0<CR>", opts, "[l]sp [D]iagnostics (buffer)") -- show lsp implementations
+
+      -- move through diagnostic
+      keymap_buffer(0, "n", "<M-j>", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts, "lsp - prev diagnostic")
+      keymap_buffer(0, "n", "<M-k>", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts, "lsp - next diagnostic")
+      -- keymap_buffer(0, "n", "<leader>[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts, "lsp - prev diagnostic")
+      -- keymap_buffer(0, "n", "<leader>]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts, "lsp - next diagnostic")
+
+      -- actions
+      keymap_buffer(0, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts, "[l]sp code [a]ctions") -- show lsp implementations
+      keymap_buffer(0, "v", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts, "[l]sp code [a]ctions") -- show lsp implementations
+
+      -- definitions and lsp_implementations
+      keymap_buffer(0, "n", "gD", "<cmd>lua vim.lsp.buf.declaration() <CR>", opts, "LSP -> go to definition")
+      keymap_buffer(0, "n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts, "LSP -> show lsp definitions")
+      keymap_buffer(0, "n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts, "LSP -> show implementations")   -- show lsp implementations
+      keymap_buffer(0, "n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts, "LSP -> show type definitions") -- show lsp implementations
+
+      -- help
+      keymap_buffer(0, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts, "LSP -> Doc for string under cursor")
+
+      -- restgart
+      keymap_buffer(0, "n", "<leader>ls", "<cmd>LspRestart<CR>", opts, "[l]sp [s]tart/restart LSP")
+    end,
+  })
 end

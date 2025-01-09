@@ -8,44 +8,18 @@ return {
   dependencies = {
     -- "hrsh7th/cmp-nvim-lsp",
     { "williamboman/mason.nvim" },
-    { "williamboman/mason-lspconfig.nvim" }, -- configuration of mason and lsp
+    { "williamboman/mason-lspconfig.nvim" },         -- configuration of mason and lsp
     { "WhoIsSethDaniel/mason-tool-installer.nvim" }, -- install 3rd party extensions in the system
-    -- { -- nice loading notifications
-    --   -- PERF: but can slow down startup
-    --   "j-hui/fidget.nvim",
-    --   enabled = false,
-    --   opts = {},
-    -- },
-    { "folke/neodev.nvim", opts = {}, enabled = true },
-    -- { "folke/neoconf.nvim", opts = {}, enabled = false },
+    { "folke/lazydev.nvim",                       opts = {}, enabled = true },
   },
   config = function()
     local lspconfig = require("lspconfig")
 
     -- local util = require("lspconfig.util")
 
-
-    --
-    -- -- MASON
-    --
-    -- require("mason").setup()
-    -- require("mason-lspconfig").setup({
-    --   automatic_installation = true,
-    -- })
-    -- require("mason-tool-installer").setup({
-    --   ensure_installed = {
-    --     "black",
-    --     "stylua",
-    --     "shfmt",
-    --     "isort",
-    --   },
-    -- })
-    --
-
     --
     -- -- FLAGS
     --
-
     local lsp_flags = {
       allow_incremental_sync = true,
       debounce_text_changes = 150,
@@ -55,15 +29,6 @@ return {
     -- -- BLINK
     --
     local capabilities = require('blink.cmp').get_lsp_capabilities()
-
-    --
-    --
-    -- -- local cmp_nvim_lsp = require('cmp_nvim_lsp')
-    -- -- local capabilities = cmp_nvim_lsp.default_capabilities()
-    -- local capabilities = vim.lsp.protocol.make_client_capabilities()
-    -- capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-    -- capabilities.textDocument.completion.completionItem.snippetSupport = true
-    --
 
     --
     -- -- SYMBOLS
