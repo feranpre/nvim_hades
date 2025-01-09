@@ -1,5 +1,0 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = ","
--- vim.g.python3_host_prog = "~/PROGRAMAS/CONDA/bin/python3"
-vim.g.python3_host_prog = vim.fn.expand("$HOME") .. "/PROGRAMAS/CONDA/bin/python3"
--- vim.g.python3_host_prog = "/bin/python3"

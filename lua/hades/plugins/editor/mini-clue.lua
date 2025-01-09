@@ -1,54 +1,58 @@
 return {
-  "echasnovski/mini.clue",
-  enabled = false,
-  version = false,
-  config = function()
-    local miniclue = require("mini.clue")
-    miniclue.setup({
-      delay = 10,
-      triggers = {
-        -- Leader triggers
-        { mode = "n", keys = "<Leader>" },
-        { mode = "x", keys = "<Leader>" },
-        { mode = "n", keys = "<LocalLeader>" },
-        { mode = "x", keys = "<LocalLeader>" },
+  {
+    'echasnovski/mini.clue',
+    version = '*',
+    enabled = true,
+    config = function()
+      local miniclue = require('mini.clue')
+      miniclue.setup({
+        delay = 0,
+        triggers = {
+          -- Leader triggers
+          { mode = 'n', keys = '<leader>' },
+          { mode = 'x', keys = '<leader>' },
 
-        -- Built-in completion
-        { mode = "i", keys = "<C-x>" },
+          -- Local Leader triggers
+          { mode = 'n', keys = '<localleader>' },
+          { mode = 'x', keys = '<localleader>' },
 
-        -- `g` key
-        { mode = "n", keys = "g" },
-        { mode = "x", keys = "g" },
+          -- Built-in completion
+          { mode = 'i', keys = '<C-x>' },
 
-        -- Marks
-        { mode = "n", keys = "'" },
-        { mode = "n", keys = "`" },
-        { mode = "x", keys = "'" },
-        { mode = "x", keys = "`" },
+          -- `g` key
+          { mode = 'n', keys = 'g' },
+          { mode = 'x', keys = 'g' },
 
-        -- Registers
-        { mode = "n", keys = '"' },
-        { mode = "x", keys = '"' },
-        { mode = "i", keys = "<C-r>" },
-        { mode = "c", keys = "<C-r>" },
+          -- Marks
+          { mode = 'n', keys = "'" },
+          { mode = 'n', keys = '`' },
+          { mode = 'x', keys = "'" },
+          { mode = 'x', keys = '`' },
 
-        -- Window commands
-        { mode = "n", keys = "<C-w>" },
+          -- Registers
+          { mode = 'n', keys = '"' },
+          { mode = 'x', keys = '"' },
+          { mode = 'i', keys = '<C-r>' },
+          { mode = 'c', keys = '<C-r>' },
 
-        -- `z` key
-        { mode = "n", keys = "z" },
-        { mode = "x", keys = "z" },
-      },
+          -- Window commands
+          { mode = 'n', keys = '<C-w>' },
 
-      clues = {
-        -- Enhance this by adding descriptions for <Leader> mapping groups
-        miniclue.gen_clues.builtin_completion(),
-        miniclue.gen_clues.g(),
-        miniclue.gen_clues.marks(),
-        miniclue.gen_clues.registers(),
-        miniclue.gen_clues.windows(),
-        miniclue.gen_clues.z(),
-      },
-    })
-  end,
+          -- `z` key
+          { mode = 'n', keys = 'z' },
+          { mode = 'x', keys = 'z' },
+        },
+
+        clues = {
+          -- Enhance this by adding descriptions for <Leader> mapping groups
+          miniclue.gen_clues.builtin_completion(),
+          miniclue.gen_clues.g(),
+          miniclue.gen_clues.marks(),
+          miniclue.gen_clues.registers(),
+          miniclue.gen_clues.windows(),
+          miniclue.gen_clues.z(),
+        },
+      })
+    end
+  },
 }
