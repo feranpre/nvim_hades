@@ -8,3 +8,11 @@ PTV
 RTOG
 linters
 filetype
+backend
+Autocompletion
+linter
+autopairs
+keybinds
+colorschemes
+colorscheme
+neovim

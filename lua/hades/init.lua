@@ -13,4 +13,5 @@ require("lazy").setup({
 require("hades.config.options")
 require("hades.config.keybinds")
 
-require("hades.misc.lsp_autocmd")
+require("hades.autocmd.lsp_autocmd")
+require("hades.autocmd.spell_autocmd")
