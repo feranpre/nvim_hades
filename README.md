@@ -14,27 +14,30 @@ git clone https://github.com/feranpre/nvim_hades.git ~/.config/nvim
 
 # Code
 
+## Autocompletion
 
-## [blink](https://github.com/Saghen/blink.cmp)
+### [blink](https://github.com/Saghen/blink.cmp)
 Autocompletion plugin
 
 This is the replacement of [cmp](https://github.com/hrsh7th/nvim-cmp) 
 
 
-## [otter](https://github.com/jmbuhr/otter.nvim) 
+### [otter](https://github.com/jmbuhr/otter.nvim) 
 Code completion inside other documents, like quarto
 
 
+## REPL
 
-## [Molten](https://github.com/benlubas/molten-nvim)
+### [Molten](https://github.com/benlubas/molten-nvim)
 Molten allows to work with jupyter notebooks.
 
 The requirements include:
  - [image.nvim](https://github.com/3rd/image.nvim)
   - I don't use kitty and therefore I need to use the  `ueberzug` render backend for images
 
+## Formatting
 
-## [conform](https://github.com/stevearc/conform.nvim)
+### [conform](https://github.com/stevearc/conform.nvim)
 Format code files
 
 

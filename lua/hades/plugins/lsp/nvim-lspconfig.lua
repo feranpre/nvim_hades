@@ -2,6 +2,7 @@
 --
 -- Eliminando CMP y cambiandolo por blink
 --
+
 return {
   "neovim/nvim-lspconfig",
 
@@ -38,6 +39,15 @@ return {
       local hl = "DiagnosticSign" .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
+
+    -- -- ------------------------------------------------------------------------------------
+    -- -- lua
+    -- -- ------------------------------------------------------------------------------------
+    lspconfig.pyright.setup({
+      capabilities = capabilities,
+      flags = lsp_flags,
+      -- filetypes = {"python"},
+    })
 
     -- -- ------------------------------------------------------------------------------------
     -- -- lua
