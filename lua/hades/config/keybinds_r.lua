@@ -1,6 +1,7 @@
 vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
   desc = "r file binds",
-  pattern = { "r", "quarto" },
+  -- pattern = { "r", "quarto" },
+  pattern = { "r" },
   callback = function(ev)
     local opts = { noremap = true, silent = true, desc = nil }
     local keymap_buffer = require("hades.misc.utils").keymap_buffer
