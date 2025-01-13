@@ -95,7 +95,7 @@ keymap("n", "zug", "zug", opts, "[u]ndo add [g]ood word to dictionary (spelling)
 -- keymap("n", "zuG", "zuG", opts, "[u]ndo add [G]ood word to internal dictionary (spelling)")
 keymap("n", "zw", "zw", opts, "[w]rong word to add to dictionary (spelling)")
 -- keymap("n", "zW", "zW", opts, "[W]rong word to add to internal dictionary (spelling)")
-keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
+-- keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)") -- IN TELESCOPE
 
 -- -------------------------------------
 -- ------------------------------------- TMUX NAV
@@ -152,6 +152,10 @@ if isModuleAvailable("telescope") then
       cwd = vim.fn.stdpath("config"),
     })
   end, opts, "[f]ind nvim [c]onfig file")
+
+  keymap("n", "z=", require("telescope.builtin").spell_suggest, opts, "[f]ind [b]uffer")
+else
+  keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
 end
 
 -- -------------------------------------
@@ -177,7 +181,7 @@ if isModuleAvailable("lspconfig") then
       keymap_buffer(0, "n", "grr", "<cmd>lua vim.lsp.buf.references()<CR>", opts, "LSP -> show references") -- show lsp implementations
 
       -- rename
-      keymap_buffer(0, "n", "grn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts, "LSP -> rename in scope")          -- show lsp implementations
+      keymap_buffer(0, "n", "grn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts, "LSP -> rename in scope") -- show lsp implementations
       keymap_buffer(0, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename() <CR>", opts, "[l]sp [r]ename in scope") -- smart rename
 
       -- diagnostics
@@ -211,7 +215,7 @@ if isModuleAvailable("lspconfig") then
       -- definitions and lsp_implementations
       keymap_buffer(0, "n", "gD", "<cmd>lua vim.lsp.buf.declaration() <CR>", opts, "LSP -> go to definition")
       keymap_buffer(0, "n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts, "LSP -> show lsp definitions")
-      keymap_buffer(0, "n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts, "LSP -> show implementations")   -- show lsp implementations
+      keymap_buffer(0, "n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts, "LSP -> show implementations") -- show lsp implementations
       keymap_buffer(0, "n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts, "LSP -> show type definitions") -- show lsp implementations
 
       -- help

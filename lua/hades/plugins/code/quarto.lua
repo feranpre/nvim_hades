@@ -9,20 +9,25 @@ return {
     enabled = true,
     ft = { "quarto" },
     dev = false,
-    opts = {
-      lspFeatures = {
-        languages = { "r", "python", "julia", "bash", "lua", "html" },
-      },
-      completion = {
-        enabled = true,
-      },
-      codeRunner = {
-        enabled = true,
-        default_method = "molten",
-      },
-    },
     config = function(opts)
-      require("quarto").setup(opts)
+      require("quarto").setup({
+        lspFeatures = {
+          enabled = true,
+          languages = { "r", "python", "julia", "bash", "lua", "html" },
+          diagnostics = {
+            enabled = true,
+            triggers = { "BufWritePost" },
+          },
+        },
+        completion = {
+          enabled = true,
+        },
+        codeRunner = {
+          enabled = true,
+          default_method = "molten",
+          never_run = { "yaml" },
+        },
+      })
     end,
     dependencies = {
       -- for language features in code cells

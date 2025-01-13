@@ -3,7 +3,7 @@
 return {
   {
     "shaunsingh/nord.nvim",
-    enabled = true,
+    enabled = false,
     lazy = false,
     priority = 1000,
     -- config = function()
@@ -12,7 +12,7 @@ return {
   },
   {
     "folke/tokyonight.nvim",
-    enabled = true,
+    enabled = false,
     lazy = false,
     priority = 1000,
     -- config = function()
@@ -22,7 +22,7 @@ return {
   {
     "embark-theme/vim",
     name = "embark-theme",
-    enabled = true,
+    enabled = false,
     lazy = false,
     priority = 1000,
     -- config = function()
@@ -35,7 +35,13 @@ return {
     name = "catppuccin",
     priority = 1000,
     config = function()
-      -- flavour = "frape"
+      require("catppuccin").setup({
+        flavour = "auto",
+        integrations = {
+          markdown = false,
+        },
+      })
+      -- flavour = "frappe"
     end,
   },
 }
