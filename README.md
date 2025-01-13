@@ -17,9 +17,7 @@ git clone https://github.com/feranpre/nvim_hades.git ~/.config/nvim
 ## Autocompletion
 
 ### [blink](https://github.com/Saghen/blink.cmp)
-Autocompletion plugin
-
-This is the replacement of [cmp](https://github.com/hrsh7th/nvim-cmp) 
+Autocompletion plugin, this is the replacement of [cmp](https://github.com/hrsh7th/nvim-cmp) 
 
 
 ### [otter](https://github.com/jmbuhr/otter.nvim) 
@@ -78,7 +76,6 @@ tips:
 - select a word and `sa"` to surround it with ""
 
 
-
 ## language
 
 ### [quarto](https://github.com/quarto-dev/quarto-nvim)
@@ -86,7 +83,6 @@ tips:
 
 ### [R.nvim](https://github.com/R-nvim/R.nvim)
 R support in neovim
-
 
 ### Markdown
 
@@ -113,16 +109,27 @@ Create a list of files that can be accessed using keybinds or selecting from a l
 ## [indent-blankline](https://github.com/lukas-reineke/indent-blankline.nvim)
 Indentation guides
 
+## key combinations
+
+### [mini-clue](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-clue.md)
+Shows help for keybinds as you use the commands
+Replacement for [which-key](https://github.com/folke/which-key.nvim)
+
+`DISABLED`
+
+
+### [which-key](https://github.com/folke/which-key.nvim)
+Shows help for keybinds as you use the commands
+
 
 ## [mini](https://github.com/echasnovski/mini.nvim)
 
 ### [mini-animate](https://github.com/echasnovski/mini.animate)
 Cursor animations
+`DISABLED`
 
-### [mini-clue](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-clue.md)
-Shows help for keybinds as you use the commands
+It did some funky things, and got stuck when trying to use `CTRL+f`
 
-Replacement for [which-key](https://github.com/folke/which-key.nvim)
 
 ### [mini-statusline](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-statusline.md)
 
