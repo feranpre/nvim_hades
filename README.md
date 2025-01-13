@@ -33,6 +33,12 @@ The requirements include:
  - [image.nvim](https://github.com/3rd/image.nvim)
   - I don't use kitty and therefore I need to use the  `ueberzug` render backend for images
 
+```bash
+venv project_name # activate the project venv
+pip install ipykernel
+python -m ipykernel install --user --name project_name
+```
+
 ## Formatting
 
 ### [conform](https://github.com/stevearc/conform.nvim)
