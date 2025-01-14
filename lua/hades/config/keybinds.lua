@@ -101,7 +101,7 @@ keymap("n", "zw", "zw", opts, "[w]rong word to add to dictionary (spelling)")
 -- -------------------------------------
 -- ------------------------------------- TMUX NAV
 -- -------------------------------------
-if isModuleAvailable("vim-tmux-navigator.nvim") then
+if isModuleAvailable("TmuxNavigateDown") then
   if debug then
     print("vim-tmux-navigator - keys loaded")
   end
@@ -114,7 +114,6 @@ else
   if debug then
     print("vim-tmux-navigator NOT DETECTED - default keys loaded")
   end
-
   keymap("n", "<C-h>", "<C-w>h", opts, "navigate to the left window")
   keymap("n", "<C-j>", "<C-w>j", opts, "navigate to the lower window")
   keymap("n", "<C-k>", "<C-w>k", opts, "navigate to the upper window")
@@ -265,9 +264,19 @@ end
 --
 -- QUARTO
 --
--- require("hades.config.keybinds_quarto")
-keymap("n", "<leader>qp", "<cmd>lua require('quarto').quartoPreview()<CR>", opts, "[q]uarto [p]review")
-keymap("n", "<leader>qc", "<cmd>lua require('quarto').quartoClosePreview()<CR>", opts, "[q]uarto [c]lose preview")
+if isModuleAvailable("quarto") then
+  if debug then
+    print("Quarto - keys loaded")
+  end
+  require("hades.config.keybinds_quarto")
+else
+  if debug then
+    print("Quarto - keys NOT loaded")
+  end
+end
+
+-- keymap("n", "<leader>qp", "<cmd>lua require('quarto').quartoPreview()<CR>", opts, "[q]uarto [p]review")
+-- keymap("n", "<leader>qc", "<cmd>lua require('quarto').quartoClosePreview()<CR>", opts, "[q]uarto [c]lose preview")
 
 --
 -- MOLTEN
@@ -280,6 +289,20 @@ if isModuleAvailable("MoltenInfo") then
 else
   if debug then
     print("Molten - keys NOT loaded")
+  end
+end
+
+--
+-- SLIME
+--
+if isModuleAvailable("SlimeConfig") then
+  if debug then
+    print("Slime - keys loaded")
+  end
+  require("hades.config.keybinds_slime")
+else
+  if debug then
+    print("Slime - keys NOT loaded")
   end
 end
 
@@ -336,4 +359,45 @@ if isModuleAvailable("harpoon") then
   keymap("n", "<C-S-N>", function()
     harpoon:list():next()
   end, opts, "[n]ext harpoon file")
+end
+
+--
+-- nvim-python-repl
+--
+if isModuleAvailable("nvim-python-repl") then
+  if debug then
+    print("nvim-python-repl - keys loaded")
+  end
+
+  keymap("n", "<C-CR>", function()
+    require("nvim-python-repl").send_statement_definition()
+  end, opts, "Send semantic unit to REPL")
+
+  keymap("v", "<localleader>sr", function()
+    require("nvim-python-repl").send_visual_to_repl()
+  end, opts, "Send visual selection to REPL")
+
+  keymap("n", "<localleader>sc", function()
+    require("nvim-python-repl").send_current_cell_to_repl()
+  end, opts, "Send current cell to REPL")
+
+  keymap("n", "<localleader>sf", function()
+    require("nvim-python-repl").send_buffer_to_repl()
+  end, opts, "Send entire buffer to REPL")
+
+  keymap("n", "<localleader>se", function()
+    require("nvim-python-repl").toggle_execute()
+  end, opts, "Automatically execute command in REPL after sent")
+
+  -- keymap("n", "<localleader>tn", function()
+  --   require("nvim-python-repl").toggle_vertical()
+  -- end, opts, "Create REPL in vertical or horizontal split")
+
+  keymap("n", "<localleader>tn", function()
+    require("nvim-python-repl").open_repl()
+  end, opts, "[t]erminal [n]ew")
+else
+  if debug then
+    print("nvim-python-repl - keys NOT loaded")
+  end
 end
