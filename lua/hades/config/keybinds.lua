@@ -1,4 +1,6 @@
 -- TODO: limpiar comentarios
+require("hades.config.keybinds_markdown")
+
 local live_multigrep = require("hades.misc.telescope_multigrep").live_multigrep
 
 local keymap = require("hades.misc.utils").keymap
