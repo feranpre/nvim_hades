@@ -62,6 +62,12 @@ return {
       vim.g.slime_target = "neovim"
       vim.g.slime_no_mappings = true
       vim.g.slime_python_ipython = 1
+      -- vim.g.slime_default_config = {
+      --   socket_name = "default",
+      --   target_pane = "{last}",
+      -- }
+
+      vim.g.slime_cell_delimiter = "# %%"
     end,
     config = function()
       vim.g.slime_input_pid = false
@@ -77,8 +83,8 @@ return {
       local function set_terminal()
         vim.fn.call("slime#config", {})
       end
-      vim.keymap.set("n", "<leader>cm", mark_terminal, { desc = "[m]ark terminal" })
-      vim.keymap.set("n", "<leader>cs", set_terminal, { desc = "[s]et terminal" })
+      -- vim.keymap.set("n", "<leader>cm", mark_terminal, { desc = "[m]ark terminal" })
+      -- vim.keymap.set("n", "<leader>cs", set_terminal, { desc = "[s]et terminal" })
     end,
   },
 
@@ -120,27 +126,27 @@ return {
     },
   },
 
-  {
-    "benlubas/molten-nvim",
-    enabled = false,
-    build = ":UpdateRemotePlugins",
-    init = function()
-      vim.g.molten_image_provider = "image.nvim"
-      vim.g.molten_output_win_max_height = 20
-      vim.g.molten_auto_open_output = false
-    end,
-    keys = {
-      { "<leader>mi", ":MoltenInit<cr>", desc = "[m]olten [i]nit" },
-      {
-        "<leader>mv",
-        ":<C-u>MoltenEvaluateVisual<cr>",
-        mode = "v",
-        desc = "molten eval visual",
-      },
-      { "<leader>mr", ":MoltenReevaluateCell<cr>", desc = "molten re-eval cell" },
-    },
-  },
-
+  -- {
+  --   "benlubas/molten-nvim",
+  --   enabled = false,
+  --   build = ":UpdateRemotePlugins",
+  --   init = function()
+  --     vim.g.molten_image_provider = "image.nvim"
+  --     vim.g.molten_output_win_max_height = 20
+  --     vim.g.molten_auto_open_output = false
+  --   end,
+  --   keys = {
+  --     { "<leader>mi", ":MoltenInit<cr>", desc = "[m]olten [i]nit" },
+  --     {
+  --       "<leader>mv",
+  --       ":<C-u>MoltenEvaluateVisual<cr>",
+  --       mode = "v",
+  --       desc = "molten eval visual",
+  --     },
+  --     { "<leader>mr", ":MoltenReevaluateCell<cr>", desc = "molten re-eval cell" },
+  --   },
+  -- },
+  --
   {
 
     -- for lsp features in code cells / embedded code

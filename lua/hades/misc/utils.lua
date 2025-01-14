@@ -1,22 +1,21 @@
 local M = {}
 
 function M.keymap(mode, keys, func, opts, desc)
-  local local_opts = opts
-  if desc then
-    -- local_opts["desc"] = desc
-    local_opts.desc = desc
-  end
-  -- vim.api.nvim_set_keymap(mode, keys, func, local_opts)
-  vim.keymap.set(mode, keys, func, local_opts)
-end
-
-function M.keymap_buffer(buffer, mode, keys, func, opts, desc)
-  -- local local_opts = opts
-  -- local_opts["buffer"] = buffer
   if desc then
     opts.desc = desc
   end
-  vim.api.nvim_buf_set_keymap(buffer, mode, keys, func, opts)
+  vim.keymap.set(mode, keys, func, opts)
+end
+
+function M.keymap_buffer(buffer, mode, keys, func, opts, desc)
+  if desc then
+    opts.desc = desc
+  end
+  if buffer then
+    opts.buffer = buffer
+  end
+  vim.keymap.set(mode, keys, func, opts)
+  -- vim.api.nvim_buf_set_keymap(buffer, mode, keys, func, opts)
   -- vim.keymap.set(mode, keys, func, local_opts)
 end
 

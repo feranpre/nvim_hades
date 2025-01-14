@@ -1,6 +1,6 @@
 vim.api.nvim_create_autocmd({ "FileType", "BufEnter" }, {
   desc = "REPL for multiple languages",
-  pattern = { "python" },
+  pattern = { "python", "quarto" },
   callback = function(ev)
     print(" -- Loading Slime Keys --")
     local opts = { noremap = true, silent = true, desc = nil }
@@ -8,18 +8,34 @@ vim.api.nvim_create_autocmd({ "FileType", "BufEnter" }, {
     local keymap_buffer = require("hades.misc.utils").keymap_buffer
     local key_or_clue = require("hades.misc.utils").key_or_clue
 
-    -- key_or_clue("n", "<localleader>b", "+[b]uild tools")
-    -- key_or_clue("n", "<localleader>k", "+[k]nitting tools")
+    local function create_and_configure_terminal()
+      -- Check if a terminal already exists in a split
+      for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.bo[buf].buftype == "terminal" then
+          print("A terminal window already exists.")
+          return
+        end
+      end
+      local current_win = vim.api.nvim_get_current_win()
+      --
+      -- Open a terminal in a vertical split taking 30% of the space
+      vim.cmd("vsplit")
+      vim.cmd("vertical resize " .. math.floor(vim.o.columns * 0.3))
 
-    -- wk.register({ ["<localleader>"] = { name = "[R] commands" } }, b_opts)
-    -- wk.add({ "<localleader>r", group = "[R] start/stop" }, b_opts)
-    -- wk.add({ "<localleader>s", group = "[s]end to R" }, b_opts)
-    -- wk.add({ "<localleader>b", group = "[b]uild tools" }, b_opts)
-    -- wk.add({ "<localleader>k", group = "[k]nitting tools" }, b_opts)
-    -- end
+      vim.cmd("terminal")
+      vim.cmd("$")
 
-    -- TERMINAL
-    -- key_or_clue("n", "<localleader>t", "+[t]erminal (Slime)")
+      -- Set the terminal buffer as the Slime target
+      vim.g.slime_default_config = {
+        jobid = vim.b.terminal_job_id,
+      }
+      vim.api.nvim_set_current_win(current_win)
+      print("Terminal created and set as Slime target.")
+    end
+
+    key_or_clue("n", "<localleader>t", "+[t]erminal (Slime)")
+    keymap_buffer(ev.buf, "n", "<localleader>tc", create_and_configure_terminal, opts, "(Slime)[t]erminal [n]ew conf")
     keymap_buffer(ev.buf, "n", "<localleader>tn", "<Plug>SlimeConfig", opts, "(Slime)[t]erminal [n]ew conf")
 
     -- SEND
