@@ -1,0 +1,9 @@
+return {
+  {
+    "L3MON4D3/LuaSnip",
+    enabled = true,
+    build = "make_install jsregexp",
+
+    -- Snippets loading is done in cmp.lua
+  },
+}

@@ -9,9 +9,9 @@ return {
   dependencies = {
     -- "hrsh7th/cmp-nvim-lsp",
     { "williamboman/mason.nvim" },
-    { "williamboman/mason-lspconfig.nvim" },         -- configuration of mason and lsp
+    { "williamboman/mason-lspconfig.nvim" }, -- configuration of mason and lsp
     { "WhoIsSethDaniel/mason-tool-installer.nvim" }, -- install 3rd party extensions in the system
-    { "folke/lazydev.nvim",                       opts = {}, enabled = true },
+    { "folke/lazydev.nvim", opts = {}, enabled = true },
   },
   config = function()
     local lspconfig = require("lspconfig")

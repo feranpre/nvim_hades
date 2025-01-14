@@ -1,0 +1,26 @@
+{
+    "unit test": {
+        "prefix": "test",
+        "body": [
+            "\"\"\"",
+            "${1:Module name} - ${2:Brief description}",
+            "",
+            "${3:Detailed description}",
+            "",
+            "Functions:",
+            "\t- `add_numbers`: Adds two numbers together and returns the result",
+            "\t- `add_numbers`: Adds two numbers together and returns the result",
+            "",
+            "Usage:",
+            "\t```python",
+            "\timport my module",
+            "",
+            "\tresult = my_module.add_numbers(3,5)",
+            "\tprint(result) #output 8",
+            "\t```",
+            "Author: Fernando Andres-Pretel",
+            "\"\"\""
+        ],
+        "description": "Doc para modulos python"
+    }
+}
