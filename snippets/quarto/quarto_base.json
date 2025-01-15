@@ -151,9 +151,10 @@
     ]
   },
   "fig": {
-    "prefix": ["fig"],
+    "prefix": ["fig", "img"],
     "body": ["![${1:cap1}](${2:figure}){#fig-$3}"]
   },
+
   "background image": {
     "prefix": ["bgimg"],
     "body": [
@@ -225,10 +226,10 @@
     "prefix": ["cols"],
     "body": [
       "::: {.columns}",
-      "::: {.column width=\"$1\"}",
+      "::: {.column width=\"$1%\"}",
       "$2",
       ":::",
-      "::: {.column width=\"$3\"}",
+      "::: {.column width=\"$3%\"}",
       "$4",
       ":::",
       ":::"
