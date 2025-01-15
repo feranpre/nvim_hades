@@ -1,0 +1,5 @@
+return {
+  "ghostty",
+  dir = "~/.config/ghostty/config",
+  lazy = false,
+}
