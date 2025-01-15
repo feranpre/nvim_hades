@@ -4,14 +4,14 @@ vim.g.maplocalleader = ","
 
 require("hades.lazy")
 require("lazy").setup({
-  { import = "hades.plugins.lsp" },
-  { import = "hades.plugins.code" },
-  { import = "hades.plugins.editor" },
+  --  { import = "hades.plugins.lsp" },
+  --  { import = "hades.plugins.code" },
+  --  { import = "hades.plugins.editor" },
 })
 
-require("hades.config.options")
-require("hades.config.keybinds")
-require("hades.config.colors")
+-- require("hades.config.options")
+-- require("hades.config.keybinds")
+-- require("hades.config.colors")
 
 -- require("hades.autocmd.lsp_autocmd")
 -- require("hades.autocmd.spell_autocmd")
