@@ -1,7 +1,7 @@
 -- TODO: limpiar comentarios
 
-local keymap = require("hades.misc.utils").keymap
-local key_or_clue = require("hades.misc.utils").key_or_clue
+local keymap = require("hades.utils.keys").keymap
+local key_or_clue = require("hades.utils.keys").key_or_clue
 
 local opts = { noremap = true, silent = true, desc = nil }
 

@@ -1,14 +1,14 @@
-  local live_multigrep = require("hades.misc.telescope_multigrep").live_multigrep
-  local keymap = require("hades.misc.utils").keymap
-  local key_or_clue = require("hades.misc.utils").key_or_clue
+local live_multigrep = require("hades.utils.telescope_multigrep").live_multigrep
+local keymap = require("hades.utils.keys").keymap
+local keymap_buffer = require("hades.utils.keys").keymap_buffer
+local key_or_clue = require("hades.utils.keys").key_or_clue
 
-  local opts = { noremap = true, silent = true, desc = nil }
+local opts = { noremap = true, silent = true, desc = nil }
 
--- -------------------------------------
--- ------------------------------------- TELESCOPE
--- -------------------------------------
+--
+-- TELESCOPE
+--
 if IsModuleAvailable("telescope") then
-
   if DEBUG then
     print("telescope - keys loaded")
   end
@@ -22,11 +22,11 @@ if IsModuleAvailable("telescope") then
   keymap("n", "<leader>fg", live_multigrep, opts, "[f]ind string in this [d]ir")
   keymap("n", "<leader>fs", require("telescope.builtin").grep_string, opts, "[f]ind string under cursor in dir")
   keymap(
-  "n",
-  "<leader>fb",
-  require("telescope.builtin").current_buffer_fuzzy_find,
-  opts,
-  "[f]ind in [b]uffer (fuzzy find)"
+    "n",
+    "<leader>fb",
+    require("telescope.builtin").current_buffer_fuzzy_find,
+    opts,
+    "[f]ind in [b]uffer (fuzzy find)"
   )
   keymap("n", "<leader>fB", require("telescope.builtin").buffers, opts, "[f]ind [b]uffer")
   keymap("n", "<leader>fh", require("telescope.builtin").help_tags, opts, "[f]ind in [h]elp")
@@ -43,7 +43,6 @@ else
   if DEBUG then
     print("telescope NOT DETECTED")
   end
-
 end
 
 --
@@ -57,7 +56,11 @@ end
 -- TODO-COMMENTS
 --
 if IsModuleAvailable("todo-comments") then
-  keymap("n", "<leader>ft", "<cmd>TodoTelescope<CR>", opts, "[f]ind TODO tags (telescope)")
+  if IsModuleAvailable("telescope") then
+    keymap("n", "<leader>ft", "<cmd>TodoTelescope<CR>", opts, "[f]ind TODO tags (telescope)")
+  else
+    keymap("n", "<leader>ft", "<cmd>TodoLocList<CR>", opts, "[f]ind TODO tags (NO telescope)")
+  end
 end
 
 --
@@ -176,7 +179,7 @@ if IsModuleAvailable("harpoon") then
   keymap("n", "<C-S-N>", function()
     harpoon:list():next()
   end, opts, "[n]ext harpoon file")
-else 
+else
   if DEBUG then
     print("harpoon - NOT DETECTED")
   end
@@ -211,24 +214,22 @@ if IsModuleAvailable("nvim-python-repl") then
   end, opts, "Automatically execute command in REPL after sent")
 
   -- keymap("n", "<localleader>tn", function()
-    --   require("nvim-python-repl").toggle_vertical()
-    -- end, opts, "Create REPL in vertical or horizontal split")
+  --   require("nvim-python-repl").toggle_vertical()
+  -- end, opts, "Create REPL in vertical or horizontal split")
 
-    keymap("n", "<localleader>tn", function()
-      require("nvim-python-repl").open_repl()
-    end, opts, "[t]erminal [n]ew")
+  keymap("n", "<localleader>tn", function()
+    require("nvim-python-repl").open_repl()
+  end, opts, "[t]erminal [n]ew")
 else
   if DEBUG then
     print("nvim-python-repl - keys NOT loaded")
   end
 end
 
-
--- -------------------------------------
--- ------------------------------------- TMUX NAV
--- -------------------------------------
+--
+-- TMUX NAV
+--
 if IsModuleAvailable("TmuxNavigateDown") then
-
   if DEBUG then
     print("vim-tmux-navigator - keys loaded")
   end
@@ -247,12 +248,11 @@ else
   keymap("n", "<C-l>", "<C-w>l", opts, "navigate to the right window")
 end
 
--- -------------------------------------
--- ------------------------------------- LSP CONFIG
--- -------------------------------------
+--
+-- LSP CONFIG
+--
 
 if IsModuleAvailable("lspconfig") then
-  local keymap_buffer = require("hades.misc.utils").keymap_buffer
   if DEBUG then
     print("nvim-lspconfig - keys loaded")
   end
@@ -271,7 +271,7 @@ if IsModuleAvailable("lspconfig") then
       keymap_buffer(0, "n", "grr", "<cmd>lua vim.lsp.buf.references()<CR>", opts, "LSP -> show references") -- show lsp implementations
 
       -- rename
-      keymap_buffer(0, "n", "grn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts, "LSP -> rename in scope") -- show lsp implementations
+      keymap_buffer(0, "n", "grn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts, "LSP -> rename in scope")          -- show lsp implementations
       keymap_buffer(0, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename() <CR>", opts, "[l]sp [r]ename in scope") -- smart rename
 
       -- diagnostics
@@ -305,7 +305,7 @@ if IsModuleAvailable("lspconfig") then
       -- definitions and lsp_implementations
       keymap_buffer(0, "n", "gD", "<cmd>lua vim.lsp.buf.declaration() <CR>", opts, "LSP -> go to definition")
       keymap_buffer(0, "n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts, "LSP -> show lsp definitions")
-      keymap_buffer(0, "n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts, "LSP -> show implementations") -- show lsp implementations
+      keymap_buffer(0, "n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts, "LSP -> show implementations")   -- show lsp implementations
       keymap_buffer(0, "n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts, "LSP -> show type definitions") -- show lsp implementations
 
       -- help
@@ -315,10 +315,47 @@ if IsModuleAvailable("lspconfig") then
       keymap_buffer(0, "n", "<leader>ls", "<cmd>LspRestart<CR>", opts, "[l]sp [s]tart/restart LSP")
     end,
   })
-else 
+else
   if DEBUG then
     print("nvim-lspconfig - NOT keys loaded")
   end
 end
 
+--
+-- TROUBLE
+--
+if IsModuleAvailable("trouble") then
+  if DEBUG then
+    print("trouble - keys loaded")
+  end
+  local trouble = require("trouble")
+  local function next()
+    trouble.next({ skip_groups = true, jump = true })
+  end
+  local function previous()
+    trouble.previous({ skip_groups = true, jump = true })
+  end
 
+  keymap("n", "]t", next, opts, "next [t]rouble item")
+  keymap("n", "[t", previous, opts, "previous [t]rouble item")
+else
+  if DEBUG then
+    print("trouble NOT DETECTED")
+  end
+end
+
+--
+-- CONFORM
+--
+if IsModuleAvailable("conform") then
+  if DEBUG then
+    print("conform - keys loaded")
+  end
+  local conform = require("conform")
+
+  keymap("n", "<leader>cf", conform.format, opts, "[c]onform [f]ormat file")
+else
+  if DEBUG then
+    print("trouble NOT DETECTED")
+  end
+end

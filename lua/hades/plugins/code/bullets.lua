@@ -1,3 +1,5 @@
+-- TODO: remap keys to conform with my which-key mini-clue settings
+--
 -- This plugin automatically adds bulletpoints on the next line respecting
 -- indentation
 -- In markdown or a text file start a bulleted list using - or *. Press return

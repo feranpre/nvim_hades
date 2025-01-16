@@ -1,10 +1,19 @@
--- This is stolen from LazyVim config
+-- TODO: capture colors from colorscheme automatically
+--
+-- NOTE: This is stolen from LazyVim config
+--
 return {
+  leader = " ",
+  localleader = ",",
+
   -- colorscheme can be a string like `catppuccin` or a function that will load the colorscheme
   ---@type string|fun()
-  colorscheme = function()
-    -- require("tokyonight").load()
-  end,
+  -- colorscheme = function()
+  -- require("tokyonight").load()
+  -- end,
+  -- colorscheme = "tokyonight-storm",
+  colorscheme = "catppuccin-frappe",
+
   -- load the default settings
   defaults = {
     autocmds = true, -- lazyvim.config.autocmds
@@ -19,9 +28,35 @@ return {
     -- Same but for Neovim's news.txt
     neovim = false,
   },
+  colors = {
+    todo = {
+      TODO = "#07EDED",
+      ERROR = "#DC2626",
+      FIX = "#FBBF24",
+      HACK = "#FBBF24",
+      WARN = "#FBBF24",
+      PREF = "#A0A0F4",
+      NOTE = "#00F463",
+      TEST = "#FEA7D8",
+    },
+    highlight = {
+      CursorLineNr = { fg = "#CF3A46" },
+      LineNr = { fg = "#fcd253" },
+    },
+  },
   -- icons used by other plugins
   -- stylua: ignore
   icons = {
+    todo = {
+      TODO = " ",
+      ERROR = " ",
+      FIX = " ",
+      HACK = " ",
+      WARN = " ",
+      PERF = " ",
+      NOTE = " ",
+      TEST = "󰴄 ",
+    },
     misc = {
       dots = "󰇘",
     },

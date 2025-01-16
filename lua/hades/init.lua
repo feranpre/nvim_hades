@@ -1,6 +1,12 @@
---Remap space as leader key
+-- TODO: sadfasdf
+
+-- Remap space as leader key
 vim.g.mapleader = " "
+
+-- Remap localleader to ,
 vim.g.maplocalleader = ","
+
+-- get Hades basic config
 Hades = require("hades.config.hades")
 
 require("hades.lazy")
@@ -12,10 +18,13 @@ require("lazy").setup({
 })
 
 DEBUG = false
-IsModuleAvailable = require("hades.misc.utils").isModuleAvailable
+IsModuleAvailable = require("hades.utils.keys").isModuleAvailable
 
 require("hades.config.options")
-require("hades.config.colorscheme")
+require("hades.utils.utils").load_colorscheme(Hades)
+require("hades.utils.utils").load_color_highlights(Hades)
+
+-- require("hades.config.colorscheme")
 require("hades.config.keybinds")
 require("hades.config.keybinds_plugins")
 

@@ -38,7 +38,7 @@ function M.key_or_clue(mode, key, description)
   if pcall(require, "which-key") then
     -- Register keybinding with which-key
     local wk = require("which-key")
-    wk.add({key, desc = description,  mode = mode })
+    wk.add({ key, desc = description, mode = mode })
   elseif pcall(require, "mini.clue") then
     -- Add clue to mini.clues
     local clues = require("mini.clue")
@@ -54,17 +54,6 @@ function M.key_or_clue(mode, key, description)
   else
     vim.notify("Neither 'which-key' nor 'mini.clues' is loaded", vim.log.levels.WARN)
   end
-end
-
-function M.PandocToPDF()
-  -- Get the filename of the current buffer
-  local filename = vim.api.nvim_buf_get_name(0)
-
-  -- Call the shell command
-  vim.fn.system("pandoc2pdf.py " .. vim.fn.shellescape(filename))
-
-  -- Optionally print a message
-  print("Converted " .. filename .. " to PDF")
 end
 
 return M
