@@ -1,0 +1,25 @@
+{
+  "pd_imports": {
+    "prefix": [ "pd_imports" ],
+    "body": [
+      "import pandas as pd",
+      "import numpy as np",
+      "import matplotlib.pyplot as plt",
+      "import seaborn as sns",
+      "from scipy import stats",
+      ""
+      ],
+      "description": [ "basic import for pandas" ]
+  },
+  "pd_load_data": {
+    "prefix": [ "pd_load_data" ],
+    "body": [
+      "data = pd.read_csv('${1:path/to/file}') # load csv file",
+      "data = pd.read_excel('${1:path/to/file}') # load xlsx file",
+      ""
+    ],
+    "description": [ "load data using pandas" ]
+  }
+
+}
+
