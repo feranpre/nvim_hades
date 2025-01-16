@@ -15,8 +15,6 @@ function M.keymap_buffer(buffer, mode, keys, func, opts, desc)
     opts.buffer = buffer
   end
   vim.keymap.set(mode, keys, func, opts)
-  -- vim.api.nvim_buf_set_keymap(buffer, mode, keys, func, opts)
-  -- vim.keymap.set(mode, keys, func, local_opts)
 end
 
 function M.isModuleAvailable(plugin, debug)

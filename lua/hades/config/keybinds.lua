@@ -84,4 +84,5 @@ keymap("n", "zw", "zw", opts, "[w]rong word to add to dictionary (spelling)")
 -- keymap("n", "zW", "zW", opts, "[W]rong word to add to internal dictionary (spelling)")
 keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
 
-
+-- TERMINAL --
+keymap("t", "<ESC>", [[<C-\><C-n>]], opts, "exit insertmode in terminal")

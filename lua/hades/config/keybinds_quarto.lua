@@ -105,30 +105,6 @@ vim.api.nvim_create_autocmd({ "FileType", "BufEnter" }, {
     local insert_ojs_chunk = function()
       insert_code_chunk("ojs")
     end
-    local function new_terminal(lang)
-      vim.cmd("vsplit term://" .. lang)
-    end
-
-    local function new_terminal_python()
-      new_terminal("python")
-    end
-
-    local function new_terminal_r()
-      vim.b["quarto_is_r_mode"] = true
-      new_terminal("R --no-save")
-    end
-
-    local function new_terminal_ipython()
-      new_terminal("ipython --no-confirm-exit")
-    end
-
-    local function new_terminal_julia()
-      new_terminal("julia")
-    end
-
-    local function new_terminal_shell()
-      new_terminal("$SHELL")
-    end
 
     -- local fer_quarto = require("hades.misc.slime_utils")
     -- keymap_buffer(ev.buf, "n", "<C-CR>", fer_quarto.send_cell(), opts, "[q]uarto send files")
@@ -164,10 +140,10 @@ vim.api.nvim_create_autocmd({ "FileType", "BufEnter" }, {
 
     -- TERMINALS
     -- keymap_buffer(ev.buf, "n", "<localleader>rs", new_terminal_r, opts, "[R] [s]tart terminal")
-    key_or_clue("n", "<localleader>qt", opts, "+[t]erminals ([q]arto)")
+    key_or_clue("n", "<localleader>qt", "+[t]erminals ([q]arto)")
 
-    keymap_buffer(ev.buf, "n", "<localleader>qtp", new_terminal_python, opts, "new [p]ython terminal")
-    keymap_buffer(ev.buf, "n", "<localleader>qti", new_terminal_ipython, opts, "new [i]python terminal")
+    -- keymap_buffer(ev.buf, "n", "<localleader>qtp", new_terminal_python, opts, "new [p]ython terminal")
+    -- keymap_buffer(ev.buf, "n", "<localleader>qti", new_terminal_ipython, opts, "new [i]python terminal")
 
     -- ------------------------
     -- ------------------------ OTTER
