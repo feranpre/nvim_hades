@@ -40,7 +40,10 @@ if IsModuleAvailable("telescope") then
 
   keymap("n", "z=", require("telescope.builtin").spell_suggest, opts, "[f]ind [b]uffer")
 else
-  keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
+  if DEBUG then
+    print("telescope NOT DETECTED")
+  end
+
 end
 
 --
@@ -61,7 +64,7 @@ end
 -- SNACKS
 --
 if IsModuleAvailable("snacks") then
-  print("Snacks detected")
+  -- print("Snacks detected")
   keymap("n", "<leader>n", "<cmd>lua Snacks.notifier.show_history()<CR>", opts, "[n]otifier history")
   keymap("n", "<leader>bd", "<cmd>lua Snacks.bufdelete()<CR>", opts, "[b]uffer [d]elete")
   keymap("n", "<leader>bD", "<cmd>lua Snacks.bufdelete.other()<CR>", opts, "[b]uffer [D]elete others")
@@ -129,8 +132,6 @@ end
 if IsModuleAvailable("harpoon") then
   if DEBUG then
     print("harpoon - keys loaded")
-  else
-    print("harpoon - NOT detected")
   end
   local harpoon = require("harpoon")
   keymap("n", "<leader>a", function()
@@ -175,6 +176,10 @@ if IsModuleAvailable("harpoon") then
   keymap("n", "<C-S-N>", function()
     harpoon:list():next()
   end, opts, "[n]ext harpoon file")
+else 
+  if DEBUG then
+    print("harpoon - NOT DETECTED")
+  end
 end
 
 --
@@ -212,11 +217,11 @@ if IsModuleAvailable("nvim-python-repl") then
     keymap("n", "<localleader>tn", function()
       require("nvim-python-repl").open_repl()
     end, opts, "[t]erminal [n]ew")
-  else
-    if DEBUG then
-      print("nvim-python-repl - keys NOT loaded")
-    end
+else
+  if DEBUG then
+    print("nvim-python-repl - keys NOT loaded")
   end
+end
 
 
 -- -------------------------------------

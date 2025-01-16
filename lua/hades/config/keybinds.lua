@@ -82,6 +82,6 @@ keymap("n", "zug", "zug", opts, "[u]ndo add [g]ood word to dictionary (spelling)
 -- keymap("n", "zuG", "zuG", opts, "[u]ndo add [G]ood word to internal dictionary (spelling)")
 keymap("n", "zw", "zw", opts, "[w]rong word to add to dictionary (spelling)")
 -- keymap("n", "zW", "zW", opts, "[W]rong word to add to internal dictionary (spelling)")
--- keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)") -- IN TELESCOPE
+keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
 
 
