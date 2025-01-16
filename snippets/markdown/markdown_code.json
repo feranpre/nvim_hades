@@ -1,0 +1,55 @@
+{
+  "pycode": {
+    "prefix": [";code_py"],
+    "body": ["```{python} ", "$1", "```"]
+  },
+  "bashcode": {
+    "prefix": [";code_bash"],
+    "body": ["```{bash} ", "$1", "```"]
+  },
+  "code": {
+    "prefix": [";code"],
+    "body": ["```{$1} ", "$2", "```", "$0"]
+  },
+  "pyfig1": {
+    "prefix": [";code_py_fig_1col"],
+    "body": [
+      "```{python}",
+      "#| label: fig-$1",
+      "#| fig-cap: \"$2\"",
+      "",
+      "import numpy as np",
+      "import matplotlib.pyplot as plt",
+      "",
+      "plt.style.use(['science', 'ieee'])",
+      "$3",
+      "plt.show()",
+      "```"
+    ]
+  },
+  "pyfig2": {
+    "prefix": [";code_py_fig_2cols"],
+    "body": [
+      "```{python} ",
+      "#| label: fig-$1",
+      "#| fig-cap: \"$2\"",
+      "#| fig-subcap: ",
+      "#|    - \"$3\"",
+      "#|    - \"$4\"",
+      "#| layout-ncol: 2",
+      "",
+      "import numpy as np",
+      "import matplotlib.pyplot as plt",
+      "plt.style.use(['science', 'ieee'])",
+      "$5",
+      "plt.legend()",
+      "plt.show()",
+      "",
+      "$6",
+      "plt.legend()",
+      "plt.show()",
+      "```"
+    ]
+  },
+
+}

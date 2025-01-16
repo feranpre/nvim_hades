@@ -45,17 +45,13 @@
 
       {
         "language": "quarto",
-        "path": "./quarto/quarto_base.json"
-      },
-      {
-        "language": "quarto",
-        "path": "./quarto/quarto_r.json"
+        "path": "./markdown/markdown.json"
       },
       {
         "language": "quarto",
         "path": "./r/regresion.json"
       }
-
     ]
   }
 }
+
