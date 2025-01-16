@@ -23,10 +23,6 @@
         "path": "./json/json.json"
       },
       {
-        "language": "markdown",
-        "path": "./markdown/markdown.json"
-      },
-      {
         "language": "r",
         "path": "./r/regresion.json"
       },
@@ -42,16 +38,23 @@
         "language": "r",
         "path": "./r/graficos.json"
       }, 
-
       {
-        "language": "quarto",
+        "language": "markdown", 
+        "path": "./markdown/markdown.json"
+      },
+      {
+        "language": "markdown",
+        "path": "./markdown/markdown_code.json"
+      },
+      {
+        "language": "quarto", 
         "path": "./markdown/markdown.json"
       },
       {
         "language": "quarto",
-        "path": "./r/regresion.json"
+        "path": "./markdown/markdown_code.json"
       }
-    ]
+         ]
   }
 }
 

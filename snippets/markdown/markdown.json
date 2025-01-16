@@ -17,32 +17,261 @@
     "description": "section reference"
   }, 
   "cabecera": {
-    "prefix": "cabecera_md",
+    "prefix": "yaml_md",
     "body": [
-             "---",
-             "title: 2024-104 Nuria Cascales (Cambios) ",
-             "author: Fernando Andrés Pretel",
-             "titlepage: true",
-             "toc: false ",
-             "toc-depth: 2",
-             "number-sections: true",
-             "number-depth: 4",
-             "colorlinks: true",
-             "mainfont: DejaVu Sans",
-             "mathfont: DejaVu Math TeX Gyre",
-             "monofont: Source Code Pro",
-             "---"
+      "---",
+      "title: ${1:Title} ",
+      "author: ${2:Fernando Andres-Pretel}",
+      "titlepage: true",
+      "toc: false ",
+      "toc-depth: 2",
+      "number-sections: true",
+      "number-depth: 4",
+      "colorlinks: true",
+      "mainfont: DejaVu Sans",
+      "mathfont: DejaVu Math TeX Gyre",
+      "monofont: Source Code Pro",
+      "---",
+      "${3:Text}"
     ],
     "description": "Cabecera básica yaml para md"
   }, 
   "nota": {
     "prefix": ["note", "nota"],
     "body":[
-        "> **NOTE**",
-        "> ",
-        "> text",
-        ""
+      "> **NOTE**",
+      "> ",
+      "> ${1:text}",
+      ""
     ],
     "description": "Note box"
+  },
+  "tabset": {
+    "prefix": ["tabset"],
+    "body": [
+      ":::: {.panel-tabset}",
+      "",
+      "### $1",
+      "",
+      "$2",
+      "",
+      "### $3",
+      "",
+      "$4",
+      "",
+      "::::"
+    ]
+  },
+  "fig3": {
+    "prefix": ["fig3"],
+    "body": [
+      ":::: {#fig-${1:label} layout=\"[[1, 1], [1]]\"}",
+      "",
+      "![${2:subcap1}](${3:figure}){#fig-$2}",
+      "",
+      "![${4:subcap1}](${5:figure}){#fig-$4}",
+      "",
+      "![${6:subcap1}](${7:figure}){#fig-$6}",
+      "",
+      "${8:caption}",
+      "::::"
+    ]
+  },
+  "fig2": {
+    "prefix": ["fig2"],
+    "body": [
+      ":::: {#fig-${1:label} layout=\"[1,1]\"}",
+      "",
+      "![${2:subcap1}](${3:figure}){#fig-$2}",
+      "",
+      "![${4:subcap1}](${5:figure}){#fig-$4}",
+      "",
+      "${6:caption}",
+      "::::"
+    ]
+  },
+  "div": {
+    "prefix": ["div"],
+    "body": ["::: {$1}", "$0", ":::"]
+  },
+  "figref": {
+    "prefix": ["figref"],
+    "body": ["@fig-$1"]
+  },
+  "tblref": {
+    "prefix": ["tblref"],
+    "body": ["@tbl-$1"]
+  },
+  "eqnref": {
+    "prefix": ["eqnref"],
+    "body": ["@eq-$1"]
+  },
+  "secref": {
+    "prefix": ["secref"],
+    "body": ["@sec-$1"]
+  },
+  "crossref": {
+    "prefix": ["crossref"],
+    "body": [
+      "crossref:",
+      "  fig-title: Figure",
+      "  tbl-title: Table",
+      "  title-delim: .",
+      "  fig-prefix: Figure",
+      "  tbl-prefix: Table",
+      "  eq-prefix: Eq."
+    ]
+  },
+  "fig": {
+    "prefix": ["fig", "img"],
+    "body": ["![${1:cap1}](${2:figure}){#fig-$3}"]
+  },
+  "background image": {
+    "prefix": ["bgimg"],
+    "body": [
+      "{data-background-image=\"$1\" background-position=center background-size=contain}"
+    ]
+  },
+  "background video": {
+    "prefix": ["bgvid"],
+    "body": [
+      "{background-video=\"$1\" background-size=contain}"
+    ]
+  },
+  "background iframe": {
+    "prefix": ["bgiframe"],
+    "body": [
+      "{background-iframe=\"$1\" background-interactive=true}"
+    ]
+  },
+  "background color": {
+    "prefix": ["bgcol"],
+    "body": [
+      "{background-color=\"$1\"}"
+    ]
+  },
+  "autoanimate": {
+    "prefix": ["anim"],
+    "body": [
+      "{auto-animate=true}"
+    ]
+  },
+  "pl": {
+    "prefix": ["pl"],
+    "body": ["::: {.pull-left}", "$0", ":::"]
+  },
+  "pr": {
+    "prefix": ["pr"],
+    "body": ["::: {.pull-right}", "$0", ":::"]
+  },
+  "container": {
+    "prefix": ["con"],
+    "body": ["::: {.container}", "$1", ":::"]
+  },
+  "incremental": {
+    "prefix": ["inc"],
+    "body": ["::: {.incremental}", "-$1", ":::"]
+  },
+  "nonincremental": {
+    "prefix": ["noninc"],
+    "body": ["::: {.nonincremental}", "-$1", ":::"]
+  },
+  "pause": {
+    "prefix": ["pause"],
+    "body": [". . ."]
+  },
+  "2col": {
+    "prefix": ["2col", "col2"],
+    "body": [
+      "::: {.columns}",
+      "::: {.column width=50%}",
+      "$1",
+      ":::",
+      "::: {.column width=50%}",
+      "$2",
+      ":::",
+      ":::"
+    ]
+  },
+  "lay": {
+    "prefix": ["lay"],
+    "body": ["::: {layout=\"[$1]\"}", "$0", ":::"]
+  },
+  "layout-valign": {
+    "prefix": ["valign"],
+    "body": ["layout-valign=\"$0\""]
+  },
+  "callout": {
+    "prefix": ["call"],
+    "body": ["::: {.callout-$1}", "$0", ":::"]
+  },
+  "3col": {
+    "prefix": ["3col", "col3"],
+    "body": ["::: {layout-ncol=3}", "$0", ":::"]
+  },
+  "absolute": {
+    "prefix": ["absolute"],
+    "body": ["{.absolute top=$1 left=$2 width=\"$3\" height=\"$4\"}"]
+  },
+  "width": {
+    "prefix": ["width"],
+    "body": ["{width=\"$3\"}"]
+  },
+  "hidden": {
+    "prefix": ["hidden"],
+    "body": ["{visibility=\"hidden\"}"]
+  },
+  "uncount": {
+    "prefix": ["uncount"],
+    "body": ["{visibility=\"uncounted\"}"]
+  },
+  "align": {
+    "prefix": ["align"],
+    "body": ["{fig-align=\"center\"}"]
+  },
+  "fragment": {
+    "prefix": ["frag"],
+    "body": ["::: {.fragment}", "$0", ":::"]
+  },
+  "notes": {
+    "prefix": ["notes"],
+    "body": ["::: {.notes}", "$0", ":::"]
+  },
+  "aside": {
+    "prefix": ["aside"],
+    "body": ["::: {.aside}", "$0", ":::"]
+  },
+  "alert": {
+    "prefix": ["alert"],
+    "body": ["[$0]{.alert}"]
+  },
+  "importmarkdown": {
+    "prefix": ["importmd"],
+    "body": ["from IPython.display import display, Markdown"]
+  },
+  "pymarkdown": {
+    "prefix": ["pymd"],
+    "body": ["display(Markdown(\"\"\"", "{$1}", "\"\"\".format($1 = $1)))", ""]
+  },
+  "bibliography": {
+    "prefix": "yaml_add_bib",
+    "body": "bibliography: references.bib",
+    "description": "add bibliography yaml"
+  },
+  "diary header": {
+    "prefix": "yaml_diario",
+    "body": ["---", "title: \"$1\"", "date: \"$2\"", "categories: [$3]", "---"],
+    "description": "Add minimal yaml header"
+  },
+  "yaml header": {
+    "prefix": "yaml_basico",
+    "body": ["---", "title: $1", "format: $2", "---"],
+    "description": "Add minimal yaml header"
+  },
+  "ref a wrap figure": {
+    "body": "Fig. \\ref{fig-$1}",
+    "description": "refer to a label for a wrap figure",
+    "prefix": "@wrap"
   }
+
 }
