@@ -17,6 +17,8 @@ return {
     -- Disable deleting the last empty bullet when pressing <cr> or 'o'
     -- default = 1
     vim.g.bullets_delete_last_bullet_if_empty = 1
+    -- vim.g.bullets_outline_levels = {"num", "abc", "std-"}
+    vim.g.bullets_outline_levels = { "num", "num", "std-" }
 
     -- (Optional) Add other configurations here
     -- For example, enabling/disabling mappings

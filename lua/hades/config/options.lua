@@ -73,8 +73,10 @@ vim.opt.updatetime = 50
 vim.opt.title = true
 -- vim.opt.guifont = 'monospace:h17'
 
+-- ---------------------------------------- TEXT
 vim.opt.spell = true
 vim.opt.spelllang = { "en_us", "es_es" }
+vim.opt.textwidth = 80
 
 -- Jupytext --
 -- vim.g.jupytext_fmt = 'py'
