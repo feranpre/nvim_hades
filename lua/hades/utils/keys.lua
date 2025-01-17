@@ -1,4 +1,33 @@
 local M = {}
+function M.unbind_key(mode, key, buffer)
+  if buffer then
+    -- Check for buffer-local keymap
+    local keymaps = vim.api.nvim_buf_get_keymap(buffer, mode)
+
+    -- vim.api.nvim_buf_del_keymap(buffer, mode, key)
+    for _, keymap in ipairs(keymaps) do
+      if keymap.lhs == key then
+        -- Unbind the key if it exists
+        vim.api.nvim_buf_del_keymap(buffer, mode, key)
+        print("Buffer-local keybinding for '" .. key .. "' in mode '" .. mode .. "' was removed.")
+        return
+      end
+    end
+    print("Buffer-local keybinding for '" .. key .. "' in mode '" .. mode .. "' does not exist.")
+  else
+    -- Check for global keymap
+    local keymaps = vim.api.nvim_get_keymap(mode)
+    for _, keymap in ipairs(keymaps) do
+      if keymap.lhs == key then
+        -- Unbind the key if it exists
+        vim.api.nvim_del_keymap(mode, key)
+        print("Global keybinding for '" .. key .. "' in mode '" .. mode .. "' was removed.")
+        return
+      end
+    end
+    print("Global keybinding for '" .. key .. "' in mode '" .. mode .. "' does not exist.")
+  end
+end
 
 function M.keymap(mode, keys, func, opts, desc)
   if desc then

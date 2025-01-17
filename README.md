@@ -33,11 +33,36 @@ The requirements include:
  - [image.nvim](https://github.com/3rd/image.nvim)
   - I don't use kitty and therefore I need to use the  `ueberzug` render backend for images
 
+#### Install procedure
+
+Create the virtual env
+
 ```bash
-venv project_name # activate the project venv
+python -m venv ~/venv/python_venv_name
+source ~/venv/python_venv_name/bin/activate
+```
+
+Now we install dependencies in python
+```{bash} 
+pip install pynvim
+pip install jupyter_client 
+pip install cairosvg
+pip install pnglatex
+pip install plotly
+pip install kaleido
+pip install pyperclip
+
+```
+
+Install in python the kernel and create the project name
+
+```{bash} 
 pip install ipykernel
 python -m ipykernel install --user --name project_name
 ```
+
+
+
 
 ## Formatting
 

@@ -1,4 +1,15 @@
 {
+  "comment_multiline": {
+    "prefix": "comment_multiline",
+    "body": [
+      "'''",
+      "",
+      "${1:comment}",
+      "",
+      "'''"
+    ],
+    "description": "create a multiline comment"
+  },
     "funciones corta": {
         "prefix": "func",
         "body": [
