@@ -61,7 +61,7 @@ function M.load_keys(ev)
 
   -- SEND
   -- key_or_clue("n", "<localleader>s", "+[s] to terminal (Slime)")
-  keymap("n", "<CR>", "<Plug>SlimeLineSend<CR>", opts, "(Slime)[s]end [l]ine")
+  -- keymap("n", "<CR>", "<Plug>SlimeLineSend<CR>", opts, "(Slime)[s]end [l]ine")
   -- keymap_buffer(ev.buf, "n", "<C-CR>", "<Plug>SlimeLineSend<CR>", opts, "(Slime)[s]end [l]ine")
   keymap_buffer(ev.buf, "n", "<localleader>sl", "<Plug>SlimeLineSend<CR>", opts, "(Slime) [s]end [l]ine")
   -- keymap_buffer(ev.buf, "v", "<C-CR>", "<Plug>SlimeRegionSend<CR>", opts, "(Slime)[s]end region")

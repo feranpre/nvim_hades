@@ -86,3 +86,7 @@ keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
 
 -- TERMINAL --
 keymap("t", "<ESC>", [[<C-\><C-n>]], opts, "exit insertmode in terminal")
+
+-- PANDOC SCRIPTS --
+
+keymap("n", "<localleader>pp", "", opts, "check possible replacements for word (spelling)")

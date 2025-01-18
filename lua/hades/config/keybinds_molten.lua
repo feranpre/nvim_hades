@@ -15,6 +15,9 @@ function M.load_keys(ev)
 
   if Molten_or_Slime == "molten" then
     keymap_buffer(ev.buf, "n", "<C-CR>", "<cmd>MoltenEvaluateLine<CR>", opts, "Evaluate Line (molten)")
+    keymap_buffer(ev.buf, "v", "<C-CR>", ":<C-u>MoltenEvaluateVisual<CR>gv<ESC>", opts, "Evaluate Visual (molten)")
+    -- keymap_buffer(ev.buf, "v", "<localleader>e", ":<C-u>MoltenEvaluateVisual<CR>gv", opts, "Evaluate Visual (molten)")
+
     -- unbind_key("n", "<localleader>M", 0)
   else
     keymap_buffer(ev.buf, "n", "<localleader>M", function()
