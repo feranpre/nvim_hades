@@ -1,4 +1,6 @@
 local M = {}
+M.opts = { noremap = true, silent = true, desc = nil }
+
 function M.unbind_key(mode, key, buffer)
   if buffer then
     -- Check for buffer-local keymap

@@ -30,8 +30,8 @@ require("hades.config.keybinds")
 require("hades.config.keybinds_plugins")
 -- require("hades.config.keybinds_molten")
 
-require("hades.autocmd.format_on_save")
-require("hades.autocmd.keybinds_by_filetype")
+-- require("hades.autocmd.format_on_save")
+-- require("hades.autocmd.keybinds_by_filetype")
 
 require("hades.custom_commands")
 -- require("hades.autocmd.spell_autocmd")

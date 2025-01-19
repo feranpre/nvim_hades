@@ -3,7 +3,8 @@
 local keymap = require("hades.utils.keys").keymap
 local key_or_clue = require("hades.utils.keys").key_or_clue
 
-local opts = { noremap = true, silent = true, desc = nil }
+local opts = require("hades.utils.keys").opts
+-- local opts = { noremap = true, silent = true, desc = nil }
 
 if DEBUG then
   print("Loading keys")
@@ -86,11 +87,6 @@ keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
 
 -- TERMINAL --
 keymap("t", "<ESC>", [[<C-\><C-n>]], opts, "exit insertmode in terminal")
-
--- MARKDOWN COMMANDS --
-keymap("n", "<leader>mh", "<cmd>MdNumberHeadings<CR>", opts, "[m]arkdown [n]umber all headings")
-keymap("n", "<leader>mt", "<cmd>MdGenerateTOC<CR>", opts, "[m]arkdown [t]oc")
-keymap("n", "<leader>gl", "<cmd>MdJumpToTOCLink<CR>", opts, "[g]arkdown to [l]ink")
 
 -- FOLD --
 -- Keymap for folding markdown headings of level 1 or above
