@@ -87,6 +87,21 @@ keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
 -- TERMINAL --
 keymap("t", "<ESC>", [[<C-\><C-n>]], opts, "exit insertmode in terminal")
 
--- PANDOC SCRIPTS --
+-- MARKDOWN COMMANDS --
+keymap("n", "<leader>mh", "<cmd>MdNumberHeadings<CR>", opts, "[m]arkdown [n]umber all headings")
+keymap("n", "<leader>mt", "<cmd>MdGenerateTOC<CR>", opts, "[m]arkdown [t]oc")
+keymap("n", "<leader>gl", "<cmd>MdJumpToTOCLink<CR>", opts, "[g]arkdown to [l]ink")
 
-keymap("n", "<localleader>pp", "", opts, "check possible replacements for word (spelling)")
+-- FOLD --
+-- Keymap for folding markdown headings of level 1 or above
+keymap("n", "zh4", function()
+  require("hades.utils.folds").fold_markdown_headings({ 6, 5, 4 })
+end, opts, "fold [h]eaders lvl 4 and below")
+
+keymap("n", "zh3", function()
+  require("hades.utils.folds").fold_markdown_headings({ 6, 5, 4, 3 })
+end, opts, "fold [h]eaders lvl 3 and below")
+
+keymap("n", "zh2", function()
+  require("hades.utils.folds").fold_markdown_headings({ 6, 5, 4, 3, 2 })
+end, opts, "fold [h]eaders lvl 2 and below")

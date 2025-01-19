@@ -1,4 +1,9 @@
 {
+  "unnumber_section": {
+    "prefix": "unnumber",
+    "body": ["{.unnumbered}"],
+    "description": "make this heading not appear as numbered in the TOC"
+  },
   "create link": {
     "prefix": "link",
     "body": [

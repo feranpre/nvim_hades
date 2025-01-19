@@ -328,6 +328,38 @@ if IsModuleAvailable("conform") then
   keymap("n", "<leader>cf", conform.format, opts, "[c]onform [f]ormat file")
 else
   if DEBUG then
-    print("trouble NOT DETECTED")
+    print("conform - NOT DETECTED")
+  end
+end
+
+--
+-- UFO -- manage folds
+--
+if IsModuleAvailable("ufo") then
+  if DEBUG then
+    print("ufo - keys loaded")
+  end
+  local ufo = require("ufo")
+
+  keymap("n", "<leader>zR", ufo.openAllFolds, opts, "open all folds (ufo)")
+  keymap("n", "<leader>zM", ufo.closeAllFolds, opts, "close all folds (ufo)")
+else
+  if DEBUG then
+    print("ufo - NOT DETECTED")
+  end
+end
+
+--
+-- outline
+--
+if IsModuleAvailable("outline") then
+  if not DEBUG then
+    print("outline - keys loaded")
+  end
+
+  keymap("n", "<leader>o", "<cmd>Outline<CR>", opts, "toggle [o]utline")
+else
+  if not DEBUG then
+    print("outline - NOT DETECTED")
   end
 end

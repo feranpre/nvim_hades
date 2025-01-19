@@ -35,49 +35,88 @@ function M.PandocToPDF()
   print("Converted " .. filename .. " to PDF")
 end
 
-function M.fold_current_line(level)
-  if not level then
-    local line = vim.fn.getline(vim.fn.foldclosed("."))
-    local fold_count = vim.v.foldend - vim.v.foldstart + 1
-    return line .. " (" .. fold_count .. " lines)"
+function M.md_number_headings()
+  -- Save the current cursor position
+  local save_cursor = vim.fn.getpos(".")
+
+  -- Get the current buffer content as a single string
+  local lines = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
+
+  -- Run number headings first
+  local command = "md_number_headings.py"
+  local output_numeration = vim.fn.system(command, lines)
+  if vim.v.shell_error ~= 0 then
+    vim.notify("Error running md_number_headings.py:\n" .. output_numeration, vim.log.levels.ERROR)
+    return
   end
+
+  -- Run number headings first
+  local command = "md_headers_id.py"
+  local output_id_tags = vim.fn.system(command, output_numeration)
+  if vim.v.shell_error ~= 0 then
+    vim.notify("Error running md_headers_id.py:\n" .. output_id_tags, vim.log.levels.ERROR)
+    return
+  end
+
+  -- Replace the buffer content with the processed output
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, vim.split(output_id_tags, "\n"))
+
+  -- Restore the cursor position
+  vim.fn.setpos(".", save_cursor)
 end
 
--- Function to fold all headings of a specific level
-function M.fold_headings_of_level(level)
-  -- Move to the top of the file
-  vim.cmd("normal! gg")
-  -- Get the total number of lines
-  local total_lines = vim.fn.line("$")
-  for line = 1, total_lines do
-    -- Get the content of the current line
-    local line_content = vim.fn.getline(line)
-    -- "^" -> Ensures the match is at the start of the line
-    -- string.rep("#", level) -> Creates a string with 'level' number of "#" characters
-    -- "%s" -> Matches any whitespace character after the "#" characters
-    -- So this will match `## `, `### `, `#### ` for example, which are markdown headings
-    if line_content:match("^" .. string.rep("#", level) .. "%s") then
-      -- Move the cursor to the current line
-      vim.fn.cursor(line, 1)
-      -- Fold the heading if it matches the level
-      if vim.fn.foldclosed(line) == -1 then
-        M.fold_current_line()
-        -- vim.cmd("normal! za")
-      end
-    end
+function M.md_generate_toc(max_level)
+  -- Save the current cursor position
+  local save_cursor = vim.fn.getpos(".")
+
+  -- Prompt for max level if not provided
+  if not max_level then
+    max_level = vim.fn.input("Enter max heading level for TOC (default 3): ", "3")
+    max_level = tonumber(max_level) or 3
   end
+
+  -- Get the current buffer content as a single string
+  local lines = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
+
+  -- Define the shell command with the Python script
+  -- local command = string.format("md_toc.py -m %d", max_level)
+  -- local command = string.format("md_generate_toc.py -m %d", max_level)
+  local command = string.format("md_generate_toc.py %d", max_level)
+
+  -- Use `vim.fn.system` to execute the command and pass the content
+  local toc = vim.fn.system(command, lines)
+
+  -- Check for errors in the script execution
+  if vim.v.shell_error ~= 0 then
+    vim.notify("Error running md_toc.py:\n" .. toc, vim.log.levels.ERROR)
+    return
+  end
+
+  -- Insert the TOC at the current cursor position
+  local cursor_line = save_cursor[2]
+  vim.api.nvim_buf_set_lines(0, cursor_line - 1, cursor_line - 1, false, vim.split(toc, "\n"))
+
+  -- Restore the cursor position
+  vim.fn.setpos(".", save_cursor)
 end
 
-function M.fold_markdown_headings(levels)
-  set_foldmethod_expr()
-  -- I save the view to know where to jump back after folding
-  local saved_view = vim.fn.winsaveview()
-  for _, level in ipairs(levels) do
-    fold_headings_of_level(level)
+function M.md_jump_to_toc_link()
+  -- Get the word under the cursor
+  local current_word = vim.fn.expand("<cword>")
+
+  -- Remove the `#` at the start and decode the anchor format
+  local anchor = current_word:gsub("^#", "")
+
+  -- Convert dashes to spaces for matching
+  local search_text = anchor:gsub("-", " ")
+
+  -- Use `/` search to find the corresponding heading in the buffer
+  local found = vim.fn.search("\\v^#{1,6}\\s+" .. vim.fn.escape(search_text, "\\/"), "W")
+
+  -- Notify the user if no match is found
+  if found == 0 then
+    vim.notify("No matching heading found for " .. current_word, vim.log.levels.WARN)
   end
-  vim.cmd("nohlsearch")
-  -- Restore the view to jump to where I was
-  vim.fn.winrestview(saved_view)
 end
 
 return M
