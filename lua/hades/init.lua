@@ -17,8 +17,8 @@ require("lazy").setup({
   { import = "hades.plugins.colorschemes" },
 })
 
-DEBUG = false
-Molten_or_Slime = "molten"
+DEBUG = true
+-- Molten_or_Slime = "slime"
 IsModuleAvailable = require("hades.utils.keys").isModuleAvailable
 
 require("hades.config.options")
@@ -28,6 +28,7 @@ require("hades.utils.utils").load_color_highlights(Hades)
 -- require("hades.config.colorscheme")
 require("hades.config.keybinds")
 require("hades.config.keybinds_plugins")
+
 -- require("hades.config.keybinds_molten")
 
 -- require("hades.autocmd.format_on_save")

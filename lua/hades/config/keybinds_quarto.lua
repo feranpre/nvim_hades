@@ -113,7 +113,7 @@ end
 
 -- local fer_quarto = require("hades.misc.slime_utils")
 -- keymap_buffer(0, "n", "<C-CR>", fer_quarto.send_cell(), opts, "[q]uarto send files")
-keymap_buffer(0, "n", "<C-CR>", send_cell, opts, "[q]uarto send cell")
+-- keymap_buffer(0, "n", "<C-CR>", send_cell, opts, "[q]uarto send cell")
 keymap_buffer(0, "n", "<localleader>sc", send_cell, opts, "[q]uarto send cell")
 -- keymap_buffer(0, "n", "<leader>sc", send_cell, opts, "[q]uarto send cell")
 -- keymap_buffer(0, "n", "<C-CR>", send_cell, opts, "[q]uarto send files")

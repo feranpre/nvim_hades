@@ -348,18 +348,3 @@ else
     print("ufo - NOT DETECTED")
   end
 end
-
---
--- outline
---
-if IsModuleAvailable("outline") then
-  if not DEBUG then
-    print("outline - keys loaded")
-  end
-
-  keymap("n", "<leader>o", "<cmd>Outline<CR>", opts, "toggle [o]utline")
-else
-  if not DEBUG then
-    print("outline - NOT DETECTED")
-  end
-end
