@@ -11,6 +11,12 @@ return {
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
+      anti_conceal = {
+        enabled = true,
+        ignore = {
+          code_background = true,
+        },
+      },
       bullet = {
         enabled = true,
       },

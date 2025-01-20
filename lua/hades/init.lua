@@ -17,7 +17,7 @@ require("lazy").setup({
   { import = "hades.plugins.colorschemes" },
 })
 
-DEBUG = true
+DEBUG = false
 -- Molten_or_Slime = "slime"
 IsModuleAvailable = require("hades.utils.keys").isModuleAvailable
 
