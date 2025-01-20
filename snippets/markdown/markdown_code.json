@@ -1,20 +1,20 @@
 {
   "pycode": {
     "prefix": ["code_py"],
-    "body": ["```{python} ", "$1", "```"]
+    "body": ["```python ", "$1", "```"]
   },
   "bashcode": {
     "prefix": ["code_bash"],
-    "body": ["```{bash} ", "$1", "```"]
+    "body": ["```bash ", "$1", "```"]
   },
   "code": {
     "prefix": ["code"],
-    "body": ["```{$1} ", "$2", "```", "$0"]
+    "body": ["```$1 ", "$2", "```", "$0"]
   },
   "pyfig1": {
     "prefix": ["code_py_fig_1col"],
     "body": [
-      "```{python}",
+      "```python",
       "#| label: fig-$1",
       "#| fig-cap: \"$2\"",
       "",
@@ -30,7 +30,7 @@
   "pyfig2": {
     "prefix": ["code_py_fig_2cols"],
     "body": [
-      "```{python} ",
+      "```python ",
       "#| label: fig-$1",
       "#| fig-cap: \"$2\"",
       "#| fig-subcap: ",
@@ -54,7 +54,7 @@
   "ipython_interactive": {
     "prefix": ["ipyinteractive"],
     "body": [
-      "```{python}",
+      "```python",
       "from IPython.core.getipython import get_ipython",
       "ip = get_ipython()",
       "interactive = False",

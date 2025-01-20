@@ -2,7 +2,7 @@ local icons = Hades.icons
 return { -- statusline
   -- PERF: I found this to slow down the editor
   "nvim-lualine/lualine.nvim",
-  enabled = true,
+  enabled = false,
   config = function()
     local function macro_recording()
       local reg = vim.fn.reg_recording()

@@ -4,8 +4,13 @@
 -- configuration_file: ~/.config/nvim/ftplugin/markdown.lua
 --
 local keymap_buffer = require("hades.utils.keys").keymap_buffer
+local key_or_clue_buffer = require("hades.utils.keys").key_or_clue_buffer
 local opts = require("hades.utils.keys").opts
 
 keymap_buffer(0, "n", "<localleader>mh", "<cmd>MdNumberHeadings<CR>", opts, "[m]arkdown [n]umber all headings")
 keymap_buffer(0, "n", "<localleader>mt", "<cmd>MdGenerateTOC<CR>", opts, "[m]arkdown [t]oc")
 keymap_buffer(0, "n", "<localleader>gl", "<cmd>MdJumpToTOCLink<CR>", opts, "[g]arkdown to [l]ink")
+
+key_or_clue_buffer(0, "n", "<localleader>e", "[e]xport markdown file")
+
+keymap_buffer(0, "n", "<localleader>ep", "<cmd>MdToPDF<CR>", opts, "[e]xport to [p]df")

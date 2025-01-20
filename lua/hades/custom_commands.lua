@@ -7,4 +7,6 @@ vim.api.nvim_create_user_command(
   { nargs = "?" } -- Allow an optional argument
 )
 
+vim.api.nvim_create_user_command("MdToPDF", require("hades.utils.utils").md_to_pdf, {})
+
 vim.api.nvim_create_user_command("MdJumpToTOCLink", require("hades.utils.utils").md_jump_to_toc_link, {})

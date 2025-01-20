@@ -24,12 +24,12 @@ function M.load_color_highlights(opts)
   end
 end
 
-function M.PandocToPDF()
+function M.md_to_pdf()
   -- Get the filename of the current buffer
   local filename = vim.api.nvim_buf_get_name(0)
 
   -- Call the shell command
-  vim.fn.system("pandoc2pdf.py " .. vim.fn.shellescape(filename))
+  vim.fn.system("md_to_pdf.py " .. vim.fn.shellescape(filename))
 
   -- Optionally print a message
   print("Converted " .. filename .. " to PDF")
