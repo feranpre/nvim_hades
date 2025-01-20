@@ -17,6 +17,11 @@ keymap("n", "<leader><leader>x", "<cmd>source %<cr>", opts, "e[x]ecute fiel (sou
 keymap("i", "kj", "<ESC>", opts, "exit insert mode")
 keymap("n", "<ESC>", "<cmd>nohl<cr>", opts, "remove hilights")
 
+-- Move down and center screen
+
+keymap("n", "<C-d>", "<C-d>zz", opts, "half-page down and center")
+keymap("n", "<C-u>", "<C-u>zz", opts, "half-page up and center")
+
 -- Navigate buffers
 keymap("n", "<S-l>", "<cmd>bnext<CR>", opts, "next buffer")
 keymap("n", "<S-h>", "<cmd>bprevious<CR>", opts, "previous buffer")
@@ -71,8 +76,6 @@ keymap("v", ">", ">gv", opts, "indent selected text")
 -- Move text up and down
 keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
-keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
 -- Spelling --
 keymap("n", "]s", "]s", opts, "next misspelled word")
@@ -88,16 +91,19 @@ keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
 -- TERMINAL --
 keymap("t", "<ESC>", [[<C-\><C-n>]], opts, "exit insertmode in terminal")
 
--- FOLD --
--- Keymap for folding markdown headings of level 1 or above
-keymap("n", "zh4", function()
-  require("hades.utils.folds").fold_markdown_headings({ 6, 5, 4 })
-end, opts, "fold [h]eaders lvl 4 and below")
+-- -- FOLD --
+-- -- Keymap for folding markdown headings of level 1 or above
+-- keymap("n", "zh4", function()
+--   require("hades.utils.folds").fold_markdown_headings({ 6, 5, 4 })
+-- end, opts, "fold [h]eaders lvl 4 and below")
+--
+-- keymap("n", "zh3", function()
+--   require("hades.utils.folds").fold_markdown_headings({ 6, 5, 4, 3 })
+-- end, opts, "fold [h]eaders lvl 3 and below")
+--
+-- keymap("n", "zh2", function()
+--   require("hades.utils.folds").fold_markdown_headings({ 6, 5, 4, 3, 2 })
+-- end, opts, "fold [h]eaders lvl 2 and below")
 
-keymap("n", "zh3", function()
-  require("hades.utils.folds").fold_markdown_headings({ 6, 5, 4, 3 })
-end, opts, "fold [h]eaders lvl 3 and below")
-
-keymap("n", "zh2", function()
-  require("hades.utils.folds").fold_markdown_headings({ 6, 5, 4, 3, 2 })
-end, opts, "fold [h]eaders lvl 2 and below")
+-- LSP --
+keymap("v", "<leader>lf", vim.lsp.buf.format, opts, "[l]sp [f]ormat visual selection")

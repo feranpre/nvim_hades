@@ -3,6 +3,7 @@ return {
   { -- requires plugins in lua/plugins/treesitter.lua and lua/plugins/lsp.lua
     -- for complete functionality (language features)
     "quarto-dev/quarto-nvim",
+    enabled = true,
     ft = { "quarto" },
     dev = false,
     opts = {},
@@ -16,6 +17,7 @@ return {
   {
     -- for lsp features in code cells / embedded code
     "jmbuhr/otter.nvim",
+    enabled = true,
     dev = false,
     dependencies = {
       {
@@ -32,6 +34,7 @@ return {
   { -- directly open ipynb files as quarto docuements
     -- and convert back behind the scenes
     "GCBallesteros/jupytext.nvim",
+    enabled = true,
     opts = {
       custom_language_formatting = {
         python = {
@@ -50,6 +53,7 @@ return {
 
   { -- preview equations
     "jbyuki/nabla.nvim",
+    enabled = true,
     keys = {
       { "<leader>qm", ':lua require"nabla".toggle_virt()<cr>', desc = "toggle [m]ath equations" },
     },

@@ -1,6 +1,7 @@
 return {
   {
     "mfussenegger/nvim-lint",
+    enable = true,
     -- event = "LazyFile",
     opts = {
       -- Event to trigger linters
