@@ -11,6 +11,10 @@ return {
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
+      file_types = {
+        "markdown",
+        "quarto",
+      },
       anti_conceal = {
         enabled = true,
         ignore = {

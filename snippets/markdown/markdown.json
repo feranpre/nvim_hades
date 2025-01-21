@@ -6,11 +6,9 @@
   },
   "create link": {
     "prefix": "link",
-    "body": [
-      "[${1:text}](${2:link})"
-    ],
+    "body": ["[${1:text}](${2:link})"],
     "description": "Link creation"
-  }, 
+  },
   "sec_add": {
     "prefix": "sec_add",
     "body": ["{#sec-${1:section_title}}"],
@@ -20,14 +18,14 @@
     "prefix": "sec_ref",
     "body": ["@sec-${1:section_title}"],
     "description": "section reference"
-  }, 
+  },
   "cabecera": {
     "prefix": "yaml_md",
     "body": [
       "---",
-      "title: ${1:Title} ",
-      "subtitle: ${2:Subtitle}",
-      "author: ${3:Fernando Andres-Pretel}",
+      "title: \"${1:Title}\" ",
+      "subtitle: \"${2:Subtitle}\"",
+      "author: \"${3:Fernando Andres-Pretel}\"",
       "titlepage: true",
       "toc: true",
       "toc-depth: 3",
@@ -45,15 +43,59 @@
       "${3:Text}"
     ],
     "description": "Cabecera básica yaml para md"
-  }, 
+  },
+  "yaml_pdf": {
+    "prefix": "yaml_pdf",
+    "body": [
+      "pdf:",
+      "   documentclass: \"article\"",
+      "   titlepage: true",
+      "   toc: true",
+      "   toc-depth: 3",
+      "   numbersections: false",
+      "   number-depth: 4",
+      "   number-offset: 1",
+      "   secnumberdepth: 1",
+      "   colorlinks: true",
+      "   mainfont: DejaVu Sans",
+      "   mathfont: DejaVu Math TeX Gyre",
+      "   monofont: Source Code Pro",
+      "   geometry: a4paper",
+      "   geometry: margin=2cm",
+      "   fontsize: 12pt",
+      "   code-block-font-size: \\scriptsize"
+    ],
+    "description": "YAML pdf section"
+  },
+  "yaml_quarto": {
+    "prefix": "yaml_quarto",
+    "body": [
+      "---",
+      "title: \"${1:title}\"",
+      "subtitle: \"${2:subtitle}\"",
+      "author: \"Fernando Andres-Pretel\"",
+      "format:",
+      "  html:",
+      "    toc: true",
+      "    code-fold: true",
+      "jupyter:",
+      "  jupytext:",
+      "    text_representation:",
+      "      extension: .qmd",
+      "      format_name: quarto",
+      "      format_version: \"1.0\"",
+      "      jupytext_version: 1.16.6",
+      "  kernelspec:",
+      "    display_name: Python 3",
+      "    language: python",
+      "    name: python3",
+      "---"
+    ],
+    "description": "YAML header full"
+  },
   "nota": {
     "prefix": ["note", "nota"],
-    "body":[
-      "> **NOTE**",
-      "> ",
-      "> ${1:text}",
-      ""
-    ],
+    "body": ["> **NOTE**", "> ", "> ${1:text}", ""],
     "description": "Note box"
   },
   "tabset": {
@@ -144,27 +186,19 @@
   },
   "background video": {
     "prefix": ["bgvid"],
-    "body": [
-      "{background-video=\"$1\" background-size=contain}"
-    ]
+    "body": ["{background-video=\"$1\" background-size=contain}"]
   },
   "background iframe": {
     "prefix": ["bgiframe"],
-    "body": [
-      "{background-iframe=\"$1\" background-interactive=true}"
-    ]
+    "body": ["{background-iframe=\"$1\" background-interactive=true}"]
   },
   "background color": {
     "prefix": ["bgcol"],
-    "body": [
-      "{background-color=\"$1\"}"
-    ]
+    "body": ["{background-color=\"$1\"}"]
   },
   "autoanimate": {
     "prefix": ["anim"],
-    "body": [
-      "{auto-animate=true}"
-    ]
+    "body": ["{auto-animate=true}"]
   },
   "pl": {
     "prefix": ["pl"],
@@ -283,5 +317,4 @@
     "description": "refer to a label for a wrap figure",
     "prefix": "@wrap"
   }
-
 }

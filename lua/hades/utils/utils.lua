@@ -5,6 +5,14 @@
 --
 local M = {}
 
+function M.macro_recording()
+  local reg = vim.fn.reg_recording()
+  if reg == "" then
+    return ""
+  end
+  return "📷[" .. reg .. "]"
+end
+
 function M.load_colorscheme(opts)
   if type(opts.colorscheme) == "function" then
     opts.colorscheme()

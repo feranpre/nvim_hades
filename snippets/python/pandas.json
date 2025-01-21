@@ -1,6 +1,6 @@
 {
   "pd_imports": {
-    "prefix": [ "pd_imports" ],
+    "prefix": ["pd_imports"],
     "body": [
       "import pandas as pd",
       "import numpy as np",
@@ -8,18 +8,39 @@
       "import seaborn as sns",
       "from scipy import stats",
       ""
-      ],
-      "description": [ "basic import for pandas" ]
+    ],
+    "description": ["basic import for pandas"]
   },
   "pd_load_data": {
-    "prefix": [ "pd_load_data" ],
+    "prefix": ["pd_load_data"],
     "body": [
+      "data = sns.load_dataset('iris')",
       "data = pd.read_csv('${1:path/to/file}') # load csv file",
       "data = pd.read_excel('${1:path/to/file}') # load xlsx file",
       ""
     ],
-    "description": [ "load data using pandas" ]
+    "description": ["load data using pandas"]
+  },
+  "pd_desc_num": {
+    "prefix": ["pd_desc_num"],
+    "body": [
+      "data.describe() # describe all num variables of the data.frame",
+      "data_col = data[\"${1:col_name}\"].describe()",
+      "data_col = data[[\"${1:col_name}\", \"sepal_length\"]].describe()",
+      "data_col = data[data[\"filter_col_name\"] == \"filter_value\"][\"${1:col_name}\"].describe()",
+      "data_col = data.groupby(\"species\")[\"sepal_width\"].median() # median of width by species",
+      "shapiro_stat, shapiro_p = scipy.stats.shapiro(data[\"${1:col_name}\"])",
+      "print(\"Shapiro test: {0} - p: {1}\".format(shapiro_stat, shapiro_p))"
+    ],
+    "description": ["describe numeric variables"]
+  },
+  "pd_desc_cat": {
+    "prefix": ["pd_desc_cat"],
+    "body": [
+      "data.columns # col names",
+      "data[\"species\"].value_counts() # count values",
+      "pd.crosstab(data[\"species\"], columns=\"count\")"
+    ],
+    "description": ["describe numeric variables"]
   }
-
 }
-

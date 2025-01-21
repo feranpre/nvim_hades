@@ -41,6 +41,9 @@ return {
           extension = "qmd",
           style = "quarto",
           force_ft = "quarto",
+          -- extension = "md",
+          -- style = "markdown",
+          -- force_ft = "markdown",
         },
         r = {
           extension = "qmd",

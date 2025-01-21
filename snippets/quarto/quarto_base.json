@@ -110,27 +110,19 @@
   },
   "background video": {
     "prefix": ["bgvid"],
-    "body": [
-      "{background-video=\"$1\" background-size=contain}"
-    ]
+    "body": ["{background-video=\"$1\" background-size=contain}"]
   },
   "background iframe": {
     "prefix": ["bgiframe"],
-    "body": [
-      "{background-iframe=\"$1\" background-interactive=true}"
-    ]
+    "body": ["{background-iframe=\"$1\" background-interactive=true}"]
   },
   "background color": {
     "prefix": ["bgcol"],
-    "body": [
-      "{background-color=\"$1\"}"
-    ]
+    "body": ["{background-color=\"$1\"}"]
   },
   "autoanimate": {
     "prefix": ["anim"],
-    "body": [
-      "{auto-animate=true}"
-    ]
+    "body": ["{auto-animate=true}"]
   },
   "pl": {
     "prefix": ["pl"],
@@ -243,6 +235,30 @@
     "body": ["---", "title: $1", "format: $2", "---"],
     "description": "Add minimal yaml header",
     "prefix": "yml"
+  },
+  "yaml_full": {
+    "prefix": "yaml_full",
+    "body": [
+      "title: \"${1:title}\"",
+      "subtitle: \"${2:subtitle}\"",
+      "author: \"Fernando Andres-Pretel\"",
+      "format:",
+      "  html:",
+      "    toc: true",
+      "    code-fold: true",
+      "jupyter:",
+      "  jupytext:",
+      "    text_representation:",
+      "      extension: .qmd",
+      "      format_name: quarto",
+      "      format_version: \"1.0\"",
+      "      jupytext_version: 1.16.6",
+      "  kernelspec:",
+      "    display_name: Python 3",
+      "    language: python",
+      "    name: python3"
+    ],
+    "description": "YAML header full"
   },
   "ref a wrap figure": {
     "body": "Fig. \\ref{fig-$1}",

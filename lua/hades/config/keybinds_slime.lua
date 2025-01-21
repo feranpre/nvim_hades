@@ -13,50 +13,32 @@
 -- SLIME
 --
 
--- local M = {}
 if IsModuleAvailable("SlimeConfig") then
   -- function M.load_keys()
-  print("loading slime")
 
   local opts = require("hades.utils.keys").opts
   local keymap_buffer = require("hades.utils.keys").keymap_buffer
   local key_or_clue_buffer = require("hades.utils.keys").key_or_clue_buffer
-
-  -- local new_terminal_r = require("hades.utils.terminal").new_terminal_r
-  -- local new_terminal_python = require("hades.utils.terminal").new_terminal_python
-
-  local function create_and_configure_terminal()
-    -- Check if a terminal already exists in a split
-    for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-      local buf = vim.api.nvim_win_get_buf(win)
-      if vim.bo[buf].buftype == "terminal" then
-        print("A terminal window already exists.")
-        return
-      end
-    end
-    local current_win = vim.api.nvim_get_current_win()
-    --
-    -- Open a terminal in a vertical split taking 30% of the space
-    vim.cmd("vsplit")
-    vim.cmd("vertical resize " .. math.floor(vim.o.columns * 0.3))
-
-    vim.cmd("terminal")
-    vim.cmd("$")
-
-    -- Set the terminal buffer as the Slime target
-    vim.g.slime_default_config = {
-      jobid = vim.b.terminal_job_id,
-    }
-    vim.api.nvim_set_current_win(current_win)
-    print("Terminal created and set as Slime target.")
-  end
+  local send_full_expression = require("hades.utils.slime_commands").send_full_expression
+  local send_expression_or_line = require("hades.utils.slime_commands").send_expression_or_line
 
   key_or_clue_buffer(0, "n", "<localleader>t", "+[t]erminal (Slime)")
   keymap_buffer(0, "n", "<localleader>tc", "<Plug>SlimeConfig", opts, "(Slime)[t]erminal [c]onf")
 
-  keymap_buffer(0, "n", "<C-CR>", "<Plug>SlimeLineSend<CR>", opts, "(Slime)[s]end [l]ine")
+  -- keymap_buffer(0, "n", "<C-CR>", "<Plug>SlimeLineSend<CR>", opts, "(Slime)[s]end [l]ine")
+  -- keymap_buffer(0, "n", "<C-CR>", send_full_expression, opts, "(Slime)[s]end [l]ine")
+  keymap_buffer(0, "n", "<C-CR>", send_expression_or_line, opts, "(Slime)[s]end [l]ine")
   keymap_buffer(0, "v", "<C-CR>", "<Plug>SlimeRegionSend<CR>", opts, "(Slime)[s]end region")
 
+  keymap_buffer(0, "n", "<localleader>sl", "<Plug>SlimeLineSend<CR>", opts, "(Slime) [s]end [l]ine")
+  keymap_buffer(0, "n", "<localleader>p", function()
+    -- Get the word under the cursor
+    local word = vim.fn.expand("<cword>")
+    -- Create the print command
+    local command = "print(" .. word .. ")\n"
+    -- Send the command using vim-slime
+    vim.fn["slime#send"](command)
+  end, opts, "[p]rint variable")
   keymap_buffer(0, "n", "<localleader>sl", "<Plug>SlimeLineSend<CR>", opts, "(Slime) [s]end [l]ine")
   keymap_buffer(0, "v", "<localleader>sr", "<Plug>SlimeRegionSend<CR>", opts, "(Slime)[s]end [r]egion")
   keymap_buffer(
