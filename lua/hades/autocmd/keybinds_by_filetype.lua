@@ -1,6 +1,6 @@
 vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
   desc = "HADES file binds",
-  pattern = { "python", "quarto", "markdown" },
+  pattern = { "r", "python", "quarto", "markdown" },
   callback = function(ev)
     --
     -- MOLTEN

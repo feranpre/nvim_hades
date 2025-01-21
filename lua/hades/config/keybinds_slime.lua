@@ -12,26 +12,24 @@
 --
 -- SLIME
 --
-
-if IsModuleAvailable("SlimeConfig") then
-  -- function M.load_keys()
-
+local M = {}
+function M.load_keys(ev)
   local opts = require("hades.utils.keys").opts
   local keymap_buffer = require("hades.utils.keys").keymap_buffer
   local key_or_clue_buffer = require("hades.utils.keys").key_or_clue_buffer
-  local send_full_expression = require("hades.utils.slime_commands").send_full_expression
+  -- local send_full_expression = require("hades.utils.slime_commands").send_full_expression
   local send_expression_or_line = require("hades.utils.slime_commands").send_expression_or_line
 
-  key_or_clue_buffer(0, "n", "<localleader>t", "+[t]erminal (Slime)")
-  keymap_buffer(0, "n", "<localleader>tc", "<Plug>SlimeConfig", opts, "(Slime)[t]erminal [c]onf")
+  key_or_clue_buffer(ev.buf, "n", "<localleader>t", "+[t]erminal (Slime)")
+  keymap_buffer(ev.buf, "n", "<localleader>tc", "<Plug>SlimeConfig", opts, "(Slime)[t]erminal [c]onf")
 
-  -- keymap_buffer(0, "n", "<C-CR>", "<Plug>SlimeLineSend<CR>", opts, "(Slime)[s]end [l]ine")
-  -- keymap_buffer(0, "n", "<C-CR>", send_full_expression, opts, "(Slime)[s]end [l]ine")
-  keymap_buffer(0, "n", "<C-CR>", send_expression_or_line, opts, "(Slime)[s]end [l]ine")
-  keymap_buffer(0, "v", "<C-CR>", "<Plug>SlimeRegionSend<CR>", opts, "(Slime)[s]end region")
+  -- keymap_buffer(ev.buf, "n", "<C-CR>", "<Plug>SlimeLineSend<CR>", opts, "(Slime)[s]end [l]ine")
+  -- keymap_buffer(ev.buf, "n", "<C-CR>", send_full_expression, opts, "(Slime)[s]end [l]ine")
+  keymap_buffer(ev.buf, "n", "<C-CR>", send_expression_or_line, opts, "(Slime)[s]end [l]ine")
+  keymap_buffer(ev.buf, "v", "<C-CR>", "<Plug>SlimeRegionSend<CR>", opts, "(Slime)[s]end region")
 
-  keymap_buffer(0, "n", "<localleader>sl", "<Plug>SlimeLineSend<CR>", opts, "(Slime) [s]end [l]ine")
-  keymap_buffer(0, "n", "<localleader>p", function()
+  keymap_buffer(ev.buf, "n", "<localleader>sl", "<Plug>SlimeLineSend<CR>", opts, "(Slime) [s]end [l]ine")
+  keymap_buffer(ev.buf, "n", "<localleader>p", function()
     -- Get the word under the cursor
     local word = vim.fn.expand("<cword>")
     -- Create the print command
@@ -39,10 +37,10 @@ if IsModuleAvailable("SlimeConfig") then
     -- Send the command using vim-slime
     vim.fn["slime#send"](command)
   end, opts, "[p]rint variable")
-  keymap_buffer(0, "n", "<localleader>sl", "<Plug>SlimeLineSend<CR>", opts, "(Slime) [s]end [l]ine")
-  keymap_buffer(0, "v", "<localleader>sr", "<Plug>SlimeRegionSend<CR>", opts, "(Slime)[s]end [r]egion")
+  keymap_buffer(ev.buf, "n", "<localleader>sl", "<Plug>SlimeLineSend<CR>", opts, "(Slime) [s]end [l]ine")
+  keymap_buffer(ev.buf, "v", "<localleader>sr", "<Plug>SlimeRegionSend<CR>", opts, "(Slime)[s]end [r]egion")
   keymap_buffer(
-    0,
+    ev.buf,
     "n",
     "<localleader>sc",
     "<Plug>SlimeSendCell<BAR>/^" .. vim.g.slime_cell_delimiter .. "<CR>",
@@ -50,6 +48,4 @@ if IsModuleAvailable("SlimeConfig") then
     "(Slime)[s]end [c]ell"
   )
 end
--- end
-
--- return M
+return M

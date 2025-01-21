@@ -1,1 +1,1 @@
-require("hades.config.keybinds_slime")
+-- require("hades.config.keybinds_slime")
