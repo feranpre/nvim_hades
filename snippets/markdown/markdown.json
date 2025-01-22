@@ -93,6 +93,24 @@
     ],
     "description": "YAML header full"
   },
+  "yaml_revealjs": {
+    "prefix": "yaml_revealjs",
+    "body": [
+      "---",
+      "title: \"${1:title}\"",
+      "subtitle: \"${2:subtitle}\"",
+      "author: \"Fernando Andres-Pretel\"",
+      "output:",
+      "  revealjs::revealjs_presentation:",
+      "    theme: \"sky\"",
+      "    self_contained: false",
+      "    css: \"assets/custom.css\"",
+      "reveal_options:",
+      "  backgroundTransition: fade",
+      "---"
+    ],
+    "description": "YAML header full"
+  },
   "nota": {
     "prefix": ["note", "nota"],
     "body": ["> **NOTE**", "> ", "> ${1:text}", ""],

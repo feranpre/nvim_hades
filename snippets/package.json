@@ -14,7 +14,6 @@
         "language": "python",
         "path": "./python/pydoc.json"
       },
-
       {
         "language": "python",
         "path": "./python/pandas.json"
@@ -42,9 +41,9 @@
       {
         "language": "r",
         "path": "./r/graficos.json"
-      }, 
+      },
       {
-        "language": "markdown", 
+        "language": "markdown",
         "path": "./markdown/markdown.json"
       },
       {
@@ -52,14 +51,21 @@
         "path": "./markdown/markdown_code.json"
       },
       {
-        "language": "quarto", 
+        "language": "quarto",
         "path": "./markdown/markdown.json"
       },
       {
         "language": "quarto",
         "path": "./markdown/markdown_code.json"
+      },
+      {
+        "language": "rmd",
+        "path": "./markdown/markdown.json"
+      },
+      {
+        "language": "rmd",
+        "path": "./markdown/markdown_code.json"
       }
-         ]
+    ]
   }
 }
-

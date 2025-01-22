@@ -14,6 +14,7 @@ return {
       file_types = {
         "markdown",
         "quarto",
+        "rmd",
       },
       anti_conceal = {
         enabled = true,

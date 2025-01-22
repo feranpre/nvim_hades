@@ -47,10 +47,19 @@ function M.load_keys(ev)
   keymap_buffer(
     ev.buf,
     "n",
+    "<localleader>kr",
+    '<cmd>lua require("hades.utils.r_commands").r_revealjs("' .. vim.fn.expand("%:p") .. '")<CR>',
+    opts,
+    "[k]nit [r]evealjs"
+  )
+
+  keymap_buffer(
+    ev.buf,
+    "n",
     "<localleader>kh",
     '<cmd>lua require("hades.utils.r_commands").spin_r("' .. vim.fn.expand("%:p") .. '", "html")<CR>',
     opts,
-    "[h]tml [k]nit"
+    "[k]nit [h]tml"
   )
 
   keymap_buffer(
@@ -59,7 +68,7 @@ function M.load_keys(ev)
     "<localleader>kp",
     '<cmd>lua require("hades.utils.r_commands").spin_r("' .. vim.fn.expand("%:p") .. '", "pdf")<CR>',
     opts,
-    "[p]df [k]nit"
+    "[k]nit [p]df"
   )
 
   keymap_buffer(ev.buf, "n", "<localleader>kP", "<Plug>RMakePDF", opts, "make PDF")
