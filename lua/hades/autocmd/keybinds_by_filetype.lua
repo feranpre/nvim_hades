@@ -29,6 +29,8 @@ vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
         print("Slime - keys NOT loaded")
       end
     end
+
+    require("hades.config.keybinds_r").load_keys(ev)
   end,
 })
 

@@ -9,7 +9,6 @@ return {
       linters_by_ft = {
         lua = { "luac" },
         markdown = { "vale" },
-        json = 
         -- Use the "*" filetype to run linters on all filetypes.
         -- ['*'] = { 'global linter' },
         -- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
@@ -69,7 +68,7 @@ return {
       --       -- * otherwise will split filetype by "." and add all those linters
       --       -- * this differs from conform.nvim which only uses the first filetype that has a formatter
       --       local names = lint._resolve_linter_by_ft(vim.bo.filetype)
-      -- 
+      --
       --       -- Create a copy of the names table to avoid modifying the original.
       --       names = vim.list_extend({}, names)
       --
