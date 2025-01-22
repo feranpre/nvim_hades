@@ -5,7 +5,7 @@ return {
     enabled = true,
     lazy = false,
     dependencies = {
-      -- "R-nvim/cmp-r",
+      "R-nvim/cmp-r",
       -- "nvim-treesitter/nvim-treesitter-textobjects", -- BROKEN
       -- "hrsh7th/nvim-cmp",
     },

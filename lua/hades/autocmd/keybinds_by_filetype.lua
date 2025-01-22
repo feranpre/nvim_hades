@@ -1,6 +1,6 @@
 vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
-  desc = "HADES file binds",
-  pattern = { "r", "python", "quarto", "markdown" },
+  desc = "HADES file binds for python, quarto and markdown",
+  pattern = { "python", "quarto", "markdown" },
   callback = function(ev)
     --
     -- MOLTEN
@@ -30,6 +30,14 @@ vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
       end
     end
 
+    -- require("hades.config.keybinds_r").load_keys(ev)
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
+  desc = "HADES file binds for R",
+  pattern = { "r" },
+  callback = function(ev)
     require("hades.config.keybinds_r").load_keys(ev)
   end,
 })

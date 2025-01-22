@@ -4,6 +4,7 @@ return {
     version = "*",
     -- dependencies = "rafamadriz/friendly-snippets",
     -- dependencies = { "L3MON4D3/LuaSnip", version = "v2.*" },
+    lazy = true,
 
     opts = {
       keymap = { preset = "default" },
@@ -14,12 +15,19 @@ return {
       },
 
       sources = {
-        default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+        default = { "cmp_r", "lazydev", "lsp", "path", "snippets", "buffer" },
         providers = {
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
             score_offset = 100,
+          },
+          cmp_r = {
+            name = "cmp_r",
+            module = "blink.compat.source",
+            opts = {
+              filetypes = { "r", "rmd", "quarto" },
+            },
           },
         },
       },
