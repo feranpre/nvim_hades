@@ -67,8 +67,8 @@ function M.send_expression_or_line()
 
   if found_match then
     local expression = vim.fn.getline(current_line, end_line)
-    local full_command = table.concat(expression, "\n") .. "\n"
-    vim.fn["slime#send"](full_command)
+    local full_command = table.concat(expression, "\n")
+    vim.fn["slime#send"](full_command .. "\n")
 
     -- Move the cursor to the line after the expression if not at the end of the buffer
     if end_line < total_lines then

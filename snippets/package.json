@@ -43,6 +43,10 @@
         "path": "./r/graficos.json"
       },
       {
+        "language": "rmd",
+        "path": "./rmd/rmd.json"
+      },
+      {
         "language": "markdown",
         "path": "./markdown/markdown.json"
       },

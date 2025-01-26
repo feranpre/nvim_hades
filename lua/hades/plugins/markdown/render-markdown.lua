@@ -1,10 +1,11 @@
 --
 -- TODO: Include icons in ~/.config/nvim/lua/hades/config/hades.lua
 --
+
 return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    enabled = true,
+    enabled = false,
     -- dependencies = { "nvim-treesitter/nvim-treesitter", "echasnovski/mini.nvim" }, -- if you use the mini.nvim suite
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
@@ -79,18 +80,4 @@ return {
       },
     },
   },
-  -- {
-  --   "OXY2DEV/markview.nvim",
-  --   enabled = false,
-  --   lazy = false, -- Recommended
-  --   priority = 2000,
-  --   -- ft = "markdown" -- If you decide to lazy-load
-  --   dependencies = {
-  --     "nvim-treesitter/nvim-treesitter",
-  --     "nvim-tree/nvim-web-devicons",
-  --   },
-  -- },
-  -- {
-  --   "ixru/nvim-markdown",
-  -- },
 }

@@ -118,19 +118,26 @@ function M.load_keys(ev)
   -- keymap_buffer(0, "n", "<C-CR>", fer_quarto.send_cell(), opts, "[q]uarto send files")
   -- keymap_buffer(0, "n", "<C-CR>", send_cell, opts, "[q]uarto send cell")
   keymap_buffer(ev.buf, "n", "<localleader>sc", send_cell, opts, "[q]uarto send cell")
-  -- keymap_buffer(ev.buf, "n", "<leader>sc", send_cell, opts, "[q]uarto send cell")
+  -- keymap_buffer(ev.buf, "n", "<localleader>sc", send_cell, opts, "[q]uarto send cell")
   -- keymap_buffer(ev.buf, "n", "<C-CR>", send_cell, opts, "[q]uarto send files")
-  keymap_buffer(ev.buf, "n", "<leader>qp", "<cmd>lua require('quarto').quartoPreview()<CR>", opts, "[q]uarto [p]review")
   keymap_buffer(
     ev.buf,
     "n",
-    "<leader>qc",
+    "<localleader>qp",
+    "<cmd>lua require('quarto').quartoPreview()<CR>",
+    opts,
+    "[q]uarto [p]review"
+  )
+  keymap_buffer(
+    ev.buf,
+    "n",
+    "<localleader>qc",
     "<cmd>lua require('quarto').quartoClosePreview()<CR>",
     opts,
     "[q]uarto [c]lose preview"
   )
 
-  keymap_buffer(ev.buf, "n", "<leader>qI", insert_r_chunk, opts, "[I]nsert R chunk")
+  keymap_buffer(ev.buf, "n", "<localleader>qI", insert_r_chunk, opts, "[I]nsert R chunk")
   keymap_buffer(ev.buf, "n", "<localleader>qi", insert_py_chunk, opts, "[i]nsert PYTHON chunk")
 
   -- CHUNKS
@@ -152,7 +159,7 @@ function M.load_keys(ev)
 
   if isModuleAvailable("otter") then
     keymap_buffer(ev.buf, "n", "<localleader>qe", require("otter").export, opts, "[e]xport (otter)")
-    keymap_buffer(ev.buf, "n", "<leader>oa", require("otter").activate, opts, "[o]tter [a]ctivate (toggle)")
+    keymap_buffer(ev.buf, "n", "<localleader>oa", require("otter").activate, opts, "[o]tter [a]ctivate (toggle)")
   end
 
   -- robar todo de [aqui](https://github.com/jmbuhr/quarto-nvim-kickstarter/blob/main/lua/config/keymap.lua)
@@ -161,12 +168,12 @@ function M.load_keys(ev)
   -- ------------------------ NABLA
   -- ------------------------
   if isModuleAvailable("nabla") then
-    keymap_buffer(ev.buf, "n", "<leader>qm", require("nabla").toggle_virt, opts, "toggle [m]ath equations")
+    keymap_buffer(ev.buf, "n", "<localleader>qm", require("nabla").toggle_virt, opts, "toggle [m]ath equations")
   end
 
   -- ------------------------
   -- ------------------------ IMAGE.VIM
   -- ------------------------
-  keymap_buffer(ev.buf, "n", "<leader>ii", "<cmd>PasteImage<cr>", opts, "insert [i]mage from clipboard")
+  keymap_buffer(ev.buf, "n", "<localleader>ii", "<cmd>PasteImage<cr>", opts, "insert [i]mage from clipboard")
 end
 return M

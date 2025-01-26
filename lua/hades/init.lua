@@ -15,6 +15,8 @@ require("lazy").setup({
   { import = "hades.plugins.code" },
   { import = "hades.plugins.editor" },
   { import = "hades.plugins.colorschemes" },
+  { import = "hades.plugins.markdown" },
+  { import = "hades.plugins.repl" },
 })
 
 DEBUG = false
@@ -23,7 +25,9 @@ IsModuleAvailable = require("hades.utils.keys").isModuleAvailable
 
 require("hades.config.options")
 require("hades.utils.utils").load_colorscheme(Hades)
-require("hades.utils.utils").load_color_highlights(Hades)
+require("hades.utils.utils").load_colorscheme(Hades)
+
+-- require("hades.utils.utils").load_color_highlights(Hades)
 
 -- require("hades.config.colorscheme")
 require("hades.config.keybinds")
@@ -32,7 +36,7 @@ require("hades.config.keybinds_plugins")
 -- require("hades.config.keybinds_molten")
 
 -- require("hades.autocmd.format_on_save")
-require("hades.autocmd.keybinds_by_filetype")
+require("hades.autocmd.keybinds_by_filetype") -- load keybinds for specific filetypes
 
 -- require("hades.custom_commands")
 -- require("hades.autocmd.spell_autocmd")

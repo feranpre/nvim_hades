@@ -1,7 +1,7 @@
 {
   "pycode": {
     "prefix": ["code_py"],
-    "body": ["```python ", "$1", "```"]
+    "body": ["```python ", "#| eval: true", "#| echo: true", "", "$1", "```"]
   },
   "bashcode": {
     "prefix": ["code_bash"],
@@ -63,6 +63,4 @@
       "```"
     ]
   }
-
-
 }

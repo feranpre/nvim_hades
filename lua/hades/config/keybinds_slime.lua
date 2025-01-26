@@ -22,6 +22,12 @@ function M.load_keys(ev)
 
   key_or_clue_buffer(ev.buf, "n", "<localleader>t", "+[t]erminal (Slime)")
   keymap_buffer(ev.buf, "n", "<localleader>tc", "<Plug>SlimeConfig", opts, "(Slime)[t]erminal [c]onf")
+  if vim.g.slime_target == "neovim" then
+    term = require("hades.utils.terminal")
+
+    keymap_buffer(ev.buf, "n", "<localleader>tr", term.new_terminal_r, opts, "(Slime)new [t]erminal [r]")
+    keymap_buffer(ev.buf, "n", "<localleader>tp", term.new_terminal_python, opts, "(Slime)new [t]erminal [p]ython")
+  end
 
   -- keymap_buffer(ev.buf, "n", "<C-CR>", "<Plug>SlimeLineSend<CR>", opts, "(Slime)[s]end [l]ine")
   -- keymap_buffer(ev.buf, "n", "<C-CR>", send_full_expression, opts, "(Slime)[s]end [l]ine")
