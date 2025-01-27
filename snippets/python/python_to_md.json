@@ -1,0 +1,7 @@
+{
+  "cell": {
+    "prefix": "cell",
+    "body": ["# %% echo: true, eval: true", "", "# %%"],
+    "description": "add cell"
+  }
+}
