@@ -35,12 +35,10 @@
       "mainfont: DejaVu Sans",
       "mathfont: DejaVu Math TeX Gyre",
       "monofont: Source Code Pro",
-      "geometry: a4paper",
-      "geometry: margin=2cm",
       "fontsize: 12pt",
       "highlight-style: tango",
       "---",
-      "${3:Text}"
+      "${4:Text}"
     ],
     "description": "Cabecera básica yaml para md"
   },
