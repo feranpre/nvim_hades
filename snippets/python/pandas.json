@@ -14,9 +14,9 @@
   "pd_load_data": {
     "prefix": ["pd_load_data"],
     "body": [
-      "data = sns.load_dataset('iris')",
-      "data = pd.read_csv('${1:path/to/file}') # load csv file",
-      "data = pd.read_excel('${1:path/to/file}') # load xlsx file",
+      "data = sns.load_dataset(\"mpg\")",
+      "data = pd.read_csv(\"${1:path/to/file}\") # load csv file",
+      "data = pd.read_excel(\"${1:path/to/file}\") # load xlsx file",
       ""
     ],
     "description": ["load data using pandas"]
