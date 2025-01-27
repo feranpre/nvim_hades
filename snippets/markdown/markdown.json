@@ -170,6 +170,33 @@
     "prefix": ["tblref"],
     "body": ["@tbl-$1"]
   },
+  "eq_fx_multiline": {
+    "prefix": "eq_fx_multiline",
+    "body": [
+      "\\$\\$",
+      "f(x) = \\begin{cases}",
+      "0 & \\text{if } x < 10 \\cr",
+      "\\frac{1}{x} & \\text{if } 10 \\le x \\le 20\\cr",
+      "0 & \\text{if } x > 20\\cr",
+      "\\end{cases}",
+      "\\$\\$"
+    ],
+    "description": "eq"
+  },
+  "eq_multiline": {
+    "prefix": "eq_multiline",
+    "body": [
+      "\\$\\$",
+      "\\begin{aligned}",
+      "\\mu & = \\text{if } x < 10 \\cr",
+      "\\alpha & = \\frac{1}{x} & \\text{if } 10 \\le x \\le 20\\cr",
+      "\\sigma & = \\text{if } x > 20\\cr",
+      "\\end{aligned}",
+      "\\$\\$"
+    ],
+    "description": "eq"
+  },
+
   "eqnref": {
     "prefix": ["eqnref"],
     "body": ["@eq-$1"]
