@@ -1,67 +1,47 @@
 vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
   desc = "HADES file binds for python, quarto and markdown",
-  pattern = { "rmd", "quarto", "markdown" },
+  pattern = { "markdown" },
   callback = function(ev)
     require("hades.config.keybinds_markdown").load_keys(ev)
+    require("hades.config.keybinds_slime").load_keys(ev)
+    require("hades.config.keybinds_molten").load_keys(ev)
   end,
 })
 
 vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
   desc = "HADES file binds for python, quarto and markdown",
-  pattern = { "python", "quarto", "markdown" },
+  pattern = { "quarto" },
   callback = function(ev)
-    --
-    -- MOLTEN
-    --
-    if IsModuleAvailable("MoltenInfo") then
-      if DEBUG then
-        print("Molten - keys loaded")
-      end
-      require("hades.config.keybinds_molten").load_keys(ev)
-    else
-      if DEBUG then
-        print("Molten - keys NOT loaded")
-      end
-    end
-    --
-    -- SLIME
-    --
-    if IsModuleAvailable("SlimeConfig") then
-      if DEBUG then
-        print("Slime - keys loaded")
-      end
-      require("hades.config.keybinds_slime").load_keys(ev)
-    else
-      if DEBUG then
-        print("Slime - keys NOT loaded")
-      end
-    end
+    require("hades.config.keybinds_quarto").load_keys(ev)
+    require("hades.config.keybinds_markdown").load_keys(ev)
+    require("hades.config.keybinds_slime").load_keys(ev)
+    require("hades.config.keybinds_molten").load_keys(ev)
+  end,
+})
 
-    -- require("hades.config.keybinds_r").load_keys(ev)
+vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
+  desc = "HADES file binds for python, quarto and markdown",
+  pattern = { "rmd" },
+  callback = function(ev)
+    require("hades.config.keybinds_markdown").load_keys(ev)
+    require("hades.config.keybinds_r").load_keys(ev)
   end,
 })
 
 vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
   desc = "HADES file binds for R",
-  pattern = { "r", "rmd" },
+  pattern = { "r" },
   callback = function(ev)
     require("hades.config.keybinds_r").load_keys(ev)
   end,
 })
 
 vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
-  desc = "molten file binds",
-  pattern = { "quarto" },
+  desc = "HADES file binds for python",
+  pattern = { "python" },
   callback = function(ev)
-    if IsModuleAvailable("quarto") then
-      if DEBUG then
-        print("Quarto - keys loaded")
-      end
-      require("hades.config.keybinds_quarto").load_keys(ev)
-    else
-      if DEBUG then
-        print("Quarto - keys NOT loaded")
-      end
-    end
+    require("hades.config.keybinds_slime").load_keys(ev)
+    require("hades.config.keybinds_molten").load_keys(ev)
+    require("hades.config.keybinds_python").load_keys(ev)
   end,
 })
