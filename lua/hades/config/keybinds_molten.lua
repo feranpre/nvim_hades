@@ -21,7 +21,7 @@ if IsModuleAvailable("MoltenInfo") then
   local M = {}
 
   if IsModuleAvailable("MoltenInfo") then
-    function M.load_keys()
+    function M.load_keys(ev)
       local opts = require("hades.utils.keys").opts
       local keymap_buffer = require("hades.utils.keys").keymap_buffer
       local unbind_key = require("hades.utils.keys").unbind_key

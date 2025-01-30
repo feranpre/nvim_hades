@@ -4,7 +4,7 @@ vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
   callback = function(ev)
     require("hades.config.keybinds_markdown").load_keys(ev)
     require("hades.config.keybinds_slime").load_keys(ev)
-    require("hades.config.keybinds_molten").load_keys(ev)
+    -- require("hades.config.keybinds_molten").load_keys(ev)
   end,
 })
 
@@ -15,7 +15,7 @@ vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
     require("hades.config.keybinds_quarto").load_keys(ev)
     require("hades.config.keybinds_markdown").load_keys(ev)
     require("hades.config.keybinds_slime").load_keys(ev)
-    require("hades.config.keybinds_molten").load_keys(ev)
+    -- require("hades.config.keybinds_molten").load_keys(ev)
   end,
 })
 
@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
   pattern = { "python" },
   callback = function(ev)
     require("hades.config.keybinds_slime").load_keys(ev)
-    require("hades.config.keybinds_molten").load_keys(ev)
+    -- require("hades.config.keybinds_molten").load_keys(ev)
     require("hades.config.keybinds_python").load_keys(ev)
   end,
 })
