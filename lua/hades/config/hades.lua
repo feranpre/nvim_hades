@@ -12,8 +12,8 @@ return {
   -- require("tokyonight").load()
   -- end,
   -- colorscheme = "tokyonight-storm",
-  -- colorscheme = "catppuccin-frappe",
-  colorscheme = "oldworld",
+  colorscheme = "catppuccin-frappe",
+  -- colorscheme = "oldworld",
 
   -- load the default settings
   defaults = {
