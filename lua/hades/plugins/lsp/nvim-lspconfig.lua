@@ -46,7 +46,7 @@ return {
     lspconfig.pyright.setup({
       capabilities = capabilities,
       flags = lsp_flags,
-      filetypes = {"python"},
+      filetypes = { "python" },
     })
 
     -- -- ------------------------------------------------------------------------------------
