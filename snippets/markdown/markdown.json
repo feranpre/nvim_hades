@@ -37,6 +37,8 @@
       "monofont: Source Code Pro",
       "fontsize: 12pt",
       "highlight-style: tango",
+      "code-block-font-size: \\footnotesize",
+      "code-block-font-size: \\scriptsize",
       "---",
       "${4:Text}"
     ],
