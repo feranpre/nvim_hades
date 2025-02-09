@@ -37,6 +37,7 @@ require("hades.config.keybinds_plugins")
 
 -- require("hades.autocmd.format_on_save")
 require("hades.autocmd.keybinds_by_filetype") -- load keybinds for specific filetypes
+-- require("hades.autocmd.lsp_in_markdown_codeblocks") -- lsp support inside code-blocks
 
 require("hades.utils.python_commands")
 -- require("hades.custom_commands")

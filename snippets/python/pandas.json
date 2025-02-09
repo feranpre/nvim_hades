@@ -44,5 +44,15 @@
       "pd.crosstab(data[\"species\"], columns=\"count\")"
     ],
     "description": ["describe numeric variables"]
+  },
+  "pd_boxplot": {
+    "prefix": "pd_boxplot",
+    "body": [
+      "import matplotlib.pyplot as plt",
+      "data = [1,2,3,1,2,3,1,2,3,1]",
+      "plt.boxplot(data)",
+      "plt.show()"
+    ],
+    "description": "matplotlib boxplot"
   }
 }

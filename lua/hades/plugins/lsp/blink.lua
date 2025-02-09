@@ -18,6 +18,10 @@ return {
       sources = {
         default = { "cmp_r", "lazydev", "lsp", "path", "snippets", "buffer" },
         providers = {
+          lsp = {
+            name = "LSP",
+            module = "blink.cmp.sources.lsp",
+          },
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
