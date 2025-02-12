@@ -80,7 +80,8 @@ vim.opt.title = true
 -- ---------------------------------------- TEXT
 vim.opt.spell = true
 vim.opt.spelllang = { "en_us", "es_es" }
-vim.opt.textwidth = 120
+vim.opt.textwidth = 80
+-- vim.opt.textwidth = 120
 
 -- Jupytext --
 -- vim.g.jupytext_fmt = 'py'
