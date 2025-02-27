@@ -86,7 +86,7 @@
       ""
     ],
     "description": "Regresion logistica binaria"
-  }, 
+  },
 
   "reg_lineal_mult": {
     "prefix": "reg_lineal_mult",
@@ -186,7 +186,7 @@
       "summary_f_model = summary(final.model\\$model)",
       "f_model = data.frame(summary_f_model\\$coefficients)",
       "names(f_model) = c('estimate','std_error','t_value','p.value')",
-      "f_model <- cbind(f_model, confint(final.model$model))",
+      "f_model <- cbind(f_model, confint(final.model\\$model))",
       "print(knitr::kable(f_model))",
       "cat('\\nR²:', summary_f_model\\$r.squared,'\\n')",
       "cat('\\nAdjusted R²:', summary_f_model\\$adj.r.squared,'\\n')",
@@ -245,6 +245,26 @@
       "cat('\\nBartlett p:',bartlett.test(c(fitted(final.model\\$model), residuals(final.model\\$model)) ~ g.residuos)\\$p.value,'\\n')"
     ],
     "description": "Regresion lineal multiple"
+  },
+  "ordinal_regression": {
+    "prefix": "ordinal_regression",
+    "body": [
+      "#' # MODELO REGRESION ORDINAL",
+      "#'",
+      "#+ , eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''",
+      "",
+      "# LA PRIMERA es la dependiente",
+      "vars.modelo.inicial <- c('UTILITYCARMEN', 'PAINVAS', 'RELIEFLIKERT',",
+      "                        'SLEEPINESS', 'NERVOUS', 'LNMORPHDD')",
+      "",
+      "",
+      "#'",
+      "#' ## - Selección de variables para el modelo saturado",
+      "#+ , echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'",
+      "# 'RELIEFLIKERT0', 'RELIEFLIKERT1', 'RELIEFLIKERT2', 'RELIEFLIKERT3', 'RELIEFLIKERT4',",
+      "DATOS.reg <- DATOS[ , vars.modelo.inicial]",
+      "cat('\\nBartlett p:',bartlett.test(c(fitted(final.model\\$model), residuals(final.model\\$model)) ~ g.residuos)\\$p.value,'\\n')"
+    ],
+    "description": "Regresion lineal multiple"
   }
 }
-
