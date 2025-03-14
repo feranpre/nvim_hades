@@ -99,6 +99,22 @@ function M.load_keys(ev)
   keymap_buffer(
     ev.buf,
     "n",
+    "<localleader>bt",
+    "<cmd>lua require('r.send').cmd('devtools::test()')<CR>",
+    opts,
+    "[t]est pkg"
+  )
+  keymap_buffer(
+    ev.buf,
+    "n",
+    "<localleader>bT",
+    "<cmd>lua require('r.send').cmd('usethis::use_test()')<CR>",
+    opts,
+    "create [T]est for file"
+  )
+  keymap_buffer(
+    ev.buf,
+    "n",
     "<localleader>bi",
     "<cmd>lua require('r.send').cmd('devtools::install(args = \"--preclean --with-keep.source --no-multiarch\")')<CR>",
     opts,
