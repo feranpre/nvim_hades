@@ -108,7 +108,7 @@ function M.load_keys(ev)
     ev.buf,
     "n",
     "<localleader>bT",
-    "<cmd>lua require('r.send').cmd('usethis::use_test()')<CR>",
+    string.format("<cmd>lua require('r.send').cmd('usethis::use_test(\"%s\")')<CR>", vim.fn.expand("%:t")),
     opts,
     "create [T]est for file"
   )
