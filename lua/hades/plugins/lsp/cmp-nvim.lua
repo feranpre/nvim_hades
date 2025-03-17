@@ -1,7 +1,7 @@
 return {
   {
     "hrsh7th/nvim-cmp",
-    enabled = false,
+    enabled = true,
     dependencies = {
       "hrsh7th/cmp-nvim-lsp", -- for nvim-lspconfig
       "L3MON4D3/LuaSnip",
@@ -12,7 +12,7 @@ return {
       local luasnip = require("luasnip")
       local lspkind = require("lspkind")
 
-      require("luasnip.loaders.from_vscode").load({ paths = { "~/.config/nvim/lua/hades/hades_snippets" } })
+      require("luasnip.loaders.from_vscode").load({ paths = { "~/.config/nvim/lua/snippets" } })
       cmp.setup({
         -- snippet = {
         --   expand = function(args)

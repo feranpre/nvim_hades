@@ -5,7 +5,7 @@ return {
     -- dependencies = "rafamadriz/friendly-snippets",
     -- dependencies = { "L3MON4D3/LuaSnip", version = "v2.*" },
     lazy = true,
-    enabled = true,
+    enabled = false,
 
     opts = {
       keymap = { preset = "default" },
