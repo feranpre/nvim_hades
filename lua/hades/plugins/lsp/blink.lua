@@ -77,6 +77,7 @@ return {
         },
       },
       fuzzy = {
+        implementation = "prefer_rust_with_warning",
         sorts = {
           function(a, b)
             local sort = require("blink.cmp.fuzzy.sort")
