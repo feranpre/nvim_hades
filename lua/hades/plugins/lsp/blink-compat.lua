@@ -1,7 +1,7 @@
 return {
   {
     "saghen/blink.compat",
-    enabled = false,
+    enabled = true,
     lazy = true,
     opts = {
       impersonate_nvim_cmp = true,

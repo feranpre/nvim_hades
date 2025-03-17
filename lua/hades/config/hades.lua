@@ -82,6 +82,22 @@ return {
       modified = " ",
       removed  = " ",
     },
+cmp_icons = {
+      cmp_r = "󰏿 ",
+      nvim_lsp = "󰊕 ",
+      spell = " ",
+      luasnip = "󱄽 ",
+      otter = "🦦 ",
+      buffer = " ",
+      path = " ",
+      pandoc_references = " ",
+      emoji = " ",
+      tags = " ",
+      latex_symbols = " ",
+      treesitter = "󱘎 ",
+      calc = " ",
+    },
+
     kinds = {
       Array         = " ",
       Boolean       = "󰨙 ",

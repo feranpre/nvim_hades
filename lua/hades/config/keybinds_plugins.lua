@@ -74,16 +74,6 @@ if IsModuleAvailable("snacks") then
 end
 
 --
--- R
---
--- if isModuleAvailable("r") then
---   if debug then
---     print("R.nvim - keys loaded")
---   end
---   require("hades.config.keybinds_r")
--- end
-
---
 -- QUARTO
 --
 if IsModuleAvailable("quarto") then

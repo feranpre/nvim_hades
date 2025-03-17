@@ -17,7 +17,7 @@ return {
   config = function()
     local cmp = require("cmp")
     local luasnip = require("luasnip")
-    local lspkind = require("lspkind")
+    local Hades = require("hades.config.hades")
 
     require("luasnip.loaders.from_vscode").load({ paths = { "~/.config/nvim/snippets" } })
     cmp.setup({
@@ -27,8 +27,13 @@ return {
         end,
       },
       window = {
-        -- completion = cmp.config.window.bordered(),
-        -- documentation = cmp.config.window.bordered(),
+        completion = {
+          cmp.config.window.bordered(),
+          winhilight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+          col_offset = -3,
+          side_padding = 0,
+        },
+        documentation = cmp.config.window.bordered(),
       },
 
       -- mapping = cmp.mapping.preset.insert({
@@ -57,11 +62,13 @@ return {
 
       ---@diagnostic disable-next-line: missing-fields
       formatting = {
+        fields = { "kind", "abbr", "menu" },
         format = function(entry, item)
+          local lspkind_present, lspkind = pcall(require, "lspkind")
           local color_item = require("nvim-highlight-colors").format(entry, { kind = item.kind })
-          item = require("lspkind").cmp_format({
-            mode = "symbol",
-            menu = {
+          if not lspkind_present then
+            item.kind = string.format("%s %s", Hades.icons.kinds[item.kind], item.kind)
+            item.menu = ({
               luasnip = "[snip]",
               -- otter = '[🦦]',
               nvim_lsp = "[LSP]",
@@ -75,32 +82,26 @@ return {
               calc = "[calc]",
               latex_symbols = "[tex]",
               emoji = "[emoji]",
-            },
-          })(entry, item)
-          if color_item.abbr_hl_group then
-            item.kind_hl_group = color_item.abbr_hl_group
-            item.kind = color_item.abbr
+            })[entry.source.name]
+            return item
+          else
+            local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, item)
+            local strings = vim.split(kind.kind, "%s", { trimempty = true })
+            kind.kind = " " .. (strings[1] or "") .. " "
+            kind.menu = "    (" .. (strings[2] or "") .. ")"
+
+            return kind
+            -- item = lspkind.cmp_format({
+            --   mode = "symbol",
+            --   menu = {},
+            -- })(entry, item)
+            -- if color_item.abbr_hl_group then
+            --   item.kind_hl_group = color_item.abbr_hl_group
+            --   item.kind = color_item.abbr
+            -- end
+            -- return item
           end
-          return item
         end,
-        -- format = lspkind.cmp_format({
-        --   mode = "symbol",
-        --   menu = {
-        --     luasnip = "[snip]",
-        --     -- otter = '[🦦]',
-        --     nvim_lsp = "[LSP]",
-        --     cmp_r = "[R]",
-        --     buffer = "[buf]",
-        --     path = "[path]",
-        --     spell = "[spell]",
-        --     pandoc_references = "[ref]",
-        --     tags = "[tag]",
-        --     treesitter = "[TS]",
-        --     calc = "[calc]",
-        --     latex_symbols = "[tex]",
-        --     emoji = "[emoji]",
-        --   },
-        -- }),
       },
     })
     --
