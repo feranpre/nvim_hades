@@ -47,6 +47,10 @@
         "path": "./r/graficos.json"
       },
       {
+        "language": "r",
+        "path": "./r/package.json"
+      },
+      {
         "language": "rmd",
         "path": "./rmd/rmd.json"
       },

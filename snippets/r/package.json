@@ -1,0 +1,14 @@
+{
+  "require": {
+    "prefix": "require",
+    "body": [
+      "if (!require(\"${1:package}\", quietly = TRUE)) {",
+      "  stop(",
+      "    \"Package \\\"${1:package}\\\" must be installed to use this function\",",
+      "    call. = FALSE",
+      "  )",
+      "}"
+    ],
+    "description": "include require check in function"
+  }
+}
