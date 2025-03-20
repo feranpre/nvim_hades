@@ -9,7 +9,7 @@ git clone https://github.com/feranpre/nvim_hades.git ~/.config/nvim
 ## Packges
 
 ```bash
-yay -S tree-sitter-cli, ueberzug-pp, pyright, conform, preattierd
+yay -S tree-sitter-cli ueberzugpp pyright conform prettier fzf ripgrep fd 
 ```
 
 # Code
