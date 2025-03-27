@@ -1,35 +1,56 @@
 {
+  "yaml": {
+    "prefix": "yaml",
+    "body": [
+      "---",
+      "title: \"${1:title}\"",
+      "subtitle: \"${2:subtitle}\"",
+      "author: \"Fernando Andres-Pretel\"",
+      "format:",
+      "  html:",
+      "    toc: true",
+      "    code-fold: true",
+      "jupyter:",
+      "  jupytext:",
+      "    text_representation:",
+      "      extension: .qmd",
+      "      format_name: quarto",
+      "      format_version: \"1.0\"",
+      "      jupytext_version: 1.16.6",
+      "  kernelspec:",
+      "    display_name: Python 3",
+      "    language: python",
+      "    name: python3",
+      "---"
+    ],
+    "description": "YAML header full"
+  },
+
   "comment_multiline": {
     "prefix": "comment_multiline",
-    "body": [
-      "'''",
-      "",
-      "${1:comment}",
-      "",
-      "'''"
-    ],
+    "body": ["'''", "", "${1:comment}", "", "'''"],
     "description": "create a multiline comment"
   },
-    "funciones corta": {
-        "prefix": "func",
-        "body": [
-            "def ${1:func_name}(${2:arg1}, ${3:arg2}):",
-            "\t\"\"\"",
-            "\tDescription",
-            "\t\"\"\"",
-            "\t${4:pass}"
-        ],
-        "description": "Doc corta para funciones"
-    },
-    "try/except": {
-        "prefix": "try/except",
-        "body": [
-            "try:",
-            "\t${1:command}",
-            "except ${2:expression} as ${3:error_detail}:",
-            "\tprint(f\"There was an error {error_detail}\")",
-            "\t${4:pass}"
-        ],
-        "description": "Code snippet for a try/except statement"
-    }
+  "funciones corta": {
+    "prefix": "func",
+    "body": [
+      "def ${1:func_name}(${2:arg1}, ${3:arg2}):",
+      "\t\"\"\"",
+      "\tDescription",
+      "\t\"\"\"",
+      "\t${4:pass}"
+    ],
+    "description": "Doc corta para funciones"
+  },
+  "try/except": {
+    "prefix": "try/except",
+    "body": [
+      "try:",
+      "\t${1:command}",
+      "except ${2:expression} as ${3:error_detail}:",
+      "\tprint(f\"There was an error {error_detail}\")",
+      "\t${4:pass}"
+    ],
+    "description": "Code snippet for a try/except statement"
+  }
 }
