@@ -1,16 +1,25 @@
 {
-  "ipython_interactive": {
-    "prefix": ["ipyinteractive"],
+  "code_python": {
+    "prefix": ["code_python"],
+    "body": ["```{python}", "${1:code}", "```"]
+  },
+  "code_python_extr": {
+    "prefix": ["code_python_extr"],
     "body": [
       "```{python}",
-      "from IPython.core.getipython import get_ipython",
-      "ip = get_ipython()",
-      "interactive = False",
-      "if ip is not None and 'interactiveshell.TerminalInteractiveShell' in str(ip):",
-      "  interactive = True",
+      "#| echo: false ",
+      "#| code-fold: true",
+      "#| code-summary: \"text to show when folded\"",
+      "#| label: ",
+      "#| fig-cap: 'caption'",
+      "#| fig-alt: ",
+      "#| fig-height: 1.5",
+      "#| fig-width: 6",
+      "${1:code}",
       "```"
     ]
   },
+
   "iframe": {
     "prefix": ["iframe"],
     "body": [

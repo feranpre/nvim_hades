@@ -7,5 +7,8 @@ return {
       impersonate_nvim_cmp = true,
       debug = true,
     },
+    config = function()
+      require("blink.compat").setup({})
+    end,
   },
 }

@@ -17,7 +17,7 @@ return {
       },
 
       sources = {
-        default = { "snippets", "cmp_r", "lazydev", "lsp", "spell", "path", "buffer" },
+        default = { "snippets", "cmp_r", "lazydev", "lsp", "otter", "spell", "path", "buffer" },
         providers = {
           lsp = {
             name = "LSP",
@@ -33,6 +33,13 @@ return {
             module = "blink.compat.source",
             opts = {
               filetypes = { "r", "rmd", "quarto" },
+            },
+          },
+          otter = {
+            name = "otter",
+            module = "blink.compat.source",
+            opts = {
+              filetypes = { "quarto" },
             },
           },
           spell = {
