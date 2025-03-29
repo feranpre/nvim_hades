@@ -1,31 +1,31 @@
 {
-  "pycode": {
-    "prefix": ["code_py"],
-    "body": ["```python ", "#| eval: true", "#| echo: true", "", "$1", "```"]
+  "code_python": {
+    "prefix": ["code_python"],
+    "body": ["```{python}", "${1:code}", "```"]
+  },
+  "code_python_extr": {
+    "prefix": ["code_python_extr"],
+    "body": [
+      "```{python}",
+      "#| echo: false ",
+      "#| code-fold: false",
+      "#| code-summary: \"text to show when folded\"",
+      "#| label: ",
+      "#| fig-cap: 'caption'",
+      "#| fig-alt: ",
+      "#| fig-height: 1.5",
+      "#| fig-width: 6",
+      "${1:code}",
+      "```"
+    ]
   },
   "bashcode": {
     "prefix": ["code_bash"],
-    "body": ["```bash ", "$1", "```"]
+    "body": ["```{bash} ", "$1", "```"]
   },
   "code": {
     "prefix": ["code"],
-    "body": ["```$1 ", "$2", "```", "$0"]
-  },
-  "pyfig1": {
-    "prefix": ["code_py_fig_1col"],
-    "body": [
-      "```python",
-      "#| label: fig-$1",
-      "#| fig-cap: \"$2\"",
-      "",
-      "import numpy as np",
-      "import matplotlib.pyplot as plt",
-      "",
-      "plt.style.use(['science', 'ieee'])",
-      "$3",
-      "plt.show()",
-      "```"
-    ]
+    "body": ["```{$1} ", "$2", "```", "$0"]
   },
   "pyfig2": {
     "prefix": ["code_py_fig_2cols"],

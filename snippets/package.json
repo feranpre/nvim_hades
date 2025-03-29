@@ -64,6 +64,10 @@
       },
       {
         "language": "quarto",
+        "path": "./quarto/code_chunks.json"
+      },
+      {
+        "language": "quarto",
         "path": "./markdown/markdown.json"
       },
       {
