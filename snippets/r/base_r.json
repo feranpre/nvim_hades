@@ -192,98 +192,101 @@
 "superviencia": {
   "prefix": "supervivencia",
   "body": [
-  "
-	#' 
-	#' 
-	#' # Supervivencia Global
-	#' 
-	#' 
-	#' 
-	#' ## Eventos Globales
-	#' 
-	#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-	SURVIVAL <- DATOS
-	SURVIVAL\\$TIEMPO <- DATOS\\$TIEMPO_SURV
-	SURVIVAL\\$EXITUS <- DATOS\\$RECAIDA
-	
-	knitr::kable(udaicR::freq(SURVIVAL, EXITUS))
-	
-  	
-	#' 
-	#' ## Tabla de supervivencia
-	#' 
-	#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-	
-	surv <- survival::Surv(time = SURVIVAL\\$TIEMPO, event = SURVIVAL\\$EXITUS)
-	surv.global <- survival::survfit(surv ~ 1)
-  surv.global.summary <- summary(surv.global)
-  
-  surv.global.df <- data.frame(
-    time = surv.global.summary\\$time,
-    n.risk = surv.global.summary\\$n.risk[, 1],
-    n.event = surv.global.summary\\$n.event[, 2],
-    surv = surv.global.summary\\$pstate[, 1],
-    CI.low = surv.global.summary\\$lower[, 1],
-    CI.UP = surv.global.summary\\$upper[, 1]
-  )
 
-	
-	names(surv.global.df) <- c('Time','n.Risk', 'n.Event', 'Surv', 'CI95-Low', 'CI95-High')
-	
-	print(knitr::kable(surv.global.df[surv.global.df\\$n.Event > 0,]))
-	
-	#+, error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-	print(surv.global)
-	
-	
-	#' 
-	#' ## Kaplan-Meier
-	#' 
-	#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-	survminer::ggsurvplot(surv.global, data = SURVIVAL)
-	
-	
-	
-	
-	
-	#' 
-	#' # Supervivencia por SEXO
-	#' 
-	#' 
-	#' 
-	#' 
-	#' ## Tabla de supervivencia
-	#' 
-	#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-	
-	surv <- survival::Surv(time = SURVIVAL\\$TIEMPO, event = SURVIVAL\\$EXITUS)
-	surv.fit <- survival::survfit(surv ~ SEXO, data = SURVIVAL)
-  
-  surv.fit.summary <- summary(surv.fit)
-  surv.fit.df <- data.frame(
-    time = surv.fit.summary\\$time,
-    n.risk = surv.fit.summary\\$n.risk[, 1],
-    n.event = surv.fit.summary\\$n.event[, 2],
-    surv = surv.fit.summary\\$pstate[, 1],
-    CI.low = surv.fit.summary\\$lower[, 1],
-    CI.UP = surv.fit.summary\\$upper[, 1]
-  )
-
-	names(surv.fit.df) <- c('Time','n.Risk', 'n.Event', 'Surv', 'CI95-Low', 'CI95-High')
-	print(knitr::kable(surv.fit.df[surv.fit.df\\$n.Event > 0,]))
-	
-	#+, error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-	# summary(surv.fit)
-	print(surv.fit)
-	
-	survival::survdiff(surv ~ SEXO, data = SURVIVAL, na.action = na.omit, subset = NULL)
-	
-	
-	#' 
-	#' ## Kaplan-Meier
-	#' 
-	#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''
-	survminer::ggsurvplot(surv.fit, data = SURVIVAL, pval = TRUE, risk.table = T)
-  "],
+"#'",
+"#'",
+"#' # Supervivencia Global",
+"#'",
+"#'",
+"#'",
+"#' ## Eventos Globales",
+"#'",
+"#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''",
+"SURVIVAL <- DATOS",
+"SURVIVAL$TIEMPO <- DATOS$TIEMPO_SURV",
+"SURVIVAL$EXITUS <- !is.na(DATOS$FECHA_MORTALIDAD)",
+"",
+"knitr::kable(udaicR::freq(SURVIVAL, EXITUS))",
+"",
+"",
+"surv_sum_to_df <- function(surv_fit) {",
+"  df <- data.frame(",
+"    time = surv_fit$time,",
+"    n.risk = surv_fit$n.risk,",
+"    n.event = surv_fit$n.event,",
+"    survival = surv_fit$surv,",
+"    lower_ci = surv_fit$lower,",
+"    upper_ci = surv_fit$upper",
+"  )",
+"  df",
+"}",
+"",
+"surv_median_time <- function(surv_fit) {",
+"  median_surv <- surv_fit$quantile",
+"  median_lower <- surv_fit$conf.int[1]",
+"  median_upper <- surv_fit$conf.int[2]",
+"  median_survival <- data.frame(",
+"    median_time = median_surv,",
+"    lower_ci = median_lower,",
+"    upper_ci = median_upper",
+"  )",
+"  median_survival",
+"}",
+"",
+"#'",
+"#' ## Tabla de supervivencia",
+"#'",
+"#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''",
+"",
+"surv <- survival::Surv(time = SURVIVAL$TIEMPO, event = SURVIVAL$EXITUS)",
+"surv.global <- survival::survfit(surv ~ 1)",
+"surv.global.summary <- summary(surv.global)",
+"",
+"print(knitr::kable(surv_sum_to_df(surv.global.summary)))",
+"",
+"#+, error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''",
+"print(surv.global)",
+"",
+"",
+"#'",
+"#' ## Kaplan-Meier",
+"#'",
+"#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''",
+"survminer::ggsurvplot(surv.global, data = SURVIVAL)",
+"",
+"",
+"",
+"",
+"",
+"#'",
+"#' # Supervivencia por SEXO",
+"#'",
+"#'",
+"#'",
+"#'",
+"#' ## Tabla de supervivencia",
+"#'",
+"#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''",
+"",
+"surv <- survival::Surv(time = SURVIVAL$TIEMPO, event = SURVIVAL$EXITUS)",
+"surv.fit <- survival::survfit(surv ~ SEXO, data = SURVIVAL)",
+"",
+"surv.fit.summary <- summary(surv.fit)",
+"",
+"print(knitr::kable(surv_sum_to_df(surv.fit.summary)))",
+"",
+"#+, error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''",
+"# summary(surv.fit)",
+"print(surv.fit)",
+"",
+"survival::survdiff(surv ~ SEXO, data = SURVIVAL, na.action = na.omit, subset = NULL)",
+"",
+"",
+"#'",
+"#' ## Kaplan-Meier",
+"#'",
+"#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''",
+"survminer::ggsurvplot(surv.fit, data = SURVIVAL, pval = TRUE, risk.table = T)"  
+],
   "description": "Calculos basicos de supervivencia"
 }}
