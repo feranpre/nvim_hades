@@ -1,7 +1,7 @@
 return {
   -- for lsp features in code cells / embedded code
   "jmbuhr/otter.nvim",
-  enabled = true,
+  enabled = false,
   dev = false,
   dependencies = {
     {

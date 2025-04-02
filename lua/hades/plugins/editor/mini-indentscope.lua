@@ -1,7 +1,8 @@
 return {
   "echasnovski/mini.indentscope",
+  enabled = true,
   version = false, -- wait till new 0.7.0 release to put it back on semver
-  event ={ "BufReadPost", "BufWritePost", "BufNewFile" },
+  event = { "BufReadPost", "BufWritePost", "BufNewFile" },
   opts = {
     -- symbol = "▏",
     symbol = "│",
