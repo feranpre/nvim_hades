@@ -2,7 +2,7 @@ return {
   {
     "saghen/blink.cmp",
     dependencies = { "ribru17/blink-cmp-spell" },
-    version = "*",
+    version = "1.*",
     -- dependencies = "rafamadriz/friendly-snippets",
     -- dependencies = { "L3MON4D3/LuaSnip", version = "v2.*" },
     lazy = true,
@@ -84,7 +84,7 @@ return {
         },
       },
       fuzzy = {
-        implementation = "prefer_rust_with_warning",
+        implementation = "rust",
         sorts = {
           function(a, b)
             local sort = require("blink.cmp.fuzzy.sort")

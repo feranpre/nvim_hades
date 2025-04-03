@@ -1,3 +1,11 @@
+-- Hace falta lua51 y luarocks
+-- yay -S lua51 luarocks
+--
+-- Despues hace falta instalar magick
+--
+-- luarocks --local --lua-version=5.1 install magick
+--
+-- Por último hay que añadir el path
 return {
   {
     -- see the image.nvim readme for more information about configuring this plugin
@@ -12,5 +20,10 @@ return {
       window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
       window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
     },
+    config = function()
+      require("image").setup()
+      package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua"
+      package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua"
+    end,
   },
 }
