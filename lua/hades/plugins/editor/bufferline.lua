@@ -1,7 +1,7 @@
 return {
   {
     "akinsho/bufferline.nvim",
-    enabled = false,
+    enabled = true,
     event = "VeryLazy",
     keys = {
       -- { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
