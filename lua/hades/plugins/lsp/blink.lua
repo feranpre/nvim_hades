@@ -2,7 +2,7 @@ return {
   {
     "saghen/blink.cmp",
     dependencies = { "ribru17/blink-cmp-spell" },
-    version = "1.*",
+    version = "*",
     -- dependencies = "rafamadriz/friendly-snippets",
     -- dependencies = { "L3MON4D3/LuaSnip", version = "v2.*" },
     lazy = true,
@@ -12,7 +12,7 @@ return {
       keymap = { preset = "default" },
       -- snippets = { preset = "luasnip" },
       appearance = {
-        use_nvim_cmp_as_default = true,
+        use_nvim_cmp_as_default = false,
         nerd_font_variant = "mono",
       },
 
@@ -71,6 +71,23 @@ return {
       completion = {
         menu = {
           border = "single",
+          draw = {
+            treesitter = {"lsp"},
+            components = {
+              kind_icon = {
+                text = function(ctx)
+                  -- local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+                  local kind_icon, _, _ = Hades.icons.kinds[ctx.kind]
+                  return kind_icon
+                end,
+                -- (optional) use highlights from mini.icons
+                -- highlight = function(ctx)
+                --   local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                --   return hl
+                -- end,
+              },
+            },
+          },
         },
         documentation = {
           auto_show = true,
@@ -85,6 +102,12 @@ return {
       },
       fuzzy = {
         implementation = "rust",
+        prebuilt_binaries = {
+          download = true,
+          ignore_version_mismatch = false,
+          force_version = nil,
+          force_system_triple = nil,
+        },
         sorts = {
           function(a, b)
             local sort = require("blink.cmp.fuzzy.sort")

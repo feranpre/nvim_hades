@@ -82,7 +82,7 @@ return {
       modified = " ",
       removed  = " ",
     },
-cmp_icons = {
+    cmp_icons = {
       cmp_r = "󰏿 ",
       nvim_lsp = "󰊕 ",
       spell = " ",

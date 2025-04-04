@@ -15,8 +15,8 @@ keymap("n", "<leader><leader>x", "<cmd>source %<cr>", opts, "e[x]ecute fiel (sou
 
 -- Press jk fast to enter
 keymap("i", "kj", "<ESC>", opts, "exit insert mode")
-keymap("n", "kj", "<ESC>", opts, "ESC")
-keymap("v", "kj", "<ESC>", opts, "ESC")
+-- keymap("n", "kj", "<ESC>", opts, "ESC")
+-- keymap("v", "kj", "<ESC>", opts, "ESC")
 keymap("n", "<ESC>", "<cmd>nohl<cr>", opts, "remove hilights")
 
 -- Move down and center screen
