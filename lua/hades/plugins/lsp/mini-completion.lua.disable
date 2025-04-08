@@ -1,0 +1,10 @@
+return {
+  { 
+   'echasnovski/mini.completion',
+    version = false,
+    opts = function()
+      local completion = require("mini.completion")
+      completion.setup()
+    end,
+  },
+}

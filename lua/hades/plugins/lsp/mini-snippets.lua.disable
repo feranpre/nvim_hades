@@ -1,0 +1,16 @@
+return {
+  { 'echasnovski/mini.snippets',
+    version = false,
+    enabled = true,
+    opts = function()
+      local snippets = require("mini.snippets")
+      snippets.setup({
+        snippets = {
+          snippets.gen_loader.from_file('~/.config/nvim/snippets/r.json'),
+          snippets.gen_loader.from_lang(),
+        }
+      })
+
+    end,
+  },
+}

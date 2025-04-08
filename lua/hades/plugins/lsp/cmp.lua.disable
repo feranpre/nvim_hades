@@ -12,6 +12,7 @@ return {
     { "onsails/lspkind-nvim" },
     { "f3fora/cmp-spell" },
     { "R-nvim/cmp-r" },
+    { "brenoprata10/nvim-highlight-colors" },
   },
   -- event = 'InsertEnter',
   config = function()
@@ -45,10 +46,10 @@ return {
       -- }),
       sources = cmp.config.sources({
         { name = "luasnip", keyword_length = 2, max_item_count = 3 },
-        -- { name = 'otter' }, -- for code chunks in quarto
         { name = "path" },
-        { name = "nvim_lsp", max_item_count = 5 },
         { name = "cmp_r" },
+        { name = 'otter' }, -- for code chunks in quarto
+        { name = "nvim_lsp", max_item_count = 5 },
         { name = "pandoc_references" },
         { name = "buffer", keyword_length = 5, max_item_count = 3 },
         { name = "spell" },

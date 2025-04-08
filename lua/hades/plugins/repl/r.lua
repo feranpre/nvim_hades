@@ -7,7 +7,7 @@ return {
     dependencies = {
       "R-nvim/cmp-r",
       -- "nvim-treesitter/nvim-treesitter-textobjects", -- BROKEN
-      "hrsh7th/nvim-cmp",
+      -- "hrsh7th/nvim-cmp",
     },
     config = function()
       --   -- Create a table with the options to be passed to setup()
