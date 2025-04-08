@@ -137,7 +137,7 @@ return {
       Text          = " ",
       TypeParameter = " ",
       Unit          = " ",
-      Value         = " ",
+      Value         = "󰆼 ",
       Variable      = "󰀫 ",
     },
   },
