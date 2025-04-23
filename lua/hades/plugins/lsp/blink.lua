@@ -10,12 +10,11 @@ return {
 
     opts = {
       keymap = { preset = "default" },
-      -- snippets = { preset = "luasnip" },
+      snippets = { preset = "luasnip" },
       appearance = {
         use_nvim_cmp_as_default = false,
         nerd_font_variant = "mono",
       },
-
       sources = {
         default = { "snippets", "cmp_r", "lazydev", "lsp", "otter", "spell", "path", "buffer" },
         providers = {
@@ -32,7 +31,7 @@ return {
             name = "cmp_r",
             module = "blink.compat.source",
             opts = {
-              filetypes = { "r", "rmd", "quarto" },
+              filetypes = {"r", "rmd"},
             },
           },
           otter = {

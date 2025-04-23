@@ -36,15 +36,39 @@
     ],
     "description": ["describe numeric variables"]
   },
-  "pd_desc_cat": {
-    "prefix": ["pd_desc_cat"],
+  "pd_desc_cat_1": {
+    "prefix": ["pd_desc_cat_1"],
     "body": [
-      "data.columns # col names",
-      "data[\"species\"].value_counts() # count values",
-      "pd.crosstab(data[\"species\"], columns=\"count\")"
+      "${1:df}.columns # col names",
+      "${1:df}[\"${2:column}\"].value_counts() # count values",
+      "freq=pd.crosstab(${1:df}[\"${2:column}\"], columns=\"count\")",
+      "prop=pd.crosstab(${1:df}[\"${2:column}\"], normalize=True, columns=\"count\")",
+      "combined = freq.astype(str) + \" (\" + (prop * 100).round(1).astype(str) + \"%)\"",
+      "print(combined)"  
     ],
-    "description": ["describe numeric variables"]
+    "description": ["describe categoric variable"]
   },
+  "pd_desc_cat_2": {
+    "prefix": ["pd_desc_cat_2"],
+    "body": [
+      "${1:df}.columns # col names",
+      "freq=pd.crosstab(index=${1:df}[\"${2:column}\"], columns=${1:df}[\"${3:column}\"])",
+      "prop=pd.crosstab(index=${1:df}[\"${2:column}\"], columns=${1:df}[\"${3:column}\"], normalize=\"columns\")",
+      "combined = freq.astype(str) + \" (\" + (prop * 100).round(1).astype(str) + \"%)\"",
+      "print(combined)"  
+    ],
+    "description": ["describe two categoric variables"]
+  },
+  "pd_categorize": {
+    "prefix": ["pd_categorize"],
+    "body": [
+      "${1:df}[\"${2:new_column}\"]=${1:df}[\"${3:column}\"] > ${4:value}",
+      "${1:df}[\"${2:new_column}\"]=${1:df}[\"${2:new_column}\"].map({False:\"no\", True:\"yes\"}).astype(\"category\")"
+    ],
+    "description": ["categorize a numeric variable"]
+  },
+
+
   "pd_boxplot": {
     "prefix": "pd_boxplot",
     "body": [

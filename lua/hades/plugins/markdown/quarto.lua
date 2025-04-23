@@ -13,5 +13,13 @@ return {
       -- added as a nvim-cmp source in lua/plugins/completion.lua
       "jmbuhr/otter.nvim",
     },
+    config = function()
+      require("quarto").setup {
+        lspFeatures = {
+          languages = { "python", "r", "bash", "lua" },
+          chunks = "curly", -- needed for {{python}} chunks
+        },
+      }
+    end,
   },
 }
