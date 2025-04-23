@@ -32,10 +32,58 @@
       "data_col = data[data[\"filter_col_name\"] == \"filter_value\"][\"${1:col_name}\"].describe()",
       "data_col = data.groupby(\"species\")[\"sepal_width\"].median() # median of width by species",
       "shapiro_stat, shapiro_p = scipy.stats.shapiro(data[\"${1:col_name}\"])",
-      "print(\"Shapiro test: {0} - p: {1}\".format(shapiro_stat, shapiro_p))"
+      "print(\"Shapiro test: {0} - p: {1}\".format(shapiro_stat, shapiro_p))",
+      "result = stats.anderson(data['mpg'], dist='norm')",
+      "print(\"Anderson-Darling Test:\")",
+      "print(f\"Statistic: {result.statistic:.4f}\")",
+      "print(f\"Critical value 0.05: {result.critical_values[2]:.4f}\")",
+      "if result.statistic > result.critical_values[2]:",
+      "  print(\"Result: Statistic > critical value -> The null hypothesis of normality is rejected.\")",
+      "else:",
+      "  print(\"Result: Statistic <= critical value -> The null hypothesis of normality is accepted.\")"
+
     ],
     "description": ["describe numeric variables"]
   },
+
+
+  "pd_desc_num_by": {
+    "prefix": ["pd_desc_num_by"],
+    "body": [
+              "group_col = \"cylinders\"  # Replace with your grouping column",
+              "",
+              "# Iterate over each group",
+              "for group_name, group_data in ${1:data}.groupby(group_col):",
+              "    print(f\"\\n=== Group: {group_name} ===\")",
+              "",
+              "    # Descriptive statistics",
+              "    print(\"\\nDescriptive statistics (${2:mpg}):\")",
+              "    print(group_data[\"${2:mpg}\"].describe())",
+              "",
+              "",
+              "    # Shapiro-Wilk test",
+              "    if len(group_data[\"${2:mpg}\"]) >= 3 and len(group_data[\"${2:mpg}\"]) <= 5000:  # Valid range for Shapiro",
+              "        shapiro_stat, shapiro_p = stats.shapiro(group_data[\"${2:mpg}\"])",
+              "        print(f\"\\nShapiro-Wilk Test (${2:mpg}): Statistic = {shapiro_stat:.4f}, p-value = {shapiro_p:.4f}\")",
+              "    else:",
+              "        print(\"\\nShapiro-Wilk Test skipped (sample size not in 3–5000).\")",
+              "",
+              "    # Anderson-Darling test",
+              "    result = stats.anderson(group_data[\"${2:mpg}\"], dist='norm')",
+              "    print(\"\\nAnderson-Darling Test (${2:mpg}):\")",
+              "    print(f\"Statistic: {result.statistic:.4f}\")",
+              "    print(f\"Critical value (5%): {result.critical_values[2]:.4f}\")",
+              "    if result.statistic > result.critical_values[2]:",
+              "        print(\"Result: Statistic > critical value → Reject normality.\")",
+              "    else:",
+              "        print(\"Result: Statistic <= critical value → Fail to reject normality.\")",
+              ""
+    ],
+    "description": ["describe numeric variables"]
+  },
+
+
+
   "pd_desc_cat_1": {
     "prefix": ["pd_desc_cat_1"],
     "body": [
