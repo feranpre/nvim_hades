@@ -1,6 +1,6 @@
 {
   "reg_log_bin": {
-    "prefix": "reg_log_bin",
+    "prefix": "_reg_log_bin",
     "body": [
       "#'",
       "#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''",
@@ -89,7 +89,7 @@
   },
 
   "reg_lineal_mult": {
-    "prefix": "reg_lineal_mult",
+    "prefix": "_reg_lineal_mult",
     "body": [ "",
               "#' # MODELO REGRESION LINEAL (MEC)",
               "#'",
@@ -256,23 +256,23 @@
     "description": "Regresion lineal multiple"
   },
   "ordinal_regression": {
-    "prefix": "ordinal_regression",
+    "prefix": "_reg_ordinal",
     "body": [
-      "#' # MODELO REGRESION ORDINAL",
-      "#'",
-      "#+ , eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''",
-      "",
-      "# LA PRIMERA es la dependiente",
-      "vars.modelo.inicial <- c('UTILITYCARMEN', 'PAINVAS', 'RELIEFLIKERT',",
-      "                        'SLEEPINESS', 'NERVOUS', 'LNMORPHDD')",
-      "",
-      "",
-      "#'",
-      "#' ## - Selección de variables para el modelo saturado",
-      "#+ , echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'",
-      "# 'RELIEFLIKERT0', 'RELIEFLIKERT1', 'RELIEFLIKERT2', 'RELIEFLIKERT3', 'RELIEFLIKERT4',",
-      "DATOS.reg <- DATOS[ , vars.modelo.inicial]",
-      "cat('\\nBartlett p:',bartlett.test(c(fitted(final.model\\$model), residuals(final.model\\$model)) ~ g.residuos)\\$p.value,'\\n')"
+              "#' # MODELO REGRESION ORDINAL",
+              "#'",
+              "#+ , eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 5, unit = 'cm', comment = ''",
+              "",
+              "# LA PRIMERA es la dependiente",
+              "vars.modelo.inicial <- c('UTILITYCARMEN', 'PAINVAS', 'RELIEFLIKERT',",
+              "                        'SLEEPINESS', 'NERVOUS', 'LNMORPHDD')",
+              "",
+              "",
+              "#'",
+              "#' ## - Selección de variables para el modelo saturado",
+              "#+ , echo = FALSE, message = FALSE, warning = FALSE, width = 5, height = 5, units = 'cm'",
+              "# 'RELIEFLIKERT0', 'RELIEFLIKERT1', 'RELIEFLIKERT2', 'RELIEFLIKERT3', 'RELIEFLIKERT4',",
+              "DATOS.reg <- DATOS[ , vars.modelo.inicial]",
+              "cat('\\nBartlett p:',bartlett.test(c(fitted(final.model\\$model), residuals(final.model\\$model)) ~ g.residuos)\\$p.value,'\\n')"
     ],
     "description": "Regresion lineal multiple"
   }

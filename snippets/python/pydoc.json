@@ -1,6 +1,6 @@
 {
     "doc funciones corta": {
-        "prefix": "doc-f-corta",
+        "prefix": "_py_doc-f-corta",
         "body": [
             "\"\"\"",
             "${1:Brief description}",
@@ -9,7 +9,7 @@
         "description": "Doc corta para funciones"
     },
     "doc funciones completa": {
-        "prefix": "doc-f-full",
+        "prefix": "_py_doc-f-full",
         "body": [
             "\"\"\"",
             "${1:Brief description}",
@@ -37,7 +37,7 @@
         "description": "Documentación de parámetro para funciones"
     },
     "doc modules": {
-        "prefix": "doc-m",
+        "prefix": "_py_doc-m",
         "body": [
             "\"\"\"",
             "${1:Module name} - ${2:Brief description}",

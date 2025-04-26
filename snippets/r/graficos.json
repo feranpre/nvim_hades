@@ -1,6 +1,6 @@
 {
   "boxplot": {
-    "prefix": "boxplot",
+    "prefix": "_boxplot",
     "body": [
     "ggplot(DATOS, aes(y = mpg, x = am, fill = am)) +
         geom_violin(alpha = 0.3) +

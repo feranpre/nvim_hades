@@ -3,7 +3,7 @@ return {
   build = 'make install_jsregexp',
   config = function()
     require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./snippets" } })
-    require("luasnip").filetype_extend("quarto", { "python" })
+    require("luasnip").filetype_extend("quarto", { "python", "r", "markdown_quarto_shared"})
   end
 
 }

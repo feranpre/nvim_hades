@@ -1,6 +1,6 @@
 {
   "require": {
-    "prefix": "require",
+    "prefix": "_require",
     "body": [
       "if (!require(\"${1:package}\", quietly = TRUE)) {",
       "  stop(",

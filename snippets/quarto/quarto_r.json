@@ -1,7 +1,15 @@
 {
   "rcode": {
     "prefix": "rcode",
-    "body": ["```{r} ", "#| echo: false ", "#| results: 'asis'", "$1", "```"],
+    "body": [
+              "```{r} ", 
+              "#| echo: false ", 
+              "#| eval: true", 
+              "#| results: 'asis'", 
+              "#| comment: ''", 
+              "$1", 
+              "```"
+            ],
     "description": "r code"
   },
   "rchunk": {

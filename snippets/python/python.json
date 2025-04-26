@@ -1,38 +1,11 @@
 {
-  "yaml": {
-    "prefix": "yaml",
-    "body": [
-      "---",
-      "title: \"${1:title}\"",
-      "subtitle: \"${2:subtitle}\"",
-      "author: \"Fernando Andres-Pretel\"",
-      "format:",
-      "  html:",
-      "    toc: true",
-      "    code-fold: true",
-      "jupyter:",
-      "  jupytext:",
-      "    text_representation:",
-      "      extension: .qmd",
-      "      format_name: quarto",
-      "      format_version: \"1.0\"",
-      "      jupytext_version: 1.16.6",
-      "  kernelspec:",
-      "    display_name: Python 3",
-      "    language: python",
-      "    name: python3",
-      "---"
-    ],
-    "description": "YAML header full"
-  },
-
-  "comment_multiline": {
-    "prefix": "comment_multiline",
+    "comment_multiline": {
+    "prefix": "_py_comment_multiline",
     "body": ["'''", "", "${1:comment}", "", "'''"],
     "description": "create a multiline comment"
   },
   "funciones corta": {
-    "prefix": "func",
+    "prefix": "_py_func",
     "body": [
       "def ${1:func_name}(${2:arg1}, ${3:arg2}):",
       "\t\"\"\"",
@@ -43,7 +16,7 @@
     "description": "Doc corta para funciones"
   },
   "try/except": {
-    "prefix": "try/except",
+    "prefix": "_py_try/except",
     "body": [
       "try:",
       "\t${1:command}",

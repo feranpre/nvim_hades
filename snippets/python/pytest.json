@@ -1,6 +1,6 @@
 {
     "unit test": {
-        "prefix": "test",
+        "prefix": "_py_test",
         "body": [
             "\"\"\"",
             "${1:Module name} - ${2:Brief description}",

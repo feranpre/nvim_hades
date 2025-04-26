@@ -1,6 +1,6 @@
 {
   "project": {
-    "prefix": "project_Rproj",
+    "prefix": "_project_Rproj",
     "body": [
       "Version: 1.0",
       "RestoreWorkspace: Default",
@@ -16,7 +16,7 @@
     "description": "project file"
   },
   "lintr": {
-    "prefix": "lintr",
+    "prefix": "_lintr",
     "body": [
       "linters: linters_with_defaults(",
       "              line_length_linter(120),",
@@ -30,14 +30,14 @@
     "description": "base de lintr"
   },
   "chunk": {
-    "prefix": "chunk",
+    "prefix": "_chunk",
     "body": [
       "#+ , results = 'asis', echo = FALSE, message = FALSE, warning = FALSE, eval =TRUE, fig.width = 10, fig.height = 10, unit = 'cm', comments = ''"
     ],
     "description": "insert html chunk"
   },
   "cabecera_html": {
-    "prefix": "cabecera_html",
+    "prefix": "_cabecera_html",
     "body": [
       "#' ---",
       "#' title: '${1:Resultados temporales}'",
@@ -62,7 +62,7 @@
     "description": "cabecera para archivos HTML en R"
   },
   "carga_datos": {
-    "prefix": "carga_datos",
+    "prefix": "_carga_datos",
     "body": [
       "dir.create(\"DATOS_BASE\", showWarnings = FALSE)",
       "dir.create(\"DATOS_EXPORTADOS\", showWarnings = FALSE)",

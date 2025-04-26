@@ -1,6 +1,6 @@
 {
   "pd_imports": {
-    "prefix": ["pd_imports"],
+    "prefix": ["_pd_imports"],
     "body": [
       "import pandas as pd",
       "import numpy as np",
@@ -14,7 +14,7 @@
     "description": ["basic import for pandas"]
   },
   "pd_load_data": {
-    "prefix": ["pd_load_data"],
+    "prefix": ["_pd_carga_datos"],
     "body": [
       "data = sns.load_dataset(\"mpg\")",
       "data = pd.read_csv(\"${1:path/to/file}\") # load csv file",
@@ -24,7 +24,7 @@
     "description": ["load data using pandas"]
   },
   "pd_desc_num": {
-    "prefix": ["pd_desc_num"],
+    "prefix": ["_pd_desc_num"],
     "body": [
       "data.describe() # describe all num variables of the data.frame",
       "data_col = data[\"${1:col_name}\"].describe()",
@@ -48,7 +48,7 @@
 
 
   "pd_desc_num_by": {
-    "prefix": ["pd_desc_num_by"],
+    "prefix": ["_pd_desc_num_by"],
     "body": [
               "group_col = \"cylinders\"  # Replace with your grouping column",
               "",
@@ -85,7 +85,7 @@
 
 
   "pd_desc_cat_1": {
-    "prefix": ["pd_desc_cat_1"],
+    "prefix": ["_pd_desc_cat_1"],
     "body": [
       "${1:df}.columns # col names",
       "${1:df}[\"${2:column}\"].value_counts() # count values",
@@ -97,7 +97,7 @@
     "description": ["describe categoric variable"]
   },
   "pd_desc_cat_2": {
-    "prefix": ["pd_desc_cat_2"],
+    "prefix": ["_pd_desc_cat_2"],
     "body": [
       "${1:df}.columns # col names",
       "freq=pd.crosstab(index=${1:df}[\"${2:column}\"], columns=${1:df}[\"${3:column}\"])",
@@ -108,7 +108,7 @@
     "description": ["describe two categoric variables"]
   },
   "pd_categorize": {
-    "prefix": ["pd_categorize"],
+    "prefix": ["_pd_categorize"],
     "body": [
       "${1:df}[\"${2:new_column}\"]=${1:df}[\"${3:column}\"] > ${4:value}",
       "${1:df}[\"${2:new_column}\"]=${1:df}[\"${2:new_column}\"].map({False:\"no\", True:\"yes\"}).astype(\"category\")"
@@ -118,7 +118,7 @@
 
 
   "pd_boxplot": {
-    "prefix": "pd_boxplot",
+    "prefix": "_pd_boxplot",
     "body": [
       "import matplotlib.pyplot as plt",
       "data = [1,2,3,1,2,3,1,2,3,1]",

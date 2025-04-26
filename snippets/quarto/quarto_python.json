@@ -1,23 +1,2 @@
 {
-  "code_python": {
-    "prefix": ["code_python"],
-    "body": ["```{python}", "${1:code}", "```"]
-  },
-  "code_python_extr": {
-    "prefix": ["code_python_extr"],
-    "body": [
-      "```{python}",
-      "#| echo: false ",
-      "#| output: asis",
-      "#| code-fold: true",
-      "#| code-summary: \"text to show when folded\"",
-      "#| label: \"label\"",
-      "#| fig-cap: \"caption\"",
-      "#| fig-alt: \"alt-text\"",
-      "#| fig-height: 1.5",
-      "#| fig-width: 6",
-      "${1:code}",
-      "```"
-    ]
-  }
 }
