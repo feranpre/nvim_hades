@@ -51,28 +51,33 @@
         "path": "./r/package.json"
       },
       {
+        "language": "markdown",
+        "path": "./markdown/markdown.json"
+      },
+      {
+        "language": "markdown",
+        "path": "./markdown/markdown_code.json"
+      },
+      {
+        "language": "quarto",
+        "path": "./quarto/quarto_python.json"
+      },
+      {
+        "language": "quarto",
+        "path": "./quarto/quarto_r.json"
+      },
+      {
+        "language": "quarto",
+        "path": "./quarto/quarto_base.json"
+      },
+      {
+        "language": "markdown_quarto_shared",
+        "path": "./markdown/yaml.json"
+      },
+
+      {
         "language": "rmd",
         "path": "./rmd/rmd.json"
-      },
-      {
-        "language": "markdown",
-        "path": "./markdown/markdown.json"
-      },
-      {
-        "language": "markdown",
-        "path": "./markdown/markdown_code.json"
-      },
-      {
-        "language": "quarto",
-        "path": "./quarto/code_chunks.json"
-      },
-      {
-        "language": "quarto",
-        "path": "./markdown/markdown.json"
-      },
-      {
-        "language": "quarto",
-        "path": "./markdown/markdown_code.json"
       },
       {
         "language": "rmd",
