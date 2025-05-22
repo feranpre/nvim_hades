@@ -33,6 +33,7 @@ vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
   pattern = { "r" },
   callback = function(ev)
     require("hades.config.keybinds_r").load_keys(ev)
+    require("hades.config.keybinds_iron").load_keys(ev)
   end,
 })
 
