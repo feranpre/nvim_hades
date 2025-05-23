@@ -12,13 +12,14 @@
 --
 -- SLIME
 --
-if IsModuleAvailable("SlimeConfig") then
-  if DEBUG then
-    print("Slime - keys loaded")
-  end
 
-  local M = {}
-  function M.load_keys(ev)
+local M = {}
+function M.load_keys(ev)
+  if IsModuleAvailable("SlimeConfig") then
+    if DEBUG then
+      print("Slime - keys loaded")
+    end
+
     local opts = require("hades.utils.keys").opts
     local keymap_buffer = require("hades.utils.keys").keymap_buffer
     local key_or_clue_buffer = require("hades.utils.keys").key_or_clue_buffer
@@ -58,10 +59,10 @@ if IsModuleAvailable("SlimeConfig") then
       opts,
       "(Slime)[s]end [c]ell"
     )
-  end
-  return M
-else
-  if DEBUG then
-    print("Slime - keys NOT loaded")
+  else
+    if DEBUG then
+      print("Slime - keys NOT loaded")
+    end
   end
 end
+return M

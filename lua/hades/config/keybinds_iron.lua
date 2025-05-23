@@ -46,9 +46,20 @@ function M.load_keys(ev)
     --
     -- Send code
     keymap_buffer(ev.buf, "n", "<C-CR>", "<cmd>lua require('iron.core').send_paragraph()<cr>", opts, "send [p]paragraph (iron)")
+    keymap_buffer(ev.buf, "v", "<C-CR>", "<cmd>lua require('iron.core').visual_send()<cr>", opts, "send [v]isual (iron)")
+
     keymap_buffer(ev.buf, "n", "<C-S-CR>", "<cmd>lua require('iron.core').send_line()<cr>", opts, "send [l]ine and move down (iron)")
+
     keymap_buffer(ev.buf, "n", "<localleader>sf", "<cmd>lua require('iron.core').send_file()", opts, "send [f]ile (iron)")
     keymap_buffer(ev.buf, "n", "<localleader>su", "<cmd>lua require('iron.core').send_until_cursor()", opts, "send [u]ntil cursor (iron)")
+
+    keymap_buffer(ev.buf, "n", "<localleader>p", function()
+      local word = vim.fn.expand("<cword>")
+      local command = "print(" .. word .. ")"
+      require("iron.core").send(nil, { command })
+    end, opts, "[p]rint variable (iron)")
+
+
     --
     -- -- Quarto
     -- keymap_buffer(ev.buf, "n", "<localleader>qp", "<Plug>RQuartoPreview", opts, "[q]uarto [p]review")
