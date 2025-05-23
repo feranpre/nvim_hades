@@ -31,14 +31,14 @@ return {
         -- You can set them here or manually add keymaps to the functions in iron.core
         keymaps = {
           -- send_motion = "<localleader>R",
-          -- visual_send = "<localleader>r<cr>",
+          visual_send = "<localleader>r<cr>",
           -- send_file = "<localleader>rf<cr>",
           -- send_line = "<localleader>rl",
           -- send_paragraph = "<localleader>rp",
           -- send_until_cursor = "<localleader>rU<cr>",
-          -- send_mark = "<localleader>rm",
+          send_mark = "<localleader>rm",
           -- mark_motion = "<localleader>mc",
-          -- mark_visual = "<localleader>mc",
+          mark_visual = "<localleader>mc",
           -- remove_mark = "<localleader>md",
           -- cr = "<localleader>rA<cr>",
           -- interrupt = "<localleader>r<space>",
@@ -47,7 +47,10 @@ return {
         },
         -- If the highlight is on, you can change how it looks
         -- For the available options, check nvim_set_hl
-        highlight = false,
+        -- highlight = false,
+        highlight = {
+          italic = true
+        },
         ignore_blank_lines = true, -- ignore blank lines when sending visual select lines
       }
 
