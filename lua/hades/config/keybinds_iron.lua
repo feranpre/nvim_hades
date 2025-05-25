@@ -117,47 +117,68 @@ function M.load_keys(ev)
       opts,
       "[l]oad all files"
     )
-    -- keymap_buffer(
-    --   ev.buf,
-    --   "n",
-    --   "<localleader>bb",
-    --   "<cmd>lua require('r.send').cmd('devtools::build()')<CR>",
-    --   opts,
-    --   "[b]uild pkg"
-    -- )
-    -- keymap_buffer(
-    --   ev.buf,
-    --   "n",
-    --   "<localleader>bt",
-    --   "<cmd>lua require('r.send').cmd('devtools::test()')<CR>",
-    --   opts,
-    --   "[t]est pkg"
-    -- )
+    keymap_buffer(
+      ev.buf,
+      "n",
+      "<localleader>bi",
+      function()
+        require("iron.core").send(nil, { "devtools::install(args = \"--preclean --with-keep.source --no-multiarch\")" })
+      end,
+      opts,
+      "[i]nstall pkg"
+    )
+
+    keymap_buffer(
+      ev.buf,
+      "n",
+      "<localleader>bb",
+      function()
+        require("iron.core").send(nil, { "devtools::build()" })
+      end,
+      opts,
+      "[b]uild pkg (iron)"
+    )
+    keymap_buffer(
+      ev.buf,
+      "n",
+      "<localleader>bT",
+      function()
+        require("iron.core").send(nil, { "devtools::test()" })
+      end,
+      opts,
+      "[T]est pkg (iron)"
+    )
+    keymap_buffer(
+      ev.buf,
+      "n",
+      "<localleader>bt",
+      function()
+        require("iron.core").send(nil, { string.format("testthat::test_file(\"tests/testthat/test-%s\")", vim.fn.expand("%:t")) })
+      end,
+      opts,
+      "[t]est file (iron)"
+    )
+
     -- keymap_buffer(
     --   ev.buf,
     --   "n",
     --   "<localleader>bT",
-    --   string.format("<cmd>lua require('r.send').cmd('usethis::use_test(\"%s\")')<CR>", vim.fn.expand("%:t")),
+    --   function()
+    --     require("iron.core").send(nil, { string.format("usethis::use_test(\"%s\")", vim.fn.expand("%:t")) })
+    --   end,
     --   opts,
-    --   "create [T]est for file"
+    --   "create [T]est for file (iron)"
     -- )
-    -- keymap_buffer(
-    --   ev.buf,
-    --   "n",
-    --   "<localleader>bi",
-    --   "<cmd>lua require('r.send').cmd('devtools::install(args = \"--preclean --with-keep.source --no-multiarch\")')<CR>",
-    --   opts,
-    --   "[i]nstall pkg"
-    -- )
-    --
-    -- keymap_buffer(
-    --   ev.buf,
-    --   "n",
-    --   "<localleader>bd",
-    --   '<cmd>lua require(\'r.send\').cmd(\'devtools::document(roclets = c("rd", "collate", "namespace", "vignette"))\')<CR>',
-    --   opts,
-    --   "[d]ocument pkg"
-    -- )
+    keymap_buffer(
+      ev.buf,
+      "n",
+      "<localleader>bd",
+      function()
+        require("iron.core").send(nil, { "devtools::document(roclets = c(\"rd\", \"collate\", \"namespace\", \"vignette\"))" })
+      end,
+      opts,
+      "[d]ocument pkg (iron)"
+    )
     --
     -- -- Objects
     -- keymap_buffer(ev.buf, "n", "<localleader>o", "<Plug>ROBToggle", opts, "[o]bject inspector toggle")
