@@ -41,7 +41,8 @@ vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
   desc = "HADES file binds for python",
   pattern = { "python" },
   callback = function(ev)
-    require("hades.config.keybinds_slime").load_keys(ev)
+    -- require("hades.config.keybinds_slime").load_keys(ev)
+    require("hades.config.keybinds_iron").load_keys(ev)
     -- require("hades.config.keybinds_molten").load_keys(ev)
     require("hades.config.keybinds_python").load_keys(ev)
   end,
