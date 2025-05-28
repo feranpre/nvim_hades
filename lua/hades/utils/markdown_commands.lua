@@ -53,6 +53,47 @@ local function md_to_pdf()
   })
 end
 
+local function md_to_html()
+  -- Get the filename of the current buffer
+  local filename = vim.api.nvim_buf_get_name(0)
+
+  -- Ensure the filename is valid
+  if filename == "" or vim.fn.filereadable(filename) == 0 then
+    vim.notify("Invalid file. Please save the buffer first.", vim.log.levels.ERROR)
+    return
+  end
+
+  -- Command to execute (replace with actual script or tool for MD to HTML conversion)
+  local command = "md_to_html.py " .. vim.fn.shellescape(filename)
+
+  -- Notify the user that the process has started
+  vim.notify("Starting HTML conversion for " .. filename, vim.log.levels.INFO)
+
+  -- Run the command asynchronously
+  vim.fn.jobstart(command, {
+    stdout_buffered = true,
+    stderr_buffered = true,
+    on_stdout = function(_, data)
+      if data then
+        vim.notify("Output: " .. table.concat(data, "\n"), vim.log.levels.INFO)
+      end
+    end,
+    on_stderr = function(_, data)
+      if data and #data > 0 then
+        vim.notify("Error: " .. table.concat(data, "\n"), vim.log.levels.ERROR)
+      end
+    end,
+    on_exit = function(_, exit_code)
+      if exit_code == 0 then
+        vim.notify("HTML conversion completed successfully for " .. filename, vim.log.levels.INFO)
+      else
+        vim.notify("HTML conversion failed for " .. filename, vim.log.levels.ERROR)
+      end
+    end,
+  })
+end
+
+
 local function md_number_headings()
   -- Save the current cursor position
   local save_cursor = vim.fn.getpos(".")
@@ -183,6 +224,8 @@ vim.api.nvim_create_user_command(
 )
 
 vim.api.nvim_create_user_command("MdToPDF", md_to_pdf, {})
+
+vim.api.nvim_create_user_command("MdToHTML", md_to_html, {})
 
 vim.api.nvim_create_user_command("MdJumpToTOCLink", md_jump_to_toc_link, {})
 

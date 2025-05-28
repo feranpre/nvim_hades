@@ -35,5 +35,6 @@ function M.load_keys(ev)
   key_or_clue_buffer(ev.buf, "n", "<localleader>e", "[e]xport markdown file")
 
   keymap_buffer(ev.buf, "n", "<localleader>ep", "<cmd>MdToPDF<CR>", opts, "[e]xport to [p]df")
+  keymap_buffer(ev.buf, "n", "<localleader>eh", "<cmd>MdToHTML<CR>", opts, "[e]xport to [h]tml")
 end
 return M
