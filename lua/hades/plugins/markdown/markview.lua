@@ -1,8 +1,8 @@
 return {
   "OXY2DEV/markview.nvim",
-  enabled = false,
+  enabled = true,
   lazy = false, -- Recommended
-  branch = "dev",
+  -- branch = "dev",
   -- priority = 500,
   -- ft = "markdown" -- If you decide to lazy-load
   dependencies = {
