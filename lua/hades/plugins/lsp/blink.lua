@@ -16,7 +16,7 @@ return {
         nerd_font_variant = "mono",
       },
       sources = {
-        default = { "snippets", "cmp_r", "lazydev", "lsp", "otter", "spell", "path", "buffer" },
+        default = { "snippets", "cmp_r", "lazydev", "lsp", "otter", "references", "spell", "path", "buffer" },
         providers = {
           lsp = {
             name = "LSP",
@@ -41,6 +41,10 @@ return {
               filetypes = { "quarto" },
             },
           },
+              references = {
+        name = "pandoc_references",
+        module = "cmp-pandoc-references.blink",
+    },
           spell = {
             name = "Spell",
             module = "blink-cmp-spell",

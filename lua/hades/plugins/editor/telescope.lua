@@ -1,12 +1,25 @@
 return {
   'nvim-telescope/telescope.nvim',
-  tag = '0.1.8',
+  -- tag = '0.1.8',
   dependencies = {
     'nvim-lua/plenary.nvim',
     {
       'nvim-telescope/telescope-fzf-native.nvim',
       build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
-    }
+    },
+    {
+      'jmbuhr/telescope-zotero.nvim',
+      dependencies = {
+        { 'kkharji/sqlite.lua' },
+      },
+      -- options:
+      -- to use the default opts:
+      -- opts = {},
+      -- to configure manually:
+      config = function()
+        require('zotero').setup()
+      end,
+    },
   },
   config = function()
     local telescope = require("telescope")
@@ -39,6 +52,7 @@ return {
       },
     })
 
-    require('telescope').load_extension('fzf')
+    telescope.load_extension('fzf')
+    telescope.load_extension("zotero")
   end,
 }
