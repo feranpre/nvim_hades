@@ -39,11 +39,18 @@ if IsModuleAvailable("telescope") then
   end, opts, "[f]ind nvim [c]onfig file")
 
   keymap("n", "z=", require("telescope.builtin").spell_suggest, opts, "[f]ind [b]uffer")
+
+  if require("telescope").extensions.zotero then
+    keymap("n", "<leader>zg", "<cmd>Telescope zotero<CR>", opts, "[z]otero [g]et reference")
+  else
+    print("no se ha cargado")
+  end
 else
   if DEBUG then
     print("telescope NOT DETECTED")
   end
 end
+
 
 --
 -- OIL

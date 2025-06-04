@@ -93,6 +93,8 @@ keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
 -- TERMINAL --
 keymap("t", "<ESC>", [[<C-\><C-n>]], opts, "exit insertmode in terminal")
 
+
+
 -- -- FOLD --
 -- -- Keymap for folding markdown headings of level 1 or above
 -- keymap("n", "zh4", function()
