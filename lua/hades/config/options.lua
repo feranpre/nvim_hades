@@ -68,9 +68,9 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
 vim.opt.foldcolumn = "1"
--- vim.opt.foldtext = ""
+vim.opt.foldtext = ""
 -- vim.opt.foldtext = "v:lua require('hades.utils.utils').fold_current_line()"
-vim.opt.foldtext = "v:lua.require('hades.utils.folds').my_fold_text()"
+-- vim.opt.foldtext = "v:lua.require('hades.utils.folds').my_fold_text()"
 
 vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
