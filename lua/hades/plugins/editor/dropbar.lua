@@ -1,7 +1,7 @@
 -- This will show current symbols (as in markdown headers) as breadcrumbs
 return { -- or show symbols in the current file as breadcrumbs
   "Bekaboo/dropbar.nvim",
-  enabled = false,
+  enabled = true,
   dependencies = {
     "nvim-telescope/telescope-fzf-native.nvim",
   },

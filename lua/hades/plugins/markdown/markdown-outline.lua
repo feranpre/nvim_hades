@@ -19,6 +19,16 @@ return {
       autofold_depth = false,
       -- autofold_depth = 1,
     },
+    outline_window = {
+      position = "left",
+    },
+    providers = {
+        priority = { "markdown", "lsp", "coc", "norg" },
+        markdown = {
+          filetypes = {"markdown", "quarto"},
+
+        },
+    },
   })
   end,
 }

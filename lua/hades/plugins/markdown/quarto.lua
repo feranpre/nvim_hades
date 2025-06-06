@@ -16,7 +16,7 @@ return {
     config = function()
       require("quarto").setup {
         lspFeatures = {
-          languages = { "python", "r", "bash", "lua" },
+          languages = { "markdown", "python", "r", "bash", "lua" },
           chunks = "curly", -- needed for {{python}} chunks
         },
         codeRunner = {
