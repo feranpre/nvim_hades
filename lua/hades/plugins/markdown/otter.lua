@@ -11,7 +11,13 @@ return {
   },
   opts = {
     verbose = {
-      no_code_found = false,
+      no_code_found = true,
+    },
+    buffers = {
+      set_filetype = true,
     },
   },
+  config = function()
+    require("otter").setup()
+  end,
 }

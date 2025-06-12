@@ -1,9 +1,11 @@
 return {
   {
-    "Vigemus/iron.nvim", 
+    "Vigemus/iron.nvim",
     config = function()
       local iron = require("iron.core")
-      iron.setup {
+      local view = require("iron.view")
+
+      iron.setup({
         config = {
           -- Whether a repl should be discarded or not
           scratch_repl = true,
@@ -12,20 +14,33 @@ return {
             R = {
               -- Can be a table or a function that
               -- returns a table (see below)
-              command = { "radian" }
-            }, 
+              command = { "radian" },
+            },
             r = {
               -- Can be a table or a function that
               -- returns a table (see below)
-              command = { "radian" }
-            }, 
-            quarto = {
-              command = { "radian" }
+              command = { "radian" },
             },
+            python = {
+              command = { "ipython" },
+            },
+            Python = {
+              command = { "ipython" },
+            },
+            -- quarto = {
+            --   command = { "radian" }
+            -- },
           },
           -- How the repl window will be displayed
           -- See below for more information
-          repl_open_cmd = require('iron.view').split.vertical.botright("40%"),
+          -- repl_open_cmd = view.split.vertical.botright("20%"),
+          -- repl_open_cmd = view.split("20%"),
+          -- repl_open_cmd = "topright vertical split",
+          -- repl_open_cmd = "vertical botright 80 split",
+          repl_open_cmd = {
+            view.split.vertical.botright("20%"), -- cmd_1: open a repl to the right
+            view.split.botright("25%"), -- cmd_2: open a repl below
+          },
         },
         -- iron doesn't set keymaps by default anymore.
         -- You can set them here or manually add keymaps to the functions in iron.core
@@ -49,10 +64,10 @@ return {
         -- For the available options, check nvim_set_hl
         -- highlight = false,
         highlight = {
-          italic = true
+          italic = true,
         },
         ignore_blank_lines = true, -- ignore blank lines when sending visual select lines
-      }
+      })
 
       -- iron also has a list of commands, see :h iron-commands for all available commands
       -- vim.keymap.set('n', "<localleader>rS", '<cmd>IronRepl<cr>', { desc = "[R]EPL [S]tart" })
@@ -62,4 +77,3 @@ return {
     end,
   },
 }
-

@@ -25,9 +25,11 @@ vim.opt.softtabstop = 2 -- num spaces when you tap the tab key
 vim.opt.shiftwidth = 2 -- number of spaces for each level of indentation
 vim.opt.expandtab = true -- spaces instead of tabs
 
+
 vim.opt.smartindent = true -- indents code 'smartly'
 vim.opt.wrap = false -- don't wrap lines
-vim.opt.formatoptions = "cqrnj"
+vim.opt.formatoptions = "cqrnjt"
+-- vim.opt.formatoptions = "cqrnj"
 
 -- ---------------------------------------- SEARCHES
 vim.opt.incsearch = true -- incremental search
@@ -64,9 +66,12 @@ vim.opt.splitbelow = false -- Put new windows below current
 vim.opt.splitright = true -- Put new windows right of current
 
 -- ---------------------------------------- FOLDS
+
+
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
 vim.opt.foldcolumn = "1"
 vim.opt.foldtext = ""
 -- vim.opt.foldtext = "v:lua require('hades.utils.utils').fold_current_line()"
@@ -81,6 +86,7 @@ vim.opt.title = true
 vim.opt.spell = true
 vim.opt.spelllang = { "en_us", "es_es" }
 vim.opt.textwidth = 80
+
 -- vim.opt.textwidth = 120
 
 -- Jupytext --

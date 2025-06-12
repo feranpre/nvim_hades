@@ -1,7 +1,7 @@
 -- Manager of folds
 return {
   "kevinhwang91/nvim-ufo",
-  enabled = false,
+  enabled = true,
   dependencies = "kevinhwang91/promise-async",
   config = function()
     local handler = function(virtText, lnum, endLnum, width, truncate)
