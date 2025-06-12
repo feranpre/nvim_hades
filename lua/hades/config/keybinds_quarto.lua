@@ -67,6 +67,39 @@ if IsModuleAvailable("quarto") then
     keymap_buffer(ev.buf, "v", "<C-CR>", fer_quarto.send_paragraph_by_lang, opts, "send visual selection by language")
     keymap_buffer(ev.buf, "n", "<C-CR>", fer_quarto.send_line_by_lang, opts, "send line by language")
 
+    keymap_buffer(
+      ev.buf,
+      "n",
+      "<localleader>sc",
+      '<cmd>lua require("quarto.runner").run_cell()<CR>',
+      opts,
+      "[s]end [c]ell"
+    )
+    keymap_buffer(
+      ev.buf,
+      "n",
+      "<localleader>sa",
+      '<cmd>lua require("quarto.runner").run_above()<CR>',
+      opts,
+      "[s]end [a]bove"
+    )
+    keymap_buffer(
+      ev.buf,
+      "n",
+      "<localleader>sA",
+      '<cmd>lua require("quarto.runner").run_all()<CR>',
+      opts,
+      "[s]end [A]ll"
+    )
+    keymap_buffer(
+      ev.buf,
+      "n",
+      "<localleader>sb",
+      '<cmd>lua require("quarto.runner").run_below()<CR>',
+      opts,
+      "[s]end [b]elow"
+    )
+
     keymap_buffer(ev.buf, "n", "<localleader>p", function()
       local word = vim.fn.expand("<cword>")
       local command = "print(" .. word .. ")"
