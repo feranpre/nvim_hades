@@ -135,8 +135,9 @@ if IsModuleAvailable("quarto") then
     -- CHUNKS
     keymap_buffer(ev.buf, "n", "<C-i>", insert_r_chunk, opts, "[i]nsert R chunk")
     keymap_buffer(ev.buf, "n", "<C-I>", insert_py_chunk, opts, "[I]nsert PYTHON chunk")
-    keymap_buffer(ev.buf, "i", "<C-i>", insert_r_chunk, opts, "[i]nsert R chunk")
-    keymap_buffer(ev.buf, "i", "<C-I>", insert_py_chunk, opts, "[I]nsert PYTHON chunk")
+
+    keymap_buffer(ev.buf, "i", "<m-i>", insert_r_chunk, opts, "[i]nsert R chunk")
+    keymap_buffer(ev.buf, "i", "<m-I>", insert_py_chunk, opts, "[I]nsert PYTHON chunk")
 
     -- TERMINALS
     -- keymap_buffer(ev.buf, "n", "<localleader>rs", new_terminal_r, opts, "[R] [s]tart terminal")
