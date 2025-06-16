@@ -43,3 +43,12 @@ require("hades.utils.python_commands")
 -- require("hades.custom_commands")
 -- require("hades.autocmd.spell_autocmd")
 -- require("hades.autocmd.caronte_debug")
+--
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "quarto" },
+  callback = function()
+    vim.bo.textwidth = 80
+    vim.opt_local.formatoptions:remove("l") -- remove the no-break-in-insert flag
+  end,
+})
