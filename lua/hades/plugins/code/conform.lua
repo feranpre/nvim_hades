@@ -16,6 +16,7 @@ return { -- Autoformat
         json = { "prettierd", "prettier" },
         -- markdown = { "prettierd", "prettier" },
         markdown = { "markdownlint" },
+        quarto = { "markdownlint" },
         yaml = { "yamlfix" },
         toml = { "taplo" },
         css = { "prettierd", "prettier" },
