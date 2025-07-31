@@ -6,7 +6,7 @@ return {
     -- dependencies = "rafamadriz/friendly-snippets",
     -- dependencies = { "L3MON4D3/LuaSnip", version = "v2.*" },
     lazy = true,
-    enabled = true,
+    enabled = false,
 
     opts = {
       keymap = { preset = "default" },
@@ -31,7 +31,7 @@ return {
             name = "cmp_r",
             module = "blink.compat.source",
             opts = {
-              filetypes = {"r", "rmd"},
+              filetypes = { "r", "rmd" },
             },
           },
           otter = {
@@ -41,10 +41,10 @@ return {
               filetypes = { "quarto" },
             },
           },
-              references = {
-        name = "pandoc_references",
-        module = "cmp-pandoc-references.blink",
-    },
+          references = {
+            name = "pandoc_references",
+            module = "cmp-pandoc-references.blink",
+          },
           spell = {
             name = "Spell",
             module = "blink-cmp-spell",
@@ -75,13 +75,13 @@ return {
         menu = {
           border = "single",
           draw = {
-            treesitter = {"lsp"},
+            treesitter = { "lsp" },
             components = {
               kind_icon = {
                 text = function(ctx)
                   -- local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
-                  local kind_icon, _, _ = Hades.icons.kinds[ctx.kind]
-                  return kind_icon
+                  -- local kind_icon, _, _ = Hades.icons.kinds[ctx.kind]
+                  -- return kind_icon
                 end,
                 -- (optional) use highlights from mini.icons
                 -- highlight = function(ctx)
