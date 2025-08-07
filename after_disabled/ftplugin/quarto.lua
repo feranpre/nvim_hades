@@ -1,2 +1,0 @@
--- require("hades.config.keybinds_markdown")
--- require("hades.config.keybinds_slime")

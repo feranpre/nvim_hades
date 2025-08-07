@@ -1,11 +1,3 @@
-
-if DEBUG then
-  print("   -- loaded options")
-end
-
-
-
-
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" }) -- transparencia para la ventana principal
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" }) -- transparencia para popups
 
@@ -17,40 +9,31 @@ vim.opt.termguicolors = true
 vim.opt.colorcolumn = "100" -- draw line at column x
 -- vim.opt.colorcolumn = {'80','120'} -- if you want multiple  color columns
 vim.opt.cursorline = true
-vim.opt.signcolumn = "yes" -- column for icons for LSP and things like that, marks, folds,...
+vim.opt.signcolumn = "yes"
 vim.opt.cmdheight = 1 -- num of lines for command line options
 vim.opt.scrolloff = 8 -- keep if possible 8 lines above/below current
 vim.opt.completeopt = "menuone,noinsert,noselect"
-vim.opt.numberwidth = 3
 
 -- ---------------------------------------- TAB / Indentation
 -- Algunos de estos se tocan en plugins/code/nvim-lspconfig.lua
 -- OJO que si lo cambias aqui y no ves cambio es porque los está
 -- reformateando el gestor de formato de código del LSP
 -- -------------------------
-vim.opt.tabstop = 4 -- number of spaces for tab (when printing the <TAB> char
-vim.opt.softtabstop = 4 -- num spaces when you tap the tab key
-vim.opt.shiftwidth = 4 -- number of spaces for each level of indentation
+vim.opt.numberwidth = 4
+vim.opt.tabstop = 2 -- number of spaces for tab (when printing the <TAB> char
+vim.opt.softtabstop = 2 -- num spaces when you tap the tab key
+vim.opt.shiftwidth = 2 -- number of spaces for each level of indentation
 vim.opt.expandtab = true -- spaces instead of tabs
-vim.opt.smarttab = true -- detects that the "space" is a tab and removes all
 
 
 vim.opt.smartindent = true -- indents code 'smartly'
-vim.opt.autoindent = true -- tries to auto-indent the file
-vim.opt.breakindent = true -- breaks indentation when line goes over the max length
-
 vim.opt.wrap = false -- don't wrap lines
 vim.opt.formatoptions = "cqrnjt"
 -- vim.opt.formatoptions = "cqrnj"
 
--- ---------------------------------------- LIST CHARACTERS
-vim.opt.list = true -- show some "invisible" characters
-vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" } 
-
-
 -- ---------------------------------------- SEARCHES
 vim.opt.incsearch = true -- incremental search
-vim.opt.ignorecase = true -- ignore case
+vim.opt.ignorecase = true -- Ignore case
 vim.opt.smartcase = true -- if you start using caps include the capitalization
 vim.opt.hlsearch = true -- highglight
 
@@ -76,13 +59,14 @@ vim.opt.guicursor =
   "n-v-c:block,i-ci-ve:ver25-Cursor/lCursor,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 -- vim.opt.guicursor = 'n-v-c:block,i-ci-ve:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175'
 vim.opt.encoding = "UTF-8"
-vim.opt.showmode = false -- that's for the status-line plugin of choice
+vim.opt.showmode = false
 
 -- split window defaults
-vim.opt.splitright = true -- put new windows right of current
-vim.opt.splitbelow = true -- put new windows below current
+vim.opt.splitbelow = false -- Put new windows below current
+vim.opt.splitright = true -- Put new windows right of current
 
 -- ---------------------------------------- FOLDS
+
 
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"

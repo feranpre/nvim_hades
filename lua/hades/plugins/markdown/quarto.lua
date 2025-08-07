@@ -3,7 +3,7 @@ return {
   -- for complete functionality (language features)
   "quarto-dev/quarto-nvim",
   enabled = true,
-  ft = { "quarto" },
+  ft = { "quarto", "markdown" },
   dev = false,
   opts = {},
   dependencies = {
@@ -15,14 +15,18 @@ return {
   config = function()
     require("quarto").setup({
       lspFeatures = {
-        languages = { "markdown", "python", "r", "bash", "lua" },
+        languages = { "python", "r", "bash", "lua" },
         chunks = "curly", -- needed for {{python}} chunks
       },
       codeRunner = {
         enabled = true,
         -- default_method = "slime", -- "molten", "slime", "iron" or <function>
         default_method = "iron", -- "molten", "slime", "iron" or <function>
-        ft_runners = {}, -- filetype to runner, ie. `{ python = "molten" }`.
+        ft_runners = {
+          python = "iron",
+          r = "r-nvim",
+
+        }, -- filetype to runner, ie. `{ python = "molten" }`.
         -- Takes precedence over `default_method`
         never_run = { "yaml" }, -- filetypes which are never sent to a code runner
       },

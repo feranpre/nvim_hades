@@ -11,34 +11,4 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- ---------------------------------- CONFIG -----------------
--- local opts = {
---   defaults = {
---     lazy = true,
---   },
---   install = {
---     missing = true,
---     colorscheme = { 'onedark' },
---   },
---   change_detection = {
---     notify = true,
---   },
---   rtp = {
---     disabled_plugins = {
---       'netrw', -- removed by nvim-tree
---       'netwrPlugin', -- removed by nvim-tree
---       'gzip',
---       'matchit',
---       'matchparen',
---       'tarPlugin',
---       'tohtml',
---       'zipPlugin',
---     },
---   },
--- }
 
--- lazy setup (load of plugins is done in ~/.config/lua/hades/init.lua)
--- require('lazy').setup({
---  { import = 'hades.plugins.core' },
---  { import = 'hades.plugins.editor' },
---}, opts)

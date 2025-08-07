@@ -1,42 +1,30 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = ","
+-- get Hades basic config
+Hades = require("hades.config.hades")
+DEBUG = false
 
-DEBUG = true
+vim.g.mapleader = Hades.leader
+vim.g.maplocalleader = Hades.localleader
 
-require("hades.config.options") -- after colorscheme loading but before other plugins that may change something
+IsModuleAvailable = require("hades.utils.keys").isModuleAvailable
 
--- Load lazy and colorscheme
 require("hades.lazy")
+
+require("hades.config.options")
+require("hades.config.keybinds")
+
 require("lazy").setup({
-  spec = {
-    { import = "hades.plugins.lsp" },
-    { import = "hades.plugins.code" },
-    { import = "hades.plugins.editor" },
-    { import = "hades.plugins.colorschemes" },
-    { import = "hades.plugins.markdown" },
-    { import = "hades.plugins.repl" },
-  },
-  install = { colorscheme = { "kanagawa" } },
-  checker = { enabled = true },
+  -- { import = "hades.plugins.lsp" },
+  { import = "hades.plugins.code" },
+  { import = "hades.plugins.editor" },
+  { import = "hades.plugins.colorschemes" },
+  { import = "hades.plugins.markdown" },
+  { import = "hades.plugins.repl" },
 })
 
 
+vim.g.colorscheme = Hades.colorscheme
 
--- require("hades.config.options")
--- Molten_or_Slime = "slime"
--- IsModuleAvailable = require("hades.utils.keys").isModuleAvailable
-
-require("hades.config.keybinds")
 require("hades.config.keybinds_plugins")
-require("hades.config.keybinds_repl")
-
-
--- require("hades.utils.utils").load_colorscheme(Hades)
-
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = { "markdown", "quarto" },
---   callback = function()
---     vim.bo.textwidth = 80
---     vim.opt_local.formatoptions:remove("l") -- remove the no-break-in-insert flag
---   end,
--- })
+require("hades.config.lsp")
+require("hades.utils.autocmd_filetype")
+require("hades.utils.lsp_code_blocks")

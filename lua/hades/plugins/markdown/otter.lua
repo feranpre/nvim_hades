@@ -5,19 +5,29 @@ return {
   dev = false,
   dependencies = {
     {
-      "neovim/nvim-lspconfig",
+      -- "neovim/nvim-lspconfig",
       "nvim-treesitter/nvim-treesitter",
     },
   },
-  opts = {
+  config = function()
+    require("otter").setup({
     verbose = {
       no_code_found = true,
     },
     buffers = {
       set_filetype = true,
     },
-  },
-  config = function()
-    require("otter").setup()
+    lsp = {
+      hover = {
+        border = "rounded",
+      },
+      diagnostics = {
+        virtual_text = true,
+      },
+    },
+    filetypes = { "quarto", "markdown" },
+    handle_leading_whitespace = true,
+    supported_languages = { "python", "r", "bash", "lua", "julia" },
+  })
   end,
 }
