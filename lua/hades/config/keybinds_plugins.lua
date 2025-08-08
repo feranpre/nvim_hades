@@ -51,7 +51,6 @@ else
   end
 end
 
-
 --
 -- OIL
 --
@@ -153,48 +152,48 @@ else
     print("harpoon - NOT DETECTED")
   end
 end
-
 --
--- nvim-python-repl
+-- --
+-- -- nvim-python-repl
+-- --
+-- if IsModuleAvailable("nvim-python-repl") then
+--   if DEBUG then
+--     print("nvim-python-repl - keys loaded")
+--   end
 --
-if IsModuleAvailable("nvim-python-repl") then
-  if DEBUG then
-    print("nvim-python-repl - keys loaded")
-  end
-
-  keymap("n", "<C-CR>", function()
-    require("nvim-python-repl").send_statement_definition()
-  end, opts, "Send semantic unit to REPL")
-
-  keymap("v", "<localleader>sr", function()
-    require("nvim-python-repl").send_visual_to_repl()
-  end, opts, "Send visual selection to REPL")
-
-  keymap("n", "<localleader>sc", function()
-    require("nvim-python-repl").send_current_cell_to_repl()
-  end, opts, "Send current cell to REPL")
-
-  keymap("n", "<localleader>sf", function()
-    require("nvim-python-repl").send_buffer_to_repl()
-  end, opts, "Send entire buffer to REPL")
-
-  keymap("n", "<localleader>se", function()
-    require("nvim-python-repl").toggle_execute()
-  end, opts, "Automatically execute command in REPL after sent")
-
-  -- keymap("n", "<localleader>tn", function()
-  --   require("nvim-python-repl").toggle_vertical()
-  -- end, opts, "Create REPL in vertical or horizontal split")
-
-  keymap("n", "<localleader>tn", function()
-    require("nvim-python-repl").open_repl()
-  end, opts, "[t]erminal [n]ew")
-else
-  if DEBUG then
-    print("nvim-python-repl - keys NOT loaded")
-  end
-end
-
+--   keymap("n", "<C-CR>", function()
+--     require("nvim-python-repl").send_statement_definition()
+--   end, opts, "Send semantic unit to REPL")
+--
+--   keymap("v", "<localleader>sr", function()
+--     require("nvim-python-repl").send_visual_to_repl()
+--   end, opts, "Send visual selection to REPL")
+--
+--   keymap("n", "<localleader>sc", function()
+--     require("nvim-python-repl").send_current_cell_to_repl()
+--   end, opts, "Send current cell to REPL")
+--
+--   keymap("n", "<localleader>sf", function()
+--     require("nvim-python-repl").send_buffer_to_repl()
+--   end, opts, "Send entire buffer to REPL")
+--
+--   keymap("n", "<localleader>se", function()
+--     require("nvim-python-repl").toggle_execute()
+--   end, opts, "Automatically execute command in REPL after sent")
+--
+--   -- keymap("n", "<localleader>tn", function()
+--   --   require("nvim-python-repl").toggle_vertical()
+--   -- end, opts, "Create REPL in vertical or horizontal split")
+--
+--   keymap("n", "<localleader>tn", function()
+--     require("nvim-python-repl").open_repl()
+--   end, opts, "[t]erminal [n]ew")
+-- else
+--   if DEBUG then
+--     print("nvim-python-repl - keys NOT loaded")
+--   end
+-- end
+--
 --
 -- TMUX NAV
 --
@@ -236,16 +235,16 @@ if IsModuleAvailable("lspconfig") then
       -- local opts = { buffer = ev.buf }
 
       -- references
-      keymap_buffer(0, "n", "gR", "<cmd>Telescope lsp_references<CR>", opts, "LSP -> show definition references")
-      keymap_buffer(0, "n", "grr", "<cmd>lua vim.lsp.buf.references()<CR>", opts, "LSP -> show references") -- show lsp implementations
+      keymap_buffer(ev.buf, "n", "gR", "<cmd>Telescope lsp_references<CR>", opts, "LSP -> show definition references")
+      keymap_buffer(ev.buf, "n", "grr", "<cmd>lua vim.lsp.buf.references()<CR>", opts, "LSP -> show references") -- show lsp implementations
 
       -- rename
-      keymap_buffer(0, "n", "grn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts, "LSP -> rename in scope") -- show lsp implementations
-      keymap_buffer(0, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename() <CR>", opts, "[l]sp [r]ename in scope") -- smart rename
+      keymap_buffer(ev.buf, "n", "grn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts, "LSP -> rename in scope") -- show lsp implementations
+      keymap_buffer(ev.buf, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename() <CR>", opts, "[l]sp [r]ename in scope") -- smart rename
 
       -- diagnostics
       keymap_buffer(
-        0,
+        ev.buf,
         "n",
         "<leader>ld",
         "<cmd>lua vim.diagnostic.open_float() <CR>",
@@ -253,7 +252,7 @@ if IsModuleAvailable("lspconfig") then
         "[l]sp [d]iagnostics (line)"
       )
       keymap_buffer(
-        0,
+        ev.buf,
         "n",
         "<leader>lD",
         "<cmd>Telescope diagnostics bufnr=0<CR>",
@@ -262,26 +261,26 @@ if IsModuleAvailable("lspconfig") then
       ) -- show lsp implementations
 
       -- move through diagnostic
-      keymap_buffer(0, "n", "<M-j>", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts, "lsp - prev diagnostic")
-      keymap_buffer(0, "n", "<M-k>", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts, "lsp - next diagnostic")
-      keymap_buffer(0, "n", "<leader>[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts, "lsp - prev diagnostic")
-      keymap_buffer(0, "n", "<leader>]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts, "lsp - next diagnostic")
+      keymap_buffer(ev.buf, "n", "<M-j>", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts, "lsp - prev diagnostic")
+      keymap_buffer(ev.buf, "n", "<M-k>", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts, "lsp - next diagnostic")
+      keymap_buffer(ev.buf, "n", "<leader>[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts, "lsp - prev diagnostic")
+      keymap_buffer(ev.buf, "n", "<leader>]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts, "lsp - next diagnostic")
 
       -- actions
-      keymap_buffer(0, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts, "[l]sp code [a]ctions") -- show lsp implementations
-      keymap_buffer(0, "v", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts, "[l]sp code [a]ctions") -- show lsp implementations
+      keymap_buffer(ev.buf, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts, "[l]sp code [a]ctions") -- show lsp implementations
+      keymap_buffer(ev.buf, "v", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts, "[l]sp code [a]ctions") -- show lsp implementations
 
-      -- definitions and lsp_implementations
-      keymap_buffer(0, "n", "gD", "<cmd>lua vim.lsp.buf.declaration() <CR>", opts, "LSP -> go to definition")
-      keymap_buffer(0, "n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts, "LSP -> show lsp definitions")
-      keymap_buffer(0, "n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts, "LSP -> show implementations") -- show lsp implementations
-      keymap_buffer(0, "n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts, "LSP -> show type definitions") -- show lsp implementations
+      -- definitionsev.bufand lsp_implementations
+      keymap_buffer(ev.buf, "n", "gD", "<cmd>lua vim.lsp.buf.declaration() <CR>", opts, "LSP -> go to definition")
+      keymap_buffer(ev.buf, "n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts, "LSP -> show lsp definitions")
+      keymap_buffer(ev.buf, "n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts, "LSP -> show implementations") -- show lsp implementations
+      keymap_buffer(ev.buf, "n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts, "LSP -> show type definitions") -- show lsp implementations
 
       -- help
-      keymap_buffer(0, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts, "LSP -> Doc for string under cursor")
+      keymap_buffer(ev.buf, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts, "LSP -> Doc for string under cursor")
 
       -- restgart
-      keymap_buffer(0, "n", "<leader>ls", "<cmd>LspRestart<CR>", opts, "[l]sp [s]tart/restart LSP")
+      keymap_buffer(ev.buf, "n", "<leader>ls", "<cmd>LspRestart<CR>", opts, "[l]sp [s]tart/restart LSP")
     end,
   })
 else
@@ -345,6 +344,3 @@ else
     print("ufo - NOT DETECTED")
   end
 end
-
-
-

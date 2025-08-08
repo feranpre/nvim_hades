@@ -27,6 +27,12 @@ return {
         objbr_openlist = false,
         objbr_place = "console,below",
 
+        -- hook = {
+        --   on_filetype = function(ev)
+        --     require("hades.config.keybinds_r").load_keys(ev)
+        --   end,
+        -- },
+
         -- TMUX
         -- external_term = false,
         -- external_term = "tmux split-window -h -l 80",
@@ -68,6 +74,7 @@ return {
       --   opts.objbr_auto_start = true
       -- end
       require("r").setup(opts)
+      vim.g.R_filetypes = { "r", "rmd", "rnoweb", "rhelp" }
     end,
   },
 }
