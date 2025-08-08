@@ -31,16 +31,35 @@ return {
         dashboard.button("q", "󰅚  > Quit NVIM", ":qa<CR>"),
       }
 
-      local fortune = require("alpha.fortune")
-      dashboard.section.footer.val = fortune({
-        fortune_list = {
-          { "Correlation doesn't mean causation", "", "— 🦦" },
-          { "Never memorize something you can look p", "", "— Einstein" },
-          { "Somewhere, something incredible is waiting to be known", "", "Carl Sagan" },
-          { "If I have seen further is by standing on the shoulders of giants", "", "Newton" },
-        },
-      })
+      -- Get Neovim version
+      local v = vim.version()
+      local nvim_version = string.format("Neovim v%d.%d.%d", v.major, v.minor, v.patch)
 
+      -- Custom fortune quotes
+      local quotes = {
+        { "Correlation doesn't mean causation", "", "— 🦦" },
+        { "Never memorize something you can look up", "", "— Einstein" },
+        { "Somewhere, something incredible is waiting to be known", "", "— Carl Sagan" },
+        { "If I have seen further it is by standing on the shoulders of giants", "", "— Newton" },
+      }
+
+      -- Pick a random quote
+      math.randomseed(os.time())
+      local quote = quotes[math.random(#quotes)]
+
+      -- Combine quote and version
+      local footer = vim.deepcopy(quote)
+      table.insert(footer, "") -- empty line
+      table.insert(footer, "") -- empty line
+      table.insert(footer, "") -- empty line
+      table.insert(footer, nvim_version)
+
+      -- Set footer
+      dashboard.section.footer.val = footer
+      dashboard.section.footer.opts = {
+        position = "center",
+        hl = "Comment",
+      }
       -- Send config to alpha
       alpha.setup(dashboard.opts)
     end,

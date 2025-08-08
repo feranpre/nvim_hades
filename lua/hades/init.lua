@@ -11,11 +11,11 @@ Hades = require("hades.config.hades")
 
 require("hades.lazy")
 require("lazy").setup({
+  { import = "hades.plugins.markdown" },
   { import = "hades.plugins.lsp" },
   { import = "hades.plugins.code" },
   { import = "hades.plugins.editor" },
   { import = "hades.plugins.colorschemes" },
-  { import = "hades.plugins.markdown" },
   { import = "hades.plugins.repl" },
 })
 

@@ -1,23 +1,24 @@
 return {
-  'nvim-telescope/telescope.nvim',
+  "nvim-telescope/telescope.nvim",
   -- tag = '0.1.8',
   dependencies = {
-    'nvim-lua/plenary.nvim',
+    "nvim-lua/plenary.nvim",
     {
-      'nvim-telescope/telescope-fzf-native.nvim',
-      build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
+      "nvim-telescope/telescope-fzf-native.nvim",
+       build = 'cmake -S. -Bbuild -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release', 
+     -- build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
     },
     {
-      'jmbuhr/telescope-zotero.nvim',
+      "jmbuhr/telescope-zotero.nvim",
       dependencies = {
-        { 'kkharji/sqlite.lua' },
+        { "kkharji/sqlite.lua" },
       },
       -- options:
       -- to use the default opts:
       -- opts = {},
       -- to configure manually:
       config = function()
-        require('zotero').setup()
+        require("zotero").setup()
       end,
     },
   },
@@ -26,7 +27,7 @@ return {
     telescope.setup({
       pickers = {
         find_files = {
-          theme = "ivy"
+          theme = "ivy",
         },
         live_grep = {
           theme = "dropdown",
@@ -43,16 +44,16 @@ return {
       },
       extensions = {
         fzf = {
-          fuzzy = true,                   -- false will only do exact matching
+          fuzzy = true, -- false will only do exact matching
           override_generic_sorter = true, -- override the generic sorter
-          override_file_sorter = true,    -- override the file sorter
-          case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
+          override_file_sorter = true, -- override the file sorter
+          case_mode = "smart_case", -- or "ignore_case" or "respect_case"
           -- the default case_mode is "smart_case"
-        }
+        },
       },
     })
 
-    telescope.load_extension('fzf')
+    telescope.load_extension("fzf")
     telescope.load_extension("zotero")
   end,
 }
