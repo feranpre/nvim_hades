@@ -25,13 +25,13 @@ IsModuleAvailable = require("hades.utils.keys").isModuleAvailable
 
 require("hades.config.options")
 require("hades.utils.utils").load_colorscheme(Hades)
-require("hades.utils.utils").load_colorscheme(Hades)
 
 -- require("hades.utils.utils").load_color_highlights(Hades)
 
 -- require("hades.config.colorscheme")
 require("hades.config.keybinds")
 require("hades.config.keybinds_plugins")
+require("hades.config.keybinds_neorg").general_keys()
 
 -- require("hades.config.keybinds_molten")
 
