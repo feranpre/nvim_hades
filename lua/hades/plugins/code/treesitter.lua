@@ -38,7 +38,7 @@ return {
                     end
                 end,
             },
-            indent = { enable = true },
+            indent = { enable = false}, -- it will mess with other plugins like orgmode
             auto_tag = { enable = true },
             -- incremental selection based on context
             incremental_selection = {
