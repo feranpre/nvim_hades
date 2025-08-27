@@ -4,10 +4,7 @@ return {
   enabled = true,
   dev = false,
   dependencies = {
-    {
-      -- "neovim/nvim-lspconfig",
       "nvim-treesitter/nvim-treesitter",
-    },
   },
   config = function()
     require("otter").setup({
@@ -16,6 +13,7 @@ return {
     },
     buffers = {
       set_filetype = true,
+      write_to_disk = true,
     },
     lsp = {
       hover = {

@@ -1,19 +1,21 @@
-# asdfasd
+# R code 
 
-sadfasd
+Text about the code
 
-## sadf
+## sub-section about R
 
-### otra
+### even further subsection
 
-#### IOtrasdf
+#### final subsection
+
+Math stuff
 
 $$
 \frac{\alpha}{\sqrt{\sigma}}
 $$
 
 
-```r
+```r}
 summary(mtcars)
 sumary(mtcars)
 
@@ -24,11 +26,11 @@ asdf
 asdf
 sadf
 
-```python
-summary(mtcars)
-sumary(mtcars)
+
+```{python}
 
 x = 5
+print(f"this is working {x}")
 
 ```
 
