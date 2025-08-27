@@ -1,6 +1,16 @@
 # asdfasd
+
 sadfasd
 
+## sadf
+
+### otra
+
+#### IOtrasdf
+
+$$
+\frac{\alpha}{\sqrt{\sigma}}
+$$
 
 
 ```r
