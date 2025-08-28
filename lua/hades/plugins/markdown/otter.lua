@@ -23,9 +23,10 @@ return {
         virtual_text = true,
       },
     },
-    filetypes = { "quarto", "markdown" },
+    -- filetypes = { "quarto", "markdown" },
+    filetypes = { "quarto" },
     handle_leading_whitespace = true,
-    supported_languages = { "python", "r", "bash", "lua", "julia" },
+    supported_languages = { "python", "bash", "lua", "julia" },
   })
   end,
 }

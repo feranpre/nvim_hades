@@ -15,7 +15,7 @@ $$
 $$
 
 
-```r}
+```{r}
 summary(mtcars)
 sumary(mtcars)
 

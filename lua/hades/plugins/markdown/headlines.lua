@@ -1,0 +1,10 @@
+return {
+  "lukas-reineke/headlines.nvim",
+  -- cond = has_ui,
+  dependencies = "nvim-treesitter/nvim-treesitter",
+  ft = "markdown",
+  config = function()
+    require("headlines").setup()
+  end
+  
+}

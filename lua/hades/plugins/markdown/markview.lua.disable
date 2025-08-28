@@ -10,8 +10,16 @@ return {
     require("markview").setup({
       markdown = {
         -- headings = presets.headings.slanted
-        headings = presets.headings.glow
-      }
+        headings = {
+          presets = "glow",
+          heading_1 = {icon_hl = "@markup.link", icon = "[%d]" },
+          heading_2 = {icon_hl = "@markup.link", icon = "[%d.%d]" },
+          heading_3 = {icon_hl = "@markup.link", icon = "[%d.%d.%d]" },
+          heading_4 = {icon_hl = "@markup.link", icon = "[%d.%d.%d.%d]" },
+          heading_5 = {icon_hl = "@markup.link", icon = "[%d.%d.%d.%d.%d]" },
+          heading_6 = {icon_hl = "@markup.link", icon = "[%d.%d.%d.%d.%d.%d]" },
+        },
+      },
     });
   vim.api.nvim_set_hl(0, 'MarkviewHeading1', { bg = '#cb7676', fg = '#402626', italic = false })
   vim.api.nvim_set_hl(0, 'MarkviewHeading2', { bg = '#c99076', fg = '#66493c', italic = false })
