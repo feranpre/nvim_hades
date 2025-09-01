@@ -9,8 +9,8 @@ return {
   -- end,
   -- colorscheme = "tokyonight-storm",
   -- colorscheme = "catppuccin-frappe",
-  colorscheme = "kanagawa",
-  -- colorscheme = "oldworld",
+  -- colorscheme = "kanagawa",
+  colorscheme = "oldworld",
   colors = {
     todo = {
       TODO = "#07EDED",

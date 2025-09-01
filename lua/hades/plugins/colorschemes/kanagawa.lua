@@ -1,6 +1,8 @@
 return {
-  "rebelot/kanagawa.nvim", 
+  "rebelot/kanagawa.nvim",
   enabled = true,
+  lazy = false,
+  pritority = 1000,
 	config = function()
     require("kanagawa").setup({
         compile=true,
