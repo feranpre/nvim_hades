@@ -33,6 +33,7 @@ end
 -- Diagnostics
 vim.diagnostic.config({
   virtual_lines = {
-    current_line = true,
+    -- current_line = true,
+    current_line = false,
   },
 })

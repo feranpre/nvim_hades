@@ -8,7 +8,7 @@ return {
         compile=true,
         transparent=true,
     })
-    vim.cmd("colorscheme kanagawa")
+    -- vim.cmd("colorscheme kanagawa")
   end,
   build = function()
     -- for the compile of the colorscheme

@@ -7,10 +7,10 @@ return {
   -- colorscheme = function()
   -- require("tokyonight").load()
   -- end,
-  -- colorscheme = "tokyonight-storm",
+  colorscheme = "tokyonight-storm",
   -- colorscheme = "catppuccin-frappe",
   -- colorscheme = "kanagawa",
-  colorscheme = "oldworld",
+  -- colorscheme = "oldworld",
   colors = {
     todo = {
       TODO = "#07EDED",

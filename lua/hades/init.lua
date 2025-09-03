@@ -22,9 +22,10 @@ require("lazy").setup({
 })
 
 
-vim.g.colorscheme = Hades.colorscheme
-
 require("hades.config.keybinds_plugins")
 require("hades.config.lsp")
 require("hades.utils.autocmd_filetype")
 require("hades.utils.lsp_code_blocks")
+
+vim.cmd.colorscheme(Hades.colorscheme)
+
