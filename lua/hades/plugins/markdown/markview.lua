@@ -8,16 +8,19 @@ return {
     local presets = require("markview.presets");
 
     require("markview").setup({
+      latex = {
+        enable = false,
+      },
       markdown = {
         -- headings = presets.headings.slanted
         headings = {
           presets = "glow",
-          heading_1 = {icon_hl = "@markup.link", icon = "[%d]" },
-          heading_2 = {icon_hl = "@markup.link", icon = "[%d.%d]" },
-          heading_3 = {icon_hl = "@markup.link", icon = "[%d.%d.%d]" },
-          heading_4 = {icon_hl = "@markup.link", icon = "[%d.%d.%d.%d]" },
-          heading_5 = {icon_hl = "@markup.link", icon = "[%d.%d.%d.%d.%d]" },
-          heading_6 = {icon_hl = "@markup.link", icon = "[%d.%d.%d.%d.%d.%d]" },
+          heading_1 = {icon_hl = "MarkviewHeading1", icon = "[%d] " },
+          heading_2 = {icon_hl = "MarkviewHeading2", icon = "[%d.%d] " },
+          heading_3 = {icon_hl = "MarkviewHeading3", icon = "[%d.%d.%d] " },
+          heading_4 = {icon_hl = "MarkviewHeading4", icon = "[%d.%d.%d.%d] " },
+          heading_5 = {icon_hl = "MarkviewHeading5", icon = "[%d.%d.%d.%d.%d] " },
+          heading_6 = {icon_hl = "MarkviewHeading6", icon = "[%d.%d.%d.%d.%d.%d] " },
         },
       },
     });

@@ -43,7 +43,7 @@ $$
 
 ```{r}
 summary(mtcars)
-sumary(mtcars)
+# sumary(mtcars)
 
 x = 5
 ```
@@ -65,4 +65,4 @@ print(f"this is working {x}")
 # asdf
 asdf
 
-o
+

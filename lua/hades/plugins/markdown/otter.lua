@@ -4,29 +4,29 @@ return {
   enabled = true,
   dev = false,
   dependencies = {
-      "nvim-treesitter/nvim-treesitter",
+    "nvim-treesitter/nvim-treesitter",
   },
   config = function()
     require("otter").setup({
-    verbose = {
-      no_code_found = true,
-    },
-    buffers = {
-      set_filetype = true,
-      write_to_disk = true,
-    },
-    lsp = {
-      hover = {
-        border = "rounded",
+      verbose = {
+        no_code_found = true,
       },
-      diagnostics = {
-        virtual_text = true,
+      buffers = {
+        set_filetype = true,
+        write_to_disk = true,
       },
-    },
-    -- filetypes = { "quarto", "markdown" },
-    filetypes = { "quarto" },
-    handle_leading_whitespace = true,
-    supported_languages = { "python", "bash", "lua", "julia" },
-  })
+      lsp = {
+        hover = {
+          border = "rounded",
+        },
+        diagnostics = {
+          virtual_text = true,
+        },
+      },
+      -- filetypes = { "quarto", "markdown" },
+      filetypes = { "quarto", "markdown" },
+      handle_leading_whitespace = true,
+      supported_languages = { "python", "bash", "lua", "julia" },
+    })
   end,
 }
