@@ -2,6 +2,7 @@ vim.lsp.enable({
   "lua_ls",
   "r_languageserver",
   "pyright",
+  "markdown",
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -32,8 +33,20 @@ end
 
 -- Diagnostics
 vim.diagnostic.config({
-  virtual_lines = {
-    -- current_line = true,
-    current_line = false,
-  },
+    virtual_text = false,  -- no inline diagnostics
+  signs = true,          -- keep signs in the gutter
+  underline = true,      -- underline problematic code
+  update_in_insert = false, -- don’t update while typing
+  severity_sort = true,  -- sort diagnostics by severity
+})
+
+-- Show diagnostics in a floating window on hover
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    vim.diagnostic.open_float(nil, {
+      focusable = false,
+      border = "rounded",
+      scope = "cursor",
+    })
+  end,
 })
