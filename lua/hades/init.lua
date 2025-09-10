@@ -29,3 +29,4 @@ require("hades.utils.lsp_code_blocks")
 
 vim.cmd.colorscheme(Hades.colorscheme)
 
+vim.g.R_filetypes = { "r", "rmd", "quarto", "rnoweb", "markdown", "rhelp" }

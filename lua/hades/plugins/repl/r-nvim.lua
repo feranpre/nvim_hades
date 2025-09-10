@@ -1,6 +1,7 @@
 return {
   {
     "R-nvim/R.nvim",
+    branch = "markdown",
     -- 'jalvesaq/Nvim-R', -- this plugin is obsolete
     enabled = true,
     lazy = false,
