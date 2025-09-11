@@ -3,7 +3,7 @@ return {
   cmd = { "R", "LANGSERVER_MODE=1 --slave", "-e", "languageserver::run()"},
 
   -- Filetypes to automatically attach to.
-  filetypes = { "R", "r", "rmd" },
+  filetypes = { "R", "r", "rmd", "markdown" },
 
   -- Sets the "root directory" to the parent directory of the file in the
   -- current buffer that contains either a ".Rproject" or a ".lintr"

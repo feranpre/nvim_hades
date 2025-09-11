@@ -1,7 +1,7 @@
 return {
   -- for lsp features in code cells / embedded code
   "jmbuhr/otter.nvim",
-  enabled = true,
+  enabled = false,
   dev = false,
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
@@ -24,7 +24,7 @@ return {
         },
       },
       -- filetypes = { "quarto", "markdown" },
-      filetypes = { "quarto", "markdown" },
+      filetypes = { "quarto" },
       handle_leading_whitespace = true,
       supported_languages = { "python", "bash", "lua", "julia" },
     })

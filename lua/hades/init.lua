@@ -28,8 +28,8 @@ require("hades.utils.lsp_code_blocks")
 
 vim.cmd.colorscheme(Hades.colorscheme)
 
-vim.g.R_filetypes = { "r", "rmd", "quarto", "rnoweb", "markdown", "rhelp" }
--- vim.g.R_filetypes = { "markdown" }
+-- vim.g.R_filetypes = { "r", "rmd", "quarto", "rnoweb", "markdown", "rhelp" }
+vim.g.R_filetypes = { "r", "rmd", "rnoweb", "quarto", "rhelp", "markdown" }
 
 for key, value in pairs(vim.g.R_filetypes) do
   print(key, value)
