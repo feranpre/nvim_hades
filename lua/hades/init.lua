@@ -21,7 +21,6 @@ require("lazy").setup({
   { import = "hades.plugins.repl" },
 })
 
-
 require("hades.config.keybinds_plugins")
 require("hades.config.lsp")
 require("hades.utils.autocmd_filetype")
@@ -30,3 +29,8 @@ require("hades.utils.lsp_code_blocks")
 vim.cmd.colorscheme(Hades.colorscheme)
 
 vim.g.R_filetypes = { "r", "rmd", "quarto", "rnoweb", "markdown", "rhelp" }
+-- vim.g.R_filetypes = { "markdown" }
+
+for key, value in pairs(vim.g.R_filetypes) do
+  print(key, value)
+end
