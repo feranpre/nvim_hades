@@ -1,6 +1,14 @@
 {
+  "graph_save_tiff": {
+    "prefix": "_graph_save_tiff",
+    "body": [
+        "tiff(file = \"./GRAFICOS/grafico_radar.tiff\", width = 20, height = 20, units = \"cm\", res = 300)",
+        "dev.off()"
+    ],
+    "description": "Save a graph in tiff format"
+  },
   "boxplot": {
-    "prefix": "_boxplot",
+    "prefix": "_graph_boxplot",
     "body": [
     "ggplot(DATOS, aes(y = mpg, x = am, fill = am)) +
         geom_violin(alpha = 0.3) +
