@@ -8,7 +8,8 @@ return {
   -- require("tokyonight").load()
   -- end,
   -- colorscheme = "tokyonight-storm",
-  colorscheme = "catppuccin-frappe",
+  -- colorscheme = "catppuccin-frappe",
+  colorscheme = "catppuccin-macchiato",
   -- colorscheme = "kanagawa",
   -- colorscheme = "oldworld",
   colors = {

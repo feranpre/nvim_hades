@@ -5,8 +5,8 @@ return {
     enabled = true,
     lazy = false,
     dependencies = {
-      -- "R-nvim/cmp-r",
-      -- "nvim-treesitter/nvim-treesitter-textobjects", -- BROKEN
+      "R-nvim/cmp-r",
+      "nvim-treesitter/nvim-treesitter-textobjects", -- BROKEN
       -- "hrsh7th/nvim-cmp",
     },
     config = function()
@@ -31,7 +31,6 @@ return {
         --                 require("hades.config.keybinds_plugins.r").load_keys(ev)
         --             end
         -- },
-
 
         -- TMUX
         -- external_term = false,

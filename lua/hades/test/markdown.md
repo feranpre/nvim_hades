@@ -1,5 +1,6 @@
 # R code 
 
+
 Text about the code
 
 ## sub-section about R
@@ -41,9 +42,17 @@ $$
 $$
 
 
+$$
+\frac{\alpha}{\sqrt{\sigma}}
+$$
+
+
+
 ```{r}
 summary(mtcars)
-# sumary(mtcars)
+sumary(mtcars)
+
+
 
 x = 5
 ```
