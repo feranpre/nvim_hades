@@ -51,6 +51,7 @@ $$
 \frac{\alpha}{\sqrt{\sigma}}
 $$
 
+asfsdf **sdfasdf**
 
 
 ```{r}
@@ -60,6 +61,11 @@ sumary(mtcars)
 
 
 x = 5
+
+print("hola")
+
+
+# install.packages("reticulate")
 ```
 
 asdf
@@ -71,6 +77,8 @@ sadf
 
 x = 5
 print(f"this is working {x}")
+
+
 
 ```
 
