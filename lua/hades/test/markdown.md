@@ -47,6 +47,11 @@ $$
 $$
 
 
+$$
+\frac{\alpha}{\sqrt{\sigma}}
+$$
+
+
 
 ```{r}
 summary(mtcars)
