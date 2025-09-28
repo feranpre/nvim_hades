@@ -24,8 +24,8 @@ Ordered list:
 5. item 5
 
 Task list:
-- [ ] Item 1
-    - [x] sub item 
+- [-] Item 1
+    - [X] sub item 
     - [ ] sub item 
     - [ ] sub item 
 - [ ] Item 2

@@ -8,12 +8,6 @@ return {
       enabled = true,
       preset = {
         header = table.concat({
-          -- " ██╗  ██╗ █████╗ ██████╗ ███████╗███████╗",
-          -- " ██║  ██║██╔══██╗██╔══██╗██╔════╝██╔════╝",
-          -- " ███████║███████║██║  ██║█████╗  ███████╗",
-          -- " ██╔══██║██╔══██║██║  ██║██╔══╝  ╚════██║",
-          -- " ██║  ██║██║  ██║██████╔╝███████╗███████║",
-          -- " ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝",
           " ██░ ██  ▄▄▄      ▓█████▄ ▓█████   ██████ ",
           "▓██░ ██▒▒████▄    ▒██▀ ██▌▓█   ▀ ▒██    ▒ ",
           "▒██▀▀██░▒██  ▀█▄  ░██   █▌▒███   ░ ▓██▄   ",
@@ -24,13 +18,14 @@ return {
           " ░  ░░ ░  ░   ▒    ░ ░  ░    ░   ░  ░  ░  ",
           " ░  ░  ░      ░  ░   ░       ░  ░      ░  ",
           "                   ░                      ",
-          "      v0.6                         ".. string.format("Neovim v%d.%d.%d", vim.version().major, vim.version().minor, vim.version().patch),
+          "      v0.6                         "
+            .. string.format("Neovim v%d.%d.%d", vim.version().major, vim.version().minor, vim.version().patch),
         }, "\n"),
         sections = {
           {
             section = "header",
           },
-          { section = "keys",   gap = 1, padding = 1 },
+          { section = "keys", gap = 1, padding = 1 },
           { section = "startup" },
         },
       },

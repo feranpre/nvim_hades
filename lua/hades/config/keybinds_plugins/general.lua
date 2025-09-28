@@ -11,5 +11,6 @@ if IsModuleAvailable("oil") then
   keymap("n", "<leader>e", "<cmd>Oil<CR>", opts, "[e]xplore with Oil current directory")
 end
 
-key_or_clue("x", "g<C-a>", "inc [++] num")
-key_or_clue("x", "g<C-x>", "dec [--] num")
+if IsModuleAvailable("undotree") then
+  keymap("n", "<leader>u", "<cmd>lua require('undotree').toggle()<cr>", opts, "[u]ndoo tree")
+end

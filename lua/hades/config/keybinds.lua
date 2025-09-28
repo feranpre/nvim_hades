@@ -17,7 +17,6 @@ keymap("i", "kj", "<ESC>", opts, "exit insert mode")
 keymap("n", "<ESC>", "<cmd>nohl<cr>", opts, "remove hilights")
 
 -- Move down and center screen
-
 keymap("n", "<C-d>", "<C-d>zz", opts, "half-page down and center")
 keymap("n", "<C-u>", "<C-u>zz", opts, "half-page up and center")
 
@@ -39,6 +38,12 @@ keymap("n", "<leader>ww", "<C-w>p", opts, "activate other [w]indow")
 keymap("n", "<leader>wd", "<C-w>c", opts, "[d]elete window")
 keymap("n", "<leader>w-", "<C-w>s", opts, "[s]plit window below")
 keymap("n", "<leader>w|", "<C-w>v", opts, "split window [v]ertical (right)")
+
+-- move to window
+keymap("n", "<C-h>", "<C-w>h", opts, "go to left window")
+keymap("n", "<C-j>", "<C-w>j", opts, "go to the lower window")
+keymap("n", "<C-k>", "<C-w>k", opts, "got to the upper window")
+keymap("n", "<C-l>", "<C-w>l", opts, "go to the right window")
 
 -- window resize
 keymap("n", "<S-Up>", "<cmd>resize +2<CR>", opts, "resize window [u]p")
@@ -90,7 +95,9 @@ keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
 -- TERMINAL --
 keymap("t", "<ESC>", [[<C-\><C-n>]], opts, "exit insertmode in terminal")
 
-
+-- NUMBER INCREMENT --
+key_or_clue("x", "g<C-a>", "inc [++] num")
+key_or_clue("x", "g<C-x>", "dec [--] num")
 
 -- -- FOLD --
 -- -- Keymap for folding markdown headings of level 1 or above
