@@ -1,5 +1,5 @@
 local path = vim.fn.stdpath("config") .. "/lua/hades/config/keybinds_plugins"
-print(path)
+-- print(path)
 
 for _, file in ipairs(vim.fn.readdir(path)) do
   if file:sub(-4) == ".lua" and file ~= "init.lua" then
@@ -7,4 +7,3 @@ for _, file in ipairs(vim.fn.readdir(path)) do
     require(module)
   end
 end
-
