@@ -1,6 +1,5 @@
 local keymap = require("hades.utils.keys").keymap
 local key_or_clue = require("hades.utils.keys").key_or_clue
-
 local opts = require("hades.utils.keys").opts
 
 if DEBUG then

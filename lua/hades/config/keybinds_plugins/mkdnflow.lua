@@ -4,11 +4,11 @@ local key_or_clue = require("hades.utils.keys").key_or_clue
 
 local opts = { noremap = true, silent = true, desc = nil }
 
-if IsModuleAvailable("mkdowflow") then
+if IsModuleAvailable("mkdnflow") then
   if DEBUG then
-    print("Loading mkdnflow keys")
+    print("mkdnflow - keys loaded")
   end
 
   key_or_clue("n", "<leader>m", "+[m]kdnflow options")
-  keymap("n", "<leader>mf", require("telescope.builtin").buffers, opts, "[f]ind [b]uffer")
+  keymap("n", "<leader>mf", "<cmd>MkdnFoldSection<CR>", opts, "[f]old section")
 end

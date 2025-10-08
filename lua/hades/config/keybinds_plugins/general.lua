@@ -8,9 +8,15 @@ local opts = { noremap = true, silent = true, desc = nil }
 -- OIL
 --
 if IsModuleAvailable("oil") then
+  if DEBUG then
+    print("oil - keys loaded")
+  end
   keymap("n", "<leader>e", "<cmd>Oil<CR>", opts, "[e]xplore with Oil current directory")
 end
 
 if IsModuleAvailable("undotree") then
+  if DEBUG then
+    print("udotree - keys loaded")
+  end
   keymap("n", "<leader>u", "<cmd>lua require('undotree').toggle()<cr>", opts, "[u]ndoo tree")
 end

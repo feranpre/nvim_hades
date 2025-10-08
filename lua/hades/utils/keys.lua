@@ -48,27 +48,20 @@ function M.keymap_buffer(buffer, mode, keys, func, opts, desc)
   vim.keymap.set(mode, keys, func, opts)
 end
 
-function M.isModuleAvailable(plugin, debug)
-  if debug == nil then
-    debug = false
-  end
-  local req_present = pcall(require, plugin)
-  -- local command_present = vim.fn.executable(plugin) == 1
-  local command_present = vim.fn.exists(":" .. plugin) > 0
-  if debug then
-    print(plugin)
-    print("   REQUIRE " .. tostring(req_present))
-    print("   COMMAND " .. tostring(command_present))
-  end
-  return (req_present or command_present)
-end
+function M.key_or_clue_which(mode, key, description)
+  local which_ok, _ = pcall(require, "which-key")
+  local clue_ok, _ = pcall(require, "mini.clue")
 
-function M.key_or_clue(mode, key, description)
-  if pcall(require, "which-key") then
+  if DEBUG then
+    print("  which_ok " .. tostring(which_ok))
+    print("  clue_ok " .. tostring(clue_ok))
+  end
+
+  if which_ok then
     -- Register keybinding with which-key
     local wk = require("which-key")
     wk.add({ key, desc = description, mode = mode })
-  elseif pcall(require, "mini.clue") then
+  elseif clue_ok then
     -- Add clue to mini.clues
     local clues = require("mini.clue")
     local new_clue = { mode = mode, keys = key, desc = description }
@@ -81,7 +74,37 @@ function M.key_or_clue(mode, key, description)
       clues = clues.config.clues,
     })
   else
-    vim.notify("Neither 'which-key' nor 'mini.clues' is loaded", vim.log.levels.WARN)
+    vim.notify("[error] Ni which-key ni mini.clue disponibles", vim.log.levels.WARN)
+  end
+end
+
+function M.key_or_clue(mode, key, description)
+  local which_ok, _ = pcall(require, "which-key")
+  local clue_ok, _ = pcall(require, "mini.clue")
+
+  if DEBUG then
+    print("  which_ok " .. tostring(which_ok))
+    print("  clue_ok " .. tostring(clue_ok))
+  end
+
+  if which_ok then
+    -- Register keybinding with which-key
+    local wk = require("which-key")
+    wk.add({ key, desc = description, mode = mode })
+  elseif clue_ok then
+    -- Add clue to mini.clues
+    local clues = require("mini.clue")
+    local new_clue = { mode = mode, keys = key, desc = description }
+
+    -- Append clue to existing ones
+    clues.config.clues = vim.list_extend(clues.config.clues or {}, { new_clue })
+
+    -- Reinitialize mini.clues with updated clues
+    clues.setup({
+      clues = clues.config.clues,
+    })
+  else
+    vim.notify("[error] Ni which-key ni mini.clue disponibles", vim.log.levels.WARN)
   end
 end
 

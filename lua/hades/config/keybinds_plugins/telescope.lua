@@ -42,13 +42,13 @@ if IsModuleAvailable("telescope") then
 
   keymap("n", "z=", require("telescope.builtin").spell_suggest, opts, "[f]ind [b]uffer")
 
-local zotero_ok, _ = pcall(function()
-  require("telescope").load_extension("zotero")
-end)
+  local zotero_ok, _ = pcall(function()
+    require("telescope").load_extension("zotero")
+  end)
   if zotero_ok then
     keymap("n", "<leader>zg", "<cmd>Telescope zotero<CR>", opts, "[z]otero [g]et reference")
   else
-    print("no se ha cargado")
+    print("zotero - telescope plugin - keys not loaded")
   end
 else
   if DEBUG then
