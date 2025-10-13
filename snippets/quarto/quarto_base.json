@@ -184,28 +184,22 @@
     "body": ["::: {.callout-$1}", "$0", ":::"]
   },
   "important": {
-    "prefix": ["important_box"],
-    "body": [
-              "::: {.callout-important}", 
-              "${1: text}", 
-              ":::"]
+    "prefix": ["call_important_box"],
+    "body": ["::: {.callout-important}", "${1: text}", ":::"]
   },
   "warning": {
-    "prefix": ["warning_box"],
-    "body": [
-              "::: {.callout-warning}", 
-              "${1: text}", 
-              ":::"]
+    "prefix": ["call_warning_box"],
+    "body": ["::: {.callout-warning}", "${1: text}", ":::"]
   },
   "note_box": {
-    "prefix": ["note_box"],
+    "prefix": ["call_note_box"],
     "body": [
-              "::: {.callout-note collapse=true}", 
-              "# ${1: title when collapsed}", 
-              "${2: text}", 
-              ":::"]
+      "::: {.callout-note collapse=true}",
+      "# ${1: title when collapsed}",
+      "${2: text}",
+      ":::"
+    ]
   },
-
 
   "3col": {
     "prefix": ["3col", "col3"],

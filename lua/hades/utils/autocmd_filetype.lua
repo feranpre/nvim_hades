@@ -9,10 +9,11 @@ vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
 })
 
 -- Change foldmethod to manual so it works with the folding from mkdnflow
-vim.api.nvim_create_autocmd("FileType", {
+vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
   pattern = { "markdown", "rmd", "quarto" },
-  callback = function()
+  callback = function(ev)
     vim.opt_local.foldmethod = "manual"
+    require("hades.config.keybinds_plugins.quarto").load_keys(ev)
   end,
 })
 -- vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
