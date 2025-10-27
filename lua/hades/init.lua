@@ -24,6 +24,7 @@ require("hades.config.keybinds")
 require("hades.config.keybinds_plugins")
 require("hades.config.lsp")
 require("hades.utils.autocmd_filetype")
+require("hades.utils.markdown")
 require("hades.utils.lsp_code_blocks")
 
 vim.cmd.colorscheme(Hades.colorscheme)
