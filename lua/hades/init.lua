@@ -31,6 +31,28 @@ vim.cmd.colorscheme(Hades.colorscheme)
 
 vim.g.R_filetypes = { "r", "rmd", "rnoweb", "quarto", "rhelp", "markdown" }
 
+-- ACTIVACION DE OTTER --
+--
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "quarto", "markdown" },
+  callback = function()
+    require("otter").activate({ "r", "python" })
+
+    -- Asocia R.nvim al buffer si hay chunks de R
+    local bufnr = vim.api.nvim_get_current_buf()
+    local ft = vim.bo[bufnr].filetype
+    if ft == "quarto" or ft == "markdown" then
+      vim.keymap.set("n", "<leader>rr", function()
+        require("r.run").line_run()
+      end, { buffer = bufnr, desc = "Ejecutar línea actual en R" })
+
+      vim.keymap.set("v", "<leader>rr", function()
+        require("r.run").selection_run()
+      end, { buffer = bufnr, desc = "Ejecutar selección en R" })
+    end
+  end,
+})
+
 -- Helper: fold/unfold all mkdnflow sections at level `lvl` (and deeper)
 function _G.MkdnFoldAllAtLevel(lvl, action)
   -- Recompute folds (in case document changed)

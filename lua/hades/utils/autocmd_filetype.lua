@@ -1,6 +1,6 @@
 vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
   desc = "HADES file binds for r",
-  pattern = { "r", "rmd", "markdown" },
+  pattern = { "r", "rmd", "markdown", "quarto" },
   callback = function(ev)
     -- require("hades.config.keybinds.markdown").load_keys(ev)
     require("hades.config.keybinds_plugins.r").load_keys(ev)
@@ -23,6 +23,20 @@ vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
   callback = function(ev)
     vim.opt_local.foldmethod = "manual"
     require("hades.config.keybinds_plugins.markdown").load_keys(ev)
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "quarto", "markdown" },
+  callback = function()
+    -- Usa hover del LSP dentro de chunks
+    vim.keymap.set("n", "K", function()
+      local ok = require("otter").ask_hover()
+      if not ok then
+        -- fallback: docu de Quarto
+        vim.lsp.buf.hover()
+      end
+    end, { buffer = true, desc = "Hover contextual (Otter o Quarto)" })
   end,
 })
 
