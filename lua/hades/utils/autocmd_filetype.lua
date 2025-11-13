@@ -26,19 +26,19 @@ vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "quarto", "markdown" },
-  callback = function()
-    -- Usa hover del LSP dentro de chunks
-    vim.keymap.set("n", "K", function()
-      local ok = require("otter").ask_hover()
-      if not ok then
-        -- fallback: docu de Quarto
-        vim.lsp.buf.hover()
-      end
-    end, { buffer = true, desc = "Hover contextual (Otter o Quarto)" })
-  end,
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = { "quarto", "markdown" },
+--   callback = function()
+--     -- Usa hover del LSP dentro de chunks
+--     vim.keymap.set("n", "K", function()
+--       local ok = require("otter").ask_hover()
+--       if not ok then
+--         -- fallback: docu de Quarto
+--         vim.lsp.buf.hover()
+--       end
+--     end, { buffer = true, desc = "Hover contextual (Otter o Quarto)" })
+--   end,
+-- })
 
 -- vim.api.nvim_create_autocmd({ "FileType", "VimEnter", "BufEnter" }, {
 --   desc = "HADES file binds for python, quarto and markdown",

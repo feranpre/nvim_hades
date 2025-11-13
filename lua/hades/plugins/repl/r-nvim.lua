@@ -12,7 +12,7 @@ return {
     config = function()
       --   -- Create a table with the options to be passed to setup()
       local opts = {
-        R_args = { "--quiet --no-save" },
+        R_args = { "--quiet --no-save", "-e", "languageserver::run()" },
         -- assign = false, -- convert Meta-- to <-
         auto_quit = true,
         user_maps_only = true,

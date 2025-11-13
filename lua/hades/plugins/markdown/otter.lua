@@ -28,5 +28,6 @@ return {
       handle_leading_whitespace = true,
       supported_languages = { "python", "bash", "lua", "julia" },
     })
+    require("otter").activate({ "python", "r", "lua", "markdown" })
   end,
 }

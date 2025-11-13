@@ -54,7 +54,7 @@ $$
 asfsdf **sdfasdf**
 
 
-```{r}
+```r
 summary(mtcars)
 sumary(mtcars)
 
