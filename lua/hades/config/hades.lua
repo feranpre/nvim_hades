@@ -1,3 +1,7 @@
+-- TODO: capture colors from colorscheme automatically
+--
+-- NOTE: This is stolen from LazyVim config
+--
 return {
   leader = " ",
   localleader = ",",
@@ -9,9 +13,22 @@ return {
   -- end,
   -- colorscheme = "tokyonight-storm",
   colorscheme = "catppuccin-frappe",
-  -- colorscheme = "catppuccin-macchiato",
-  -- colorscheme = "kanagawa",
   -- colorscheme = "oldworld",
+
+  -- load the default settings
+  defaults = {
+    autocmds = true, -- lazyvim.config.autocmds
+    keymaps = true, -- lazyvim.config.keymaps
+    -- lazyvim.config.options can't be configured here since that's loaded before lazyvim setup
+    -- if you want to disable loading options, add `package.loaded["lazyvim.config.options"] = true` to the top of your init.lua
+  },
+  news = {
+    -- When enabled, NEWS.md will be shown when changed.
+    -- This only contains big new features and breaking changes.
+    lazyvim = true,
+    -- Same but for Neovim's news.txt
+    neovim = false,
+  },
   colors = {
     todo = {
       TODO = "#07EDED",
@@ -65,7 +82,7 @@ return {
       modified = " ",
       removed  = " ",
     },
-    cmp_icons = {
+cmp_icons = {
       cmp_r = "󰏿 ",
       nvim_lsp = "󰊕 ",
       spell = " ",
@@ -80,6 +97,7 @@ return {
       treesitter = "󱘎 ",
       calc = " ",
     },
+
     kinds = {
       Array         = " ",
       Boolean       = "󰨙 ",
@@ -119,7 +137,7 @@ return {
       Text          = " ",
       TypeParameter = " ",
       Unit          = " ",
-      Value         = "󰆼 ",
+      Value         = " ",
       Variable      = "󰀫 ",
     },
   },

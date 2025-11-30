@@ -1,10 +1,18 @@
+-- TODO: limpiar comentarios
+
 local keymap = require("hades.utils.keys").keymap
 local key_or_clue = require("hades.utils.keys").key_or_clue
+
 local opts = require("hades.utils.keys").opts
+-- local opts = { noremap = true, silent = true, desc = nil }
 
 if DEBUG then
   print("Loading keys")
 end
+key_or_clue("n", "<leader>[", "+ prev")
+key_or_clue("n", "<leader>]", "+ next")
+key_or_clue("n", "<localleader>[", "+ prev")
+key_or_clue("n", "<localleader>]", "+ next")
 
 keymap("n", "<leader>ll", "<cmd>Lazy<cr>", opts, "open [L]azy window")
 keymap("n", "<leader><leader>x", "<cmd>source %<cr>", opts, "e[x]ecute fiel (source)")
@@ -16,14 +24,10 @@ keymap("i", "kj", "<ESC>", opts, "exit insert mode")
 keymap("n", "<ESC>", "<cmd>nohl<cr>", opts, "remove hilights")
 
 -- Move down and center screen
+
 keymap("n", "<C-d>", "<C-d>zz", opts, "half-page down and center")
 keymap("n", "<C-u>", "<C-u>zz", opts, "half-page up and center")
-
--- Navigate buffers
-keymap("n", "<S-l>", "<cmd>bnext<CR>", opts, "next buffer")
-keymap("n", "<S-h>", "<cmd>bprevious<CR>", opts, "previous buffer")
-keymap("n", "<C-q>", "<cmd>q<CR>", opts, "[q]uit buffer")
-
+--
 -- save file
 keymap({ "i", "v", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", opts, "[s]ave file")
 keymap("n", "<leader>qq", "<cmd>qa<cr>", opts, "[q]uit all")
@@ -33,16 +37,25 @@ keymap({ "n", "v" }, "<leader>y", '"+y', opts, "[y]ank out of nvim")
 
 -- window creation
 key_or_clue("n", "<leader>w", "+[w]indow options")
-keymap("n", "<leader>ww", "<C-w>p", opts, "activate other [w]indow")
-keymap("n", "<leader>wd", "<C-w>c", opts, "[d]elete window")
-keymap("n", "<leader>w-", "<C-w>s", opts, "[s]plit window below")
-keymap("n", "<leader>w|", "<C-w>v", opts, "split window [v]ertical (right)")
+keymap("n", "<leader>ww", "<cmd>wincmd p<CR>", opts, "activate other [w]indow")
+keymap("n", "<leader>wd", "<cmd>wincmd c<CR>", opts, "[d]elete window")
+keymap("n", "<leader>w-", "<cmd>wincmd s<CR>", opts, "[s]plit window below")
+keymap("n", "<leader>w|", "<cmd>wincmd v<CR>", opts, "split window [v]ertical (right)")
 
--- move to window
-keymap("n", "<C-h>", "<C-w>h", opts, "go to left window")
-keymap("n", "<C-j>", "<C-w>j", opts, "go to the lower window")
-keymap("n", "<C-k>", "<C-w>k", opts, "got to the upper window")
-keymap("n", "<C-l>", "<C-w>l", opts, "go to the right window")
+
+-- window navigation
+keymap("n", "<C-w>h", "<cmd>wincmd h<CR>", opts, "go to left window")
+keymap("n", "<C-w>j", "<cmd>wincmd j<CR>", opts, "go to bottom window")
+keymap("n", "<C-w>k", "<cmd>wincmd k<CR>", opts, "go to top window")
+keymap("n", "<C-w>l", "<cmd>wincmd l<CR>", opts, "go to right window")
+
+keymap("n", "<C-h>", "<cmd>wincmd h<CR>", opts, "go to left window")
+keymap("n", "<C-j>", "<cmd>wincmd j<CR>", opts, "go to bottom window")
+keymap("n", "<C-k>", "<cmd>wincmd k<CR>", opts, "go to top window")
+keymap("n", "<C-l>", "<cmd>wincmd l<CR>", opts, "go to right window")
+
+
+
 
 -- window resize
 keymap("n", "<S-Up>", "<cmd>resize +2<CR>", opts, "resize window [u]p")
@@ -66,8 +79,14 @@ keymap("n", "<leader>wJ", "<C-w>J", opts, "move window to the bottom [<C-w>J]")
 keymap("n", "<leader>wL", "<C-w>L", opts, "move window to the left [<C-w>L]")
 keymap("n", "<leader>wH", "<C-w>H", opts, "move window to the right [<C-w>H]")
 
+
+-- Navigate buffers
+keymap("n", "<S-l>", "<cmd>bnext<CR>", opts, "next buffer")
+keymap("n", "<S-h>", "<cmd>bprevious<CR>", opts, "previous buffer")
+
 -- buffer
 key_or_clue("n", "<leader>b", "+[b]uffer options")
+keymap("n", "<C-q>", "<cmd>q<CR>", opts, "[q]uit buffer")
 keymap("n", "<leader>bd", "<cmd>bp<bar>sp<bar>bn<bar>bd<CR>", opts, "[b]uffer [d]elete")
 keymap("n", "<leader>bD", "<cmd>%bd|e#<CR>", opts, "[b]uffer [D]elete all but current")
 
@@ -94,10 +113,6 @@ keymap("n", "z=", "z=", opts, "check possible replacements for word (spelling)")
 -- TERMINAL --
 keymap("t", "<ESC>", [[<C-\><C-n>]], opts, "exit insertmode in terminal")
 
--- NUMBER INCREMENT --
-key_or_clue("x", "g<C-a>", "inc [++] num")
-key_or_clue("x", "g<C-x>", "dec [--] num")
-
 -- -- FOLD --
 -- -- Keymap for folding markdown headings of level 1 or above
 -- keymap("n", "zh4", function()
@@ -113,3 +128,39 @@ key_or_clue("x", "g<C-x>", "dec [--] num")
 -- end, opts, "fold [h]eaders lvl 2 and below")
 
 -- LSP --
+--
+key_or_clue("n", "<localleader>c", "+[c]ode")
+key_or_clue("n", "<localleader>cs", "+[c]ode [s]how")
+
+-- ACTION, format
+keymap("n", "<localleader>ca", vim.lsp.buf.code_action, opts, "[c]ode [a]ction")
+keymap({"n", "v"}, "<localleader>cf", vim.lsp.buf.format, opts, "[c]ode [f]ormat")
+
+-- REFERENCES
+keymap("n", "<localleader>csr", vim.lsp.buf.references, opts, "[c]ode [s]how [r]eferences")
+keymap("n", "grr", vim.lsp.buf.references, opts, "[s]how [r]eferences") -- show lsp implementations
+
+-- RENAME
+keymap("n", "<localleader>cr", vim.lsp.buf.rename, opts, "[c]ode [r]ename in scope")
+keymap("n", "grn", vim.lsp.buf.rename, opts, "[r]e[n]ame in scope")
+
+-- DEFINITIONS
+keymap("n", "<localleader>csD", vim.lsp.buf.declaration, opts, "[c]ode [s]show [D]efinitions")
+keymap("n", "gD", vim.lsp.buf.declaration, opts, "[g]o to [D]efinition")
+
+
+-- diagnostics
+keymap(
+  "n",
+  "<localleader>cd",
+  vim.diagnostic.open_float,
+  opts,
+  "[c]ode [d]iagnostics (line)"
+)
+
+keymap("n", "<leader>[d", vim.diagnostic.get_prev, opts, "[prev] [d]iagnostic")
+keymap("n", "<leader>]d", vim.diagnostic.get_next, opts, "[sig] [d]iagnostic")
+
+
+
+

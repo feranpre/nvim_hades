@@ -1,33 +1,108 @@
-# asdfasd
-sadfasd
+---
+title: "Prueba"
+subtitle: "sadf"
+author: "Fernando Andres-Pretel"
+format:
+  pdf:
+    documentclass: "article"
+    titlepage: true
+    toc: false
+    toc-depth: 3
+    numbersections: false
+    number-depth: 4
+    number-offset: 1
+    secnumberdepth: 1
+    colorlinks: true
+    mainfont: DejaVu Sans
+    mathfont: DejaVu Math TeX Gyre
+    monofont: Source Code Pro
+    geometry: a4paper
+    fontsize: 12pt
+    code-block-font-size: \scriptsize
+  html:
+    toc: true
+    code-fold: true
+    number-sections: true
+    number-offset: 1
+    shift-heading-level-by: -1
+    embed-resources: true
+    self-contained-math: true
+pandoc-latex-environment:
+  noteblock: [note]
+  tipblock: [tip]
+  warningblock: [warning]
+  cautionblock: [caution]
+  importantblock: [important]
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .qmd
+      format_name: quarto
+      format_version: "1.0"
+      jupytext_version: 1.16.6
+  kernelspec:
+    display_name: Python 3
+    language: python
+    name: python3
+---
+\pagebreak
+```{=latex}
+\clearpage
+{
+\hypersetup{linkcolor=blue}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+```
+\pagebreak
+
+
+\pagebreak
+# asdfasd daflsfdsdfasd
+
+    
+
+
+| Operación   | Orden | Repetición | Formula                                                                                                                |
+| :---------- | :---: | :--------: | ---------------------------------------------------------------------------------------------------------------------- |
+| Permutación |  Si   |     No     | $P(n)=n!$                                                                                                              |
+| Permutación |  Si   |     Si     | $P(n)=\frac{n!}{r_1! \cdot r_2! \cdot ... \cdot r_m!}$ Donde $r_m$ son los elementos repetidos (ANA) sería $2!\cdot1!$ |
+| Combinación |  No   |     No     | $C(n,k)=\frac{n!}{k!(n-k)!}$                                                                                           |
+| Combinación |  No   |     Si     | $C(n,k)=\frac{(k+n+1)!}{k!(k-1)!}$                                                                                     |
+| Variación   |  No   |     No     | $V(n,k)=\frac{n!}{(n-k)!}$                                                                                             |
+| Variación   |  No   |     Si     | $V(n,k)=n^k$                                                                                                           |
+
+
 
 ## sub-section about R
+
 Unordered list:
+
 - item 1
     - item 1
         - item 1
 - item 2
-- item 3
-- item 4
 - item 5
+- asdf  
+
+
+
 
 ### even further subsection
 
 Ordered list:
+
 1. item 1
 2. item 2
-3. item 3
-4. item 4
 5. item 5
 
 Task list:
+
 - [ ] Item 1
     - [x] sub item 
     - [ ] sub item 
     - [ ] sub item 
 - [ ] Item 2
-- [ ] Item 3
-- [ ] Item 4
 - [ ] Item 5
 
 
@@ -35,7 +110,7 @@ Task list:
 
 ```{r}
 summary(mtcars)
-sumary(mtcars)
+# sumary(mtcars)
 
 x = 5
 
@@ -48,10 +123,11 @@ sadf
 
 
 ```{python}
-summary(mtcars)
-sumary(mtcars)
+# summary(mtcars)
+# sumary(mtcars)
 
 x = 5
+print(f"{x}")
 
 ```
 

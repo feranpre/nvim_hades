@@ -75,6 +75,10 @@
         "path": "./quarto/quarto_base.json"
       },
       {
+        "language": "quarto",
+        "path": "./markdown/yaml.json"
+      },
+      {
         "language": "rmd",
         "path": "./rmd/rmd.json"
       },

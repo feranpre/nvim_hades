@@ -1,6 +1,7 @@
 local M = {}
 M.opts = { noremap = true, silent = true, desc = nil }
 
+
 function M.unbind_key(mode, key, buffer)
   if buffer then
     -- Check for buffer-local keymap
@@ -129,5 +130,6 @@ function M.key_or_clue_buffer(buffer, mode, key, description)
     vim.notify("Neither 'which-key' nor 'mini.clues' is loaded", vim.log.levels.WARN)
   end
 end
+
 
 return M

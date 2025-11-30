@@ -16,8 +16,8 @@ return {
         nerd_font_variant = "mono",
       },
       sources = {
-        -- default = { "snippets", "cmp_r", "lazydev", "lsp", "otter", "references", "spell", "path", "buffer" },
-        default = { "snippets", "cmp_r", "lsp", "otter", "spell", "path", "buffer" },
+        -- default = { "snippets", "cmp_r", "lsp", "otter", "spell", "path", "buffer" },
+        default = { "snippets", "lsp", "spell", "path", "buffer" },
         providers = {
           lsp = {
             name = "LSP",
@@ -28,24 +28,24 @@ return {
             module = "lazydev.integrations.blink",
             score_offset = 100,
           },
-          cmp_r = {
-            name = "cmp_r",
-            module = "blink.compat.source",
-            opts = {
-              filetypes = { "r", "rmd" },
-            },
-          },
-          otter = {
-            name = "otter",
-            module = "blink.compat.source",
-            opts = {
-              filetypes = { "quarto" },
-            },
-          },
-          references = {
-            name = "pandoc_references",
-            module = "cmp-pandoc-references.blink",
-          },
+          -- cmp_r = {
+          --   name = "cmp_r",
+          --   module = "blink.compat.source",
+          --   opts = {
+          --     filetypes = { "r", "rmd" },
+          --   },
+          -- },
+          -- otter = {
+          --   name = "otter",
+          --   module = "blink.compat.source",
+          --   opts = {
+          --     filetypes = { "quarto" },
+          --   },
+          -- },
+          -- references = {
+          --   name = "pandoc_references",
+          --   module = "cmp-pandoc-references.blink",
+          -- },
           spell = {
             name = "Spell",
             module = "blink-cmp-spell",
@@ -76,13 +76,14 @@ return {
         menu = {
           border = "single",
           draw = {
+            columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
             treesitter = { "lsp" },
             components = {
               kind_icon = {
                 text = function(ctx)
                   -- local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
-                  -- local kind_icon, _, _ = Hades.icons.kinds[ctx.kind]
-                  -- return kind_icon
+                  local kind_icon, _, _ = Hades.icons.kinds[ctx.kind]
+                  return kind_icon
                 end,
                 -- (optional) use highlights from mini.icons
                 -- highlight = function(ctx)

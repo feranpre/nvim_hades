@@ -4,12 +4,11 @@
 local M = {}
 
 function M.load_keys(ev)
-  if IsModuleAvailable("R") then
     local opts = require("hades.utils.keys").opts
     local keymap_buffer = require("hades.utils.keys").keymap_buffer
 
     -- if wk ~= nil then
-    --   local b_opts = { buffer = ev.buf }
+    --   local b_opts = { buffer = 0 }
     --   vim.keymap.set("n", "<localleader>", function()
     --     require("which-key").show(",")
     --   end, { buffer = true })
@@ -21,9 +20,10 @@ function M.load_keys(ev)
     -- end
 
     -- start/stop R
-    keymap_buffer(ev.buf, "n", "<localleader>rs", "<Plug>RStart<cr>", opts, "[s]tart R console")
-    keymap_buffer(ev.buf, "n", "<localleader>rq", "<Plug>RClose<cr>", opts, "[q]uit R console (no save)")
-    keymap_buffer(ev.buf, "n", "<localleader>rw", "<Plug>RSaveClose<cr>", opts, "quit and [w]rite R console")
+    vim.api.nvim_buf_set_keymap(ev.buf, "n", "<localleader>rs", "<Plug>RStart", {noremap = true})
+    keymap_buffer(ev.buf, "n", "<localleader>rs", "<Plug>RStart", opts, "[s]tart R console")
+    keymap_buffer(ev.buf, "n", "<localleader>rq", "<Plug>RClose", opts, "[q]uit R console (no save)")
+    keymap_buffer(ev.buf, "n", "<localleader>rw", "<Plug>RSaveClose", opts, "quit and [w]rite R console")
 
     -- console
     keymap_buffer(ev.buf, "n", "<localleader>rl", "<Plug>RClearConsole<cr>", opts, "c[l]ear the R console")
@@ -37,6 +37,7 @@ function M.load_keys(ev)
     keymap_buffer(ev.buf, "n", "<localleader>sf", "<Plug>RSendFile", opts, "send [f]ile")
 
     -- Quarto
+    -- keymap_buffer(ev.buf, "i", "<C-i>", "<Plug>RmdInsertChunk", opts, "[q]uarto [i]nsert chunk")
     keymap_buffer(ev.buf, "n", "<localleader>qp", "<Plug>RQuartoPreview", opts, "[q]uarto [p]review")
     keymap_buffer(ev.buf, "n", "<localleader>qs", "<Plug>RQuartoStop", opts, "[q]uarto [s]top")
     keymap_buffer(ev.buf, "n", "<localleader>qr", "<Plug>RQuartoRender", opts, "[q]uarto [r]ender")
@@ -47,7 +48,7 @@ function M.load_keys(ev)
     keymap_buffer(ev.buf, "n", "<localleader>vd", "<Plug>RViewDFa", opts, "[v]iew [d]ata.frame head")
 
     keymap_buffer(
-      ev.buf,
+      0,
       "n",
       "<localleader>kr",
       '<cmd>lua require("hades.utils.r_commands").rmarkdown_render("' .. vim.fn.expand("%:p") .. '")<CR>',
@@ -56,7 +57,7 @@ function M.load_keys(ev)
     )
 
     keymap_buffer(
-      ev.buf,
+      0,
       "n",
       "<localleader>kh",
       -- '<cmd>lua require("hades.utils.r_commands").spin_r("' .. vim.fn.expand("%:p") .. '", "html")<CR>',
@@ -68,13 +69,13 @@ function M.load_keys(ev)
     )
 
     keymap_buffer(
-      ev.buf,
+      0,
       "n",
       "<localleader>kp",
-      -- '<cmd>lua require("hades.utils.r_commands").spin_r("' .. vim.fn.expand("%:p") .. '", "pdf")<CR>',
-      '<cmd>lua require("hades.utils.r_commands").rmarkdown_render("'
-        .. vim.fn.expand("%:p")
-        .. '")<CR>',
+      '<cmd>lua require("hades.utils.r_commands").spin_r("' .. vim.fn.expand("%:p") .. '", "pdf")<CR>',
+      -- '<cmd>lua require("hades.utils.r_commands").rmarkdown_render("'
+      --   .. vim.fn.expand("%:p")
+      --   .. '")<CR>',
       opts,
       "[k]nit [p]df"
     )
@@ -83,7 +84,7 @@ function M.load_keys(ev)
     -- Build
 
     keymap_buffer(
-      ev.buf,
+      0,
       "n",
       "<localleader>bl",
       "<cmd>lua require('r.send').cmd('devtools::load_all()')<CR>",
@@ -91,7 +92,7 @@ function M.load_keys(ev)
       "[l]oad all files"
     )
     keymap_buffer(
-      ev.buf,
+      0,
       "n",
       "<localleader>bb",
       "<cmd>lua require('r.send').cmd('devtools::build()')<CR>",
@@ -99,7 +100,7 @@ function M.load_keys(ev)
       "[b]uild pkg"
     )
     keymap_buffer(
-      ev.buf,
+      0,
       "n",
       "<localleader>bt",
       "<cmd>lua require('r.send').cmd('devtools::test()')<CR>",
@@ -107,7 +108,7 @@ function M.load_keys(ev)
       "[t]est pkg"
     )
     keymap_buffer(
-      ev.buf,
+      0,
       "n",
       "<localleader>bT",
       string.format("<cmd>lua require('r.send').cmd('usethis::use_test(\"%s\")')<CR>", vim.fn.expand("%:t")),
@@ -115,7 +116,7 @@ function M.load_keys(ev)
       "create [T]est for file"
     )
     keymap_buffer(
-      ev.buf,
+      0,
       "n",
       "<localleader>bi",
       "<cmd>lua require('r.send').cmd('devtools::install(args = \"--preclean --with-keep.source --no-multiarch\")')<CR>",
@@ -124,7 +125,7 @@ function M.load_keys(ev)
     )
 
     keymap_buffer(
-      ev.buf,
+      0,
       "n",
       "<localleader>bd",
       '<cmd>lua require(\'r.send\').cmd(\'devtools::document(roclets = c("rd", "collate", "namespace", "vignette"))\')<CR>',
@@ -134,6 +135,5 @@ function M.load_keys(ev)
 
     -- Objects
     keymap_buffer(ev.buf, "n", "<localleader>o", "<Plug>ROBToggle", opts, "[o]bject inspector toggle")
-  end
 end
 return M

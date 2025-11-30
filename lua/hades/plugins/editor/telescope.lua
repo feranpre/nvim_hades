@@ -55,8 +55,10 @@ return {
       },
     })
 
-    telescope.load_extension("notify")
+    -- local is_plugin = require("hades.utils.keys").isModuleAvailable("nvim-notify")
+    -- telescope.load_extension("notify")
     -- telescope.load_extension('fzf')
     -- telescope.load_extension("zotero")
+    require("hades.config.keybinds_plugins.telescope")
   end,
 }

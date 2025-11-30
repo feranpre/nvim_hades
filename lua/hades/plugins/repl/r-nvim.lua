@@ -1,22 +1,17 @@
 return {
   {
     "R-nvim/R.nvim",
-    -- 'jalvesaq/Nvim-R', -- this plugin is obsolete
     enabled = true,
     lazy = false,
     dependencies = {
       "R-nvim/cmp-r",
-      "nvim-treesitter/nvim-treesitter-textobjects", -- BROKEN
-      -- "hrsh7th/nvim-cmp",
+      "hrsh7th/nvim-cmp",
     },
     config = function()
-      --   -- Create a table with the options to be passed to setup()
       local opts = {
-        R_args = { "--quiet --no-save", "-e", "languageserver::run()" },
-        -- assign = false, -- convert Meta-- to <-
+        R_args = { "--quiet --no-save"},
         auto_quit = true,
         user_maps_only = true,
-
         Rout_more_colors = true,
         rconsole_width = 40,
         objbr_allnames = true,
@@ -25,61 +20,24 @@ return {
         objbr_opendf = false,
         objbr_openlist = false,
         objbr_place = "console,below",
-        -- hook = {
-        --             on_filetype = function(ev)
-        --                 -- require("hades.keybinds.molten").load_keys(ev)
-        --                 require("hades.config.keybinds_plugins.r").load_keys(ev)
-        --             end
+       -- hook = {
+        --    on_filetype = function()
+        --        -- require("hades.plugins.keybinds.r").load_keys(ev)
+        --        require("hades.plugins.keybinds.r").load_keys()
+        --    end
         -- },
-
-        -- TMUX
-        -- external_term = false,
-        -- external_term = "tmux split-window -h -l 80",
-        -- external_term = "alacritty",
-        -- config_tmux = true,
-
-        --   objbr_w = 40,
-        -- auto_quit = true,
-        -- RStudio_cmd = '/usr/lib/rstudio',
-        --   hook = {
-        --     after_config = function()
-        --       local keymap = require('hades.misc.utils').keymap
-        --       local opts = { noremap = true, silent = true, desc = nil }
-        --
-        --       keymap('n', '<LocalLeader>la', '<cmd>call SendCmndToR('devtools::load_all()')<cr>', opts, '[L]oad all')
-        --       -- This function will be called at the FileType event
-        --       -- of files supported by R.nvim. This is an
-        --       -- opportunity to create mappings local to buffers.
-        --       if vim.o.syntax ~= 'rbrowser' then
-        --         vim.api.nvim_buf_set_keymap(0, 'n', '<Enter>', '<Plug>RDSendLine', {})
-        --         vim.api.nvim_buf_set_keymap(0, 'v', '<Enter>', '<Plug>RSendSelection', {})
-        --       end
-        --     end,
-        --   },
-        --   min_editor_width = 72,
-        --   rconsole_width = 78,
-        --   disable_cmds = {
-        --     'RClearConsole',
-        --     'RCustomStart',
-        --     'RSPlot',
-        --     'RSaveClose',
-        --   },
       }
-      --   -- Check if the environment variable 'R_AUTO_START' exists.
-      --   -- If using fish shell, you could put in your config.fish:
-      --   -- alias r 'R_AUTO_START=true nvim'
-      -- if vim.env.R_AUTO_START == 'true' then
-      --   opts.auto_start = 1
-      --   opts.objbr_auto_start = true
-      -- end
       require("r").setup(opts)
-    end,
-  },
-}
 
+
+    end,
+}
+}
+-- }
 --
--- -----------------------------------------------------------------
---         R.nvim documentation
+-- --
+-- -- -----------------------------------------------------------------
+-- --         R.nvim documentation
 -- -----------------------------------------------------------------
 --
 --

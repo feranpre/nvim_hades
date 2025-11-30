@@ -5,17 +5,17 @@ vim.lsp.enable({
   "markdown",
 })
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
-      vim.opt.completeopt = { "menu", "menuone", "noinsert", "fuzzy", "popup" }
-      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-      require("hades.config.keybinds_plugins.lsp").load_keys(ev)
-    end
-  end,
-})
-
+-- vim.api.nvim_create_autocmd("LspAttach", {
+--   callback = function(ev)
+--     local client = vim.lsp.get_client_by_id(ev.data.client_id)
+--     if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_completion) then
+--       vim.opt.completeopt = { "menu", "menuone", "noinsert", "fuzzy", "popup" }
+--       vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+--       -- require("hades.config.keybinds_plugins.lsp").load_keys(ev)
+--     end
+--   end,
+-- })
+--
 
 local signs = Hades.icons.diagnostics
 
@@ -33,7 +33,7 @@ end
 
 -- Diagnostics
 vim.diagnostic.config({
-    virtual_text = false,  -- no inline diagnostics
+  virtual_text = false,  -- no inline diagnostics
   signs = true,          -- keep signs in the gutter
   underline = true,      -- underline problematic code
   update_in_insert = false, -- don’t update while typing

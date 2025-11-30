@@ -5,13 +5,13 @@ return {
   lazy = false,
   name = "catppuccin",
   pritority = 1000,
-  -- opts = {
-  --   integrations = {
+  opts = {
+    -- integrations = {
   --     -- Can disable the theme for neotree so its the same color as the right panel
   --     neotree = true,
   --   },
-  --   custom_highlights = function(colors)
-  --     return {
+    custom_highlights = function(colors)
+      return {
   --
   --       -- Chages the color on a little line on the left side of the currently
   --       -- selected tab
@@ -29,6 +29,10 @@ return {
   --
   --       -- horizontal line that goes across where cursor is
   --       CursorLine = { bg = "#3f404f" },
+           CursorLine = { bg = "#3f404f" },
+           -- CursorLineNr = { fg = "#CF3A46" },
+           -- LineNr = { fg = "#fcd253" },
+           LineNr = { fg = "#bfa04c" },
   --       -- CursorLine = { bg = "#ff2800" },
   --
   --       -- Color of repeated words
@@ -62,7 +66,7 @@ return {
   --       --     TabLineSel = { bg = colors.pink },
   --       --     CmpBorder = { fg = colors.surface2 },
   --       --     Pmenu = { bg = colors.none },
-  --     }
-  --   end,
-  -- },
+       }
+    end,
+  },
 }

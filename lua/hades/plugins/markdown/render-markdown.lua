@@ -23,7 +23,10 @@ return {
       code = {
         enabled = true,
         sign = true,
-      }
+      },
+      latex = {
+        enabled = false,
+      },
 
     })
   end,

@@ -1,6 +1,6 @@
 {
   "rcode": {
-    "prefix": "rcode",
+    "prefix": "_code_r",
     "body": [
               "```{r} ", 
               "#| echo: false ", 
@@ -12,14 +12,8 @@
             ],
     "description": "r code"
   },
-  "rchunk": {
-    "prefix": "rchunk",
-    "body": ["```{r}", "#| echo: false ", "#| results: 'asis'", "$1", "```"],
-    "description": "rchunk"
-  },
-
   "rfig": {
-    "prefix": "rfig",
+    "prefix": "_code_r_fig",
     "body": [
       "```{r}",
       "#| echo: false ",

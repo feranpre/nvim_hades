@@ -1,10 +1,10 @@
 {
   "code_python": {
-    "prefix": ["_py_code_chunk_min"],
+    "prefix": ["_code_py_chunk_min"],
     "body": ["```{python}", "${1:code}", "```"]
   },
   "code_python_extr": {
-    "prefix": ["_py_code_chunk_full"],
+    "prefix": ["_code_py_chunk_full"],
     "body": [
       "```{python}",
       "#| echo: false ",
@@ -20,7 +20,6 @@
       "```"
     ]
   },
-
   "iframe": {
     "prefix": ["iframe"],
     "body": [
@@ -247,6 +246,7 @@
     "prefix": "bib"
   },
   "diary header": {
+    "prefix": ["_yaml_min"],
     "body": ["---", "title: \"$1\"", "date: \"$2\"", "categories: [$3]", "---"],
     "description": "Add minimal yaml header",
     "prefix": "diary"
