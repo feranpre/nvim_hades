@@ -32,6 +32,7 @@ DEBUG = true
 
 
 require("hades.config.keybinds")
+
 require("hades.config.lsp")
 
 vim.cmd.colorscheme(Hades.colorscheme)

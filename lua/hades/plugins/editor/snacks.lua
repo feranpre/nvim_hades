@@ -18,7 +18,7 @@ return {
           " ░  ░░ ░  ░   ▒    ░ ░  ░    ░   ░  ░  ░  ",
           " ░  ░  ░      ░  ░   ░       ░  ░      ░  ",
           "                   ░                      ",
-          "      v0.6                         "
+          "      v0.7                         "
             .. string.format("Neovim v%d.%d.%d", vim.version().major, vim.version().minor, vim.version().patch),
         }, "\n"),
         sections = {
@@ -42,4 +42,7 @@ return {
     statuscolumn = { enabled = true },
     words = { enabled = true },
   },
+  config = function()
+    require("hades.config.keybinds_plugins.snacks")
+  end
 }
