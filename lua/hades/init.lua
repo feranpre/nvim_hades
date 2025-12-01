@@ -25,7 +25,7 @@ require("lazy").setup({
   { import = "hades.plugins.repl" },
 })
 
-DEBUG = true
+DEBUG = false
 
 
 -- Molten_or_Slime = "slime"
