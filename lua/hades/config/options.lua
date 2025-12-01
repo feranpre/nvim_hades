@@ -6,6 +6,7 @@ vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" }) -- transparencia para pop
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.termguicolors = true
+vim.opt.emoji = true
 vim.opt.colorcolumn = "100" -- draw line at column x
 -- vim.opt.colorcolumn = {'80','120'} -- if you want multiple  color columns
 vim.opt.cursorline = true

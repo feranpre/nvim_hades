@@ -1,8 +1,10 @@
 return {
   "folke/snacks.nvim",
+  
   priority = 1000,
   lazy = false,
-  opts = {
+  config = function()
+    local opts = {
     bigfile = { enabled = true },
     dashboard = {
       enabled = true,
@@ -41,8 +43,8 @@ return {
     scroll = { enabled = false },
     statuscolumn = { enabled = true },
     words = { enabled = true },
-  },
-  config = function()
+  }
     require("hades.config.keybinds_plugins.snacks")
+    require("snacks").setup(opts)
   end
 }
