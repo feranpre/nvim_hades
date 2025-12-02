@@ -33,7 +33,7 @@ return {
       },
     },
     explorer = { enabled = false },
-    image = { enabled = true },
+    image = { enabled = false },
     indent = { enabled = true },
     input = { enabled = true },
     picker = { enabled = false },
