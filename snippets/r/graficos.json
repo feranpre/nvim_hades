@@ -1,12 +1,27 @@
 {
   "graph_save_tiff": {
-    "prefix": "_gg_save_tiff",
+    "prefix": ["_gg_save_tiff", "_img_tiff"],
     "body": [
       "tiff(file = \"./GRAFICOS/grafico_radar.tiff\",",
       "     width = 20, height = 20, units = \"cm\", res = 300)"
     ],
     "description": "Save a graph in tiff format"
   },
+  "graph_save_png": {
+    "prefix": ["_gg_save_png", "_img_png"],
+    "body": [
+      "ggsave(",
+      "      filename = \"mi_grafico.png\",",
+      "      plot     = g1,        # opcional; si lo omites usa el último gráfico",
+      "      width    = 16,        # ancho",
+      "      height   = 14,        # alto",
+      "      units    = \"cm\",     # in, cm o mm",
+      "      dpi      = 300       # resolución",
+      "    )"
+    ],
+    "description": "Save a graph in tiff format"
+  },
+
   "gg_boxplot": {
     "prefix": "_gg_boxplot",
     "body": [
