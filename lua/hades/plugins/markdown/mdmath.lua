@@ -4,7 +4,7 @@ return {
         'nvim-treesitter/nvim-treesitter',
     },
     opts = {
-      filetypes = {"markdown", "quarto","r"}
+      filetypes = {"markdown", "quarto"}
 
     }
 }
