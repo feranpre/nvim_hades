@@ -203,7 +203,7 @@
             "#+ , results = 'asis', error = TRUE,  eval =TRUE, echo = FALSE, message = FALSE, warning = FALSE, fig.width = 25, fig.height = 25, unit = 'cm', comment = ''",
             "SURVIVAL <- DATOS",
             "SURVIVAL\\$TIEMPO <- DATOS\\$TIEMPO_SURV",
-            "SURVIVAL\\$EXITUS <- !is.na(DATOS\\$FECHA_MORTALIDAD)",
+            "SURVIVAL\\$EXITUS <- as.numeric(!is.na(DATOS\\$FECHA_MORTALIDAD))",
             "",
             "knitr::kable(udaicR::freq(SURVIVAL, EXITUS))",
             "",
