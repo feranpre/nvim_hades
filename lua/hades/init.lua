@@ -1,6 +1,5 @@
 -- TODO: sadfasdf
 
-
 -- Remap space as leader key
 vim.g.mapleader = " "
 
@@ -17,19 +16,17 @@ IsModuleAvailable = require("hades.utils.module_available").isModuleAvailable
 
 require("hades.lazy")
 require("lazy").setup({
-  { import = "hades.plugins.lsp" },
-  { import = "hades.plugins.code" },
-  { import = "hades.plugins.editor" },
-  { import = "hades.plugins.colorschemes" },
-  { import = "hades.plugins.markdown" },
-  { import = "hades.plugins.repl" },
+	{ import = "hades.plugins.lsp" },
+	{ import = "hades.plugins.code" },
+	{ import = "hades.plugins.editor" },
+	{ import = "hades.plugins.colorschemes" },
+	{ import = "hades.plugins.markdown" },
+	{ import = "hades.plugins.repl" },
 })
 
 DEBUG = false
 
-
 -- Molten_or_Slime = "slime"
-
 
 require("hades.config.keybinds")
 
@@ -38,6 +35,9 @@ require("hades.config.lsp")
 vim.cmd.colorscheme(Hades.colorscheme)
 
 require("hades.autocmd.filetype")
+require("hades.autocmd.on_save")
+require("hades.autocmd.commands")
+
 --require("hades.plugins.keybinds")
 -- require("hades.utils.utils").load_colorscheme(Hades)
 

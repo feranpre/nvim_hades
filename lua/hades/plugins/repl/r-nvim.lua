@@ -1,37 +1,35 @@
 return {
-  {
-    "R-nvim/R.nvim",
-    enabled = true,
-    lazy = false,
-    dependencies = {
-      "R-nvim/cmp-r",
-      "hrsh7th/nvim-cmp",
-    },
-    config = function()
-      local opts = {
-        R_args = { "--quiet --no-save"},
-        auto_quit = true,
-        user_maps_only = true,
-        Rout_more_colors = true,
-        rconsole_width = 40,
-        objbr_allnames = true,
-        objbr_auto_start = false,
-        objbr_h = 10,
-        objbr_opendf = false,
-        objbr_openlist = false,
-        objbr_place = "console,below",
-       -- hook = {
-        --    on_filetype = function()
-        --        -- require("hades.plugins.keybinds.r").load_keys(ev)
-        --        require("hades.plugins.keybinds.r").load_keys()
-        --    end
-        -- },
-      }
-      require("r").setup(opts)
-
-
-    end,
-}
+	{
+		"R-nvim/R.nvim",
+		enabled = true,
+		lazy = false,
+		dependencies = {
+			"R-nvim/cmp-r",
+			"hrsh7th/nvim-cmp",
+		},
+		config = function()
+			local opts = {
+				R_args = { "--quiet --no-save" },
+				auto_quit = true,
+				user_maps_only = true,
+				Rout_more_colors = true,
+				rconsole_width = 40,
+				objbr_allnames = true,
+				objbr_auto_start = false,
+				objbr_h = 10,
+				objbr_opendf = false,
+				objbr_openlist = false,
+				objbr_place = "console,below",
+				-- hook = {
+				--    on_filetype = function()
+				--        -- require("hades.plugins.keybinds.r").load_keys(ev)
+				--        require("hades.plugins.keybinds.r").load_keys()
+				--    end
+				-- },
+			}
+			require("r").setup(opts)
+		end,
+	},
 }
 -- }
 --
