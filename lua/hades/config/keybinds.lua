@@ -7,7 +7,7 @@ local opts = require("hades.utils.keys").opts
 -- local opts = { noremap = true, silent = true, desc = nil }
 
 if DEBUG then
-  print("Loading keys")
+	print("Loading keys")
 end
 key_or_clue("n", "<leader>[", "+ prev")
 key_or_clue("n", "<leader>]", "+ next")
@@ -19,9 +19,9 @@ keymap("n", "<leader><leader>x", "<cmd>source %<cr>", opts, "e[x]ecute fiel (sou
 
 -- Press jk fast to enter
 keymap("i", "kj", "<ESC>", opts, "exit insert mode")
--- keymap("n", "kj", "<ESC>", opts, "ESC")
--- keymap("v", "kj", "<ESC>", opts, "ESC")
 keymap("n", "<ESC>", "<cmd>nohl<cr>", opts, "remove hilights")
+keymap("n", "<S-j>", "0", opts, "go begining of line")
+keymap("n", "<S-k>", "$", opts, "go to end of line")
 
 -- Move down and center screen
 
@@ -42,7 +42,6 @@ keymap("n", "<leader>wd", "<cmd>wincmd c<CR>", opts, "[d]elete window")
 keymap("n", "<leader>w-", "<cmd>wincmd s<CR>", opts, "[s]plit window below")
 keymap("n", "<leader>w|", "<cmd>wincmd v<CR>", opts, "split window [v]ertical (right)")
 
-
 -- window navigation
 keymap("n", "<C-w>h", "<cmd>wincmd h<CR>", opts, "go to left window")
 keymap("n", "<C-w>j", "<cmd>wincmd j<CR>", opts, "go to bottom window")
@@ -53,9 +52,6 @@ keymap("n", "<C-h>", "<cmd>wincmd h<CR>", opts, "go to left window")
 keymap("n", "<C-j>", "<cmd>wincmd j<CR>", opts, "go to bottom window")
 keymap("n", "<C-k>", "<cmd>wincmd k<CR>", opts, "go to top window")
 keymap("n", "<C-l>", "<cmd>wincmd l<CR>", opts, "go to right window")
-
-
-
 
 -- window resize
 keymap("n", "<S-Up>", "<cmd>resize +2<CR>", opts, "resize window [u]p")
@@ -78,7 +74,6 @@ keymap("n", "<leader>wK", "<C-w>K", opts, "move window to the top [<C-w>K]")
 keymap("n", "<leader>wJ", "<C-w>J", opts, "move window to the bottom [<C-w>J]")
 keymap("n", "<leader>wL", "<C-w>L", opts, "move window to the left [<C-w>L]")
 keymap("n", "<leader>wH", "<C-w>H", opts, "move window to the right [<C-w>H]")
-
 
 -- Navigate buffers
 keymap("n", "<S-l>", "<cmd>bnext<CR>", opts, "next buffer")
@@ -134,7 +129,7 @@ key_or_clue("n", "<localleader>cs", "+[c]ode [s]how")
 
 -- ACTION, format
 keymap("n", "<localleader>ca", vim.lsp.buf.code_action, opts, "[c]ode [a]ction")
-keymap({"n", "v"}, "<localleader>cf", vim.lsp.buf.format, opts, "[c]ode [f]ormat")
+keymap({ "n", "v" }, "<localleader>cf", vim.lsp.buf.format, opts, "[c]ode [f]ormat")
 
 -- REFERENCES
 keymap("n", "<localleader>csr", vim.lsp.buf.references, opts, "[c]ode [s]how [r]eferences")
@@ -148,19 +143,8 @@ keymap("n", "grn", vim.lsp.buf.rename, opts, "[r]e[n]ame in scope")
 keymap("n", "<localleader>csD", vim.lsp.buf.declaration, opts, "[c]ode [s]show [D]efinitions")
 keymap("n", "gD", vim.lsp.buf.declaration, opts, "[g]o to [D]efinition")
 
-
 -- diagnostics
-keymap(
-  "n",
-  "<localleader>cd",
-  vim.diagnostic.open_float,
-  opts,
-  "[c]ode [d]iagnostics (line)"
-)
+keymap("n", "<localleader>cd", vim.diagnostic.open_float, opts, "[c]ode [d]iagnostics (line)")
 
 keymap("n", "<leader>[d", vim.diagnostic.get_prev, opts, "[prev] [d]iagnostic")
 keymap("n", "<leader>]d", vim.diagnostic.get_next, opts, "[sig] [d]iagnostic")
-
-
-
-
