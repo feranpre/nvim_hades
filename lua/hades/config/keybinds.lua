@@ -20,8 +20,8 @@ keymap("n", "<leader><leader>x", "<cmd>source %<cr>", opts, "e[x]ecute fiel (sou
 -- Press jk fast to enter
 keymap("i", "kj", "<ESC>", opts, "exit insert mode")
 keymap("n", "<ESC>", "<cmd>nohl<cr>", opts, "remove hilights")
-keymap("n", "<S-j>", "0", opts, "go begining of line")
-keymap("n", "<S-k>", "$", opts, "go to end of line")
+-- keymap("n", "<S-j>", "0", opts, "go begining of line")
+-- keymap("n", "<S-k>", "$", opts, "go to end of line")
 
 -- Move down and center screen
 
