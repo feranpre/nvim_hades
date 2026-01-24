@@ -24,6 +24,7 @@
       "header-includes:",
       "- |",
       "  ```{=latex}",
+      "  \\PassOptionsToPackage{top=2cm, bottom=2cm, left=2.5cm, right=2.5cm}{geometry}",
       "  \\usepackage{awesomebox}",
       "  \\providecommand{\\pandocbounded}[1]{#1}",
       "  ```",
