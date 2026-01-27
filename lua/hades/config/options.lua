@@ -26,7 +26,6 @@ vim.opt.shiftwidth = 2 -- number of spaces for each level of indentation
 vim.opt.expandtab = true -- spaces instead of tabs
 
 vim.opt.smartindent = true -- indents code 'smartly'
-vim.opt.wrap = false -- don't wrap lines
 vim.opt.formatoptions = "cqrnjt"
 -- vim.opt.formatoptions = "cqrnj"
 
@@ -83,7 +82,12 @@ vim.opt.title = true
 -- ---------------------------------------- TEXT
 vim.opt.spell = true
 vim.opt.spelllang = { "en_us", "es_es" }
-vim.opt.textwidth = 80
+
+vim.opt.textwidth = 0
+-- --- wrapping
+vim.opt.wrap = true -- don't wrap lines
+vim.opt.wrapmargin = 0
+vim.opt.linebreak = true -- break whole words
 
 -- ---------------------------------------- CONCEAL
 
