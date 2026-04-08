@@ -8,7 +8,7 @@
       "DATOS.LIMPIOS <- na.omit(DATOS[,variables.reg])",
       "cat('\\n **Categorías de la variable resultado**: ', levels(factor(unlist(DATOS[, variables.reg[1]]))),'\\n')",
       "cat('\\nLa primera categoría es la referencia y la segunda es el resultado\\n\\n')",
-      "cat(paste0('\\n\\n- ', levels(factor(DATOS.LIMPIOS[, variables.reg[1]]))))",
+      "cat(paste0('\\n\\n- ', levels(factor(DATOS.LIMPIOS[[variables.reg[1]]]))))",
       "#' ## Modelo saturado",
       "#'",
       "#'",
