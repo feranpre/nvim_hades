@@ -1,10 +1,12 @@
 return {
-    "OXY2DEV/markview.nvim",
-    lazy = false,
-    opts = {
-      latex = {
-        enable = false
-      }
-    }
-
-};
+	"OXY2DEV/markview.nvim",
+	lazy = false,
+	opts = {
+		latex = {
+			enable = false,
+		},
+		preview = {
+			icons = "mini",
+		},
+	},
+}
