@@ -1,7 +1,8 @@
----@diagnostic disable: missing-fields
+-:lua print(vim.treesitter.get_parser)--@diagnostic disable: missing-fields
 return {
 	"nvim-treesitter/nvim-treesitter",
 	enabled = true,
+  branch = "main",
 	build = ":TSUpdate",
 	lazy = false,
 	config = function()

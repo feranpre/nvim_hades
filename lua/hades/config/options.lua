@@ -27,7 +27,7 @@ vim.opt.shiftwidth = 2 -- number of spaces for each level of indentation
 vim.opt.expandtab = true -- spaces instead of tabs
 
 vim.opt.smartindent = true -- indents code 'smartly'
-vim.opt.wrap = false -- don't wrap lines
+vim.opt.wrap = true -- don't wrap lines
 vim.opt.formatoptions = "cqrnj"
 
 -- ---------------------------------------- SEARCHES
@@ -55,7 +55,7 @@ vim.opt.clipboard:append("unnamedplus") -- clipboard to copy in and out of vim
 vim.opt.modifiable = true -- buffers are by default 'modifiable'
 vim.opt.confirm = true -- Confirm to save changes before exiting modified buffer
 vim.opt.guicursor =
-  "n-v-c:block,i-ci-ve:ver25-Cursor/lCursor,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
+	"n-v-c:block,i-ci-ve:ver25-Cursor/lCursor,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 -- vim.opt.guicursor = 'n-v-c:block,i-ci-ve:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175'
 vim.opt.encoding = "UTF-8"
 vim.opt.showmode = false
