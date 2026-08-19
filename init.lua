@@ -4,7 +4,7 @@ require("config.options")
 require("config.autocmds")
 -- require("config.commands")
 require("config.diagnostics")
-require("config.theme")
+Hades = require("config.hades")
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -54,3 +54,5 @@ require("config.lsp").setup()
 require("config.folding").setup()
 
 require("config.keymaps")
+
+vim.cmd.colorscheme(Hades.colorscheme)

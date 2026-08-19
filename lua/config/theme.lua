@@ -8,6 +8,7 @@
 local M = {}
 
 -- M.current = "dracula"
-M.current = "tokyonight-storm"
+-- M.current = "tokyonight-storm"
+M.current = "catppuccin-frappe"
 
 return M

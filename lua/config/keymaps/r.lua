@@ -1,4 +1,5 @@
 local keys = require("config.utils.keymaps")
+local r = require("config.r")
 
 local M = {}
 
@@ -6,6 +7,7 @@ function M.setup(buf)
 	---------------------------------------------------------------------------
 	-- R console
 	---------------------------------------------------------------------------
+	keys.buffer_group(buf, "n", "<localleader>r", "[r]un / execute")
 
 	keys.buffer(buf, "n", "<localleader>rs", "<Plug>RStart", "[s]tart R console")
 
@@ -27,6 +29,10 @@ function M.setup(buf)
 
 	keys.buffer(buf, "n", "<localleader>rf", "<Plug>RSendFile", "run [f]ile")
 
+	keys.buffer(buf, "n", "<S-Enter>", function()
+		require("config.utils.r_send").smart()
+	end, "smart run")
+
 	---------------------------------------------------------------------------
 	-- Objects
 	---------------------------------------------------------------------------
@@ -38,6 +44,43 @@ function M.setup(buf)
 	keys.buffer(buf, "n", "<localleader>vd", "<Plug>RViewDFa", "[v]iew [d]ata.frame")
 
 	keys.buffer(buf, "n", "<localleader>o", "<Plug>ROBToggle", "[o]bject inspector")
+
+	---------------------------------------------------------------------------
+	-- R package development
+	---------------------------------------------------------------------------
+	keys.buffer_group(buf, "n", "<localleader>b", "[b]uild / package")
+
+	keys.buffer(buf, "n", "<localleader>bb", r.package_build, "[b]uild package")
+
+	keys.buffer(buf, "n", "<localleader>bc", r.package_check, "[c]heck package")
+
+	-- keys.buffer(buf, "n", "<localleader>bi", r.package_install, "[i]nstall package")
+	keys.buffer(
+		buf,
+		"n",
+		"<localleader>bi",
+		"<cmd>lua require('r.send').cmd('devtools::install(args = \"--preclean --with-keep.source --no-multiarch\")')<CR>",
+		"[i]nstall package"
+	)
+
+	-- keys.buffer(buf, "n", "<localleader>bl", r.package_load_all, "[l]oad package")
+	keys.buffer(
+		buf,
+		"n",
+		"<localleader>bl",
+		"<cmd>lua require('r.send').cmd('devtools::load_all()')<CR>",
+		"[l]oad package"
+	)
+
+	keys.buffer(buf, "n", "<localleader>bd", r.package_document, "[d]ocument package")
+
+	keys.buffer(buf, "n", "<localleader>bn", r.package_new_test, "[n]ew test")
+
+	keys.buffer(buf, "n", "<localleader>bt", r.package_test_file, "[t]est current file")
+
+	keys.buffer(buf, "n", "<localleader>bT", r.package_test, "[T]est package")
+
+	keys.buffer(buf, "n", "<localleader>bC", r.package_coverage, "[C]overage")
 end
 
 return M
