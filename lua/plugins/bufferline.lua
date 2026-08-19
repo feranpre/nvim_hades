@@ -26,7 +26,10 @@ return {
 				show_close_icon = false,
 
 				show_buffer_icons = true,
-				show_buffer_default_icon = true,
+
+				get_element_icon = function(buf)
+					return require("nvim-web-devicons").get_icon(buf.path, buf.extension, { default = false })
+				end,
 
 				diagnostics = "nvim_lsp",
 				diagnostics_update_in_insert = false,
