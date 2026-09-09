@@ -1,3 +1,18 @@
+-- ---------------------------------------------------
+-- OJO
+-- ---------------------------------------------------
+-- For this to work consistently it requires R to use
+-- the user home to install packages.
+--
+-- This is as easy as adding
+-- R_LIBS_USER=~/.local/lib/R/library
+--
+-- To ~/.Renviron
+--
+-- That's it
+--
+-- ---------------------------------------------------
+
 return {
 	{
 		"R-nvim/R.nvim",
