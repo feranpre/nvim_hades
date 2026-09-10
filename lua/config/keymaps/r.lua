@@ -81,6 +81,15 @@ function M.setup(buf)
 	keys.buffer(buf, "n", "<localleader>bT", r.package_test, "[T]est package")
 
 	keys.buffer(buf, "n", "<localleader>bC", r.package_coverage, "[C]overage")
+
+	-- Knit
+	keys.buffer(
+		buf,
+		"n",
+		"<localleader>kh",
+		"<cmd>lua require('r.send').cmd('knitr::spin(\"' .. vim.api.nvim_buf_get_name(0) .. '\")')<CR>",
+		"[s]pin R to HTML"
+	)
 end
 
 return M
