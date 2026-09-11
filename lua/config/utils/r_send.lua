@@ -1,3 +1,4 @@
+-- r_send.lua
 local M = {}
 
 local function send_range(start_line, end_line)
@@ -10,6 +11,12 @@ local function send_range(start_line, end_line)
 	local code = table.concat(lines, "\n")
 
 	require("r.send").cmd(code)
+end
+
+local function move_cursor_after(end_line)
+	local last_line = vim.api.nvim_buf_line_count(0)
+	local target = math.min(end_line + 1, last_line)
+	vim.api.nvim_win_set_cursor(0, { target, 0 })
 end
 
 local function current_line()
@@ -34,6 +41,8 @@ local function paragraph()
 	end
 
 	send_range(start, finish)
+
+	return finish
 end
 
 local function quarto_chunk()
@@ -71,95 +80,146 @@ local function quarto_chunk()
 
 	send_range(start, finish)
 
-	return true
+	-- +1 para saltar el ``` de cierre.
+	return finish + 1
 end
 
 ---------------------------------------------------------------------------
 -- Treesitter
 ---------------------------------------------------------------------------
 
-local function get_node_at_cursor()
-	local ok, node = pcall(vim.treesitter.get_node)
-
-	if not ok then
-		return nil
-	end
-
-	return node
+local function is_blank(line)
+	return line == nil or line:match("^%s*$") ~= nil
 end
 
-local function find_function_node(node)
-	while node do
-		local type = node:type()
+-- Encuentra el "parrafo" de statements de nivel superior bajo el cursor:
+-- junta hermanos consecutivos mientras NO haya una linea en blanco real
+-- entre ellos. Si el statement es un bloque (for/if/function/while), sus
+-- lineas en blanco internas no cuentan como separador porque son un unico
+-- nodo, no varios hermanos.
+local function block_range()
+	local parser = vim.treesitter.get_parser(0, "r")
 
-		-- R Treesitter parser uses this node for function definitions.
-		if type == "function_definition" then
-			return node
+	if not parser then
+		return false
+	end
+
+	local tree = parser:parse()[1]
+	local root = tree:root()
+
+	local cursor_row = vim.api.nvim_win_get_cursor(0)[1] - 1
+
+	local children = {}
+
+	for child in root:iter_children() do
+		if child:named() then
+			table.insert(children, child)
+		end
+	end
+
+	local idx = nil
+
+	for i, child in ipairs(children) do
+		local start_row, _, end_row, _ = child:range()
+
+		if cursor_row >= start_row and cursor_row <= end_row then
+			idx = i
+			break
+		end
+	end
+
+	if not idx then
+		return false
+	end
+
+	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+	local function gap_has_blank(end_row_a, start_row_b)
+		for row = end_row_a + 1, start_row_b - 1 do
+			if is_blank(lines[row + 1]) then
+				return true
+			end
 		end
 
-		node = node:parent()
-	end
-
-	return nil
-end
-
-local function function_range()
-	local node = get_node_at_cursor()
-
-	if not node then
 		return false
 	end
 
-	local func = find_function_node(node)
+	local start_idx = idx
+	local finish_idx = idx
 
-	if not func then
-		return false
+	while start_idx > 1 do
+		local prev_end_row = select(3, children[start_idx - 1]:range())
+		local cur_start_row = select(1, children[start_idx]:range())
+
+		if gap_has_blank(prev_end_row, cur_start_row) then
+			break
+		end
+
+		start_idx = start_idx - 1
 	end
 
-	local start_row, _, end_row, _ = func:range()
+	while finish_idx < #children do
+		local cur_end_row = select(3, children[finish_idx]:range())
+		local next_start_row = select(1, children[finish_idx + 1]:range())
 
-	-- Treesitter uses zero-based rows.
+		if gap_has_blank(cur_end_row, next_start_row) then
+			break
+		end
+
+		finish_idx = finish_idx + 1
+	end
+
+	local start_row = select(1, children[start_idx]:range())
+	local end_row = select(3, children[finish_idx]:range())
+
 	send_range(start_row + 1, end_row + 1)
 
-	return true
+	return end_row + 1
 end
 
 ---------------------------------------------------------------------------
--- Smart execution
+-- Ejecutar solo la linea (S-Enter)
 ---------------------------------------------------------------------------
+function M.line()
+	local row = vim.api.nvim_win_get_cursor(0)[1]
 
+	current_line()
+	move_cursor_after(row)
+end
+
+---------------------------------------------------------------------------
+-- Ejecutar bloque y bajar cursor (C-Enter)
+---------------------------------------------------------------------------
 function M.smart()
 	local ft = vim.bo.filetype
-
-	-----------------------------------------------------------------------
-	-- Quarto / R Markdown
-	-----------------------------------------------------------------------
+	local end_line = nil
 
 	if ft == "quarto" or ft == "rmd" then
-		if quarto_chunk() then
+		end_line = quarto_chunk()
+
+		if end_line then
+			move_cursor_after(end_line)
 			return
 		end
 	end
 
-	-----------------------------------------------------------------------
-	-- R function
-	-----------------------------------------------------------------------
-
 	if ft == "r" then
-		if function_range() then
+		end_line = block_range()
+
+		if end_line then
+			move_cursor_after(end_line)
 			return
 		end
 
-		paragraph()
+		end_line = paragraph()
+		move_cursor_after(end_line)
 
 		return
 	end
 
-	-----------------------------------------------------------------------
-	-- Fallback
-	-----------------------------------------------------------------------
-
+	local row = vim.api.nvim_win_get_cursor(0)[1]
 	current_line()
+	move_cursor_after(row)
 end
 
 return M

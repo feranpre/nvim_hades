@@ -30,8 +30,12 @@ function M.setup(buf)
 	keys.buffer(buf, "n", "<localleader>rf", "<Plug>RSendFile", "run [f]ile")
 
 	keys.buffer(buf, "n", "<S-Enter>", function()
+		require("config.utils.r_send").line()
+	end, "run current line")
+
+	keys.buffer(buf, "n", "<C-CR>", function()
 		require("config.utils.r_send").smart()
-	end, "smart run")
+	end, "smart run block + move down")
 
 	---------------------------------------------------------------------------
 	-- Objects
@@ -82,14 +86,26 @@ function M.setup(buf)
 
 	keys.buffer(buf, "n", "<localleader>bC", r.package_coverage, "[C]overage")
 
-	-- Knit
-	keys.buffer(
-		buf,
-		"n",
-		"<localleader>kh",
-		"<cmd>lua require('r.send').cmd('knitr::spin(\"' .. vim.api.nvim_buf_get_name(0) .. '\")')<CR>",
-		"[s]pin R to HTML"
-	)
+	---------------------------------------------------------------------------
+	-- Knit / export
+	---------------------------------------------------------------------------
+	keys.buffer_group(buf, "n", "<localleader>k", "[k]nit / export")
+
+	keys.buffer(buf, "n", "<localleader>kh", function()
+		require("config.utils.r_commands").spin_r(vim.api.nvim_buf_get_name(0), "html")
+	end, "[k]nit to [h]tml")
+
+	keys.buffer(buf, "n", "<localleader>kp", function()
+		require("config.utils.r_commands").spin_r(vim.api.nvim_buf_get_name(0), "pdf")
+	end, "[k]nit to [p]df")
+
+	---------------------------------------------------------------------------
+	-- Misc
+	---------------------------------------------------------------------------
+
+	keys.buffer(buf, "n", "<localleader>bs", function()
+		require("config.utils.r_commands").format()
+	end, "[s]tyle file")
 end
 
 return M
