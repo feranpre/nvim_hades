@@ -1,5 +1,5 @@
 local keys = require("config.utils.keymaps")
-local r = require("config.r")
+local r = require("config.utils.r_commands")
 
 local M = {}
 
