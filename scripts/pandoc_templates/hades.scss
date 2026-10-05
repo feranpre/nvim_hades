@@ -1,0 +1,78 @@
+/*-- scss:defaults --*/
+// hades.scss — tema de Quarto para los HTML exportados desde Neovim
+// (se usa sobre el tema "cosmo"). Color principal: #9b5de5
+
+$primary: #9b5de5;
+$hades-dark: #4b2a7a;
+$hades-mid: #7b3fc9;
+$hades-light: #f6f1fd;
+
+$body-color: #1f1830;
+$link-color: $hades-mid;
+$headings-color: $hades-dark;
+
+$code-color: $hades-dark;
+$code-bg: $hades-light;
+$code-block-bg: $hades-light;
+$code-block-border-left: $primary;
+
+$callout-color-note: #0096c7;
+$callout-color-tip: #00a884;
+$callout-color-important: #9b5de5;
+$callout-color-warning: #e09f00;
+$callout-color-caution: #d0213b;
+
+$toc-color: $hades-mid;
+
+/*-- scss:rules --*/
+
+#title-block-header {
+  border-top: 6px solid $primary;
+  border-bottom: 1px solid $primary;
+  padding-top: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+#title-block-header .title {
+  color: $hades-dark;
+  font-weight: 700;
+}
+
+#title-block-header .subtitle {
+  color: $hades-mid;
+}
+
+h2 {
+  border-bottom: 2px solid $primary;
+  padding-bottom: 0.3rem;
+}
+
+h3 {
+  color: $hades-mid;
+}
+
+.header-section-number {
+  color: $primary;
+}
+
+ul li::marker {
+  color: $primary;
+}
+
+blockquote {
+  border-left: 4px solid $primary;
+  background: $hades-light;
+  padding: 0.6rem 1rem;
+  color: #5f5a6b;
+}
+
+table thead th,
+.table > thead > tr > th {
+  background: $primary;
+  color: #fff;
+}
+
+.figure-caption,
+figcaption {
+  color: #5f5a6b;
+}

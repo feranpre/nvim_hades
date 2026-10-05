@@ -44,9 +44,10 @@ vim.api.nvim_create_autocmd("FileType", {
 		-- Generic folding keymaps
 		require("config.keymaps.folding").setup(buf)
 
-		-- Markdown-style section folding
+		-- Markdown-style section folding + exportación a pdf/html
 		if ft == "markdown" or ft == "quarto" or ft == "rmd" then
 			require("config.utils.markdown_folding").setup()
+			require("config.keymaps.export").setup(buf)
 		end
 
 		-- R

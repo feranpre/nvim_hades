@@ -10,9 +10,9 @@ local fold_nodes = {
 }
 
 local function get_fold_level(lnum)
-	local parser = vim.treesitter.get_parser(0, vim.bo.filetype)
+	local ok, parser = pcall(vim.treesitter.get_parser, 0)
 
-	if not parser then
+	if not ok or not parser then
 		return 0
 	end
 
@@ -50,10 +50,10 @@ end
 
 function M.setup()
 	vim.api.nvim_create_autocmd("FileType", {
+		-- rmd / quarto no van aquí: se pliegan por encabezados
+		-- (config.utils.markdown_folding)
 		pattern = {
 			"r",
-			"rmd",
-			"quarto",
 			"python",
 			"lua",
 			"javascript",
@@ -61,7 +61,7 @@ function M.setup()
 			"c",
 			"cpp",
 			"rust",
-			"bash",
+			"sh",
 		},
 
 		callback = function()

@@ -54,5 +54,6 @@ require("config.lsp").setup()
 require("config.folding").setup()
 
 require("config.keymaps")
+require("config.utils.export").create_command()
 
 vim.cmd.colorscheme(Hades.colorscheme)

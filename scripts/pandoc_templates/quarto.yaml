@@ -1,0 +1,54 @@
+# Opciones que md_to_pdf.py pasa a `quarto render` (--metadata-file) al
+# exportar .qmd / .Rmd. ${.} se sustituye por la carpeta de este fichero y
+# ${rel} por esa misma carpeta relativa al documento (quarto solo encuentra
+# los .theme de highlight-style con una ruta relativa al documento).
+# Lo que pongas en el YAML del propio documento tiene prioridad.
+
+format:
+  pdf:
+    documentclass: article
+    papersize: a4
+    fontsize: 11pt
+    geometry:
+      - top=2.5cm
+      - bottom=2.5cm
+      - left=2.5cm
+      - right=2.5cm
+    linestretch: 1.15
+    colorlinks: true
+    linkcolor: hadesmid
+    urlcolor: hadesprimary
+    citecolor: hadesmid
+    filecolor: hadesmid
+    toccolor: hadesdark
+    subparagraph: true
+    include-in-header:
+      - file: ${.}/hades.tex
+    highlight-style: ${rel}/hades.theme
+
+  html:
+    theme:
+      - cosmo
+      - ${.}/hades.scss
+    embed-resources: true
+    html-math-method: mathml
+    highlight-style: ${rel}/hades.theme
+
+# Textos en castellano sin depender de babel
+language:
+  toc-title-document: Índice
+  crossref-fig-title: Figura
+  crossref-tbl-title: Tabla
+  crossref-lst-title: Listado
+  crossref-eq-prefix: Ecuación
+  crossref-fig-prefix: Figura
+  crossref-tbl-prefix: Tabla
+  title-block-author-single: Autor
+  title-block-author-plural: Autores
+  title-block-published: Fecha
+  callout-note-title: Nota
+  callout-tip-title: Consejo
+  callout-important-title: Importante
+  callout-warning-title: Atención
+  callout-caution-title: Precaución
+  code-summary: Código

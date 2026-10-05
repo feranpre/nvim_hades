@@ -3,13 +3,11 @@ return {
 		"R-nvim/R.nvim",
 		enabled = true,
 		lazy = false,
-		dependencies = {
-			"R-nvim/cmp-r",
-			"hrsh7th/nvim-cmp",
-		},
+		-- El autocompletado de R lo da el servidor de lenguaje integrado de
+		-- R.nvim (lo recoge blink.cmp como fuente "lsp"); cmp-r ya no hace falta.
 		config = function()
 			local opts = {
-				R_args = { "--quiet --no-save" },
+				R_args = { "--quiet", "--no-save" },
 				auto_quit = true,
 				user_maps_only = true,
 				Rout_more_colors = true,

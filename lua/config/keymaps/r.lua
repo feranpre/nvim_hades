@@ -15,7 +15,7 @@ function M.setup(buf)
 
 	keys.buffer(buf, "n", "<localleader>rw", "<Plug>RSaveClose", "quit and [w]rite R console")
 
-	keys.buffer(buf, "n", "<localleader>rc", "<Plug>RClearConsole<CR>", "clear R [c]onsole")
+	keys.buffer(buf, "n", "<localleader>rc", "<Plug>RClearConsole", "clear R [c]onsole")
 
 	---------------------------------------------------------------------------
 	-- Execution
