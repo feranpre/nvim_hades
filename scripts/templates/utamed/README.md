@@ -18,19 +18,26 @@ archivo `.bib`.
 
 ## 1. Contenido del kit
 
+El kit forma parte de la configuración de Neovim (`nvim_hades`):
+
 ```
-plantilla_utamed/
-├── template.tex        # Plantilla LaTeX para pandoc (el "diseño")
-├── cajas.lua            # Filtro pandoc: traduce ::: {.resumen} ::: a cajas de color
-├── apa.csl               # Estilo de citas APA 7ª edición (oficial, CSL project)
-├── referencias.bib      # Bibliografía de ejemplo (referencias reales, con DOI)
-├── ejemplo_unidad.md    # Markdown de ejemplo que usa todos los elementos
-├── build_pdf.py         # Script Python que ejecuta pandoc con las opciones correctas
-└── README.md            # Este archivo
+~/.config/nvim/scripts/
+├── utamed_pdf.py              # el script que ejecuta pandoc
+└── templates/utamed/          # archivos de soporte
+    ├── template.tex           # Plantilla LaTeX para pandoc (el "diseño")
+    ├── cajas.lua              # Filtro pandoc: traduce ::: {.resumen} ::: a cajas de color
+    ├── apa.csl                # Estilo de citas APA 7ª edición (oficial, CSL project)
+    ├── referencias.bib        # Bibliografía de ejemplo (referencias reales, con DOI)
+    ├── ejemplo_unidad.md      # Markdown de ejemplo que usa todos los elementos
+    └── README.md              # Este archivo
 ```
 
-Guarda estos 6 archivos siempre juntos en la misma carpeta (o en la carpeta
-raíz de tu asignatura) — `build_pdf.py` los busca junto a sí mismo.
+`utamed_pdf.py` busca los archivos de soporte en `templates/utamed/` junto a
+sí mismo, sin importar desde qué carpeta lo ejecutes. Si alguna vez quieres
+tener la carpeta de soporte en otro sitio, indícalo con
+`--support-dir /ruta/a/utamed` o exportando `UTAMED_PSICOLOGIA_DIR=/ruta/a/utamed`.
+
+Desde Neovim, en un buffer markdown: `<localleader>ku`.
 
 ---
 
@@ -67,35 +74,38 @@ fc-list | grep -i "fira sans\|lato"    # confirma si las instalaste
 
 ## 3. Uso básico
 
+Desde **cualquier carpeta** (por ejemplo, la de tus apuntes de la
+asignatura, no la de `templates/utamed/`):
+
 ```bash
-cd plantilla_utamed/
-python3 build_pdf.py ejemplo_unidad.md
-# → genera ejemplo_unidad.pdf en la misma carpeta
+python3 ~/.config/nvim/scripts/utamed_pdf.py unidad_1.md
+# → genera unidad_1.pdf en la misma carpeta, usando por defecto
+#   ~/.config/nvim/scripts/templates/utamed/{template.tex,cajas.lua,apa.csl}
+
+# Si tu unidad usa bibliografía, recuerda tener tu propio referencias.bib
+# (o el .bib que uses) junto al .md, o apuntar a él con --bib
 ```
 
 Otras formas de uso:
 
 ```bash
 # Ruta de salida distinta
-python3 build_pdf.py unidad_1.md -o pdf/unidad_1.pdf
+utamed_pdf.py unidad_1.md -o pdf/unidad_1.pdf
 
 # Varias unidades de una vez
-python3 build_pdf.py unidad_1.md unidad_2.md unidad_3.md
+utamed_pdf.py unidad_1.md unidad_2.md unidad_3.md
 
 # Sin bibliografía (ignora citas @clave aunque existan)
-python3 build_pdf.py unidad_1.md --sin-bibliografia
+utamed_pdf.py unidad_1.md --sin-bibliografia
 
 # Recompilar automáticamente cada vez que guardas el .md (útil mientras escribes)
-python3 build_pdf.py unidad_1.md --watch
+utamed_pdf.py unidad_1.md --watch
+
+# Si moviste la carpeta de soporte a otro sitio
+utamed_pdf.py unidad_1.md --support-dir /ruta/a/utamed
 
 # Pasar argumentos extra directamente a pandoc
-python3 build_pdf.py unidad_1.md -- --toc-depth=2
-```
-
-Hazlo ejecutable si quieres invocarlo como `./build_pdf.py unidad_1.md`:
-
-```bash
-chmod +x build_pdf.py
+utamed_pdf.py unidad_1.md -- --toc-depth=2
 ```
 
 ---
@@ -250,22 +260,32 @@ el nombre exacto de la fuente que tengas instalada (tal y como aparece en
 ## 10. Solución de problemas
 
 **"Undefined control sequence... \tightlist" o errores similares al
-compilar tu propio `.tex` manual**: usa siempre `build_pdf.py`, no invoques
+compilar tu propio `.tex` manual**: usa siempre `utamed_pdf.py`, no invoques
 `xelatex` directamente sobre el `.md`; el script añade automáticamente el
 filtro `cajas.lua` y las extensiones de pandoc necesarias.
 
 **Los acentos/ñ no se ven bien**: asegúrate de guardar tus `.md` en UTF-8
 (por defecto en la mayoría de editores en Linux).
 
-**"No se encuentra la plantilla LaTeX"**: ejecuta el script desde dentro de
-la carpeta `plantilla_utamed/`, o pasa rutas absolutas a tus `.md`.
+**"Faltan archivos del kit de plantilla"**: por defecto se buscan en
+`~/.config/nvim/scripts/templates/utamed/`. Comprueba que copiaste allí
+`template.tex`, `cajas.lua` y `apa.csl` (§1), o usa `--support-dir` /
+`UTAMED_PSICOLOGIA_DIR` si los tienes en otra ruta.
 
 **Quiero previsualizar rápido sin instalar TeX Live completo**: no es
 posible evitarlo del todo (XeLaTeX es necesario para las fuentes OpenType y
 las cajas de color), pero `texlive-basic` + los paquetes indicados en el
 §2 son suficientes; no hace falta `texlive-full`.
 
-**Avisos de `mktextfm`/`METAFONT` en la consola al compilar**: son un
-efecto colateral inofensivo de la detección automática de fuentes
-(`\IfFontExistsTF`) cuando una fuente no está instalada; no indican un
-error real si al final ves "✓ PDF generado".
+**Avisos de `mktextfm`/`METAFONT` en la consola al compilar**: `utamed_pdf.py`
+ya desactiva esto (`MKTEXTFM=0`) para que la comprobación automática de
+fuentes no dispare intentos de generar fuentes bitmap; si aun así los ves
+(por ejemplo, compilando el `.tex` a mano sin pasar por el script), son un
+efecto colateral inofensivo de `\IfFontExistsTF` cuando una fuente no está
+instalada — no indican un error real si al final ves "✓ PDF generado".
+
+**"LaTeX Error: No counter 'none' defined" / errores en tablas con
+`\real{...}`**: corregido en esta versión (el paquete `calc`, necesario
+para los anchos de columna que genera pandoc, estaba cargado solo
+condicionalmente). Si ves este error, asegúrate de estar usando la versión
+más reciente de `template.tex` de este kit.
