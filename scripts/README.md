@@ -10,6 +10,7 @@ cada script busca sus plantillas relativas a sí mismo, así que no dependen de
 | `md_to_pdf.py`  | Markdown → PDF (pandoc + xelatex, eisvogel)      | `<localleader>kp`  |
 | `md_to_html.py` | Markdown → HTML autocontenido (bootstrap)        | `<localleader>kh`  |
 | `utamed_pdf.py` | Markdown → PDF con el estilo de las unidades UTAMED | `<localleader>ku`  |
+| `pandoc_to_pdf.py` | Markdown → PDF respetando `number-offset` del YAML | —                |
 
 ## templates
 
