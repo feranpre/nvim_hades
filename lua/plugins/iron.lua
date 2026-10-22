@@ -23,6 +23,12 @@ return {
 								"ipython",
 							},
 						},
+
+						sh = {
+							command = {
+								"bash",
+							},
+						},
 					},
 
 					repl_open_cmd = require("iron.view").split.vertical.botright(0.4),
