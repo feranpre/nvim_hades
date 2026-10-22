@@ -7,8 +7,6 @@ function M.setup(buf)
 		require("config.utils.markdown_runner").run_cell()
 	end, "smart run [c]ell")
 
-	keys.buffer(buf, "n", "<localleader>ft", "za", "toggle [f]old")
-
 	---------------------------------------------------------------------------
 	-- Export (pandoc, scripts en <config>/scripts)
 	---------------------------------------------------------------------------
