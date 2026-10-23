@@ -28,6 +28,14 @@ return {
 						{ icon = " ", key = "r", desc = "Recent files", action = ":Telescope oldfiles" },
 						{ icon = " ", key = "g", desc = "Grep text", action = ":Telescope live_grep" },
 						{
+							icon = "󰐨 ",
+							key = "s",
+							desc = "New presentation",
+							action = function()
+								require("config.utils.slides").new()
+							end,
+						},
+						{
 							icon = " ",
 							key = "c",
 							desc = "Config",

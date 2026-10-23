@@ -9,12 +9,24 @@ function M.setup(buf)
 	---------------------------------------------------------------------------
 	-- Quarto document
 	---------------------------------------------------------------------------
+	keys.buffer_group(buf, "n", "<localleader>q", "[q]uarto")
 
 	keys.buffer(buf, "n", "<localleader>qr", "<cmd>QuartoRender<CR>", "[q]uarto [r]ender")
 
 	keys.buffer(buf, "n", "<localleader>qp", "<cmd>QuartoPreview<CR>", "[q]uarto [p]review")
 
 	keys.buffer(buf, "n", "<localleader>qs", "<cmd>QuartoClosePreview<CR>", "[q]uarto [s]top preview")
+
+	---------------------------------------------------------------------------
+	-- Presentaciones (reveal.js, plantilla en <config>/scripts/templates/slides)
+	---------------------------------------------------------------------------
+	local slides = require("config.utils.slides")
+
+	keys.buffer(buf, "n", "<localleader>qn", slides.new, "[n]ew presentation")
+
+	keys.buffer(buf, "n", "<localleader>qh", slides.html, "slides to [h]tml")
+
+	keys.buffer(buf, "n", "<localleader>qP", slides.pdf, "slides to [P]DF (decktape)")
 
 	---------------------------------------------------------------------------
 	-- Code
