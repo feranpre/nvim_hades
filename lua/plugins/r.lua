@@ -3,6 +3,11 @@ return {
 		"R-nvim/R.nvim",
 		enabled = true,
 		lazy = false,
+		init = function()
+			-- R.nvim también en markdown, para ejecutar bloques de R con la
+			-- misma sesión que en los .R (ver config.keymaps.chunk)
+			vim.g.R_filetypes = { "r", "rmd", "quarto", "rnoweb", "rhelp", "typst", "markdown" }
+		end,
 		dependencies = {
 			"R-nvim/cmp-r",
 			"hrsh7th/nvim-cmp",

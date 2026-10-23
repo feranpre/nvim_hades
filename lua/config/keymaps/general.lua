@@ -10,6 +10,9 @@ keys.map("i", "kj", "<Esc>", "escape insert mode")
 -- salir
 ---------------------------------------------------------------------------
 keys.map("n", "<leader>qq", "<cmd>qa<CR>", "[q]uit [q]uit Neovim")
+keys.map("n", "<leader>qn", function()
+	require("config.utils.slides").new()
+end, "[n]ew presentation (quarto)")
 
 ---------------------------------------------------------------------------
 -- windows

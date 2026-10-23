@@ -3,6 +3,8 @@ local keys = require("config.utils.keymaps")
 local M = {}
 
 function M.setup(buf)
+	keys.buffer_group(buf, "n", "<localleader>f", "[f]old")
+
 	keys.buffer(buf, "n", "<localleader>ft", "za", "[t]oggle fold")
 
 	keys.buffer(buf, "n", "<localleader>fo", "zo", "[o]pen fold")

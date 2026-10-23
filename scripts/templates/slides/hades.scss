@@ -1,0 +1,195 @@
+/*-- scss:defaults --*/
+
+// Paleta de los apuntes (scripts/templates/utamed/template.tex)
+$navy: #151A30;
+$navy-light: #21294A;
+$accent: #348ECA;
+$accent-dark: #1C6396;
+$box-bg: #DFE8F2;
+$example-bg: #EAF4F0;
+$example-bar: #389678;
+$note-bg: #FFF4E0;
+$note-bar: #C98A20;
+$def-bg: #EDE9F7;
+$def-bar: #6E50B4;
+$body-text: #232328;
+
+// Tipografía: Fira Sans en titulares, Lato en el texto (si no están
+// instaladas, el navegador usa las alternativas)
+$font-family-sans-serif: "Lato", "Carlito", "Liberation Sans", "Helvetica Neue", Arial, sans-serif;
+$presentation-heading-font: "Fira Sans", "Liberation Sans", Arial, sans-serif;
+$presentation-heading-font-weight: 600;
+$presentation-heading-text-transform: none;
+$presentation-font-size-root: 34px;
+$presentation-h1-font-size: 2.2em;
+$presentation-h2-font-size: 1.5em;
+$presentation-h3-font-size: 1.15em;
+
+$body-bg: #FFFFFF;
+$body-color: $body-text;
+$link-color: $accent-dark;
+$presentation-heading-color: $navy;
+$code-block-bg: #F5F5F8;
+$code-block-border-color: lighten($accent, 30%);
+$code-block-font-size: 0.6em;
+$code-color: $accent-dark;
+
+/*-- scss:rules --*/
+
+// Titulares con el prefijo "/" de las unidades
+.reveal h2::before {
+  content: "/ ";
+  color: $accent;
+}
+
+// "##" sin título (p. ej. imagen a pantalla completa)
+.reveal h2:empty {
+  display: none;
+}
+
+.reveal h2 {
+  border-bottom: 3px solid $accent;
+  padding-bottom: 0.15em;
+  margin-bottom: 0.6em;
+}
+
+.reveal h3 {
+  color: $accent;
+}
+
+// Portada y diapositivas de sección (fondo navy, ver el YAML y los "#")
+.reveal #title-slide,
+.reveal section.level1.title-slide,
+.reveal section.has-dark-background {
+  h1,
+  h2,
+  h3,
+  p,
+  .subtitle,
+  .quarto-title-author-name,
+  .date {
+    color: #FFFFFF;
+  }
+
+  h2::before {
+    content: none;
+  }
+
+  h2 {
+    border-bottom: none;
+  }
+}
+
+.reveal #title-slide {
+  text-align: left;
+
+  .title {
+    font-size: 2.1em;
+    border-left: 12px solid $accent;
+    padding-left: 0.5em;
+  }
+
+  .title::before {
+    content: "/ ";
+    color: $accent;
+  }
+
+  .subtitle {
+    color: lighten($accent, 20%);
+    padding-left: 1.2em;
+  }
+
+  .quarto-title-authors,
+  .date {
+    justify-content: flex-start;
+    padding-left: 1.2em;
+    font-size: 0.8em;
+  }
+
+  .quarto-title-author {
+    padding-left: 0;
+  }
+}
+
+.reveal section.level1.title-slide h1 {
+  border-left: 12px solid $accent;
+  padding-left: 0.5em;
+}
+
+// Cajas como las de los apuntes: ::: {.resumen}, {.ejemplo}, {.definicion}, {.nota}
+@mixin caja($bg, $bar) {
+  background: $bg;
+  border-left: 8px solid $bar;
+  border-radius: 6px;
+  padding: 0.5em 0.8em;
+  margin: 0.5em 0;
+  font-size: 0.85em;
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.reveal .resumen {
+  @include caja($box-bg, $navy);
+}
+
+.reveal .ejemplo {
+  @include caja($example-bg, $example-bar);
+}
+
+.reveal .definicion {
+  @include caja($def-bg, $def-bar);
+}
+
+.reveal .nota {
+  @include caja($note-bg, $note-bar);
+}
+
+// Fórmula destacada: ::: {.formula}
+.reveal .formula {
+  background: #F0F0F5;
+  border: 2px solid $accent;
+  border-radius: 6px;
+  padding: 0.2em 0.6em;
+  margin: 0.5em auto;
+  width: fit-content;
+}
+
+// Tablas con cabecera navy
+.reveal table {
+  font-size: 0.75em;
+
+  thead th {
+    background: $navy;
+    color: #FFFFFF;
+  }
+}
+
+// Pie de página y número de diapositiva
+.reveal .footer {
+  color: $navy;
+  font-size: 0.45em;
+}
+
+.reveal.has-dark-background .footer {
+  color: #FFFFFF;
+}
+
+.reveal .slide-number,
+.reveal .slide-number.has-light-background,
+.reveal .slide-number.has-dark-background {
+  // Quarto pone su propio fondo/color según el fondo de la diapositiva
+  background-color: $navy !important;
+  color: #FFFFFF !important;
+  border-radius: 1em;
+  padding: 0.1em 0.6em;
+}
+
+.reveal .progress {
+  color: $accent;
+}

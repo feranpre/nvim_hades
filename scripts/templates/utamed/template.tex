@@ -57,6 +57,16 @@
 % ---------- Utilidades de maquetación ----------
 \usepackage{graphicx}
 \usepackage{calc}  % requerido por pandoc para anchos de columna (\real{...}) en tablas
+
+% Workaround para un bug conocido de pandoc >= 3.8 (jgm/pandoc#11189, #11201):
+% en tablas sin título, pandoc emite \def\LTcaptype{none}, pero versiones de
+% "longtable" anteriores a la 4.21 no traen definido un contador "none",
+% lo que provoca "LaTeX Error: No counter 'none' defined" justo en la línea
+% con \real{...}. Predefinirlo aquí lo evita sin depender de la versión de
+% longtable instalada.
+\makeatletter
+\@ifundefined{c@none}{\newcounter{none}}{}
+\makeatother
 % Escala las imágenes para que no desborden la caja de texto
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
