@@ -26,10 +26,10 @@ format:
     html-math-method: katex
     code-line-numbers: false
     title-slide-attributes:
-      data-background-color: "#2A1745"
+      data-background-color: "#2A2235"
 ---
 
-# Primer bloque {background-color="#2A1745"}
+# Primer bloque {background-color="#2A2235"}
 
 ## Texto e imagen
 
@@ -100,7 +100,7 @@ Diapositiva sin título con una imagen a pantalla completa: `##` vacío con
 `background-image`.
 :::
 
-# Segundo bloque {background-color="#2A1745"}
+# Segundo bloque {background-color="#2A2235"}
 
 ## Código
 

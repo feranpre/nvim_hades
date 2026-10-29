@@ -1,295 +1,361 @@
 /* ---------------------------------------------------------------------------
-   hades.css — estilo para los HTML exportados desde Neovim
-   Color principal: #9b5de5
+   hades.css — HTML exportado desde .md (template.html)
+
+   Replica el diseño de template.tex: texto casi negro, mucho blanco y un único
+   color de acento (#9b5de5) para filetes, numeración y viñetas.
+   Si cambias algo aquí, cámbialo también en template.tex y hades.scss.
    --------------------------------------------------------------------------- */
 
 :root {
-  --primary: #9b5de5;
-  --primary-dark: #4b2a7a;
-  --primary-mid: #7b3fc9;
-  --primary-light: #f6f1fd;
-  --text: #1f1830;
-  --muted: #5f5a6b;
-  --border: #e4d8f7;
-  --bg: #ffffff;
+  --ink: #1e1a24;
+  --heading: #2a2235;
+  --accent: #9b5de5;
+  --accent-dark: #5b3a8f;
+  --muted: #6b6577;
+  --rule: #e3deea;
+  --rule-dark: #cfc7da;
+  --tint: #f7f5fa;
+  --code-bg: #f6f4f9;
 
-  --note: #0096c7;
-  --tip: #00a884;
-  --important: #9b5de5;
-  --warning: #e09f00;
-  --caution: #d0213b;
+  --resumen: #9b5de5;
+  --ejemplo: #2e8b74;
+  --definicion: #8e4a7e;
+  --nota: #b7791f;
+  --c-note: #3a7ca5;
+  --c-tip: #2e8b74;
+  --c-important: #9b5de5;
+  --c-warning: #b7791f;
+  --c-caution: #b3403a;
+
+  --font-body: "Lato", "Carlito", "Liberation Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-head: "Fira Sans", "Liberation Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Fira Mono", "DejaVu Sans Mono", Menlo, Consolas, monospace;
 }
 
 * { box-sizing: border-box; }
 
-html {
-  font-size: 17px;
-}
+html { font-size: 17px; }
 
 body {
-  margin: 0 auto;
-  max-width: 50rem;
-  padding: 2.5rem 1.25rem 4rem;
-  background: var(--bg);
-  color: var(--text);
-  font-family: "Inter", "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
-  line-height: 1.65;
+  margin: 0;
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
   hyphens: auto;
   overflow-wrap: break-word;
-  text-rendering: optimizeLegibility;
 }
 
-/* --- Bloque de título ---------------------------------------------------- */
+.page {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 4rem;
+}
+
+p { margin: 0 0 0.6rem; }
+
+/* --- Bloque de título ----------------------------------------------------- */
 
 #title-block-header {
-  border-top: 6px solid var(--primary);
-  border-bottom: 1px solid var(--primary);
-  padding: 1.5rem 0 1.25rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.title-rule {
+  width: 5.5rem;
+  height: 2px;
+  background: var(--accent);
+  margin-bottom: 1.4rem;
+}
+
+.kicker {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-dark);
 }
 
 #title-block-header .title {
   margin: 0;
-  font-size: 2.3rem;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 2.25rem;
   line-height: 1.2;
-  color: var(--primary-dark);
-  border: none;
+  color: var(--heading);
+  border: 0;
+  padding: 0;
 }
 
-#title-block-header .subtitle {
-  margin: 0.5rem 0 0;
-  font-size: 1.3rem;
+.subtitle {
+  margin: 0.6rem 0 0;
+  font-family: var(--font-head);
   font-weight: 400;
-  color: var(--primary-mid);
-}
-
-#title-block-header .author,
-#title-block-header .date {
-  margin: 0.4rem 0 0;
+  font-size: 1.2rem;
   color: var(--muted);
 }
 
-#title-block-header .abstract {
-  margin-top: 1.25rem;
+.subtitle-small { font-size: 1rem; margin-top: 0.3rem; }
+
+.meta {
+  margin: 1.1rem 0 0;
+  font-family: var(--font-head);
+  font-size: 0.85rem;
   color: var(--muted);
 }
 
-/* --- Encabezados --------------------------------------------------------- */
+.meta .author { color: var(--ink); }
+.meta .sep { margin: 0 0.75em; }
+
+/* --- Titulares ------------------------------------------------------------ */
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-head);
+  font-weight: 600;
+  color: var(--heading);
   line-height: 1.25;
-  margin: 2rem 0 0.75rem;
 }
 
-h1 {
-  font-size: 1.8rem;
-  color: var(--primary-dark);
-  padding-bottom: 0.3rem;
-  border-bottom: 2px solid var(--primary);
-}
-
-h2 {
-  font-size: 1.45rem;
-  color: var(--primary-mid);
-}
-
-h3 { font-size: 1.2rem; color: var(--primary-dark); }
-h4, h5, h6 { font-size: 1rem; color: var(--primary-dark); }
+h1 { font-size: 1.55rem; margin: 2.2rem 0 0.6rem; }
+h2 { font-size: 1.2rem; margin: 1.6rem 0 0.5rem; }
+h3 { font-size: 1rem; margin: 1.2rem 0 0.4rem; color: var(--accent-dark); }
+h4, h5, h6 { font-size: 1rem; margin: 1rem 0 0.4rem; }
 
 .header-section-number {
-  color: var(--primary);
-  margin-right: 0.4em;
+  color: var(--accent);
+  margin-right: 0.55em;
 }
+
+h3 .header-section-number { color: var(--accent-dark); }
+
+/* --- Índice --------------------------------------------------------------- */
+
+nav#TOC {
+  margin: 0 0 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+nav#TOC > h2 { margin-top: 0; font-size: 1.55rem; }
+
+nav#TOC ul { list-style: none; margin: 0; padding: 0; }
+nav#TOC li::marker { content: none; }
+nav#TOC > ul > li { margin-top: 0.4rem; }
+nav#TOC > ul > li > a { font-family: var(--font-head); font-weight: 600; color: var(--heading); }
+nav#TOC ul ul { padding-left: 1.6rem; }
+nav#TOC ul ul a { color: var(--ink); }
+nav#TOC a { text-decoration: none; }
+nav#TOC a:hover { color: var(--accent-dark); }
+nav#TOC .toc-section-number { color: var(--accent); margin-right: 0.55em; }
+nav#TOC ul ul .toc-section-number { color: var(--muted); }
 
 /* --- Texto ---------------------------------------------------------------- */
 
-a {
-  color: var(--primary-mid);
-  text-decoration-color: var(--primary);
-  text-underline-offset: 2px;
-}
+a { color: var(--accent-dark); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
 
-a:hover { color: var(--primary); }
+ul, ol { padding-left: 1.4rem; margin: 0.3rem 0 0.7rem; }
+li { margin: 0.15rem 0; }
+ul > li::marker { color: var(--accent); }
+ul ul > li::marker { content: "– "; }
+ul ul ul > li::marker { content: "• "; color: var(--muted); }
+ol > li::marker { color: var(--accent-dark); }
 
-ul li::marker { color: var(--primary); }
-ol li::marker { color: var(--primary-mid); font-weight: 600; }
-
-hr {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 2rem 0;
-}
+hr { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
 
 img, svg, video { max-width: 100%; height: auto; }
 
 figure { margin: 1.5rem 0; text-align: center; }
 
-figcaption {
-  font-size: 0.9rem;
+figcaption, caption {
+  font-size: 0.85rem;
   color: var(--muted);
-  margin-top: 0.4rem;
 }
 
 blockquote {
-  margin: 1.25rem 0;
-  padding: 0.6rem 1rem;
-  border-left: 4px solid var(--primary);
-  background: var(--primary-light);
+  margin: 1rem 0;
+  padding: 0.1rem 0 0.1rem 1rem;
+  border-left: 2px solid var(--rule-dark);
   color: var(--muted);
-  font-style: italic;
 }
 
-blockquote > :first-child { margin-top: 0; }
 blockquote > :last-child { margin-bottom: 0; }
 
 /* --- Código --------------------------------------------------------------- */
 
 code {
-  font-family: "JetBrains Mono", "Fira Code", "SFMono-Regular", Menlo, Consolas, monospace;
-  font-size: 0.88em;
+  font-family: var(--font-mono);
+  font-size: 0.86em;
 }
 
 :not(pre) > code {
-  background: var(--primary-light);
-  color: var(--primary-dark);
-  padding: 0.1em 0.35em;
-  border-radius: 4px;
+  background: var(--tint);
+  padding: 0.08em 0.3em;
+  border-radius: 3px;
+}
+
+pre, div.sourceCode {
+  background: var(--code-bg);
+  border-left: 2px solid #cdb3f1;
+  margin: 0.8rem 0;
 }
 
 pre {
-  background: var(--primary-light);
-  border-left: 3px solid var(--primary);
-  border-radius: 0 6px 6px 0;
-  padding: 0.8rem 1rem;
+  padding: 0.7rem 1rem;
   overflow-x: auto;
   line-height: 1.45;
 }
 
-div.sourceCode {
-  background: var(--primary-light);
-  border-left: 3px solid var(--primary);
-  border-radius: 0 6px 6px 0;
-  margin: 1rem 0;
-}
+div.sourceCode pre { border: 0; margin: 0; background: transparent; }
 
-div.sourceCode pre {
-  border: none;
-  background: transparent;
-  margin: 0;
-}
-
-/* --- Tablas --------------------------------------------------------------- */
+/* --- Tablas (estilo booktabs) -------------------------------------------- */
 
 table {
   border-collapse: collapse;
-  margin: 1.5rem auto;
+  margin: 1.2rem auto;
+  min-width: 40%;
   font-size: 0.95rem;
+  border-top: 1.5px solid var(--heading);
+  border-bottom: 1.5px solid var(--heading);
 }
 
 thead th {
-  background: var(--primary);
-  color: #fff;
-  font-weight: 600;
-}
-
-th, td {
-  padding: 0.45rem 0.8rem;
-  border-bottom: 1px solid var(--border);
-}
-
-tbody tr:nth-child(even) { background: var(--primary-light); }
-
-caption {
-  caption-side: bottom;
-  font-size: 0.9rem;
-  color: var(--muted);
-  padding-top: 0.4rem;
-}
-
-/* --- Índice --------------------------------------------------------------- */
-
-nav#TOC {
-  background: var(--primary-light);
-  border-left: 3px solid var(--primary);
-  padding: 0.8rem 1.25rem;
-  margin-bottom: 2rem;
-}
-
-nav#TOC > ul { padding-left: 1rem; margin: 0; }
-nav#TOC ul ul { padding-left: 1.2rem; }
-nav#TOC a { text-decoration: none; }
-
-/* --- Callouts (callouts.lua) ---------------------------------------------- */
-
-.callout {
-  --c: var(--note);
-  margin: 1.25rem 0;
-  border-left: 4px solid var(--c);
-  background: color-mix(in srgb, var(--c) 7%, var(--bg));
-  border-radius: 0 6px 6px 0;
-}
-
-.callout-title {
-  padding: 0.45rem 1rem;
   font-weight: 700;
-  color: var(--c);
-  background: color-mix(in srgb, var(--c) 14%, var(--bg));
+  border-bottom: 1px solid var(--heading);
 }
 
-.callout-title p { margin: 0; }
+th, td { padding: 0.35rem 0.75rem; }
 
-.callout-body { padding: 0.25rem 1rem; }
+caption { caption-side: top; padding-bottom: 0.4rem; }
 
-.callout-note { --c: var(--note); }
-.callout-tip { --c: var(--tip); }
-.callout-important { --c: var(--important); }
-.callout-warning { --c: var(--warning); }
-.callout-caution { --c: var(--caution); }
+/* "Tabla 1." / "Figura 1." en las leyendas generadas por quarto/crossref */
+caption strong, figcaption strong { color: var(--accent-dark); }
 
-/* --- Notas al pie --------------------------------------------------------- */
+/* --- Cajas (cajas.lua / template.tex) ------------------------------------ */
+
+.resumen, .ejemplo, .definicion, .nota, .callout {
+  --c: var(--resumen);
+  margin: 1rem 0;
+  padding: 0.65rem 1rem;
+  border-left: 2.5px solid var(--c);
+  background: color-mix(in srgb, var(--c) 5%, #fff);
+}
+
+.resumen > :last-child, .ejemplo > :last-child, .definicion > :last-child,
+.nota > :last-child, .competencias > :last-child,
+.formuladestacada > :last-child { margin-bottom: 0; }
+
+.resumen::before {
+  content: "RESUMEN";
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--accent-dark);
+}
+
+.ejemplo { --c: var(--ejemplo); }
+.definicion { --c: var(--definicion); }
+.nota { --c: var(--nota); }
+
+.formuladestacada {
+  margin: 1rem 0;
+  padding: 0.4rem 1rem;
+  border: 0.6px solid var(--rule-dark);
+  text-align: center;
+}
+
+.competencias {
+  margin: 1rem 0;
+  padding: 0.65rem 1rem;
+  border: 0.6px solid var(--rule);
+  border-left: 2.5px solid var(--accent);
+}
+
+.cajatitulo {
+  margin: 1.5rem 0 1rem;
+  text-align: center;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--heading);
+}
+
+.cajatitulo::after {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 1.5px;
+  margin: 0.4rem auto 0;
+  background: var(--accent);
+}
+
+.cajatitulo p { margin: 0; }
+
+/* Callouts (callouts.lua) */
+.callout-title {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--c) 75%, #000);
+  margin-bottom: 0.2rem;
+}
+
+.callout-title p, .callout-body > :last-child { margin: 0; }
+
+.callout-note { --c: var(--c-note); }
+.callout-tip { --c: var(--c-tip); }
+.callout-important { --c: var(--c-important); }
+.callout-warning { --c: var(--c-warning); }
+.callout-caution { --c: var(--c-caution); }
+
+/* --- Bibliografía y notas ------------------------------------------------- */
+
+.csl-entry {
+  padding-left: 1.5em;
+  text-indent: -1.5em;
+  margin-bottom: 0.4rem;
+}
 
 .footnotes {
-  font-size: 0.9rem;
+  margin-top: 2.5rem;
+  font-size: 0.88rem;
   color: var(--muted);
 }
+
+.footnotes hr { margin: 0 0 1rem; width: 5rem; border-top-color: var(--rule-dark); }
+
+/* --- Pie ------------------------------------------------------------------ */
+
+.page-footer {
+  margin-top: 3rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-head);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* --- Utilidades que espera pandoc ---------------------------------------- */
+
+span.smallcaps { font-variant: small-caps; }
+div.columns { display: flex; gap: min(4vw, 1.5em); }
+div.column { flex: auto; overflow-x: auto; }
+ul.task-list { list-style: none; padding-left: 0.4rem; }
+ul.task-list li input[type="checkbox"] { margin-right: 0.5em; }
+.display.math { display: block; text-align: center; margin: 0.6rem 0; }
 
 /* --- Impresión ------------------------------------------------------------ */
 
 @media print {
-  body { max-width: none; padding: 0; font-size: 11pt; }
-  pre, blockquote, .callout, table { page-break-inside: avoid; }
-}
-
-/* --- Cajas de template.tex (cajas.lua): ::: {.resumen} etc. ---------------- */
-
-.resumen, .ejemplo, .definicion, .nota, .formuladestacada, .competencias {
-  --c: var(--primary);
-  margin: 1.25rem 0;
-  padding: 0.6rem 1rem;
-  border-left: 4px solid var(--c);
-  background: color-mix(in srgb, var(--c) 9%, var(--bg));
-  border-radius: 0 6px 6px 0;
-}
-
-.resumen > :first-child, .ejemplo > :first-child, .definicion > :first-child,
-.nota > :first-child, .formuladestacada > :first-child, .competencias > :first-child { margin-top: 0; }
-.resumen > :last-child, .ejemplo > :last-child, .definicion > :last-child,
-.nota > :last-child, .formuladestacada > :last-child, .competencias > :last-child { margin-bottom: 0; }
-
-.resumen { --c: var(--primary-dark); }
-.ejemplo { --c: var(--tip); }
-.definicion { --c: #c2187a; }
-.nota { --c: var(--warning); }
-.formuladestacada { --c: var(--primary-mid); text-align: center; }
-.competencias { --c: var(--primary); background: var(--bg); border: 1px solid var(--primary); border-left-width: 4px; }
-
-.cajatitulo {
-  display: block;
-  width: fit-content;
-  margin: 1.5rem auto;
-  padding: 0.4rem 1.5rem;
-  background: var(--primary-light);
-  color: var(--primary-dark);
-  font-weight: 700;
-  font-size: 1.15rem;
+  html { font-size: 11pt; }
+  .page { max-width: none; padding: 0; }
+  pre, blockquote, table, .resumen, .ejemplo, .definicion, .nota, .callout { break-inside: avoid; }
 }

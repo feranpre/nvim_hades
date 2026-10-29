@@ -1,7 +1,11 @@
 # Plantillas de exportación (pandoc / Quarto)
 
 Plantillas que usa `scripts/md_to_pdf.py` para exportar documentos Markdown,
-Quarto y R Markdown a PDF y HTML desde Neovim. Color principal: `#9b5de5`.
+Quarto y R Markdown a PDF y HTML desde Neovim.
+
+PDF y HTML comparten el mismo diseño: texto casi negro sobre blanco,
+titulares en Fira Sans, texto en Lato y un único color de acento
+(`#9b5de5`) reservado para filetes, numeración y viñetas.
 
 ## Uso
 
@@ -28,12 +32,13 @@ scripts/md_to_pdf.py informe.qmd salida.pdf
 
 | Archivo | Para qué sirve |
 |---|---|
-| `template.tex` | Diseño del PDF (portada, cabecera, pie, titulares, cajas) |
+| `template.tex` | Diseño del PDF (bloque de título o portada, cabecera, pie, titulares, cajas) |
+| `template.html` | Plantilla HTML de pandoc con el mismo bloque de título que el PDF |
 | `cajas.lua` | Filtro: `::: {.resumen}` … `:::` → cajas de color de `template.tex` |
 | `callouts.lua` | Filtro: callouts de Quarto (`::: {.callout-note}`) y alertas de GitHub (`> [!NOTE]`) |
 | `hades.theme` | Colores del resaltado de código |
-| `hades.css` | Estilo del HTML exportado desde `.md` |
-| `hades.scss` | Tema de Quarto para el HTML exportado desde `.qmd` / `.Rmd` |
+| `hades.css` | Estilo del HTML exportado desde `.md` (copia el diseño del PDF) |
+| `hades.scss` | Tema de Quarto para el HTML exportado desde `.qmd` / `.Rmd` (ídem) |
 | `pdf.yaml`, `html.yaml` | Opciones de pandoc para `.md` |
 | `quarto.yaml` | Opciones que se pasan a `quarto render` para `.qmd` / `.Rmd` |
 | `apa.csl` | Estilo de citas APA 7 (por defecto) |
@@ -61,8 +66,10 @@ Todos los campos son opcionales salvo `title`:
 title: "Estadística descriptiva"
 subtitle: "Opcional"
 author: "Tu nombre"
-date: "Curso 2025-2026"
+date: "Curso 2025-2026"      # fecha o texto libre
 toc: true
+number-sections: true        # numera los apartados (PDF y HTML)
+portada: true                # PDF: portada en página propia
 bibliography: referencias.bib
 # Campos para apuntes por unidades:
 unidad-numero: "1"            # muestra "Unidad 1" en portada y cabecera
@@ -75,8 +82,12 @@ pie-institucion: "Texto del pie de página"
 ---
 ```
 
-Si no indicas `unidad-numero`, la portada muestra solo el título. Si no
-indicas `institucion`, la portada solo lleva el emblema.
+- `unidad-numero` y `asignatura` forman el antetítulo ("UNIDAD 1 · ASIGNATURA")
+  y la cabecera de página; sin ellos se muestra el título.
+- Sin `portada: true` el título va en la parte superior de la primera página,
+  igual que en el HTML. `institucion` e `institucion-lema` solo salen en la portada.
+- En `.qmd`, si `date` no es una fecha (p. ej. "Curso 2025-2026") se muestra
+  tal cual: el script evita el "Invalid Date" de Quarto.
 
 ## Cajas
 
@@ -138,6 +149,7 @@ indiques otro con `csl:`. Para colocar la bibliografía en un sitio concreto:
 
 ## Personalizar
 
-Los colores están al principio de `template.tex` (sección `Color`). El color
-principal es `accent` (`#9B5DE5`); `navy` es el morado oscuro de portada,
-cabecera y pie.
+Los colores están al principio de `template.tex` (sección `Color`), de
+`hades.css` (`:root`) y de `hades.scss` (variables `$hades-*`); si cambias uno,
+cambia los tres para que PDF y HTML sigan igual. `accent` (`#9B5DE5`) es el
+color de acento; `heading` e `ink`, los casi negros de titulares y texto.

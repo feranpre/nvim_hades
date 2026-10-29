@@ -1,103 +1,240 @@
 /*-- scss:defaults --*/
-// hades.scss — tema de Quarto para los HTML exportados desde Neovim
-// (se usa sobre el tema "cosmo"). Color principal: #9b5de5
+// hades.scss — HTML exportado desde .qmd / .Rmd (tema de Quarto sobre "cosmo")
+//
+// Replica el diseño de template.tex y hades.css: texto casi negro, mucho
+// blanco y un único color de acento (#9b5de5). Si cambias algo aquí,
+// cámbialo también allí.
 
-$primary: #9b5de5;
-$hades-dark: #4b2a7a;
-$hades-mid: #7b3fc9;
-$hades-light: #f6f1fd;
+$hades-ink: #1e1a24;
+$hades-heading: #2a2235;
+$hades-accent: #9b5de5;
+$hades-accent-dark: #5b3a8f;
+$hades-muted: #6b6577;
+$hades-rule: #e3deea;
+$hades-rule-dark: #cfc7da;
+$hades-tint: #f7f5fa;
+$hades-code-bg: #f6f4f9;
 
-$body-color: #1f1830;
-$link-color: $hades-mid;
-$headings-color: $hades-dark;
+$primary: $hades-accent-dark;
+$body-color: $hades-ink;
+$link-color: $hades-accent-dark;
+$link-decoration: none;
 
-$code-color: $hades-dark;
-$code-bg: $hades-light;
-$code-block-bg: $hades-light;
-$code-block-border-left: $primary;
+$font-family-sans-serif: "Lato", "Carlito", "Liberation Sans", "Helvetica Neue", Arial, sans-serif;
+$font-family-monospace: "Fira Mono", "DejaVu Sans Mono", Menlo, Consolas, monospace;
+$headings-font-family: "Fira Sans", "Liberation Sans", "Helvetica Neue", Arial, sans-serif;
+$headings-font-weight: 600;
+$headings-color: $hades-heading;
+$font-size-root: 17px;
+$line-height-base: 1.6;
 
-$callout-color-note: #0096c7;
-$callout-color-tip: #00a884;
+$code-color: $hades-ink;
+$code-bg: $hades-tint;
+$code-block-bg: $hades-code-bg;
+$code-block-border-left: #cdb3f1;
+
+$callout-color-note: #3a7ca5;
+$callout-color-tip: #2e8b74;
 $callout-color-important: #9b5de5;
-$callout-color-warning: #e09f00;
-$callout-color-caution: #d0213b;
+$callout-color-warning: #b7791f;
+$callout-color-caution: #b3403a;
 
-$toc-color: $hades-mid;
+$toc-color: $hades-muted;
+$table-border-color: $hades-heading;
 
 /*-- scss:rules --*/
 
+// --- Bloque de título -------------------------------------------------------
+
 #title-block-header {
-  border-top: 6px solid $primary;
-  border-bottom: 1px solid $primary;
-  padding-top: 1.25rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid $hades-rule;
+
+  &::before {
+    content: "";
+    display: block;
+    width: 5.5rem;
+    height: 2px;
+    background: $hades-accent;
+    margin-bottom: 1.4rem;
+  }
+
+  .title {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    margin-bottom: 0;
+  }
+
+  .subtitle {
+    margin-top: 0.6rem;
+    font-family: $headings-font-family;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: $hades-muted;
+  }
+
+  // Autor y fecha en una línea, sin las etiquetas "AUTOR" / "FECHA"
+  .quarto-title-meta {
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0 0.75rem;
+    margin-top: 1.1rem;
+    font-family: $headings-font-family;
+    font-size: 0.85rem;
+  }
+
+  .quarto-title-meta-heading {
+    display: none;
+  }
+
+  .quarto-title-meta-contents p {
+    margin: 0;
+    color: $hades-muted;
+  }
+
+  .quarto-title-meta > div:first-child .quarto-title-meta-contents p {
+    color: $hades-ink;
+  }
+
+  // separador "·" entre autor y fecha
+  .quarto-title-meta > div + div::before,
+  .quarto-title-meta > div:first-child:not(:last-child)::after {
+    color: $hades-muted;
+  }
+
+  .quarto-title-meta > div + div {
+    display: flex;
+    gap: 0.75rem;
+
+    &::before { content: "·"; }
+  }
 }
 
-#title-block-header .title {
-  color: $hades-dark;
-  font-weight: 700;
-}
+// --- Titulares --------------------------------------------------------------
 
-#title-block-header .subtitle {
-  color: $hades-mid;
-}
-
-h2 {
-  border-bottom: 2px solid $primary;
-  padding-bottom: 0.3rem;
-}
-
-h3 {
-  color: $hades-mid;
-}
+h1 { font-size: 1.55rem; margin-top: 2.2rem; }
+h2 { font-size: 1.2rem; margin-top: 1.6rem; border-bottom: 0; padding-bottom: 0; }
+h3 { font-size: 1rem; margin-top: 1.2rem; color: $hades-accent-dark; }
 
 .header-section-number {
-  color: $primary;
+  color: $hades-accent;
+  margin-right: 0.55em;
 }
 
-ul li::marker {
-  color: $primary;
-}
+// --- Texto ------------------------------------------------------------------
+
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+ul > li::marker { color: $hades-accent; }
+ol > li::marker { color: $hades-accent-dark; }
 
 blockquote {
-  border-left: 4px solid $primary;
-  background: $hades-light;
-  padding: 0.6rem 1rem;
-  color: #5f5a6b;
+  margin: 1rem 0;
+  padding: 0.1rem 0 0.1rem 1rem;
+  border-left: 2px solid $hades-rule-dark;
+  color: $hades-muted;
+  font-size: 1rem;
 }
 
-table thead th,
-.table > thead > tr > th {
-  background: $primary;
-  color: #fff;
+figcaption, .figure-caption, caption {
+  font-size: 0.85rem;
+  color: $hades-muted;
 }
 
-.figure-caption,
-figcaption {
-  color: #5f5a6b;
+// --- Tablas (estilo booktabs) ----------------------------------------------
+
+table, .table {
+  border-top: 1.5px solid $hades-heading;
+  border-bottom: 1.5px solid $hades-heading;
+
+  > thead > tr > th {
+    font-weight: 700;
+    border-bottom: 1px solid $hades-heading;
+    background: transparent;
+    color: $hades-ink;
+  }
+
+  > :not(caption) > * > * {
+    border-bottom-width: 0;
+  }
 }
 
-// Cajas de template.tex (cajas.lua): ::: {.resumen} etc.
-.resumen, .ejemplo, .definicion, .nota, .formuladestacada, .competencias {
-  --c: #{$primary};
-  margin: 1.25rem 0;
-  padding: 0.6rem 1rem;
-  border-left: 4px solid var(--c);
-  background: color-mix(in srgb, var(--c) 9%, white);
-  border-radius: 0 6px 6px 0;
+// --- Callouts: mismo aspecto que las cajas del PDF --------------------------
+
+div.callout {
+  border: 0 !important;
+  border-left: 2.5px solid !important;
+  border-radius: 0 !important;
+  box-shadow: none;
+
+  .callout-header {
+    background: transparent !important;
+    border: 0;
+    font-family: $headings-font-family;
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+}
+
+// --- Cajas de template.tex (cajas.lua): ::: {.resumen} etc. ----------------
+
+@mixin hades-box($c) {
+  margin: 1rem 0;
+  padding: 0.65rem 1rem;
+  border-left: 2.5px solid $c;
+  background: mix($c, white, 5%);
   > :last-child { margin-bottom: 0; }
 }
-.resumen { --c: #{$hades-dark}; }
-.ejemplo { --c: #00a884; }
-.definicion { --c: #c2187a; }
-.nota { --c: #e09f00; }
-.formuladestacada { --c: #{$hades-mid}; text-align: center; }
-.competencias { background: white; border: 1px solid $primary; border-left-width: 4px; }
+
+.resumen { @include hades-box($hades-accent); }
+.ejemplo { @include hades-box(#2e8b74); }
+.definicion { @include hades-box(#8e4a7e); }
+.nota { @include hades-box(#b7791f); }
+
+.resumen::before {
+  content: "RESUMEN";
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: $headings-font-family;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: $hades-accent-dark;
+}
+
+.formuladestacada {
+  margin: 1rem 0;
+  padding: 0.4rem 1rem;
+  border: 0.6px solid $hades-rule-dark;
+  text-align: center;
+}
+
+.competencias {
+  margin: 1rem 0;
+  padding: 0.65rem 1rem;
+  border: 0.6px solid $hades-rule;
+  border-left: 2.5px solid $hades-accent;
+  > :last-child { margin-bottom: 0; }
+}
+
 .cajatitulo {
-  width: fit-content;
-  margin: 1.5rem auto;
-  padding: 0.4rem 1.5rem;
-  background: $hades-light;
-  color: $hades-dark;
-  font-weight: 700;
+  margin: 1.5rem 0 1rem;
+  text-align: center;
+  font-family: $headings-font-family;
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: $hades-heading;
+
+  p { margin: 0; }
+
+  &::after {
+    content: "";
+    display: block;
+    width: 3.5rem;
+    height: 1.5px;
+    margin: 0.4rem auto 0;
+    background: $hades-accent;
+  }
 }

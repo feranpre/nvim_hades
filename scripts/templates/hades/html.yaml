@@ -4,6 +4,7 @@
 
 to: html5
 standalone: true
+template: ${.}/template.html
 embed-resources: true
 
 css:

@@ -1,19 +1,18 @@
 /*-- scss:defaults --*/
 
 // Paleta de los apuntes (scripts/templates/hades/template.tex)
-// Color principal: #9B5DE5
-$navy: #2A1745;
-$navy-light: #3D2163;
+$navy: #2A2235;
+$navy-light: #3A3146;
 $accent: #9B5DE5;
-$accent-dark: #6A2FB8;
-$box-bg: #EFE6FB;
-$example-bg: #E6F7F2;
-$example-bar: #00A884;
-$note-bg: #FFF4DC;
-$note-bar: #E09F00;
-$def-bg: #FCE8F4;
-$def-bar: #C2187A;
-$body-text: #231F2B;
+$accent-dark: #5B3A8F;
+$box-bg: #F4F0F9;
+$example-bg: #EEF6F3;
+$example-bar: #2E8B74;
+$note-bg: #FBF5EC;
+$note-bar: #B7791F;
+$def-bg: #F6EEF4;
+$def-bar: #8E4A7E;
+$body-text: #1E1A24;
 
 // Tipografía: Fira Sans en titulares, Lato en el texto (si no están
 // instaladas, el navegador usa las alternativas)
@@ -30,7 +29,7 @@ $body-bg: #FFFFFF;
 $body-color: $body-text;
 $link-color: $accent-dark;
 $presentation-heading-color: $navy;
-$code-block-bg: #F6F1FD;
+$code-block-bg: #F6F4F9;
 $code-block-border-color: lighten($accent, 30%);
 $code-block-font-size: 0.6em;
 $code-color: $accent-dark;

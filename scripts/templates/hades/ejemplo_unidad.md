@@ -11,6 +11,8 @@ author: "Tu nombre"
 date: "Curso 2025-2026"
 lang: es
 toc: true
+number-sections: true
+portada: true
 bibliography: referencias.bib
 csl: apa.csl
 ---

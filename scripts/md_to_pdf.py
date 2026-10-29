@@ -32,7 +32,9 @@ HADES_PANDOC_TEMPLATES.
 """
 
 import argparse
+import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -96,6 +98,30 @@ def yaml_flag(yaml_text, key):
     return False
 
 
+def modern_citeproc(pandoc_cmd):
+    """
+    True si esta versión de pandoc escribe las citas en LaTeX con
+    \\citeproc / \\bibitem (pandoc >= 3.1.8). template.tex define las macros
+    de uno u otro formato según la variable csl-modern.
+    """
+    probe = (
+        "---\nreferences:\n- id: x\n  type: book\n  title: T\n"
+        "  author: [{family: A}]\n  issued: {date-parts: [[2000]]}\n"
+        "link-citations: true\n---\n[@x]\n"
+    )
+    try:
+        out = subprocess.run(
+            pandoc_cmd + ["--from", "markdown", "--to", "latex", "--citeproc"],
+            input=probe,
+            capture_output=True,
+            text=True,
+            timeout=60,
+        ).stdout
+    except (OSError, subprocess.SubprocessError):
+        return True
+    return "\\bibitem" in out or "\\citeproc{" in out
+
+
 def pdf_engine():
     for engine in PDF_ENGINES:
         if shutil.which(engine):
@@ -121,25 +147,86 @@ def quarto_metadata(tmp, workdir):
     return meta
 
 
+# Valores de `date` que quarto sabe interpretar como fecha
+DATE_RE = re.compile(
+    r"^(\d{4}-\d{1,2}(-\d{1,2})?([ T].*)?|\d{1,2}/\d{1,2}/\d{2,4}|today|now|last-modified)$"
+)
+
+
+def literal_date_copy(input_file):
+    """
+    Quarto intenta convertir `date` en una fecha y, si es un texto como
+    "Curso 2025-2026", escribe "Invalid Date". En ese caso se crea una copia
+    temporal del documento (en la misma carpeta, para que las rutas relativas
+    sigan funcionando) con ese campo renombrado a `date-text`, que las
+    plantillas muestran tal cual. Devuelve (copia, texto) o (None, None).
+    """
+    text = input_file.read_text(encoding="utf-8")
+    lines = text.splitlines(keepends=True)
+    if not lines or lines[0].strip() != "---":
+        return None, None
+
+    for i, line in enumerate(lines[1:], start=1):
+        if line.strip() in ("---", "..."):
+            return None, None
+        m = re.match(r"^date:\s*(.+?)\s*$", line)
+        if m:
+            value = m.group(1).strip().strip("\"'")
+            if not value or DATE_RE.match(value):
+                return None, None
+            lines[i] = "date-text: " + m.group(1).strip() + "\n"
+            # sin punto inicial: TeX no escribe archivos ocultos
+            copy = input_file.with_name(f"{input_file.stem}-hades-export{input_file.suffix}")
+            copy.write_text("".join(lines), encoding="utf-8")
+            return copy, value
+    return None, None
+
+
 def quarto_render(input_file, output_file, output_format):
     """Renderiza con quarto aplicando las plantillas de Hades."""
     workdir = input_file.parent
-    with tempfile.TemporaryDirectory(prefix="hades-export-") as tmp:
-        cmd = [
-            "quarto",
-            "render",
-            input_file.name,
-            "--to",
-            output_format,
-            "--output",
-            output_file.name,
-            "--metadata-file",
-            quarto_metadata(tmp, workdir),
-        ]
-        # Si no hay LaTeX en el PATH, quarto puede usar su propio TinyTeX
-        if output_format == "pdf" and any(shutil.which(e) for e in PDF_ENGINES):
-            cmd += ["--pdf-engine", pdf_engine()]
-        run(cmd, cwd=workdir)
+    source, date_text = literal_date_copy(input_file)
+    cleanup = []
+    if source:
+        leftovers = [workdir / f"{source.stem}{ext}" for ext in ("_files", ".tex", ".log")]
+        cleanup = [source] + [p for p in leftovers if not p.exists()]
+    else:
+        source = input_file
+
+    try:
+        with tempfile.TemporaryDirectory(prefix="hades-export-") as tmp:
+            cmd = [
+                "quarto",
+                "render",
+                source.name,
+                "--to",
+                output_format,
+                "--output",
+                output_file.name,
+                "--metadata-file",
+                quarto_metadata(tmp, workdir),
+                # para encontrar apa.csl / referencias.bib de la plantilla
+                "--resource-path",
+                os.pathsep.join([str(workdir), str(TEMPLATES_DIR)]),
+            ]
+            if output_format == "pdf" and modern_citeproc(["quarto", "pandoc"]):
+                cmd += ["-M", "csl-modern:true"]
+            if output_format == "html" and date_text:
+                # el bloque de título de quarto no conoce date-text
+                css = Path(tmp) / "date-text.html"
+                css.write_text(
+                    "<style>#title-block-header .quarto-title-meta::after{"
+                    f"content:{json.dumps('·   ' + date_text, ensure_ascii=False)};"
+                    "white-space:pre;color:#6b6577}</style>\n",
+                    encoding="utf-8",
+                )
+                cmd += ["--include-in-header", css]
+            # Si no hay LaTeX en el PATH, quarto puede usar su propio TinyTeX
+            if output_format == "pdf" and any(shutil.which(e) for e in PDF_ENGINES):
+                cmd += ["--pdf-engine", pdf_engine()]
+            run(cmd, cwd=workdir)
+    finally:
+        remove(cleanup)
 
     # quarto solo acepta un nombre de archivo en --output
     rendered = workdir / output_file.name
@@ -285,6 +372,8 @@ def _convert(input_file, output_file, output_format):
 
             if output_format == "pdf":
                 cmd += ["--pdf-engine", pdf_engine()]
+                if modern_citeproc(["pandoc"]):
+                    cmd += ["--variable", "csl-modern=true"]
             elif not has_title(source_yaml):
                 cmd += ["--metadata", f"pagetitle={input_file.stem}"]
 

@@ -1,64 +1,77 @@
 \documentclass[11pt,a4paper]{article}
 
 % ============================================================
-% PLANTILLA HADES PARA PANDOC  (color principal #9B5DE5)
+% PLANTILLA HADES PARA PANDOC
 % ------------------------------------------------------------
-%   - Portada morada oscura con bloque de título
-%   - Cabecera de página con banda morada
-%   - Pie de página con "píldora" de número de página
-%   - Titulares en morado con el prefijo "/"
-%   - Cajas de color para Resumen, Ejemplo, Definición, Nota, Fórmula
-%   - Callouts (::: {.callout-note}, > [!NOTE]) vía callouts.lua
+% Diseño sobrio: texto casi negro, mucho blanco y un único color
+% de acento (#9B5DE5) para filetes, numeración y viñetas.
+% hades.css (HTML desde .md) y hades.scss (HTML desde .qmd)
+% replican este mismo diseño: si cambias algo aquí, cámbialo allí.
 %
-% Variables opcionales del YAML: unidad-numero, unidad-titulo,
-% asignatura, institucion, institucion-lema, subtitulo-portada,
-% pie-institucion. Si no se indican, no aparecen.
+% Variables opcionales del YAML:
+%   subtitle, author, date, abstract, toc, number-sections
+%   portada: true        -> portada en página propia
+%   unidad-numero, unidad-titulo, asignatura, institucion,
+%   institucion-lema, subtitulo-portada, pie-institucion
 % ============================================================
 
 % ---------- Geometría de página ----------
-\usepackage[a4paper,top=3.6cm,bottom=2.6cm,left=2.2cm,right=2.2cm,headheight=2.6cm,headsep=0.55cm,footskip=1.4cm]{geometry}
+\usepackage[a4paper,top=2.8cm,bottom=2.6cm,left=2.6cm,right=2.6cm,headheight=14pt,headsep=0.9cm,footskip=1.2cm]{geometry}
 
 % ---------- Idioma y tipografía ----------
 \usepackage{fontspec}
 \usepackage{polyglossia}
 \setmainlanguage{spanish}
-% "Tabla" en lugar de "Cuadro"
 \usepackage{etoolbox}
+% "Tabla" en lugar de "Cuadro"
 \gappto\captionsspanish{\renewcommand{\tablename}{Tabla}\renewcommand{\listtablename}{Índice de tablas}}
 
-% Familias tipográficas. Si el sistema no tiene "Fira Sans" / "Lato"
-% instaladas, sustituye por alternativas razonables automáticamente.
-\IfFontExistsTF{Fira Sans}{\newfontfamily\headfont{Fira Sans}}{\newfontfamily\headfont{Liberation Sans}}
-\IfFontExistsTF{Fira Sans SemiBold}{\newfontfamily\headfontsb{Fira Sans SemiBold}}{\IfFontExistsTF{Fira Sans}{\newfontfamily\headfontsb{Fira Sans}[BoldFont={Fira Sans SemiBold}]}{\newfontfamily\headfontsb{Liberation Sans}}}
+% Titulares en Fira Sans y texto en Lato; si no están instaladas se usan
+% alternativas sin romper la compilación.
+\IfFontExistsTF{Fira Sans}{%
+  \newfontfamily\headfont{Fira Sans}[BoldFont={* SemiBold}]%
+  \IfFontExistsTF{Fira Sans SemiBold}%
+    {\newfontfamily\headfontsb{Fira Sans}[UprightFont={* SemiBold},BoldFont={* Bold}]}%
+    {\newfontfamily\headfontsb{Fira Sans}[UprightFont={* Bold}]}%
+}{%
+  \newfontfamily\headfont{Liberation Sans}%
+  \newfontfamily\headfontsb{Liberation Sans}[UprightFont={* Bold}]%
+}
 \IfFontExistsTF{Lato}{\setmainfont{Lato}}{\IfFontExistsTF{Carlito}{\setmainfont{Carlito}}{\setmainfont{Liberation Sans}}}
-\IfFontExistsTF{Fira Mono}{\setmonofont{Fira Mono}[Scale=0.88]}{\setmonofont{DejaVu Sans Mono}[Scale=0.82]}
+% Fira Mono por nombre de archivo cuando se puede: por nombre de familia
+% fontspec a veces elige la variante oblicua que trae texlive-fontsextra
+\IfFontExistsTF{FiraMono-Regular.otf}{%
+  \setmonofont{FiraMono}[Extension=.otf,Scale=0.84,UprightFont=*-Regular,
+    BoldFont=*-Bold,ItalicFont=*-Regular,BoldItalicFont=*-Bold]%
+}{\IfFontExistsTF{Fira Mono}{\setmonofont{Fira Mono}[Scale=0.84]}%
+  {\setmonofont{DejaVu Sans Mono}[Scale=0.8]}}
 
 % ---------- Color ----------
 \usepackage{xcolor}
-% (los nombres navy/accent se mantienen para no romper nada que los use)
-\definecolor{navy}{HTML}{2A1745}         % morado muy oscuro: cabecera/pie/portada
-\definecolor{navylight}{HTML}{3D2163}    % variante para degradados/sombras
-\definecolor{accent}{HTML}{9B5DE5}       % color principal: titulares "/ Título"
-\definecolor{accentdark}{HTML}{6A2FB8}   % morado oscuro para enlaces/DOI
-\definecolor{boxbg}{HTML}{EFE6FB}        % fondo lila claro de cajas "Resumen"
-\definecolor{examplebg}{HTML}{E6F7F2}    % fondo verdoso para "Ejemplo aplicado"
-\definecolor{examplebar}{HTML}{00A884}
-\definecolor{notebg}{HTML}{FFF4DC}       % fondo ámbar para "Nota"
-\definecolor{notebar}{HTML}{E09F00}
-\definecolor{defbg}{HTML}{FCE8F4}        % fondo rosado para "Definición"
-\definecolor{defbar}{HTML}{C2187A}
-\definecolor{formulabg}{HTML}{F6F1FD}
-\definecolor{bodytext}{HTML}{231F2B}
-\definecolor{tablehead}{HTML}{2A1745}
-\definecolor{codebg}{HTML}{F6F1FD}
-% Colores de los callouts (callouts.lua)
-\definecolor{hadesnote}{HTML}{0096C7}
-\definecolor{hadestip}{HTML}{00A884}
-\definecolor{hadeswarning}{HTML}{E09F00}
+\definecolor{ink}{HTML}{1E1A24}          % texto
+\definecolor{heading}{HTML}{2A2235}      % titulares
+\definecolor{accent}{HTML}{9B5DE5}       % color de acento
+\definecolor{accentdark}{HTML}{5B3A8F}   % enlaces, etiquetas
+\definecolor{muted}{HTML}{6B6577}        % texto secundario
+\definecolor{rule}{HTML}{E3DEEA}         % filetes finos
+\definecolor{ruledark}{HTML}{CFC7DA}
+\definecolor{tint}{HTML}{F7F5FA}         % fondos muy suaves
+\definecolor{codebg}{HTML}{F6F4F9}
+% Cajas y callouts
+\definecolor{boxresumen}{HTML}{9B5DE5}
+\definecolor{boxejemplo}{HTML}{2E8B74}
+\definecolor{boxdefinicion}{HTML}{8E4A7E}
+\definecolor{boxnota}{HTML}{B7791F}
+\definecolor{hadesnote}{HTML}{3A7CA5}
+\definecolor{hadestip}{HTML}{2E8B74}
 \definecolor{hadesimportant}{HTML}{9B5DE5}
-\definecolor{hadescaution}{HTML}{D0213B}
+\definecolor{hadeswarning}{HTML}{B7791F}
+\definecolor{hadescaution}{HTML}{B3403A}
+% Nombres anteriores, por compatibilidad
+\colorlet{navy}{heading}
+\colorlet{bodytext}{ink}
 
-\color{bodytext}
+\color{ink}
 
 % ---------- Matemáticas ----------
 \usepackage{amsmath,amssymb}
@@ -67,31 +80,56 @@
 
 % ---------- Utilidades de maquetación ----------
 \usepackage{graphicx}
-\usepackage{calc}  % requerido por pandoc para anchos de columna (\real{...}) en tablas
-% Escala las imágenes para que no desborden la caja de texto
+\usepackage{calc}  % anchos de columna (\real{...}) en tablas
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>0.9\textheight 0.9\textheight\else\Gin@nat@height\fi}
 \makeatother
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-% Macro requerida por pandoc para listas "compactas" (- item sin línea en blanco)
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\usepackage{tikz}
-\usetikzlibrary{shapes.geometric,calc}
 \usepackage{enumitem}
 \setlist{topsep=4pt,itemsep=2pt,parsep=0pt}
+\setlist[itemize,1]{label={\textcolor{accent}{\small\textbullet}}}
+\setlist[itemize,2]{label={\textcolor{accent}{\textendash}}}
+\setlist[itemize,3]{label={\textcolor{muted}{\small\textbullet}}}
+\setlist[enumerate,1]{label={\textcolor{accentdark}{\arabic*.}}}
 \usepackage{longtable,booktabs,array,colortbl}
 \usepackage[most]{tcolorbox}
-\tcbuselibrary{skins,breakable}
 \IfFileExists{ulem.sty}{\usepackage[normalem]{ulem}}{}
 \usepackage{setspace}
-\setstretch{1.12}
-\usepackage{ragged2e}
+\setstretch{1.15}
 \usepackage{microtype}
 \usepackage{parskip}
 \setlength{\parskip}{6pt}
 \setlength{\parindent}{0pt}
+
+% ---------- Compatibilidad con distintas versiones de pandoc ----------
+% pandoc >= 3.8 emite \def\LTcaptype{none} en tablas sin título
+\makeatletter
+\@ifundefined{c@none}{\newcounter{none}}{}
+% pandoc >= 3.2 envuelve las imágenes en \pandocbounded
+\newsavebox\pandoc@box
+\providecommand*\pandocbounded[1]{%
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi}
+\makeatother
+\providecommand{\passthrough}[1]{#1}
+$if(strikeout)$
+\providecommand{\st}[1]{\sout{#1}}
+$endif$
+
+% ---------- Numeración de secciones ----------
+$if(numbersections)$
+\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$3$endif$}
+$else$
+\setcounter{secnumdepth}{-\maxdimen}
+$endif$
 
 % ---------- Hipervínculos ----------
 \usepackage{hyperref}
@@ -107,159 +145,143 @@
 }
 \urlstyle{same}
 
-% ---------- Cabecera y pie de página (fancyhdr) ----------
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0pt}
-
-% Variables de la unidad (se rellenan desde el YAML del .md)
-\newcommand{\unidadnum}{$if(unidad-numero)$$unidad-numero$$endif$}
+% ---------- Variables del documento ----------
+\newcommand{\doctitle}{$title$}
 \newcommand{\unidadtitulo}{$if(unidad-titulo)$$unidad-titulo$$else$$title$$endif$}
-\newcommand{\asignaturanombre}{$if(asignatura)$$asignatura$$endif$}
-\newcommand{\institucionpie}{$if(pie-institucion)$$pie-institucion$$else$$if(asignatura)$$asignatura$$else$$for(author)$$author$$sep$, $endfor$$endif$$endif$}
-
-% Banda de cabecera dibujada con TikZ para controlar el ancho completo
-\newcommand{\bandacabecera}{%
-  \begin{tikzpicture}[remember picture,overlay]
-    \fill[navy] (current page.north west) rectangle ([yshift=-2.35cm]current page.north east);
-    % marca decorativa (rombo) arriba a la izquierda
-    \node[anchor=north west] at ([xshift=0.55cm,yshift=-0.45cm]current page.north west) {%
-      \textcolor{accent}{\footnotesize $$\diamond$$}%
-    };
-    % emblema genérico (rombo doble) arriba a la derecha
-    \node[anchor=north east] at ([xshift=-0.7cm,yshift=-1.15cm]current page.north east) {%
-      \begin{tikzpicture}
-        \draw[white,thick] (0,0) -- (0.32,0.32) -- (0.64,0) -- (0.32,-0.32) -- cycle;
-        \draw[accent,thick] (0.16,0) -- (0.32,0.16) -- (0.48,0) -- (0.32,-0.16) -- cycle;
-      \end{tikzpicture}%
-    };
-    \node[anchor=north east,text=white] at ([xshift=-1.6cm,yshift=-0.42cm]current page.north east) {%
-      \parbox[t]{9.5cm}{\raggedleft
-$if(unidad-numero)$
-      \headfontsb\fontsize{9}{12}\selectfont UNIDAD \unidadnum\par
-$endif$
-      \headfontsb\fontsize{9}{12}\selectfont /\ \MakeUppercase{\unidadtitulo}\par
-      \headfont\fontsize{8}{11}\itshape\selectfont \asignaturanombre\par}
-    };
-  \end{tikzpicture}%
+% Antetítulo: "Unidad 1 · Asignatura" (o lo que haya de eso)
+\newcommand*{\kicker}{%
+$if(unidad-numero)$Unidad $unidad-numero$$if(asignatura)$\ \textperiodcentered\ $asignatura$$endif$$else$$if(asignatura)$$asignatura$$endif$$endif$%
 }
+\newcommand{\institucionpie}{$if(pie-institucion)$$pie-institucion$$else$$if(institucion)$$institucion$$endif$$endif$}
 
-\fancyhead[C]{\bandacabecera}
-
-% Pie de página: píldora navy con nº de página + texto institucional
-\newcommand{\piepagina}{%
-  \begin{tikzpicture}[remember picture,overlay]
-    \node[anchor=south west,fill=navy,text=white,rounded corners=2pt,
-          inner sep=4pt,minimum width=1.1cm] at ([xshift=1.9cm,yshift=1.15cm]current page.south west) {%
-      \headfontsb\fontsize{9}{9}\selectfont\thepage~|%
-    };
-    \node[anchor=south east,text=gray] at ([xshift=-2.2cm,yshift=1.2cm]current page.south east) {%
-      \headfont\fontsize{8}{8}\selectfont \institucionpie~\textcolor{accent}{|}%
-    };
-  \end{tikzpicture}%
+% ---------- Cabecera y pie de página ----------
+\usepackage{fancyhdr}
+\fancypagestyle{hades}{%
+  \fancyhf{}%
+  \fancyhead[L]{\headfont\footnotesize\color{muted}$if(unidad-numero)$\kicker$else$\doctitle$endif$}%
+  \fancyhead[R]{\headfont\footnotesize\color{muted}\nouppercase{\leftmark}}%
+  \fancyfoot[L]{\headfont\footnotesize\color{muted}\institucionpie}%
+  \fancyfoot[R]{\headfontsb\footnotesize\color{heading}\thepage}%
+  \renewcommand{\headrulewidth}{0.4pt}%
+  \renewcommand{\headrule}{{\color{rule}\hrule width\headwidth height\headrulewidth \vskip-\headrulewidth}}%
+  \renewcommand{\footrulewidth}{0pt}%
 }
-\fancyfoot[C]{\piepagina}
-
 \fancypagestyle{plain}{%
-  \fancyhf{}
-  \fancyhead[C]{\bandacabecera}
-  \fancyfoot[C]{\piepagina}
-  \renewcommand{\headrulewidth}{0pt}
-  \renewcommand{\footrulewidth}{0pt}
+  \fancyhf{}%
+  \fancyfoot[L]{\headfont\footnotesize\color{muted}\institucionpie}%
+  \fancyfoot[R]{\headfontsb\footnotesize\color{heading}\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
 }
+\pagestyle{hades}
+% \leftmark con el título de la sección, numerada o no
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
 
 % ---------- Titulares ----------
 \usepackage{titlesec}
 
 \titleformat{\section}
-  {\headfontsb\fontsize{20}{24}\selectfont\color{accent}}
-  {\headfontsb\color{accent}/~\thesection.}
-  {6pt}
+  {\headfontsb\fontsize{17}{21}\selectfont\color{heading}}
+  {\textcolor{accent}{\thesection}}
+  {0.6em}
   {}
-\titlespacing*{\section}{0pt}{22pt}{14pt}
+\titlespacing*{\section}{0pt}{24pt}{8pt}
 
 \titleformat{\subsection}
-  {\headfontsb\fontsize{14}{17}\selectfont\color{accent}}
-  {\thesubsection.}
-  {6pt}
+  {\headfontsb\fontsize{13}{16}\selectfont\color{heading}}
+  {\textcolor{accent}{\thesubsection}}
+  {0.6em}
   {}
-\titlespacing*{\subsection}{0pt}{16pt}{8pt}
+\titlespacing*{\subsection}{0pt}{16pt}{6pt}
 
 \titleformat{\subsubsection}
-  {\headfontsb\fontsize{11.5}{14}\selectfont\color{accent}}
+  {\headfontsb\fontsize{11}{14}\selectfont\color{accentdark}}
   {\thesubsubsection}
-  {5pt}
+  {0.6em}
   {}
-\titlespacing*{\subsubsection}{0pt}{12pt}{6pt}
+\titlespacing*{\subsubsection}{0pt}{12pt}{4pt}
 
 \titleformat{\paragraph}[runin]
-  {\headfontsb\fontsize{11}{13}\selectfont\color{navy}}
-  {}
-  {0pt}
-  {}[\ ]
-\titlespacing*{\paragraph}{0pt}{10pt}{4pt}
+  {\headfontsb\normalsize\color{heading}}
+  {}{0pt}{}[.\ ]
+\titlespacing*{\paragraph}{0pt}{8pt}{0pt}
 
-\setcounter{secnumdepth}{3}
+% Sin numerar (# Título {.unnumbered}): mismo aspecto
+\titleformat{name=\section,numberless}
+  {\headfontsb\fontsize{17}{21}\selectfont\color{heading}}{}{0pt}{}
+\titleformat{name=\subsection,numberless}
+  {\headfontsb\fontsize{13}{16}\selectfont\color{heading}}{}{0pt}{}
 
-% ---------- Título de sección "en caja" (estilo Resumen/Competencias) ----------
-% Uso en Markdown:
-%   ::: {.cajatitulo}
-%   Resumen
-%   :::
-\newtcolorbox{cajatitulo}{
-  colback=boxbg, colframe=boxbg, sharp corners,
-  boxrule=0pt, arc=0pt, left=10pt, right=10pt, top=6pt, bottom=6pt,
-  fontupper=\headfontsb\fontsize{13}{15}\selectfont\color{navy}\centering,
-  width=0.62\linewidth, halign=center
+% ---------- Índice ----------
+\usepackage{titletoc}
+\titlecontents{section}[1.6em]{\addvspace{6pt}\headfontsb\color{heading}}
+  {\contentslabel[\textcolor{accent}{\thecontentslabel}]{1.6em}}{\hspace*{-1.6em}}
+  {\hfill\contentspage}
+\titlecontents{subsection}[3.8em]{\addvspace{1pt}\color{ink}}
+  {\contentslabel[\textcolor{muted}{\thecontentslabel}]{2.2em}}{\hspace*{-2.2em}}
+  {\titlerule*[0.6pc]{\textcolor{ruledark}{.}}\contentspage}
+\titlecontents{subsubsection}[6.6em]{\small\color{muted}}
+  {\contentslabel{2.8em}}{\hspace*{-2.8em}}
+  {\titlerule*[0.6pc]{\textcolor{ruledark}{.}}\contentspage}
+
+% ---------- Cajas ----------
+% Estilo común: fondo muy suave del color de la caja y filete a la izquierda
+\tcbset{
+  hadesbox/.style={
+    breakable, enhanced, sharp corners, frame hidden,
+    colback=#1!5!white, boxrule=0pt,
+    borderline west={2.5pt}{0pt}{#1},
+    left=10pt, right=10pt, top=7pt, bottom=7pt,
+    before skip=10pt, after skip=10pt
+  }
 }
 
-% ---------- Cajas de contenido didáctico ----------
-% Resumen / síntesis
-\newtcolorbox{resumen}{
-  breakable, colback=boxbg!55, colframe=navy, boxrule=0pt, left=10pt, right=10pt,
-  top=8pt, bottom=8pt, arc=2pt, leftrule=3pt, borderline west={3pt}{0pt}{navy},
-  title={\headfontsb\color{navy}Resumen}, fonttitle=\headfontsb, coltitle=navy,
-  attach title to upper, before upper={\par\vspace{2pt}}
-}
+% Uso en Markdown:  ::: {.resumen}  …  :::
+\newtcolorbox{resumen}{hadesbox=boxresumen, before upper={{\headfontsb\footnotesize\color{accentdark}RESUMEN}\par\vspace{3pt}}}
+\newtcolorbox{ejemplo}{hadesbox=boxejemplo}
+\newtcolorbox{definicion}{hadesbox=boxdefinicion}
+\newtcolorbox{nota}{hadesbox=boxnota}
 
-% Ejemplo aplicado
-\newtcolorbox{ejemplo}{
-  breakable, colback=examplebg, colframe=examplebar, boxrule=0pt, left=10pt, right=10pt,
-  top=8pt, bottom=8pt, arc=2pt, leftrule=3pt, borderline west={3pt}{0pt}{examplebar},
-  fonttitle=\headfontsb, coltitle=examplebar!70!black
-}
-
-% Definición / término clave
-\newtcolorbox{definicion}{
-  breakable, colback=defbg, colframe=defbar, boxrule=0pt, left=10pt, right=10pt,
-  top=8pt, bottom=8pt, arc=2pt, leftrule=3pt, borderline west={3pt}{0pt}{defbar},
-  fonttitle=\headfontsb, coltitle=defbar
-}
-
-% Nota / advertencia metodológica
-\newtcolorbox{nota}{
-  breakable, colback=notebg, colframe=notebar, boxrule=0pt, left=10pt, right=10pt,
-  top=8pt, bottom=8pt, arc=2pt, leftrule=3pt, borderline west={3pt}{0pt}{notebar},
-  fonttitle=\headfontsb, coltitle=notebar!80!black
-}
-
-% Formula destacada (para acompanar bloques display: dolar doble)
+% Fórmula destacada: recuadro fino, centrado
 \newtcolorbox{formuladestacada}{
-  breakable, colback=formulabg, colframe=navy!40, boxrule=0.6pt, left=12pt, right=12pt,
-  top=8pt, bottom=8pt, arc=2pt
+  breakable, enhanced, sharp corners, colback=white, colframe=ruledark,
+  boxrule=0.6pt, left=12pt, right=12pt, top=6pt, bottom=6pt,
+  before skip=10pt, after skip=10pt, halign=center
 }
 
-% Objetivos / competencias (lista con icono simple)
+% Objetivos / competencias: recuadro fino con filete de acento
 \newtcolorbox{competencias}{
-  breakable, colback=white, colframe=accent, boxrule=0.8pt, left=10pt, right=10pt,
-  top=8pt, bottom=8pt, arc=2pt
+  breakable, enhanced, sharp corners, colback=white, colframe=rule,
+  boxrule=0.6pt, borderline west={2.5pt}{0pt}{accent},
+  left=10pt, right=10pt, top=7pt, bottom=7pt,
+  before skip=10pt, after skip=10pt
 }
+
+% Título centrado de apartado:  ::: {.cajatitulo}
+\newenvironment{cajatitulo}{%
+  \par\vspace{10pt}\begin{center}\headfontsb\large\color{heading}%
+}{%
+  \par\vspace{-4pt}{\color{accent}\rule{1.6cm}{1.5pt}}\end{center}\vspace{4pt}%
+}
+
+% Callouts (callouts.lua): \begin{hadescallout}{color}{Título}
+\newtcolorbox{hadescallout}[2]{
+  hadesbox=#1,
+  before upper={{\headfontsb\small\color{#1!75!black}#2}\par\vspace{3pt}}
+}
+
+% Citas (> ...)
+\renewenvironment{quote}{%
+  \begin{tcolorbox}[breakable, enhanced, sharp corners, frame hidden,
+    colback=white, boxrule=0pt, borderline west={2pt}{0pt}{ruledark},
+    left=12pt, right=8pt, top=2pt, bottom=2pt,
+    before skip=8pt, after skip=8pt, fontupper=\color{muted}]%
+}{\end{tcolorbox}}
 
 % ---------- Tablas ----------
-\renewcommand{\arraystretch}{1.25}
-\newcommand{\seteotablehead}{\rowcolor{tablehead}}
+\renewcommand{\arraystretch}{1.3}
+\setlength{\heavyrulewidth}{0.8pt}
+\setlength{\lightrulewidth}{0.4pt}
 
 % ---------- Código ----------
 \usepackage{fancyvrb}
@@ -267,87 +289,67 @@ $endif$
 \fvset{breaklines=true,breakanywhere=true,fontsize=\small}
 $if(highlighting-macros)$
 $highlighting-macros$
-% Bloques de código con fondo lila y barra lateral
 \makeatletter
 \@ifundefined{Shaded}{}{%
   \renewenvironment{Shaded}{%
     \begin{tcolorbox}[breakable, enhanced, sharp corners, frame hidden,
-      colback=codebg, boxrule=0pt, borderline west={2.5pt}{0pt}{accent},
-      left=8pt, right=6pt, top=4pt, bottom=4pt, before skip=8pt, after skip=8pt]%
+      colback=codebg, boxrule=0pt, borderline west={2pt}{0pt}{accent!45},
+      left=10pt, right=8pt, top=5pt, bottom=5pt, before skip=8pt, after skip=8pt]%
   }{\end{tcolorbox}}%
 }
 \makeatother
 $endif$
 
-% ---------- Compatibilidad con versiones recientes de pandoc ----------
-% pandoc >= 3.2 envuelve las imágenes en \pandocbounded y usa el contador
-% "none" para tablas sin título
-\makeatletter
-\newsavebox\pandoc@box
-\providecommand*\pandocbounded[1]{%
-  \sbox\pandoc@box{#1}%
-  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
-  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
-  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi
-  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
-  \else\usebox{\pandoc@box}%
-  \fi}
-\@ifundefined{c@none}{\newcounter{none}}{}
-\makeatother
-\providecommand{\passthrough}[1]{#1}
-$if(strikeout)$
-\providecommand{\st}[1]{\sout{#1}}
-$endif$
-
-% ---------- Citas (> ...) ----------
-\renewenvironment{quote}{%
-  \begin{tcolorbox}[breakable, enhanced, sharp corners, frame hidden,
-    colback=formulabg, boxrule=0pt, borderline west={3pt}{0pt}{accent},
-    left=10pt, right=8pt, top=6pt, bottom=6pt,
-    before skip=8pt, after skip=8pt, fontupper=\itshape\color{bodytext!80}]%
-}{\end{tcolorbox}}
-
-% ---------- Callouts (callouts.lua) ----------
-\newtcolorbox{hadescallout}[2]{%
-  breakable, enhanced, sharp corners,
-  colback=#1!6!white, colframe=#1,
-  boxrule=0pt, leftrule=3pt, toprule=0pt, bottomrule=0pt, rightrule=0pt,
-  colbacktitle=#1!14!white, coltitle=#1!70!black,
-  title={\headfontsb #2},
-  left=8pt, right=8pt, top=4pt, bottom=4pt,
-  before skip=10pt, after skip=10pt
-}
-
-% ---------- Notas al pie ----------
+% ---------- Notas al pie y leyendas ----------
 \usepackage[bottom]{footmisc}
-
-% ---------- Cabeceras de tabla en pandoc (longtable) mejor separadas ----------
 \usepackage{caption}
-\captionsetup{font=small,labelfont={bf,color=accentdark},skip=4pt}
+\captionsetup{font={small,color=muted},labelfont={bf,color=accentdark},labelsep=period,skip=6pt}
 
-% Listas con viñetas moradas
-\setlist[itemize,1]{label=\textcolor{accent}{\textbullet}}
-\setlist[itemize,2]{label=\textcolor{accentdark}{\textendash}}
-
-% ---------- Soporte oficial de pandoc para bibliografías vía citeproc ----------
-% (bloque estándar tomado de la plantilla LaTeX por defecto de pandoc;
-%  imprescindible para que compile la bibliografía generada con --citeproc)
+% ---------- Bibliografía (citeproc) ----------
 $if(csl-refs)$
+$if(csl-modern)$
+% pandoc >= 3.1.8: \citeproc y \bibitem
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ \let\@cite@ofmt\@firstofone
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
 \newlength{\csllabelwidth}
 \setlength{\csllabelwidth}{3em}
-\newlength{\cslentryspacingunit} % times entry-spacing
+\newenvironment{CSLReferences}[2]
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+$else$
+% pandoc < 3.1.8
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit}
 \setlength{\cslentryspacingunit}{\parskip}
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
-  % turn on hanging indent if param 1 is 1
+\newenvironment{CSLReferences}[2]
+ {\setlength{\parindent}{0pt}
   \ifodd #1
   \let\oldpar\par
   \def\par{\hangindent=\cslhangindent\oldpar}
   \fi
-  % set entry spacing
   \setlength{\parskip}{#2\cslentryspacingunit}
  }%
  {}
@@ -356,90 +358,87 @@ $if(csl-refs)$
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 $endif$
+$endif$
 
 $for(header-includes)$
 $header-includes$
 $endfor$
 
+% ---------- Bloque de título ----------
+\newcommand{\hadestitulo}{%
+  {\color{accent}\rule{2.2cm}{2pt}}\par\vspace{14pt}
+  \ifx\kicker\empty\else
+    {\headfontsb\footnotesize\color{accentdark}\addfontfeature{LetterSpace=8}\MakeUppercase{\kicker}}\par\vspace{6pt}
+  \fi
+  {\headfontsb\fontsize{26}{31}\selectfont\color{heading}\raggedright\doctitle\par}
+$if(subtitle)$
+  \vspace{8pt}{\headfont\fontsize{14}{18}\selectfont\color{muted}\raggedright $subtitle$\par}
+$endif$
+$if(subtitulo-portada)$
+  \vspace{4pt}{\headfont\fontsize{12}{15}\selectfont\color{muted}$subtitulo-portada$\par}
+$endif$
+  \vspace{14pt}
+  {\headfont\small\color{muted}%
+$if(author)$
+  {\color{ink}$for(author)$$author$$sep$, $endfor$}%
+$endif$
+$if(date)$
+$if(author)$\quad\textperiodcentered\quad{}$endif$$date$%
+$endif$
+$if(date-text)$
+$if(author)$\quad\textperiodcentered\quad{}$endif$$date-text$%
+$endif$
+  \par}
+}
+
 \begin{document}
 
+$if(title)$
+$if(portada)$
 % ============================================================
-% PORTADA
+% PORTADA (portada: true)
 % ============================================================
 \begin{titlepage}
-\newgeometry{margin=0cm}
 \thispagestyle{empty}
-\begin{tikzpicture}[remember picture,overlay]
-  \fill[navy] (current page.north west) rectangle (current page.south east);
-
-  % Franja de acento superior
-  \fill[accent] ([yshift=-0.28cm]current page.north west) rectangle ([yshift=-0.34cm]current page.north east);
-
-  % Emblema genérico (rombo concéntrico) centrado arriba
-  \node[anchor=north] at ([yshift=-2.6cm]current page.north) {%
-    \begin{tikzpicture}
-      \draw[white,line width=1pt] (0,0) -- (0.9,0.9) -- (1.8,0) -- (0.9,-0.9) -- cycle;
-      \draw[accent,line width=1pt] (0.45,0) -- (0.9,0.45) -- (1.35,0) -- (0.9,-0.45) -- cycle;
-    \end{tikzpicture}%
-  };
-
+\vspace*{0.22\textheight}
+\hadestitulo
+\vfill
 $if(institucion)$
-  \node[anchor=north,text=white] at ([yshift=-4.4cm]current page.north) {%
-    \headfontsb\fontsize{30}{34}\selectfont $institucion$
-  };
+{\headfontsb\normalsize\color{heading}$institucion$\par}
 $endif$
 $if(institucion-lema)$
-  \node[anchor=north,text=white!85!black] at ([yshift=-5.35cm]current page.north) {%
-    \headfont\fontsize{10.5}{12}\selectfont\MakeUppercase{$institucion-lema$}
-  };
+{\headfont\small\color{muted}$institucion-lema$\par}
 $endif$
-
-  % Línea ondulada estilizada (separador decorativo simple)
-  \fill[accent!35] ([yshift=-8.6cm]current page.north west) rectangle ([yshift=-8.75cm]current page.north east);
-
-  % Bloque inferior de título de unidad
-  \node[anchor=south west,text=white,align=left] at ([xshift=2.2cm,yshift=6.3cm]current page.south west) {%
-    \begin{minipage}{14cm}
-$if(asignatura)$
-    \headfontsb\fontsize{11}{13}\selectfont \MakeUppercase{\asignaturanombre}\\[10pt]
-$endif$
-$if(unidad-numero)$
-    {\headfontsb\fontsize{34}{38}\selectfont Unidad \unidadnum}\\[10pt]
-    {\headfontsb\fontsize{22}{26}\selectfont\color{accent}/~$title$}
-$else$
-    {\headfontsb\fontsize{30}{36}\selectfont\color{accent}/~$title$}
-$endif$
-$if(subtitle)$
-    \\[8pt]{\headfont\fontsize{14}{18}\selectfont $subtitle$}
-$endif$
-    \end{minipage}%
-  };
-
-  \node[anchor=south,text=white!70!black] at ([yshift=1.3cm]current page.south) {%
-    \headfont\fontsize{9}{11}\selectfont $if(subtitulo-portada)$$subtitulo-portada$$endif$
-  };
-  \node[anchor=south,text=white!55!black] at ([yshift=0.6cm]current page.south) {%
-    \headfont\fontsize{8}{9}\selectfont $if(date)$$date$$else$\today$endif$$if(author)$ \textbullet\ $for(author)$$author$$sep$, $endfor$$endif$
-  };
-\end{tikzpicture}
-\restoregeometry
+\vspace{6pt}{\color{rule}\rule{\linewidth}{0.4pt}}
 \end{titlepage}
-
 \setcounter{page}{1}
-
-$if(toc)$
-{
-\hypersetup{linkcolor=navy}
-\renewcommand{\contentsname}{\textcolor{accent}{/}\ $if(toc-title)$$toc-title$$else$Índice$endif$}
-\tableofcontents
-}
-\newpage
+$else$
+\thispagestyle{plain}
+\hadestitulo
+\vspace{10pt}{\color{rule}\rule{\linewidth}{0.4pt}}\par\vspace{6pt}
+$endif$
 $endif$
 
 $if(abstract)$
 \begin{resumen}
 $abstract$
 \end{resumen}
+$endif$
+
+$if(toc)$
+{
+\hypersetup{linkcolor=ink}
+\renewcommand{\contentsname}{$if(toc-title)$$toc-title$$else$Índice$endif$}
+\setcounter{tocdepth}{$if(toc-depth)$$toc-depth$$else$2$endif$}
+\titleformat{name=\section,numberless}
+  {\headfontsb\fontsize{17}{21}\selectfont\color{heading}}{}{0pt}{}
+\tableofcontents
+}
+$if(portada)$
+\newpage
+$else$
+\vspace{6pt}{\color{rule}\rule{\linewidth}{0.4pt}}\par
+$endif$
 $endif$
 
 $for(include-before)$
