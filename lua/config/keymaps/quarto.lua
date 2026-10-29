@@ -18,6 +18,11 @@ function M.setup(buf)
 	keys.buffer(buf, "n", "<localleader>qs", "<cmd>QuartoClosePreview<CR>", "[q]uarto [s]top preview")
 
 	---------------------------------------------------------------------------
+	-- Export a pdf/html con la plantilla de scripts/templates/hades
+	---------------------------------------------------------------------------
+	require("config.keymaps.export").setup(buf)
+
+	---------------------------------------------------------------------------
 	-- Presentaciones (reveal.js, plantilla en <config>/scripts/templates/slides)
 	---------------------------------------------------------------------------
 	local slides = require("config.utils.slides")

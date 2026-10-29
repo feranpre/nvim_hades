@@ -1,18 +1,18 @@
 \documentclass[11pt,a4paper]{article}
 
 % ============================================================
-% PLANTILLA "UTAMED-STYLE" PARA PANDOC
-% Análisis de Datos en Psicología I
+% PLANTILLA HADES PARA PANDOC  (color principal #9B5DE5)
 % ------------------------------------------------------------
-% Replica el sistema visual de los PDF de unidad:
-%   - Portada azul marino con bloque de título
-%   - Cabecera de página con banda azul marino
+%   - Portada morada oscura con bloque de título
+%   - Cabecera de página con banda morada
 %   - Pie de página con "píldora" de número de página
-%   - Titulares en azul con el prefijo "/"
+%   - Titulares en morado con el prefijo "/"
 %   - Cajas de color para Resumen, Ejemplo, Definición, Nota, Fórmula
-% No reproduce fotografías ni el escudo/logo original de la
-% universidad (son material con derechos de autor propios de
-% UTAMED); en su lugar usa un emblema genérico configurable.
+%   - Callouts (::: {.callout-note}, > [!NOTE]) vía callouts.lua
+%
+% Variables opcionales del YAML: unidad-numero, unidad-titulo,
+% asignatura, institucion, institucion-lema, subtitulo-portada,
+% pie-institucion. Si no se indican, no aparecen.
 % ============================================================
 
 % ---------- Geometría de página ----------
@@ -22,6 +22,9 @@
 \usepackage{fontspec}
 \usepackage{polyglossia}
 \setmainlanguage{spanish}
+% "Tabla" en lugar de "Cuadro"
+\usepackage{etoolbox}
+\gappto\captionsspanish{\renewcommand{\tablename}{Tabla}\renewcommand{\listtablename}{Índice de tablas}}
 
 % Familias tipográficas. Si el sistema no tiene "Fira Sans" / "Lato"
 % instaladas, sustituye por alternativas razonables automáticamente.
@@ -32,20 +35,28 @@
 
 % ---------- Color ----------
 \usepackage{xcolor}
-\definecolor{navy}{RGB}{21,26,48}        % azul marino de cabecera/pie/portada
-\definecolor{navylight}{RGB}{33,41,74}   % variante para degradados/sombras
-\definecolor{accent}{RGB}{52,142,202}    % azul de titulares "/ Título"
-\definecolor{accentdark}{RGB}{28,99,150} % azul oscuro para enlaces/DOI
-\definecolor{boxbg}{RGB}{223,232,242}    % fondo gris-azulado de cajas "Resumen"
-\definecolor{examplebg}{RGB}{234,244,240}% fondo verdoso para "Ejemplo aplicado"
-\definecolor{examplebar}{RGB}{56,150,120}
-\definecolor{notebg}{RGB}{255,244,224}   % fondo ámbar para "Nota"
-\definecolor{notebar}{RGB}{201,138,32}
-\definecolor{defbg}{RGB}{237,233,247}    % fondo lila para "Definición"
-\definecolor{defbar}{RGB}{110,80,180}
-\definecolor{formulabg}{RGB}{240,240,245}
-\definecolor{bodytext}{RGB}{35,35,40}
-\definecolor{tablehead}{RGB}{21,26,48}
+% (los nombres navy/accent se mantienen para no romper nada que los use)
+\definecolor{navy}{HTML}{2A1745}         % morado muy oscuro: cabecera/pie/portada
+\definecolor{navylight}{HTML}{3D2163}    % variante para degradados/sombras
+\definecolor{accent}{HTML}{9B5DE5}       % color principal: titulares "/ Título"
+\definecolor{accentdark}{HTML}{6A2FB8}   % morado oscuro para enlaces/DOI
+\definecolor{boxbg}{HTML}{EFE6FB}        % fondo lila claro de cajas "Resumen"
+\definecolor{examplebg}{HTML}{E6F7F2}    % fondo verdoso para "Ejemplo aplicado"
+\definecolor{examplebar}{HTML}{00A884}
+\definecolor{notebg}{HTML}{FFF4DC}       % fondo ámbar para "Nota"
+\definecolor{notebar}{HTML}{E09F00}
+\definecolor{defbg}{HTML}{FCE8F4}        % fondo rosado para "Definición"
+\definecolor{defbar}{HTML}{C2187A}
+\definecolor{formulabg}{HTML}{F6F1FD}
+\definecolor{bodytext}{HTML}{231F2B}
+\definecolor{tablehead}{HTML}{2A1745}
+\definecolor{codebg}{HTML}{F6F1FD}
+% Colores de los callouts (callouts.lua)
+\definecolor{hadesnote}{HTML}{0096C7}
+\definecolor{hadestip}{HTML}{00A884}
+\definecolor{hadeswarning}{HTML}{E09F00}
+\definecolor{hadesimportant}{HTML}{9B5DE5}
+\definecolor{hadescaution}{HTML}{D0213B}
 
 \color{bodytext}
 
@@ -57,16 +68,6 @@
 % ---------- Utilidades de maquetación ----------
 \usepackage{graphicx}
 \usepackage{calc}  % requerido por pandoc para anchos de columna (\real{...}) en tablas
-
-% Workaround para un bug conocido de pandoc >= 3.8 (jgm/pandoc#11189, #11201):
-% en tablas sin título, pandoc emite \def\LTcaptype{none}, pero versiones de
-% "longtable" anteriores a la 4.21 no traen definido un contador "none",
-% lo que provoca "LaTeX Error: No counter 'none' defined" justo en la línea
-% con \real{...}. Predefinirlo aquí lo evita sin depender de la versión de
-% longtable instalada.
-\makeatletter
-\@ifundefined{c@none}{\newcounter{none}}{}
-\makeatother
 % Escala las imágenes para que no desborden la caja de texto
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -101,7 +102,7 @@
   urlcolor=accentdark,
   filecolor=accentdark,
   pdftitle={$title$},
-  pdfauthor={$if(author)$$author$$else$$institucion$$endif$},
+  pdfauthor={$for(author)$$author$$sep$, $endfor$},
   breaklinks=true
 }
 \urlstyle{same}
@@ -114,10 +115,10 @@
 \renewcommand{\footrulewidth}{0pt}
 
 % Variables de la unidad (se rellenan desde el YAML del .md)
-\newcommand{\unidadnum}{$if(unidad-numero)$$unidad-numero$$else$1$endif$}
+\newcommand{\unidadnum}{$if(unidad-numero)$$unidad-numero$$endif$}
 \newcommand{\unidadtitulo}{$if(unidad-titulo)$$unidad-titulo$$else$$title$$endif$}
-\newcommand{\asignaturanombre}{$if(asignatura)$$asignatura$$else$Análisis de Datos en Psicología I$endif$}
-\newcommand{\institucionpie}{$if(pie-institucion)$$pie-institucion$$else$Grado en Psicología$endif$}
+\newcommand{\asignaturanombre}{$if(asignatura)$$asignatura$$endif$}
+\newcommand{\institucionpie}{$if(pie-institucion)$$pie-institucion$$else$$if(asignatura)$$asignatura$$else$$for(author)$$author$$sep$, $endfor$$endif$$endif$}
 
 % Banda de cabecera dibujada con TikZ para controlar el ancho completo
 \newcommand{\bandacabecera}{%
@@ -136,7 +137,9 @@
     };
     \node[anchor=north east,text=white] at ([xshift=-1.6cm,yshift=-0.42cm]current page.north east) {%
       \parbox[t]{9.5cm}{\raggedleft
+$if(unidad-numero)$
       \headfontsb\fontsize{9}{12}\selectfont UNIDAD \unidadnum\par
+$endif$
       \headfontsb\fontsize{9}{12}\selectfont /\ \MakeUppercase{\unidadtitulo}\par
       \headfont\fontsize{8}{11}\itshape\selectfont \asignaturanombre\par}
     };
@@ -221,7 +224,7 @@
   attach title to upper, before upper={\par\vspace{2pt}}
 }
 
-% Ejemplo aplicado a psicología
+% Ejemplo aplicado
 \newtcolorbox{ejemplo}{
   breakable, colback=examplebg, colframe=examplebar, boxrule=0pt, left=10pt, right=10pt,
   top=8pt, bottom=8pt, arc=2pt, leftrule=3pt, borderline west={3pt}{0pt}{examplebar},
@@ -262,17 +265,69 @@
 \usepackage{fancyvrb}
 \usepackage{fvextra}
 \fvset{breaklines=true,breakanywhere=true,fontsize=\small}
-\definecolor{codebg}{RGB}{245,245,248}
 $if(highlighting-macros)$
 $highlighting-macros$
+% Bloques de código con fondo lila y barra lateral
+\makeatletter
+\@ifundefined{Shaded}{}{%
+  \renewenvironment{Shaded}{%
+    \begin{tcolorbox}[breakable, enhanced, sharp corners, frame hidden,
+      colback=codebg, boxrule=0pt, borderline west={2.5pt}{0pt}{accent},
+      left=8pt, right=6pt, top=4pt, bottom=4pt, before skip=8pt, after skip=8pt]%
+  }{\end{tcolorbox}}%
+}
+\makeatother
 $endif$
+
+% ---------- Compatibilidad con versiones recientes de pandoc ----------
+% pandoc >= 3.2 envuelve las imágenes en \pandocbounded y usa el contador
+% "none" para tablas sin título
+\makeatletter
+\newsavebox\pandoc@box
+\providecommand*\pandocbounded[1]{%
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi}
+\@ifundefined{c@none}{\newcounter{none}}{}
+\makeatother
+\providecommand{\passthrough}[1]{#1}
+$if(strikeout)$
+\providecommand{\st}[1]{\sout{#1}}
+$endif$
+
+% ---------- Citas (> ...) ----------
+\renewenvironment{quote}{%
+  \begin{tcolorbox}[breakable, enhanced, sharp corners, frame hidden,
+    colback=formulabg, boxrule=0pt, borderline west={3pt}{0pt}{accent},
+    left=10pt, right=8pt, top=6pt, bottom=6pt,
+    before skip=8pt, after skip=8pt, fontupper=\itshape\color{bodytext!80}]%
+}{\end{tcolorbox}}
+
+% ---------- Callouts (callouts.lua) ----------
+\newtcolorbox{hadescallout}[2]{%
+  breakable, enhanced, sharp corners,
+  colback=#1!6!white, colframe=#1,
+  boxrule=0pt, leftrule=3pt, toprule=0pt, bottomrule=0pt, rightrule=0pt,
+  colbacktitle=#1!14!white, coltitle=#1!70!black,
+  title={\headfontsb #2},
+  left=8pt, right=8pt, top=4pt, bottom=4pt,
+  before skip=10pt, after skip=10pt
+}
 
 % ---------- Notas al pie ----------
 \usepackage[bottom]{footmisc}
 
 % ---------- Cabeceras de tabla en pandoc (longtable) mejor separadas ----------
 \usepackage{caption}
-\captionsetup{font=small,labelfont={bf,color=navy},skip=4pt}
+\captionsetup{font=small,labelfont={bf,color=accentdark},skip=4pt}
+
+% Listas con viñetas moradas
+\setlist[itemize,1]{label=\textcolor{accent}{\textbullet}}
+\setlist[itemize,2]{label=\textcolor{accentdark}{\textendash}}
 
 % ---------- Soporte oficial de pandoc para bibliografías vía citeproc ----------
 % (bloque estándar tomado de la plantilla LaTeX por defecto de pandoc;
@@ -302,6 +357,10 @@ $if(csl-refs)$
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 $endif$
 
+$for(header-includes)$
+$header-includes$
+$endfor$
+
 \begin{document}
 
 % ============================================================
@@ -324,12 +383,16 @@ $endif$
     \end{tikzpicture}%
   };
 
+$if(institucion)$
   \node[anchor=north,text=white] at ([yshift=-4.4cm]current page.north) {%
-    \headfontsb\fontsize{30}{34}\selectfont $if(institucion)$$institucion$$else$UTAMED$endif$
+    \headfontsb\fontsize{30}{34}\selectfont $institucion$
   };
+$endif$
+$if(institucion-lema)$
   \node[anchor=north,text=white!85!black] at ([yshift=-5.35cm]current page.north) {%
-    \headfont\fontsize{10.5}{12}\selectfont\MakeUppercase{$if(institucion-lema)$$institucion-lema$$else$Material propio de estudio$endif$}
+    \headfont\fontsize{10.5}{12}\selectfont\MakeUppercase{$institucion-lema$}
   };
+$endif$
 
   % Línea ondulada estilizada (separador decorativo simple)
   \fill[accent!35] ([yshift=-8.6cm]current page.north west) rectangle ([yshift=-8.75cm]current page.north east);
@@ -337,17 +400,26 @@ $endif$
   % Bloque inferior de título de unidad
   \node[anchor=south west,text=white,align=left] at ([xshift=2.2cm,yshift=6.3cm]current page.south west) {%
     \begin{minipage}{14cm}
+$if(asignatura)$
     \headfontsb\fontsize{11}{13}\selectfont \MakeUppercase{\asignaturanombre}\\[10pt]
+$endif$
+$if(unidad-numero)$
     {\headfontsb\fontsize{34}{38}\selectfont Unidad \unidadnum}\\[10pt]
     {\headfontsb\fontsize{22}{26}\selectfont\color{accent}/~$title$}
+$else$
+    {\headfontsb\fontsize{30}{36}\selectfont\color{accent}/~$title$}
+$endif$
+$if(subtitle)$
+    \\[8pt]{\headfont\fontsize{14}{18}\selectfont $subtitle$}
+$endif$
     \end{minipage}%
   };
 
   \node[anchor=south,text=white!70!black] at ([yshift=1.3cm]current page.south) {%
-    \headfont\fontsize{9}{11}\selectfont $if(subtitulo-portada)$$subtitulo-portada$$else$Apuntes personales de la asignatura$endif$
+    \headfont\fontsize{9}{11}\selectfont $if(subtitulo-portada)$$subtitulo-portada$$endif$
   };
   \node[anchor=south,text=white!55!black] at ([yshift=0.6cm]current page.south) {%
-    \headfont\fontsize{8}{9}\selectfont $if(date)$$date$$else$\today$endif$$if(author)$ \textbullet\ $author$$endif$
+    \headfont\fontsize{8}{9}\selectfont $if(date)$$date$$else$\today$endif$$if(author)$ \textbullet\ $for(author)$$author$$sep$, $endfor$$endif$
   };
 \end{tikzpicture}
 \restoregeometry
@@ -358,12 +430,26 @@ $endif$
 $if(toc)$
 {
 \hypersetup{linkcolor=navy}
-\renewcommand{\contentsname}{\textcolor{accent}{/}\ Índice}
+\renewcommand{\contentsname}{\textcolor{accent}{/}\ $if(toc-title)$$toc-title$$else$Índice$endif$}
 \tableofcontents
 }
 \newpage
 $endif$
 
+$if(abstract)$
+\begin{resumen}
+$abstract$
+\end{resumen}
+$endif$
+
+$for(include-before)$
+$include-before$
+$endfor$
+
 $body$
+
+$for(include-after)$
+$include-after$
+$endfor$
 
 \end{document}

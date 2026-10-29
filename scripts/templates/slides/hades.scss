@@ -1,18 +1,19 @@
 /*-- scss:defaults --*/
 
-// Paleta de los apuntes (scripts/templates/utamed/template.tex)
-$navy: #151A30;
-$navy-light: #21294A;
-$accent: #348ECA;
-$accent-dark: #1C6396;
-$box-bg: #DFE8F2;
-$example-bg: #EAF4F0;
-$example-bar: #389678;
-$note-bg: #FFF4E0;
-$note-bar: #C98A20;
-$def-bg: #EDE9F7;
-$def-bar: #6E50B4;
-$body-text: #232328;
+// Paleta de los apuntes (scripts/templates/hades/template.tex)
+// Color principal: #9B5DE5
+$navy: #2A1745;
+$navy-light: #3D2163;
+$accent: #9B5DE5;
+$accent-dark: #6A2FB8;
+$box-bg: #EFE6FB;
+$example-bg: #E6F7F2;
+$example-bar: #00A884;
+$note-bg: #FFF4DC;
+$note-bar: #E09F00;
+$def-bg: #FCE8F4;
+$def-bar: #C2187A;
+$body-text: #231F2B;
 
 // Tipografía: Fira Sans en titulares, Lato en el texto (si no están
 // instaladas, el navegador usa las alternativas)
@@ -29,7 +30,7 @@ $body-bg: #FFFFFF;
 $body-color: $body-text;
 $link-color: $accent-dark;
 $presentation-heading-color: $navy;
-$code-block-bg: #F5F5F8;
+$code-block-bg: #F6F1FD;
 $code-block-border-color: lighten($accent, 30%);
 $code-block-font-size: 0.6em;
 $code-color: $accent-dark;
@@ -57,7 +58,7 @@ $code-color: $accent-dark;
   color: $accent;
 }
 
-// Portada y diapositivas de sección (fondo navy, ver el YAML y los "#")
+// Portada y diapositivas de sección (fondo morado oscuro, ver el YAML y los "#")
 .reveal #title-slide,
 .reveal section.level1.title-slide,
 .reveal section.has-dark-background {
@@ -160,7 +161,7 @@ $code-color: $accent-dark;
   width: fit-content;
 }
 
-// Tablas con cabecera navy
+// Tablas con cabecera morada
 .reveal table {
   font-size: 0.75em;
 

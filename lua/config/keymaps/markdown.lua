@@ -2,12 +2,6 @@ local keys = require("config.utils.keymaps")
 
 local M = {}
 
-local function pandoc(kind)
-	return function()
-		require("config.utils.pandoc").convert(kind)
-	end
-end
-
 local function cmd(command)
 	return "<cmd>" .. command .. "<CR>"
 end
@@ -23,17 +17,11 @@ end
 -- Keymaps de markdown (cursor fuera de un bloque de código)
 local context = {
 	groups = {
-		["<localleader>k"] = "[k]nit / export",
 		["<localleader>m"] = "[m]arkdown",
 		["<localleader>t"] = "[t]able",
 	},
 
 	maps = {
-		-- Export (pandoc, scripts en <config>/scripts)
-		{ "n", "<localleader>kp", pandoc("pdf"), "export to [p]df" },
-		{ "n", "<localleader>kh", pandoc("html"), "export to [h]tml" },
-		{ "n", "<localleader>ku", pandoc("utamed"), "export to [u]tamed pdf" },
-
 		-- Markdown (mkdnflow / render-markdown)
 		{ "n", "<localleader>mr", cmd("RenderMarkdown buf_toggle"), "toggle [r]endering" },
 		{ "n", "<localleader>mx", cmd("MkdnToggleToDo"), "toggle to-do [x]" },
@@ -70,9 +58,11 @@ function M.setup(buf)
 		require("config.utils.markdown_runner").run_cell()
 	end, "smart run [c]ell")
 
+	-- Export (scripts/md_to_pdf.py): ,ep ,eh ,eP ,eH, también dentro de un chunk
+	require("config.keymaps.export").setup(buf)
+
 	-- Contextuales: markdown fuera de los bloques, el lenguaje dentro
 	require("config.utils.keymap_context").attach(buf, resolve, {
-		"<localleader>k",
 		"<localleader>m",
 		"<localleader>t",
 		"<localleader>r",

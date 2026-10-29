@@ -1,38 +1,42 @@
 # scripts
 
 Todos los scripts que usa la configuración. Desde Lua se localizan con
-`vim.fn.stdpath("config") .. "/scripts"` (ver `lua/config/utils/pandoc.lua`), y
+`vim.fn.stdpath("config") .. "/scripts"` (ver `lua/config/utils/export.lua`), y
 cada script busca sus plantillas relativas a sí mismo, así que no dependen de
 `~/.config/my_scripts` ni del `PATH`.
 
-| Script          | Qué hace                                         | Atajo (markdown)   |
-|-----------------|--------------------------------------------------|--------------------|
-| `md_to_pdf.py`  | Markdown → PDF (pandoc + xelatex, eisvogel)      | `<localleader>kp`  |
-| `md_to_html.py` | Markdown → HTML autocontenido (bootstrap)        | `<localleader>kh`  |
-| `utamed_pdf.py` | Markdown → PDF con el estilo de las unidades UTAMED | `<localleader>ku`  |
-| `pandoc_to_pdf.py` | Markdown → PDF respetando `number-offset` del YAML | —                |
+| Script          | Qué hace                                         | Atajo   |
+|-----------------|--------------------------------------------------|---------|
+| `md_to_pdf.py`  | `.md` / `.qmd` / `.Rmd` → PDF o HTML con la plantilla de `templates/hades` (ver su README) | `,ep` / `,eh` (`,eP` / `,eH` abren el resultado) |
+| `md_to_html.py` | Markdown → HTML autocontenido (bootstrap, plantilla antigua) | —       |
+| `pandoc_to_pdf.py` | Markdown → PDF con eisvogel respetando `number-offset` del YAML | — |
+
+También `:Export pdf`, `:Export html` y `:Export! pdf` (exporta y abre). En
+archivos `.R`, `,ep` / `,eh` hacen knit con `rmarkdown::render`.
 
 ## templates
 
 ```
 templates/
-├── latex/    # eisvogel.latex, custom_tango.theme, defaults.yaml, pandoc38_table_fix.tex, caronte_*.tex
-├── html/     # bootstrap_pandoc.html, rstudio_html.css
+├── hades/    # plantilla de exportación: template.tex, cajas.lua, callouts.lua,
+│             # hades.css/.scss/.theme, pdf/html/quarto.yaml, apa.csl (ver su README)
 ├── slides/   # presentaciones Quarto reveal.js: clase.qmd, hades.scss, img/
-└── utamed/   # template.tex, cajas.lua, apa.csl, referencias.bib, ejemplo (ver su README)
+├── latex/    # eisvogel.latex y caronte_* (para md_to_html.py -tpdf / pandoc_to_pdf.py)
+└── html/     # bootstrap_pandoc.html, rstudio_html.css (para md_to_html.py)
 ```
 
 ## Dependencias
 
-- `pandoc` (>= 3.8 para `md_to_pdf.py`, usa `--syntax-highlighting`)
-- `xelatex` (texlive)
-- `mermaid-filter` (`npm install -g mermaid-filter`)
-- `pandoc-latex-environment` (solo para PDF desde `md_to_html.py -tpdf`)
+- `pandoc`
+- `xelatex` o `lualatex` (texlive; en Arch `texlive-basic texlive-latexextra
+  texlive-fontsextra texlive-science texlive-langspanish`)
+- `quarto` para exportar `.qmd` / `.Rmd` (ejecuta el código R)
+- opcional: `mermaid-filter` (`npm install -g mermaid-filter`)
 
 ## Presentaciones (Quarto + reveal.js)
 
 `templates/slides/` es la plantilla de clase, con el estilo de los apuntes
-(navy + azul de acento, titulares con "/", cajas `.resumen`, `.ejemplo`,
+(morado oscuro + #9b5de5 de acento, titulares con "/", cajas `.resumen`, `.ejemplo`,
 `.definicion`, `.nota` y `.formula`). Desde Neovim (`lua/config/utils/slides.lua`):
 
 | Atajo | Qué hace |

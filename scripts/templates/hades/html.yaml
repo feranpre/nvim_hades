@@ -1,0 +1,26 @@
+# Opciones de pandoc para exportar a HTML (md_to_pdf.py -t html).
+# ${.} es la carpeta de este fichero. Genera un único .html autocontenido
+# (imágenes y CSS incrustados).
+
+to: html5
+standalone: true
+embed-resources: true
+
+css:
+  - ${.}/hades.css
+
+highlight-style: ${.}/hades.theme
+
+filters:
+  - ${.}/callouts.lua
+
+# MathML: no necesita conexión a internet para mostrar las fórmulas
+html-math-method:
+  method: mathml
+
+citeproc: true
+
+metadata:
+  toc-title: Índice
+  csl: apa.csl
+  link-citations: true

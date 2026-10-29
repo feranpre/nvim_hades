@@ -1,0 +1,295 @@
+/* ---------------------------------------------------------------------------
+   hades.css — estilo para los HTML exportados desde Neovim
+   Color principal: #9b5de5
+   --------------------------------------------------------------------------- */
+
+:root {
+  --primary: #9b5de5;
+  --primary-dark: #4b2a7a;
+  --primary-mid: #7b3fc9;
+  --primary-light: #f6f1fd;
+  --text: #1f1830;
+  --muted: #5f5a6b;
+  --border: #e4d8f7;
+  --bg: #ffffff;
+
+  --note: #0096c7;
+  --tip: #00a884;
+  --important: #9b5de5;
+  --warning: #e09f00;
+  --caution: #d0213b;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  font-size: 17px;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 50rem;
+  padding: 2.5rem 1.25rem 4rem;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  line-height: 1.65;
+  hyphens: auto;
+  overflow-wrap: break-word;
+  text-rendering: optimizeLegibility;
+}
+
+/* --- Bloque de título ---------------------------------------------------- */
+
+#title-block-header {
+  border-top: 6px solid var(--primary);
+  border-bottom: 1px solid var(--primary);
+  padding: 1.5rem 0 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+#title-block-header .title {
+  margin: 0;
+  font-size: 2.3rem;
+  line-height: 1.2;
+  color: var(--primary-dark);
+  border: none;
+}
+
+#title-block-header .subtitle {
+  margin: 0.5rem 0 0;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--primary-mid);
+}
+
+#title-block-header .author,
+#title-block-header .date {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+}
+
+#title-block-header .abstract {
+  margin-top: 1.25rem;
+  color: var(--muted);
+}
+
+/* --- Encabezados --------------------------------------------------------- */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.25;
+  margin: 2rem 0 0.75rem;
+}
+
+h1 {
+  font-size: 1.8rem;
+  color: var(--primary-dark);
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--primary);
+}
+
+h2 {
+  font-size: 1.45rem;
+  color: var(--primary-mid);
+}
+
+h3 { font-size: 1.2rem; color: var(--primary-dark); }
+h4, h5, h6 { font-size: 1rem; color: var(--primary-dark); }
+
+.header-section-number {
+  color: var(--primary);
+  margin-right: 0.4em;
+}
+
+/* --- Texto ---------------------------------------------------------------- */
+
+a {
+  color: var(--primary-mid);
+  text-decoration-color: var(--primary);
+  text-underline-offset: 2px;
+}
+
+a:hover { color: var(--primary); }
+
+ul li::marker { color: var(--primary); }
+ol li::marker { color: var(--primary-mid); font-weight: 600; }
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+img, svg, video { max-width: 100%; height: auto; }
+
+figure { margin: 1.5rem 0; text-align: center; }
+
+figcaption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 0.4rem;
+}
+
+blockquote {
+  margin: 1.25rem 0;
+  padding: 0.6rem 1rem;
+  border-left: 4px solid var(--primary);
+  background: var(--primary-light);
+  color: var(--muted);
+  font-style: italic;
+}
+
+blockquote > :first-child { margin-top: 0; }
+blockquote > :last-child { margin-bottom: 0; }
+
+/* --- Código --------------------------------------------------------------- */
+
+code {
+  font-family: "JetBrains Mono", "Fira Code", "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.88em;
+}
+
+:not(pre) > code {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+pre {
+  background: var(--primary-light);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 6px 6px 0;
+  padding: 0.8rem 1rem;
+  overflow-x: auto;
+  line-height: 1.45;
+}
+
+div.sourceCode {
+  background: var(--primary-light);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 6px 6px 0;
+  margin: 1rem 0;
+}
+
+div.sourceCode pre {
+  border: none;
+  background: transparent;
+  margin: 0;
+}
+
+/* --- Tablas --------------------------------------------------------------- */
+
+table {
+  border-collapse: collapse;
+  margin: 1.5rem auto;
+  font-size: 0.95rem;
+}
+
+thead th {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+th, td {
+  padding: 0.45rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+
+tbody tr:nth-child(even) { background: var(--primary-light); }
+
+caption {
+  caption-side: bottom;
+  font-size: 0.9rem;
+  color: var(--muted);
+  padding-top: 0.4rem;
+}
+
+/* --- Índice --------------------------------------------------------------- */
+
+nav#TOC {
+  background: var(--primary-light);
+  border-left: 3px solid var(--primary);
+  padding: 0.8rem 1.25rem;
+  margin-bottom: 2rem;
+}
+
+nav#TOC > ul { padding-left: 1rem; margin: 0; }
+nav#TOC ul ul { padding-left: 1.2rem; }
+nav#TOC a { text-decoration: none; }
+
+/* --- Callouts (callouts.lua) ---------------------------------------------- */
+
+.callout {
+  --c: var(--note);
+  margin: 1.25rem 0;
+  border-left: 4px solid var(--c);
+  background: color-mix(in srgb, var(--c) 7%, var(--bg));
+  border-radius: 0 6px 6px 0;
+}
+
+.callout-title {
+  padding: 0.45rem 1rem;
+  font-weight: 700;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 14%, var(--bg));
+}
+
+.callout-title p { margin: 0; }
+
+.callout-body { padding: 0.25rem 1rem; }
+
+.callout-note { --c: var(--note); }
+.callout-tip { --c: var(--tip); }
+.callout-important { --c: var(--important); }
+.callout-warning { --c: var(--warning); }
+.callout-caution { --c: var(--caution); }
+
+/* --- Notas al pie --------------------------------------------------------- */
+
+.footnotes {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* --- Impresión ------------------------------------------------------------ */
+
+@media print {
+  body { max-width: none; padding: 0; font-size: 11pt; }
+  pre, blockquote, .callout, table { page-break-inside: avoid; }
+}
+
+/* --- Cajas de template.tex (cajas.lua): ::: {.resumen} etc. ---------------- */
+
+.resumen, .ejemplo, .definicion, .nota, .formuladestacada, .competencias {
+  --c: var(--primary);
+  margin: 1.25rem 0;
+  padding: 0.6rem 1rem;
+  border-left: 4px solid var(--c);
+  background: color-mix(in srgb, var(--c) 9%, var(--bg));
+  border-radius: 0 6px 6px 0;
+}
+
+.resumen > :first-child, .ejemplo > :first-child, .definicion > :first-child,
+.nota > :first-child, .formuladestacada > :first-child, .competencias > :first-child { margin-top: 0; }
+.resumen > :last-child, .ejemplo > :last-child, .definicion > :last-child,
+.nota > :last-child, .formuladestacada > :last-child, .competencias > :last-child { margin-bottom: 0; }
+
+.resumen { --c: var(--primary-dark); }
+.ejemplo { --c: var(--tip); }
+.definicion { --c: #c2187a; }
+.nota { --c: var(--warning); }
+.formuladestacada { --c: var(--primary-mid); text-align: center; }
+.competencias { --c: var(--primary); background: var(--bg); border: 1px solid var(--primary); border-left-width: 4px; }
+
+.cajatitulo {
+  display: block;
+  width: fit-content;
+  margin: 1.5rem auto;
+  padding: 0.4rem 1.5rem;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 700;
+  font-size: 1.15rem;
+}

@@ -10,7 +10,7 @@
 --   \end{resumen}
 -- definidos como tcolorbox en template.tex.
 --
--- Se activa automáticamente desde utamed_pdf.py con:
+-- Se activa automáticamente desde build_pdf.py con:
 --   --lua-filter=cajas.lua
 --
 -- Clases admitidas (deben coincidir con los \newtcolorbox del
