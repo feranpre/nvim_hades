@@ -21,7 +21,9 @@ Formatos de entrada:
 
 Dependencias:
     - pandoc
-    - PDF: xelatex (o lualatex / pdflatex) con titlesec, fancyhdr y tcolorbox
+    - PDF: xelatex (o lualatex) con los paquetes de template.tex
+      (Arch: texlive-basic texlive-latexextra texlive-fontsextra
+       texlive-langspanish; ver pandoc_templates/README.md)
     - .qmd/.Rmd: quarto, o R con el paquete rmarkdown para .Rmd
     - opcional: mermaid-filter (npm install -g mermaid-filter)
 
@@ -46,7 +48,8 @@ FORMATS = ("pdf", "html")
 MARKDOWN_EXT = {".md", ".markdown"}
 QUARTO_EXT = {".qmd"}
 RMARKDOWN_EXT = {".rmd"}
-PDF_ENGINES = ("xelatex", "lualatex", "pdflatex")
+# template.tex usa fontspec/polyglossia: necesita xelatex o lualatex
+PDF_ENGINES = ("xelatex", "lualatex")
 
 
 class ExportError(Exception):
@@ -97,7 +100,7 @@ def pdf_engine():
     for engine in PDF_ENGINES:
         if shutil.which(engine):
             return engine
-    raise ExportError("No se encuentra ningún motor LaTeX (xelatex, lualatex o pdflatex)")
+    raise ExportError("No se encuentra xelatex ni lualatex")
 
 
 # ---------------------------------------------------------------------------
@@ -204,6 +207,19 @@ def convert(input_file, output_file=None, output_format="pdf"):
     if not input_file.is_file():
         raise ExportError(f"No existe el archivo {input_file}")
 
+    # LaTeX deja missfont.log junto al documento cuando busca una fuente que
+    # no está instalada (template.tex prueba Fira Sans/Lato antes de usar
+    # alternativas): se borra si no existía antes.
+    missfont = input_file.parent / "missfont.log"
+    missfont_existed = missfont.exists()
+    try:
+        return _convert(input_file, output_file, output_format)
+    finally:
+        if not missfont_existed and missfont.exists():
+            missfont.unlink()
+
+
+def _convert(input_file, output_file, output_format):
     if output_format not in FORMATS:
         raise ExportError(f"Formato no soportado: {output_format} (usa pdf o html)")
 
@@ -249,7 +265,7 @@ def convert(input_file, output_file=None, output_format="pdf"):
                 "--defaults",
                 defaults,
                 "--resource-path",
-                f"{workdir}{os.pathsep}.",
+                os.pathsep.join([str(workdir), ".", str(TEMPLATES_DIR)]),
                 "--output",
                 output_file,
             ]

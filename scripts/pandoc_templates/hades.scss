@@ -76,3 +76,28 @@ table thead th,
 figcaption {
   color: #5f5a6b;
 }
+
+// Cajas de template.tex (cajas.lua): ::: {.resumen} etc.
+.resumen, .ejemplo, .definicion, .nota, .formuladestacada, .competencias {
+  --c: #{$primary};
+  margin: 1.25rem 0;
+  padding: 0.6rem 1rem;
+  border-left: 4px solid var(--c);
+  background: color-mix(in srgb, var(--c) 9%, white);
+  border-radius: 0 6px 6px 0;
+  > :last-child { margin-bottom: 0; }
+}
+.resumen { --c: #{$hades-dark}; }
+.ejemplo { --c: #00a884; }
+.definicion { --c: #c2187a; }
+.nota { --c: #e09f00; }
+.formuladestacada { --c: #{$hades-mid}; text-align: center; }
+.competencias { background: white; border: 1px solid $primary; border-left-width: 4px; }
+.cajatitulo {
+  width: fit-content;
+  margin: 1.5rem auto;
+  padding: 0.4rem 1.5rem;
+  background: $hades-light;
+  color: $hades-dark;
+  font-weight: 700;
+}

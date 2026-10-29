@@ -87,17 +87,17 @@ function M.setup(buf)
 	keys.buffer(buf, "n", "<localleader>bC", r.package_coverage, "[C]overage")
 
 	---------------------------------------------------------------------------
-	-- Knit / export
+	-- Export (knit con rmarkdown::render)
 	---------------------------------------------------------------------------
-	keys.buffer_group(buf, "n", "<localleader>k", "[k]nit / export")
+	keys.buffer_group(buf, "n", "<localleader>e", "[e]xport")
 
-	keys.buffer(buf, "n", "<localleader>kh", function()
+	keys.buffer(buf, "n", "<localleader>eh", function()
 		require("config.utils.r_commands").spin_r(vim.api.nvim_buf_get_name(0), "html")
-	end, "[k]nit to [h]tml")
+	end, "export to [h]tml")
 
-	keys.buffer(buf, "n", "<localleader>kp", function()
+	keys.buffer(buf, "n", "<localleader>ep", function()
 		require("config.utils.r_commands").spin_r(vim.api.nvim_buf_get_name(0), "pdf")
-	end, "[k]nit to [p]df")
+	end, "export to [p]df")
 
 	---------------------------------------------------------------------------
 	-- Misc

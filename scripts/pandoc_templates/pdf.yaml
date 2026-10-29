@@ -1,36 +1,22 @@
 # Opciones de pandoc para exportar a PDF (md_to_pdf.py -t pdf).
-# ${.} es la carpeta de este fichero. Cualquier variable de aquí se puede
-# sobrescribir desde el YAML del propio documento (toc: true, fontsize: 12pt...).
+# ${.} es la carpeta de este fichero. El diseño está en template.tex;
+# desde el YAML del documento se pueden usar toc, bibliography, csl,
+# unidad-numero, asignatura... (ver README.md).
 
 to: latex
 standalone: true
-
-include-in-header:
-  - ${.}/hades.tex
+template: ${.}/template.tex
 
 highlight-style: ${.}/hades.theme
 
+citeproc: true
+
 filters:
+  - ${.}/cajas.lua
   - ${.}/callouts.lua
 
-variables:
-  documentclass: article
-  papersize: a4
-  fontsize: 11pt
-  geometry:
-    - top=2.5cm
-    - bottom=2.5cm
-    - left=2.5cm
-    - right=2.5cm
-  linestretch: 1.15
-  colorlinks: true
-  linkcolor: hadesmid
-  urlcolor: hadesprimary
-  citecolor: hadesmid
-  filecolor: hadesmid
-  toccolor: hadesdark
-  # Necesario para que titlesec conviva con la plantilla de pandoc
-  subparagraph: true
-
 metadata:
-  toc-title: Índice
+  # Estilo de citas por defecto (el documento puede indicar otro)
+  # (se busca también en esta carpeta: md_to_pdf.py la añade al resource-path)
+  csl: apa.csl
+  link-citations: true

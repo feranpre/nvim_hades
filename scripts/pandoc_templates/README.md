@@ -1,271 +1,143 @@
-# Plantilla "estilo UTAMED" para Análisis de Datos en Psicología I
+# Plantillas de exportación (pandoc / Quarto)
 
-Kit para escribir tus apuntes en Markdown y exportarlos a PDF con **pandoc +
-XeLaTeX**, replicando el sistema visual de las unidades de la asignatura:
-portada azul marino, cabecera/pie de página de unidad, titulares en azul con
-prefijo "/", cajas de color para resúmenes/ejemplos/definiciones/notas, y
-bibliografía en formato APA 7 generada automáticamente a partir de un
-archivo `.bib`.
+Plantillas que usa `scripts/md_to_pdf.py` para exportar documentos Markdown,
+Quarto y R Markdown a PDF y HTML desde Neovim. Color principal: `#9b5de5`.
 
-> **Nota sobre fidelidad visual.** Se ha reproducido la paleta de colores
-> exacta (`#151A30` navy, `#348ECA` azul de acento), la tipografía, la
-> estructura de cabecera/pie y los estilos de titulares de las unidades
-> originales. **No** se reproducen las fotografías ni el escudo/logo
-> propios de UTAMED (son material con derechos de autor de la universidad);
-> en su lugar se usa un emblema geométrico genérico y configurable.
+## Uso
 
----
+En Neovim, en archivos `.md`, `.qmd`, `.Rmd` (y `.R`, que se exportan con
+`rmarkdown`):
 
-## 1. Contenido del kit
+| Atajo | Acción |
+|---|---|
+| `,ep` | Exportar a PDF |
+| `,eh` | Exportar a HTML |
+| `,eP` / `,eH` | Exportar y abrir el resultado |
 
-```
-plantilla_utamed/
-├── template.tex        # Plantilla LaTeX para pandoc (el "diseño")
-├── cajas.lua            # Filtro pandoc: traduce ::: {.resumen} ::: a cajas de color
-├── apa.csl               # Estilo de citas APA 7ª edición (oficial, CSL project)
-├── referencias.bib      # Bibliografía de ejemplo (referencias reales, con DOI)
-├── ejemplo_unidad.md    # Markdown de ejemplo que usa todos los elementos
-├── build_pdf.py         # Script Python que ejecuta pandoc con las opciones correctas
-└── README.md            # Este archivo
-```
+También `:Export pdf`, `:Export html` y `:Export! pdf` (exporta y abre).
 
-Guarda estos 6 archivos siempre juntos en la misma carpeta (o en la carpeta
-raíz de tu asignatura) — `build_pdf.py` los busca junto a sí mismo.
-
----
-
-## 2. Instalación en Arch Linux
+Desde la terminal:
 
 ```bash
-# Motor de conversión y LaTeX
+scripts/md_to_pdf.py apuntes.md              # -> apuntes.pdf
+scripts/md_to_pdf.py apuntes.md -t html      # -> apuntes.html
+scripts/md_to_pdf.py informe.qmd salida.pdf
+```
+
+## Contenido
+
+| Archivo | Para qué sirve |
+|---|---|
+| `template.tex` | Diseño del PDF (portada, cabecera, pie, titulares, cajas) |
+| `cajas.lua` | Filtro: `::: {.resumen}` … `:::` → cajas de color de `template.tex` |
+| `callouts.lua` | Filtro: callouts de Quarto (`::: {.callout-note}`) y alertas de GitHub (`> [!NOTE]`) |
+| `hades.theme` | Colores del resaltado de código |
+| `hades.css` | Estilo del HTML exportado desde `.md` |
+| `hades.scss` | Tema de Quarto para el HTML exportado desde `.qmd` / `.Rmd` |
+| `pdf.yaml`, `html.yaml` | Opciones de pandoc para `.md` |
+| `quarto.yaml` | Opciones que se pasan a `quarto render` para `.qmd` / `.Rmd` |
+| `apa.csl` | Estilo de citas APA 7 (por defecto) |
+| `referencias.bib`, `ejemplo_unidad.md` | Ejemplo con todos los elementos |
+
+## Instalación (Arch Linux)
+
+```bash
 sudo pacman -S pandoc texlive-basic texlive-latexextra texlive-fontsextra \
                texlive-science texlive-langspanish python
-
-# Tipografías recomendadas (las mismas familias que usan las unidades:
-# geométricas de palo seco). Si no existieran en tus repos, están en el
-# AUR:
+# Opcional: tipografías del diseño (si no están, se usan Carlito / Liberation Sans)
 sudo pacman -S ttf-fira-sans ttf-lato
-# o, si tu gestor de repos no las tiene:
-paru -S ttf-fira-sans ttf-lato        # o el AUR helper que uses
+# Para .qmd / .Rmd: quarto (AUR: quarto-cli-bin)
 ```
 
-**No es obligatorio instalar Fira Sans / Lato.** `template.tex` detecta si
-existen con `\IfFontExistsTF` y, si no las encuentra, usa automáticamente
-**Carlito** o **Liberation Sans** como alternativa sin romper la
-compilación (verás avisos ruidosos de `kpathsea`/`mktextfm` en la consola;
-son inofensivos, no impiden que el PDF se genere).
+Si faltan Fira Sans o Lato verás avisos de `mktextfm`/`METAFONT` al compilar:
+son inofensivos, el PDF se genera igualmente.
 
-Comprueba la instalación:
+## Cabecera YAML
 
-```bash
-pandoc --version     # recomendado >= 2.11 (citeproc integrado)
-xelatex --version
-fc-list | grep -i "fira sans\|lato"    # confirma si las instalaste
-```
-
----
-
-## 3. Uso básico
-
-```bash
-cd plantilla_utamed/
-python3 build_pdf.py ejemplo_unidad.md
-# → genera ejemplo_unidad.pdf en la misma carpeta
-```
-
-Otras formas de uso:
-
-```bash
-# Ruta de salida distinta
-python3 build_pdf.py unidad_1.md -o pdf/unidad_1.pdf
-
-# Varias unidades de una vez
-python3 build_pdf.py unidad_1.md unidad_2.md unidad_3.md
-
-# Sin bibliografía (ignora citas @clave aunque existan)
-python3 build_pdf.py unidad_1.md --sin-bibliografia
-
-# Recompilar automáticamente cada vez que guardas el .md (útil mientras escribes)
-python3 build_pdf.py unidad_1.md --watch
-
-# Pasar argumentos extra directamente a pandoc
-python3 build_pdf.py unidad_1.md -- --toc-depth=2
-```
-
-Hazlo ejecutable si quieres invocarlo como `./build_pdf.py unidad_1.md`:
-
-```bash
-chmod +x build_pdf.py
-```
-
----
-
-## 4. Cómo debe empezar tu archivo `.md`
-
-Cabecera YAML mínima (cópiala de `ejemplo_unidad.md` y adáptala):
+Todos los campos son opcionales salvo `title`:
 
 ```yaml
 ---
-title: "Título de la unidad"
-unidad-numero: "1"
-unidad-titulo: "Título de la unidad"
-asignatura: "Análisis de Datos en Psicología I"
-institucion: "Grado en Psicología"
+title: "Estadística descriptiva"
+subtitle: "Opcional"
 author: "Tu nombre"
 date: "Curso 2025-2026"
-lang: es
 toc: true
 bibliography: referencias.bib
-csl: apa.csl
+# Campos para apuntes por unidades:
+unidad-numero: "1"            # muestra "Unidad 1" en portada y cabecera
+unidad-titulo: "Estadística descriptiva"
+asignatura: "Análisis de Datos en Psicología I"
+institucion: "Grado en Psicología"   # texto grande de la portada
+institucion-lema: "Apuntes de la asignatura"
+subtitulo-portada: "Material de estudio personal"
+pie-institucion: "Texto del pie de página"
 ---
 ```
 
-| Campo | Para qué sirve |
-|---|---|
-| `title` | Título que aparece en la portada junto a "/ " |
-| `unidad-numero` | Número mostrado en la cabecera ("UNIDAD 1") y portada |
-| `unidad-titulo` | Texto de la cabecera ("/ ESTADÍSTICA DESCRIPTIVA") |
-| `asignatura` | Tercera línea de la cabecera, en cursiva |
-| `institucion` / `institucion-lema` | Texto grande de portada y su lema |
-| `pie-institucion` | Texto del pie de página (por defecto, el nombre de la asignatura) |
-| `bibliography` / `csl` | Activan la bibliografía automática (ver §6) |
-| `toc` | `true`/`false`: incluir índice tras la portada |
+Si no indicas `unidad-numero`, la portada muestra solo el título. Si no
+indicas `institucion`, la portada solo lleva el emblema.
 
----
-
-## 5. Fórmulas en LaTeX
-
-Tal y como pediste, usa `$...$` para fórmulas en línea y `$$...$$` para
-fórmulas en bloque. Pandoc las interpreta de forma nativa (no hace falta
-ningún ajuste):
-
-```markdown
-La media aritmética $\bar{x}$ se calcula como:
-
-$$
-\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i
-$$
-```
-
----
-
-## 6. Bibliografía y citas (APA 7, con DOI verificado)
-
-1. Añade tus referencias a `referencias.bib` en formato BibTeX (o crea tu
-   propio `.bib` y apunta a él desde el YAML). Verifica siempre el DOI en
-   [pubmed.ncbi.nlm.nih.gov](https://pubmed.ncbi.nlm.nih.gov) o
-   [doi.org](https://doi.org) antes de incluir una referencia.
-2. Cita en el texto con la sintaxis de pandoc:
-   - `[@clave]` → cita entre paréntesis: `(Kim, 2013)`
-   - `@clave` → cita narrativa: `Kim (2013)`
-   - `[@clave1; @clave2]` → varias referencias: `(Kim, 2013; Field, 2013)`
-3. Al final del documento, añade la sección de bibliografía **exactamente
-   así** (el `::: {#refs} :::` es donde pandoc insertará la lista generada):
-
-   ```markdown
-   # Bibliografía
-
-   ::: {#refs}
-   :::
-   ```
-
-El estilo `apa.csl` incluido es la **APA 7ª edición oficial** del proyecto
-Citation Style Language (el mismo que usan Zotero/Mendeley), por lo que el
-formato de las referencias es correcto y verificable. `referencias.bib`
-incluye ya algunas referencias reales indexadas en PubMed a modo de ejemplo.
-
----
-
-## 7. Cajas de contenido (resumen, ejemplo, definición, nota…)
-
-Se escriben como *fenced divs* de pandoc. El filtro `cajas.lua` las
-convierte en las cajas de color definidas en `template.tex`:
+## Cajas
 
 ```markdown
 ::: {.resumen}
-Síntesis del apartado en 2-3 frases.
+Síntesis del apartado.
 :::
 
 ::: {.ejemplo}
-**Ejemplo aplicado.** Descripción de un caso o estudio psicológico real
-que ilustre el concepto.
+**Ejemplo aplicado.** …
 :::
 
 ::: {.definicion}
-**Término clave**: definición precisa del concepto.
+**Término clave**: …
 :::
 
 ::: {.nota}
-Advertencia metodológica o matización importante.
+Advertencia o matización.
 :::
 
 ::: {.formuladestacada}
-Para resaltar una fórmula especialmente importante dentro de un recuadro.
+$$\bar{x} = \frac{1}{n}\sum x_i$$
 :::
 
 ::: {.competencias}
-- Objetivo o competencia 1
-- Objetivo o competencia 2
+- Objetivo 1
+- Objetivo 2
 :::
 ```
 
-¿Quieres añadir una caja nueva (por ejemplo, "Estudio de caso")? Solo tienes
-que:
-1. Definir el color en `template.tex` (busca la sección "Cajas de contenido
-   didáctico" y copia el patrón de `\newtcolorbox{...}`).
-2. Añadir el nombre de la clase a la tabla `CAJAS` en `cajas.lua`.
+Para añadir una caja nueva: define su `\newtcolorbox{...}` en `template.tex`
+(sección "Cajas de contenido didáctico"), añade la clase a `CAJAS` en
+`cajas.lua` y, si quieres que también se vea en HTML, dale estilo en
+`hades.css` / `hades.scss`.
 
----
-
-## 8. Tablas
-
-Las tablas Markdown estándar de pandoc funcionan sin configuración
-adicional:
+También funcionan los callouts de Quarto y las alertas de GitHub:
 
 ```markdown
-| Estadístico | Fórmula | Interpretación |
-|---|---|---|
-| Media | $\bar{x} = \frac{1}{n}\sum x_i$ | Valor central promedio |
+::: {.callout-tip title="Consejo"}
+…
+:::
+
+> [!WARNING]
+> …
 ```
 
----
+## Citas
 
-## 9. Personalizar colores / tipografía
+Añade `bibliography: referencias.bib` al YAML y cita con `[@clave]`,
+`@clave` o `[@clave1; @clave2]`. El estilo es APA 7 (`apa.csl`) salvo que
+indiques otro con `csl:`. Para colocar la bibliografía en un sitio concreto:
 
-Todo el diseño está centralizado al principio de `template.tex`, en el
-bloque `% ---------- Color ----------`. Por ejemplo, para cambiar el azul de
-acento:
+```markdown
+# Bibliografía
 
-```latex
-\definecolor{accent}{RGB}{52,142,202}   % ← cambia estos valores RGB
+::: {#refs}
+:::
 ```
 
-Y en `% ---------- Idioma y tipografía ----------` puedes forzar otra
-familia tipográfica si lo prefieres, sustituyendo `Fira Sans` / `Lato` por
-el nombre exacto de la fuente que tengas instalada (tal y como aparece en
-`fc-list`).
+## Personalizar
 
----
-
-## 10. Solución de problemas
-
-**"Undefined control sequence... \tightlist" o errores similares al
-compilar tu propio `.tex` manual**: usa siempre `build_pdf.py`, no invoques
-`xelatex` directamente sobre el `.md`; el script añade automáticamente el
-filtro `cajas.lua` y las extensiones de pandoc necesarias.
-
-**Los acentos/ñ no se ven bien**: asegúrate de guardar tus `.md` en UTF-8
-(por defecto en la mayoría de editores en Linux).
-
-**"No se encuentra la plantilla LaTeX"**: ejecuta el script desde dentro de
-la carpeta `plantilla_utamed/`, o pasa rutas absolutas a tus `.md`.
-
-**Quiero previsualizar rápido sin instalar TeX Live completo**: no es
-posible evitarlo del todo (XeLaTeX es necesario para las fuentes OpenType y
-las cajas de color), pero `texlive-basic` + los paquetes indicados en el
-§2 son suficientes; no hace falta `texlive-full`.
-
-**Avisos de `mktextfm`/`METAFONT` en la consola al compilar**: son un
-efecto colateral inofensivo de la detección automática de fuentes
-(`\IfFontExistsTF`) cuando una fuente no está instalada; no indican un
-error real si al final ves "✓ PDF generado".
+Los colores están al principio de `template.tex` (sección `Color`). El color
+principal es `accent` (`#9B5DE5`); `navy` es el morado oscuro de portada,
+cabecera y pie.

@@ -9,7 +9,7 @@ Convierte en callouts:
 
 Tipos: note, tip, warning, important, caution (y sus alias).
 
-En LaTeX se usa el entorno `hadescallout` de hades.tex; en HTML un
+En LaTeX se usa el entorno `hadescallout` de template.tex; en HTML un
 <div class="callout callout-TIPO"> que estiliza hades.css.
 ]]
 

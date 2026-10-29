@@ -18,5 +18,9 @@ filters:
 html-math-method:
   method: mathml
 
+citeproc: true
+
 metadata:
   toc-title: Índice
+  csl: apa.csl
+  link-citations: true

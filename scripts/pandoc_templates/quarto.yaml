@@ -6,25 +6,14 @@
 
 format:
   pdf:
-    documentclass: article
-    papersize: a4
-    fontsize: 11pt
-    geometry:
-      - top=2.5cm
-      - bottom=2.5cm
-      - left=2.5cm
-      - right=2.5cm
-    linestretch: 1.15
-    colorlinks: true
-    linkcolor: hadesmid
-    urlcolor: hadesprimary
-    citecolor: hadesmid
-    filecolor: hadesmid
-    toccolor: hadesdark
-    subparagraph: true
-    include-in-header:
-      - file: ${.}/hades.tex
+    # Mismo diseño que los .md (template.tex)
+    template: ${.}/template.tex
+    pdf-engine: xelatex
     highlight-style: ${rel}/hades.theme
+    filters:
+      - ${.}/cajas.lua
+    csl: ${.}/apa.csl
+    link-citations: true
 
   html:
     theme:
@@ -33,6 +22,8 @@ format:
     embed-resources: true
     html-math-method: mathml
     highlight-style: ${rel}/hades.theme
+    csl: ${.}/apa.csl
+    link-citations: true
 
 # Textos en castellano sin depender de babel
 language:

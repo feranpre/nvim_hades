@@ -259,3 +259,37 @@ nav#TOC a { text-decoration: none; }
   body { max-width: none; padding: 0; font-size: 11pt; }
   pre, blockquote, .callout, table { page-break-inside: avoid; }
 }
+
+/* --- Cajas de template.tex (cajas.lua): ::: {.resumen} etc. ---------------- */
+
+.resumen, .ejemplo, .definicion, .nota, .formuladestacada, .competencias {
+  --c: var(--primary);
+  margin: 1.25rem 0;
+  padding: 0.6rem 1rem;
+  border-left: 4px solid var(--c);
+  background: color-mix(in srgb, var(--c) 9%, var(--bg));
+  border-radius: 0 6px 6px 0;
+}
+
+.resumen > :first-child, .ejemplo > :first-child, .definicion > :first-child,
+.nota > :first-child, .formuladestacada > :first-child, .competencias > :first-child { margin-top: 0; }
+.resumen > :last-child, .ejemplo > :last-child, .definicion > :last-child,
+.nota > :last-child, .formuladestacada > :last-child, .competencias > :last-child { margin-bottom: 0; }
+
+.resumen { --c: var(--primary-dark); }
+.ejemplo { --c: var(--tip); }
+.definicion { --c: #c2187a; }
+.nota { --c: var(--warning); }
+.formuladestacada { --c: var(--primary-mid); text-align: center; }
+.competencias { --c: var(--primary); background: var(--bg); border: 1px solid var(--primary); border-left-width: 4px; }
+
+.cajatitulo {
+  display: block;
+  width: fit-content;
+  margin: 1.5rem auto;
+  padding: 0.4rem 1.5rem;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
