@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[$if(fontsize)$$fontsize$$else$11pt$endif$,a4paper]{article}
 
 % ============================================================
 % PLANTILLA HADES PARA PANDOC
@@ -10,7 +10,8 @@
 %
 % Variables opcionales del YAML:
 %   subtitle, author, date, abstract, toc, number-sections
-%   portada: true        -> portada en página propia
+%   portada: true        -> portada en página propia (o titlepage: true)
+%   mainfont, monofont, mathfont, fontsize -> cambian la tipografía
 %   unidad-numero, unidad-titulo, asignatura, institucion,
 %   institucion-lema, subtitulo-portada, pie-institucion
 % ============================================================
@@ -45,6 +46,13 @@
     BoldFont=*-Bold,ItalicFont=*-Regular,BoldItalicFont=*-Bold]%
 }{\IfFontExistsTF{Fira Mono}{\setmonofont{Fira Mono}[Scale=0.84]}%
   {\setmonofont{DejaVu Sans Mono}[Scale=0.8]}}
+% Fuentes indicadas en el YAML (si existen)
+$if(mainfont)$
+\IfFontExistsTF{$mainfont$}{\setmainfont{$mainfont$}}{}
+$endif$
+$if(monofont)$
+\IfFontExistsTF{$monofont$}{\setmonofont{$monofont$}[Scale=MatchLowercase]}{}
+$endif$
 
 % ---------- Color ----------
 \usepackage{xcolor}
@@ -77,6 +85,9 @@
 \usepackage{amsmath,amssymb}
 \usepackage{unicode-math}
 \IfFontExistsTF{Latin Modern Math}{\setmathfont{Latin Modern Math}}{}
+$if(mathfont)$
+\IfFontExistsTF{$mathfont$}{\setmathfont{$mathfont$}}{}
+$endif$
 
 % ---------- Utilidades de maquetación ----------
 \usepackage{graphicx}
@@ -365,6 +376,9 @@ $header-includes$
 $endfor$
 
 % ---------- Bloque de título ----------
+\newif\ifhadesportada
+$if(portada)$\hadesportadatrue$endif$
+$if(titlepage)$\hadesportadatrue$endif$
 \newcommand{\hadestitulo}{%
   {\color{accent}\rule{2.2cm}{2pt}}\par\vspace{14pt}
   \ifx\kicker\empty\else
@@ -394,9 +408,9 @@ $endif$
 \begin{document}
 
 $if(title)$
-$if(portada)$
+\ifhadesportada
 % ============================================================
-% PORTADA (portada: true)
+% PORTADA (portada: true / titlepage: true)
 % ============================================================
 \begin{titlepage}
 \thispagestyle{empty}
@@ -412,11 +426,11 @@ $endif$
 \vspace{6pt}{\color{rule}\rule{\linewidth}{0.4pt}}
 \end{titlepage}
 \setcounter{page}{1}
-$else$
+\else
 \thispagestyle{plain}
 \hadestitulo
 \vspace{10pt}{\color{rule}\rule{\linewidth}{0.4pt}}\par\vspace{6pt}
-$endif$
+\fi
 $endif$
 
 $if(abstract)$
@@ -434,11 +448,11 @@ $if(toc)$
   {\headfontsb\fontsize{17}{21}\selectfont\color{heading}}{}{0pt}{}
 \tableofcontents
 }
-$if(portada)$
+\ifhadesportada
 \newpage
-$else$
+\else
 \vspace{6pt}{\color{rule}\rule{\linewidth}{0.4pt}}\par
-$endif$
+\fi
 $endif$
 
 $for(include-before)$
