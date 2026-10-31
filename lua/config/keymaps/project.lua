@@ -13,7 +13,7 @@ end
 keys.group("n", "<localleader>P", "[P]roject")
 
 keys.map("n", "<localleader>Pc", project("create"), "[c]reate project (.Rproj, .lintr, air.toml)")
-keys.map("n", "<localleader>Pd", project("folders"), "create [d]irectories (data, R, output...)")
+keys.map("n", "<localleader>Pd", project("folders"), "create [d]irectories (DATOS_BASE, DATOS_R...)")
 keys.map("n", "<localleader>Pg", project("git"), "[g]it init + .gitignore")
 keys.map("n", "<localleader>Pn", project("new_script"), "[n]ew R script")
 keys.map("n", "<localleader>Pf", project("find_files"), "[f]ind project files")

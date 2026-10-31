@@ -1,0 +1,45 @@
+{
+  "describe": {
+    "prefix": "_describe",
+    "body": [
+      "describe(DATOS[[\"${1:VARIABLE}\"]], x_name = \"${2:Etiqueta}\")",
+      "$0"
+    ],
+    "description": "feR: describir una variable"
+  },
+  "describe_grupo": {
+    "prefix": "_describe_grupo",
+    "body": [
+      "describe(DATOS[[\"${1:VARIABLE}\"]], y = DATOS[[\"${2:GRUPO}\"]],",
+      "         x_name = \"${3:Etiqueta}\", y_name = \"${4:Grupo}\")",
+      "$0"
+    ],
+    "description": "feR: describir una variable por grupos"
+  },
+  "compare": {
+    "prefix": "_compare",
+    "body": [
+      "compare(DATOS[[\"${1:VARIABLE}\"]], y = DATOS[[\"${2:GRUPO}\"]],",
+      "        x_name = \"${3:Etiqueta}\", y_name = \"${4:Grupo}\")",
+      "$0"
+    ],
+    "description": "feR: comparar una variable entre grupos (elige el test)"
+  },
+  "compare_paired": {
+    "prefix": "_compare_pareado",
+    "body": [
+      "compare(DATOS[[\"${1:ANTES}\"]], y = DATOS[[\"${2:DESPUES}\"]], paired = TRUE,",
+      "        x_name = \"${3:Antes}\", y_name = \"${4:Después}\")",
+      "$0"
+    ],
+    "description": "feR: comparación de medidas pareadas"
+  },
+  "correlation": {
+    "prefix": "_cor",
+    "body": [
+      "correlation(DATOS[, c(${1:\"VAR1\", \"VAR2\"})])",
+      "$0"
+    ],
+    "description": "feR: correlaciones entre variables"
+  }
+}

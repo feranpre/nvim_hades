@@ -12,6 +12,7 @@ format:
     highlight-style: ${rel}/hades.theme
     filters:
       - ${.}/cajas.lua
+      - ${.}/tablas.lua
     csl: ${.}/apa.csl
     link-citations: true
 

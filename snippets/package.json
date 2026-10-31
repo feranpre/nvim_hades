@@ -85,6 +85,22 @@
       {
         "language": "rmd",
         "path": "./markdown/markdown_code.json"
+      },
+      {
+        "language": "r",
+        "path": "./r/informe.json"
+      },
+      {
+        "language": "r",
+        "path": "./r/feR.json"
+      },
+      {
+        "language": "quarto",
+        "path": "./r/feR.json"
+      },
+      {
+        "language": "rmd",
+        "path": "./r/feR.json"
       }
     ]
   }

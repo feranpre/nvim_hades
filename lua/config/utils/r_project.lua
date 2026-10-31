@@ -29,13 +29,16 @@ LineEndingConversion: Posix
 UseNativePipeOperator: Yes
 ]]
 
--- lintr: valores por defecto, líneas de 120 y sin quejarse del código comentado
--- (habitual en scripts de análisis)
+-- lintr: valores por defecto, líneas de 120 y sin las reglas que chocan con la
+-- forma habitual de trabajar en los análisis (nombres en mayúsculas como DATOS
+-- o EDAD, código comentado, = para asignar)
 local LINTR = [[
 linters: linters_with_defaults(
     line_length_linter(120),
-    object_name_linter(styles = c("snake_case", "symbols")),
-    commented_code_linter = NULL
+    commented_code_linter = NULL,
+    assignment_linter = NULL,
+    trailing_whitespace_linter = NULL,
+    object_name_linter = NULL
   )
 encoding: "UTF-8"
 ]]
@@ -78,14 +81,14 @@ renv/staging/
 .DS_Store
 ]]
 
--- Estructura de carpetas típica de un análisis
+-- Estructura de carpetas de un análisis (la que usan los snippets _carga_datos
+-- e _informe)
 local FOLDERS = {
-	"data/raw",
-	"data/processed",
-	"R",
-	"output/figures",
-	"output/tables",
-	"reports",
+	"DATOS_BASE", -- datos originales (xlsx, sav, ods...), no se tocan
+	"DATOS_R", -- DATOS.RData ya limpio
+	"DATOS_EXPORTADOS",
+	"GRAFICOS",
+	"versiones",
 }
 
 ---------------------------------------------------------------------------
@@ -228,7 +231,7 @@ end
 -- ,Pn: nuevo script de R con cabecera #' (listo para exportar con ,ep)
 function M.new_script()
 	local root = M.root()
-	local default_dir = exists(root .. "/R") and "R/" or ""
+	local default_dir = ""
 
 	vim.ui.input({ prompt = "Nuevo script (relativo al proyecto): ", default = default_dir }, function(input)
 		if not input or vim.trim(input) == "" or input:match("/$") then
@@ -255,17 +258,38 @@ function M.new_script()
 			"#' ---",
 			"#' title: \"" .. title:sub(1, 1):upper() .. title:sub(2) .. "\"",
 			"#' author: \"" .. author .. "\"",
-			"#' date: \"" .. os.date("%Y-%m-%d") .. "\"",
+			"#' date: today",
+			"#' date-format: \"DD/MM/YYYY\"",
+			"#' toc: true",
+			"#' number-sections: true",
+			"#' fig-width: 7",
+			"#' fig-height: 4.5",
+			"#' execute:",
+			"#'   echo: false",
+			"#'   message: false",
+			"#'   warning: false",
+			"#'   error: true",
 			"#' ---",
 			"#'",
-			"#' # Introducción",
+			"#+ setup, include = FALSE",
+			"library(feR)",
+			"",
+			"# Mostrar los resultados de feR como tablas en el informe sin results = 'asis'",
+			"# (quitar cuando feR traiga su propio método knit_print)",
+			"registerS3method(\"knit_print\", \"feR\", function(x, ...) {",
+			"  knitr::asis_output(paste(utils::capture.output(print(x)), collapse = \"\\n\"))",
+			"}, envir = asNamespace(\"knitr\"))",
+			"",
+			"load(\"DATOS_R/DATOS.RData\")",
+			"",
+			"#' # Descripción de la muestra",
 			"#'",
 			"",
 			"",
 		}, path)
 
 		vim.cmd.edit(vim.fn.fnameescape(path))
-		vim.api.nvim_win_set_cursor(0, { 9, 0 })
+		vim.cmd("normal! G")
 	end)
 end
 

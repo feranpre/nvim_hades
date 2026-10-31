@@ -14,6 +14,7 @@ citeproc: true
 filters:
   - ${.}/cajas.lua
   - ${.}/callouts.lua
+  - ${.}/tablas.lua
 
 metadata:
   # Estilo de citas por defecto (el documento puede indicar otro)
