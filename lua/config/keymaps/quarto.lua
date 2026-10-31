@@ -49,6 +49,13 @@ function M.setup(buf)
 		require("config.utils.markdown_runner").run_cell()
 	end, "smart run [c]ell")
 
+	-- ,sf: ejecuta todos los chunks de R del documento (R.nvim)
+	keys.buffer_group(buf, "n", "<localleader>s", "[s]end")
+
+	keys.buffer(buf, "n", "<localleader>sf", function()
+		require("config.utils.markdown_runner").run_all("r")
+	end, "send all R chunks of the [f]ile")
+
 	-- Export a pdf/html con la plantilla de scripts/templates/hades
 	require("config.keymaps.export").setup(buf)
 

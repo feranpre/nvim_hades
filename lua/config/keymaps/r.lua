@@ -33,6 +33,13 @@ function M.setup(buf)
 		require("config.utils.r_send").line()
 	end, "run current line")
 
+	---------------------------------------------------------------------------
+	-- Send
+	---------------------------------------------------------------------------
+	keys.buffer_group(buf, "n", "<localleader>s", "[s]end")
+
+	keys.buffer(buf, "n", "<localleader>sf", "<Plug>RSendFile", "send whole [f]ile to R")
+
 	keys.buffer(buf, "n", "<C-CR>", function()
 		require("config.utils.r_send").smart()
 	end, "smart run block + move down")
@@ -106,6 +113,9 @@ function M.setup(buf)
 	keys.buffer(buf, "n", "<localleader>bs", function()
 		require("config.utils.r_commands").format()
 	end, "[s]tyle file")
+
+	-- Al pulsar Intro (u o/O) en una línea #' se continúa el comentario
+	require("config.utils.roxygen").setup(buf)
 end
 
 return M
