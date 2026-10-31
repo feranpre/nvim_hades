@@ -5,6 +5,7 @@ require("config.keymaps.oil")
 require("config.keymaps.lsp")
 require("config.keymaps.formatting")
 require("config.keymaps.diagnostics")
+require("config.keymaps.project")
 -- require("config.keymaps.r")
 
 -- require("config.keymaps.lsp")

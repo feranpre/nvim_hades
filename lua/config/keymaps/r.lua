@@ -40,6 +40,8 @@ function M.setup(buf)
 
 	keys.buffer(buf, "n", "<localleader>sf", "<Plug>RSendFile", "send whole [f]ile to R")
 
+	keys.buffer(buf, "n", "<localleader>sc", "<Plug>RSendChain", "send pipe [c]hain up to cursor")
+
 	keys.buffer(buf, "n", "<C-CR>", function()
 		require("config.utils.r_send").smart()
 	end, "smart run block + move down")
@@ -52,7 +54,19 @@ function M.setup(buf)
 
 	keys.buffer(buf, "n", "<localleader>h", "<Plug>RHelp", "[h]elp")
 
+	keys.buffer_group(buf, "n", "<localleader>v", "[v]iew")
+
 	keys.buffer(buf, "n", "<localleader>vd", "<Plug>RViewDFa", "[v]iew [d]ata.frame")
+
+	-- str() / summary() del objeto bajo el cursor en una ventana flotante
+	-- (repetir el atajo entra en la ventana; q la cierra)
+	keys.buffer(buf, { "n", "x" }, "<localleader>vt", function()
+		require("config.utils.r_inspect").focus_or("str", vim.fn.mode():match("[vV\22]") ~= nil)
+	end, "s[t]r() in float")
+
+	keys.buffer(buf, { "n", "x" }, "<localleader>vs", function()
+		require("config.utils.r_inspect").focus_or("summary", vim.fn.mode():match("[vV\22]") ~= nil)
+	end, "[s]ummary() in float")
 
 	keys.buffer(buf, "n", "<localleader>o", "<Plug>ROBToggle", "[o]bject inspector")
 

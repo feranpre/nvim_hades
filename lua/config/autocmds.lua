@@ -51,6 +51,11 @@ vim.api.nvim_create_autocmd("FileType", {
 
 		-- R
 		if ft == "r" then
+			-- Convención de R (tidyverse, air, lintr): 2 espacios
+			vim.bo[buf].shiftwidth = 2
+			vim.bo[buf].tabstop = 2
+			vim.bo[buf].softtabstop = 2
+
 			require("config.keymaps.r").setup(buf)
 
 		-- Quarto / R Markdown

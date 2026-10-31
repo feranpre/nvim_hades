@@ -23,6 +23,12 @@ local function console(fn, language)
 	end
 end
 
+local function inspect(fun)
+	return function()
+		require("config.utils.r_inspect").focus_or(fun, false)
+	end
+end
+
 function M.context(language)
 	local name = NAMES[language]
 
@@ -52,6 +58,9 @@ function M.context(language)
 			{ "n", "<localleader>p", "<Plug>RObjectPr", "[p]rint object" },
 			{ "n", "<localleader>h", "<Plug>RHelp", "[h]elp" },
 			{ "n", "<localleader>vd", "<Plug>RViewDFa", "[v]iew [d]ata.frame" },
+			{ "n", "<localleader>vt", inspect("str"), "s[t]r() in float" },
+			{ "n", "<localleader>vs", inspect("summary"), "[s]ummary() in float" },
+			{ "n", "<localleader>sc", "<Plug>RSendChain", "send pipe [c]hain up to cursor" },
 			{ "n", "<localleader>o", "<Plug>ROBToggle", "[o]bject inspector" },
 		})
 	end
