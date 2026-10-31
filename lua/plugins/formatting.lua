@@ -48,9 +48,12 @@ return {
 					"prettier",
 				},
 
-				-- r = {
-				--     "air",
-				-- },
+				-- air: formateador de R de Posit, muy rápido (https://posit-dev.github.io/air/).
+				-- Si no está instalado, conform lo ignora. Para formatear con styler
+				-- en lugar de air: ,bs
+				r = {
+					"air",
+				},
 
 				sh = {
 					"shfmt",

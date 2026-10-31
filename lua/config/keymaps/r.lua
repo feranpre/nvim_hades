@@ -94,17 +94,10 @@ function M.setup(buf)
 	keys.buffer(buf, "n", "<localleader>bC", r.package_coverage, "[C]overage")
 
 	---------------------------------------------------------------------------
-	-- Export (knit con rmarkdown::render)
+	-- Export: el script se renderiza con quarto (los #' son el texto) y la
+	-- plantilla de scripts/templates/hades, igual que .md / .qmd
 	---------------------------------------------------------------------------
-	keys.buffer_group(buf, "n", "<localleader>e", "[e]xport")
-
-	keys.buffer(buf, "n", "<localleader>eh", function()
-		require("config.utils.r_commands").spin_r(vim.api.nvim_buf_get_name(0), "html")
-	end, "export to [h]tml")
-
-	keys.buffer(buf, "n", "<localleader>ep", function()
-		require("config.utils.r_commands").spin_r(vim.api.nvim_buf_get_name(0), "pdf")
-	end, "export to [p]df")
+	require("config.keymaps.export").setup(buf)
 
 	---------------------------------------------------------------------------
 	-- Misc
@@ -116,6 +109,9 @@ function M.setup(buf)
 
 	-- Al pulsar Intro (u o/O) en una línea #' se continúa el comentario
 	require("config.utils.roxygen").setup(buf)
+
+	-- Insertar <-, |> en modo inserción (<M-->, <M-m>)
+	require("config.keymaps.r_editing").setup(buf)
 end
 
 return M

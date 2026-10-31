@@ -18,6 +18,8 @@ Formatos de entrada:
                       las mismas plantillas (templates/hades/quarto.yaml).
                       Si no hay quarto, un .Rmd se ejecuta con rmarkdown y
                       el markdown resultante se convierte con pandoc.
+    .R                script con comentarios #' (knitr::spin): igual que un
+                      .Rmd (los #' son el texto, el resto el código).
 
 Dependencias:
     - pandoc
@@ -49,7 +51,8 @@ TEMPLATES_DIR = Path(
 FORMATS = ("pdf", "html")
 MARKDOWN_EXT = {".md", ".markdown"}
 QUARTO_EXT = {".qmd"}
-RMARKDOWN_EXT = {".rmd"}
+# .R con comentarios #' (knitr::spin): quarto también los renderiza
+RMARKDOWN_EXT = {".rmd", ".r"}
 # template.tex usa fontspec/polyglossia: necesita xelatex o lualatex
 PDF_ENGINES = ("xelatex", "lualatex")
 
@@ -163,18 +166,24 @@ def literal_date_copy(input_file):
     """
     text = input_file.read_text(encoding="utf-8")
     lines = text.splitlines(keepends=True)
-    if not lines or lines[0].strip() != "---":
+    # En un .R el YAML va en comentarios #' (knitr::spin)
+    prefix = "#' " if input_file.suffix.lower() == ".r" else ""
+
+    def strip(line):
+        return line[len(prefix):] if prefix and line.startswith(prefix) else line
+
+    if not lines or strip(lines[0]).strip() not in ("---", "#'---"):
         return None, None
 
     for i, line in enumerate(lines[1:], start=1):
-        if line.strip() in ("---", "..."):
+        if strip(line).strip() in ("---", "..."):
             return None, None
-        m = re.match(r"^date:\s*(.+?)\s*$", line)
+        m = re.match(r"^date:\s*(.+?)\s*$", strip(line))
         if m:
             value = m.group(1).strip().strip("\"'")
             if not value or DATE_RE.match(value):
                 return None, None
-            lines[i] = "date-text: " + m.group(1).strip() + "\n"
+            lines[i] = prefix + "date-text: " + m.group(1).strip() + "\n"
             # sin punto inicial: TeX no escribe archivos ocultos
             copy = input_file.with_name(f"{input_file.stem}-hades-export{input_file.suffix}")
             copy.write_text("".join(lines), encoding="utf-8")

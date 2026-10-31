@@ -65,6 +65,9 @@ function M.setup(buf)
 		require("config.utils.markdown_runner").run_all("r")
 	end, "send all R chunks of the [f]ile")
 
+	-- Insertar <-, |> y chunks de R en modo inserción (<M-->, <M-m>, <M-r>)
+	require("config.keymaps.r_editing").setup(buf, { chunks = true })
+
 	-- Export (scripts/md_to_pdf.py): ,ep ,eh ,eP ,eH, también dentro de un chunk
 	require("config.keymaps.export").setup(buf)
 

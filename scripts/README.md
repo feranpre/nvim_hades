@@ -7,12 +7,13 @@ cada script busca sus plantillas relativas a sí mismo, así que no dependen de
 
 | Script          | Qué hace                                         | Atajo   |
 |-----------------|--------------------------------------------------|---------|
-| `md_to_pdf.py`  | `.md` / `.qmd` / `.Rmd` → PDF o HTML con la plantilla de `templates/hades` (ver su README) | `,ep` / `,eh` (`,eP` / `,eH` abren el resultado) |
+| `md_to_pdf.py`  | `.md` / `.qmd` / `.Rmd` / `.R` (con `#'`) → PDF o HTML con la plantilla de `templates/hades` (ver su README) | `,ep` / `,eh` (`,eP` / `,eH` abren el resultado) |
 | `md_to_html.py` | Markdown → HTML autocontenido (bootstrap, plantilla antigua) | —       |
 | `pandoc_to_pdf.py` | Markdown → PDF con eisvogel respetando `number-offset` del YAML | — |
 
-También `:Export pdf`, `:Export html` y `:Export! pdf` (exporta y abre). En
-archivos `.R`, `,ep` / `,eh` hacen knit con `rmarkdown::render`.
+También `:Export pdf`, `:Export html` y `:Export! pdf` (exporta y abre). Los
+scripts `.R` se renderizan con quarto al estilo `knitr::spin`: las líneas `#'`
+son el texto (y el YAML), `#+` las opciones de chunk y el resto, el código.
 
 ## templates
 

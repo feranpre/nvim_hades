@@ -12,6 +12,8 @@ local SUPPORTED_FT = {
 	markdown = true,
 	quarto = true,
 	rmd = true,
+	-- scripts .R con comentarios #' (knitr::spin), renderizados con quarto
+	r = true,
 }
 
 -- Exportaciones en curso, para no lanzar dos veces la misma
@@ -40,7 +42,7 @@ function M.export(format, opts)
 	end
 
 	if not SUPPORTED_FT[vim.bo[buf].filetype] then
-		vim.notify("Solo se pueden exportar documentos markdown, quarto o R markdown", vim.log.levels.WARN)
+		vim.notify("Solo se pueden exportar documentos markdown, quarto, R markdown o scripts R", vim.log.levels.WARN)
 		return
 	end
 

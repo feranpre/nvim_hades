@@ -9,8 +9,8 @@ titulares en Fira Sans, texto en Lato y un único color de acento
 
 ## Uso
 
-En Neovim, en archivos `.md`, `.qmd`, `.Rmd` (y `.R`, que se exportan con
-`rmarkdown`):
+En Neovim, en archivos `.md`, `.qmd`, `.Rmd` y `.R` (scripts con comentarios
+`#'`, al estilo `knitr::spin`):
 
 | Atajo | Acción |
 |---|---|
