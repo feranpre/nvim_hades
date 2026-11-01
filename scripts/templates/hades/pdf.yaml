@@ -12,6 +12,7 @@ highlight-style: ${.}/hades.theme
 citeproc: true
 
 filters:
+  - ${.}/niveles.lua
   - ${.}/cajas.lua
   - ${.}/callouts.lua
   - ${.}/tablas.lua

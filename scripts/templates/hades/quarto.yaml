@@ -11,6 +11,7 @@ format:
     pdf-engine: xelatex
     highlight-style: ${rel}/hades.theme
     filters:
+      - ${.}/niveles.lua
       - ${.}/cajas.lua
       - ${.}/tablas.lua
     csl: ${.}/apa.csl
@@ -22,6 +23,8 @@ format:
       - ${.}/hades.scss
     embed-resources: true
     html-math-method: mathml
+    filters:
+      - ${.}/niveles.lua
     highlight-style: ${rel}/hades.theme
     csl: ${.}/apa.csl
     link-citations: true

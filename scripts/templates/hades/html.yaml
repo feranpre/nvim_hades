@@ -13,6 +13,7 @@ css:
 highlight-style: ${.}/hades.theme
 
 filters:
+  - ${.}/niveles.lua
   - ${.}/callouts.lua
 
 # MathML: no necesita conexión a internet para mostrar las fórmulas
