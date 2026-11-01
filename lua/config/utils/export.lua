@@ -74,7 +74,7 @@ function M.export(format, opts)
 	end
 
 	local name = vim.fs.basename(file)
-	local progress = require("config.utils.export_progress").new(name, format)
+	local progress = require("config.utils.export_progress").new(name, format, key)
 
 	-- stderr llega a trozos: se junta en líneas completas
 	local pending = ""
@@ -103,7 +103,7 @@ function M.export(format, opts)
 				progress:feed(pending)
 			end
 
-			local summary = progress:finish()
+			local summary = progress:finish(result.code == 0 and not progress.cancelled)
 
 			if progress.cancelled then
 				vim.notify("Exportación de " .. name .. " cancelada", vim.log.levels.WARN)

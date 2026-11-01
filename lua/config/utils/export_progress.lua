@@ -9,6 +9,12 @@
 --   @@hades knit-done
 --   @@hades step <i> <n> <tarea>\t<detalle>    (pasos de feR dentro de un bloque)
 --   @@hades step-end
+--
+-- Después de ejecutar el código, las fases de la creación del documento se
+-- reconocen en la salida de quarto ("pandoc --output", "running xelatex - 2")
+-- y de pandoc --verbose ("[makePDF] Run #2"). pandoc no informa de cuánto le
+-- falta: se estima con lo que tardó la última exportación del mismo archivo
+-- (se guarda en stdpath("state")/hades_export_times.json).
 local M = {}
 
 M.opts = {
@@ -18,6 +24,35 @@ M.opts = {
 }
 
 local uv = vim.uv or vim.loop
+
+---------------------------------------------------------------------------
+-- Historial de tiempos (archivo:formato -> { knit, doc, total })
+---------------------------------------------------------------------------
+
+local history_file = vim.fs.joinpath(vim.fn.stdpath("state"), "hades_export_times.json")
+local history
+
+local function load_history()
+	if history then
+		return history
+	end
+	history = {}
+	local ok, lines = pcall(vim.fn.readfile, history_file)
+	if ok and #lines > 0 then
+		local ok_json, data = pcall(vim.json.decode, table.concat(lines, "\n"))
+		if ok_json and type(data) == "table" then
+			history = data
+		end
+	end
+	return history
+end
+
+local function save_history(key, entry)
+	local h = load_history()
+	h[key] = entry
+	pcall(vim.fn.mkdir, vim.fs.dirname(history_file), "p")
+	pcall(vim.fn.writefile, { vim.json.encode(h) }, history_file)
+end
 
 -- Exportaciones en curso (una ventana por cada una, apiladas)
 local active = {}
@@ -68,10 +103,16 @@ end
 local Progress = {}
 Progress.__index = Progress
 
-function M.new(name, format)
+-- key: identifica el archivo y el formato (para el historial de tiempos)
+function M.new(name, format, key)
 	local p = setmetatable({
 		name = name,
 		format = format,
+		key = key,
+		hist = key and load_history()[key] or nil, -- tiempos de la última vez
+		doc_start = nil, -- empieza la creación del documento
+		doc_step = nil, -- fase dentro de la creación del documento
+		doc_pass = nil, -- pasada de LaTeX
 		t0 = now(),
 		last = now(), -- última noticia de R
 		tick = 0,
@@ -111,6 +152,7 @@ function Progress:feed(line)
 	local msg = line:match("@@hades (.*)$")
 
 	if not msg then
+		self:document_step(line)
 		if vim.trim(line) ~= "" then
 			table.insert(self.log, line)
 			if #self.log > 60 then
@@ -138,7 +180,7 @@ function Progress:feed(line)
 
 	if msg == "knit-done" then
 		self:close_group(t)
-		self.phase = "document"
+		self:start_document(t, "preparando el documento (quarto)")
 		self.step = nil
 		return
 	end
@@ -160,11 +202,67 @@ function Progress:feed(line)
 	if ph then
 		-- md_to_pdf.py anuncia "render" al lanzar quarto/R y "pandoc" para .md
 		if ph == "pandoc" then
-			self.phase = "document"
+			self:start_document(t, "pandoc")
 		elseif self.phase == "start" then
 			self.phase = "starting-r"
 		end
 	end
+end
+
+function Progress:start_document(t, step)
+	self.phase = "document"
+	self.doc_start = self.doc_start or t
+	self.knit_time = self.knit_time or (t - self.t0)
+	self.doc_step = step
+end
+
+-- Fases de la creación del documento en la salida de quarto / pandoc
+function Progress:document_step(line)
+	if self.phase ~= "document" then
+		return
+	end
+
+	local pass = line:match("running %S+ %- (%d+)") or line:match("%[makePDF%] Run #(%d+)")
+	if pass then
+		self.doc_pass = tonumber(pass)
+		self.doc_step = "LaTeX, pasada " .. pass
+		self.last = now()
+	elseif line:match("^pandoc %-%-output") or line:match("^pandoc .* %-%-output") then
+		self.doc_step = self.format == "pdf" and "pandoc (a LaTeX)" or "pandoc (HTML, incrustando imágenes y estilos)"
+		self.last = now()
+	elseif line:match("^Rendering PDF") then
+		self.doc_step = "LaTeX"
+		self.last = now()
+	elseif line:match("^Output created") then
+		self.doc_step = "terminando"
+		self.last = now()
+	end
+end
+
+-- Parte del tiempo total que corresponde a ejecutar el código
+function Progress:knit_share()
+	local h = self.hist
+	if h and h.knit and h.doc and h.knit + h.doc > 0 then
+		return math.max(0.05, math.min(0.95, h.knit / (h.knit + h.doc)))
+	end
+	return self.format == "pdf" and 0.6 or 0.8
+end
+
+-- Fracción de la creación del documento (0..1)
+function Progress:doc_fraction(t)
+	local h = self.hist
+	local elapsed = t - (self.doc_start or t)
+	if h and h.doc and h.doc > 0 then
+		return math.min(elapsed / h.doc, 0.97)
+	end
+	-- sin historial: por fases (LaTeX suele dar 2-3 pasadas)
+	if self.doc_pass then
+		return math.min(0.15 + 0.8 * (self.doc_pass - 1) / 3, 0.95)
+	end
+	if self.doc_step and self.doc_step:match("^pandoc") then
+		return 0.3
+	end
+	return 0.05
 end
 
 -- Fracción del bloque en curso según los pasos de feR (0 si no hay)
@@ -239,12 +337,25 @@ function Progress:lines()
 		lines[2] = "preparando…"
 	elseif self.phase == "starting-r" then
 		lines[2] = "iniciando R y cargando paquetes…"
+		if self.hist and self.hist.total then
+			lines[3] = "la última vez tardó " .. clock(self.hist.total)
+		end
 	elseif self.phase == "document" then
-		lines[2] = bar(1, w - 5) .. " 100%"
-		lines[3] = self.i and "código ejecutado; generando el documento…" or "generando el documento…"
-		lines[4] = "(pandoc" .. (self.format == "pdf" and " y LaTeX" or "") .. ")"
+		local frac = (self.i and self:knit_share() or 0) + (1 - (self.i and self:knit_share() or 0)) * self:doc_fraction(t)
+		self.shown = math.max(self.shown or 0, frac)
+		lines[2] = bar(self.shown, w - 5) .. string.format(" %3d%%", math.floor(100 * self.shown))
+		lines[3] = lr(fit("documento: " .. (self.doc_step or "…"), w - 18),
+			"en curso " .. clock(t - (self.doc_start or t)), w)
+		local h = self.hist
+		if h and h.doc then
+			lines[4] = "restante ~" .. clock(math.max(h.doc - (t - (self.doc_start or t)), 0))
+				.. "  (según la última exportación)"
+		else
+			lines[4] = "restante: se sabrá a partir de la próxima exportación"
+		end
 	else
-		local frac = ((self.i or 1) - 1 + (self.current_is_code and self:step_fraction() or 0)) / (self.total or 1)
+		local knit_frac = ((self.i or 1) - 1 + (self.current_is_code and self:step_fraction() or 0)) / (self.total or 1)
+		local frac = knit_frac * self:knit_share()
 		-- la barra nunca retrocede
 		self.shown = math.max(self.shown or 0, frac)
 		frac = self.shown
@@ -260,8 +371,16 @@ function Progress:lines()
 			lines[4] = fit(string.format("  %s %d/%d%s", s.task, s.i, s.n, detail), w)
 		end
 
+		-- restante: código que falta + documento (si se sabe de la última vez)
 		local rem = self:remaining(t)
-		table.insert(lines, "restante ~" .. (rem and clock(rem) or "--:-- (se estima al avanzar)"))
+		local doc = self.hist and self.hist.doc
+		if rem and doc then
+			table.insert(lines, "restante ~" .. clock(rem + doc))
+		elseif rem then
+			table.insert(lines, "restante ~" .. clock(rem) .. " + crear el documento")
+		else
+			table.insert(lines, "restante ~--:-- (se estima al avanzar)")
+		end
 	end
 
 	local quiet = t - self.last
@@ -322,9 +441,21 @@ function Progress:redraw()
 	end
 end
 
--- Cierra la ventana y devuelve un resumen: tiempo total y bloques lentos
-function Progress:finish()
+-- Cierra la ventana y devuelve un resumen: tiempo total y bloques lentos.
+-- ok = true: la exportación ha terminado bien (se guardan sus tiempos)
+function Progress:finish(ok)
 	self.closed = true
+
+	local t_end = now()
+	if ok and self.key then
+		local total = t_end - self.t0
+		local knit = self.knit_time or 0
+		save_history(self.key, {
+			total = total,
+			knit = knit,
+			doc = self.doc_start and (t_end - self.doc_start) or nil,
+		})
+	end
 
 	if self.timer then
 		self.timer:stop()

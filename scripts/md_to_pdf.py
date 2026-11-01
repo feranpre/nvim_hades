@@ -433,7 +433,8 @@ def _convert(input_file, output_file, output_format):
                 cmd += ["--toc-depth", str(toc["toc-depth"])]
 
             if output_format == "pdf":
-                cmd += ["--pdf-engine", pdf_engine()]
+                # --verbose: "[makePDF] Run #N" en cada pasada de LaTeX (progreso)
+                cmd += ["--pdf-engine", pdf_engine(), "--verbose"]
                 if modern_citeproc(["pandoc"]):
                     cmd += ["--variable", "csl-modern=true"]
             elif not has_title(source_yaml):
