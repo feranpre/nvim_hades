@@ -36,9 +36,11 @@ de Quarto (`format: html: ...`; los snippets `_informe` / `informe` la traen
 hecha). El índice y la numeración también se leen de una cabecera antigua de
 rmarkdown (`output: html_document: toc / toc_depth / number_sections`).
 
-En HTML, `toc-expand` decide cuántos niveles del índice lateral se ven
-desplegados: con `toc-expand: 1` solo se ve el primero (los demás se abren al
-llegar a cada sección); con `toc-expand: true`, todos hasta `toc-depth`.
+En HTML el índice va en una columna fija a la izquierda (también en los
+`.md`), y las tablas anchas pueden ocupar el espacio libre de la derecha. El
+botón de arriba a la izquierda, o la tecla `i`, lo oculta; el navegador
+recuerda la elección. En pantallas estrechas empieza oculto. Se muestran
+todos los niveles hasta `toc-depth` (`toc-expand` y `toc-location` dan igual).
 
 Para que el progreso se lea bien, pon nombre a los bloques: `#+ descriptivos`.
 

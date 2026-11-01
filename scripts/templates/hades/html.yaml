@@ -12,6 +12,10 @@ css:
 
 highlight-style: ${.}/hades.theme
 
+# índice en una columna fija a la izquierda, ocultable
+include-after-body:
+  - ${.}/hades-toc.html
+
 filters:
   - ${.}/niveles.lua
   - ${.}/callouts.lua

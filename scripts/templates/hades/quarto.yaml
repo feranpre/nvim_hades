@@ -25,6 +25,8 @@ format:
     html-math-method: mathml
     filters:
       - ${.}/niveles.lua
+    # índice en una columna fija a la izquierda, ocultable
+    include-after-body: ${.}/hades-toc.html
     highlight-style: ${rel}/hades.theme
     csl: ${.}/apa.csl
     link-citations: true

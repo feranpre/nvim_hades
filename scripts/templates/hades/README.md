@@ -39,6 +39,7 @@ scripts/md_to_pdf.py informe.qmd salida.pdf
 | `hades.theme` | Colores del resaltado de código |
 | `hades.css` | Estilo del HTML exportado desde `.md` (copia el diseño del PDF) |
 | `hades.scss` | Tema de Quarto para el HTML exportado desde `.qmd` / `.Rmd` (ídem) |
+| `hades-toc.html` | Índice del HTML en una columna fija a la izquierda, ocultable (`.md` y Quarto) |
 | `pdf.yaml`, `html.yaml` | Opciones de pandoc para `.md` |
 | `quarto.yaml` | Opciones que se pasan a `quarto render` para `.qmd` / `.Rmd` |
 | `apa.csl` | Estilo de citas APA 7 (por defecto) |

@@ -1,0 +1,270 @@
+<!--
+  hades-toc.html — índice en una columna fija a la izquierda, ocultable.
+
+  Se incrusta al final del <body> (include-after-body en quarto.yaml y en
+  html.yaml). Saca el índice (nav#TOC) de donde lo ponga Quarto o pandoc y lo
+  lleva a una barra lateral fija, para que no choque con las tablas anchas.
+  - Botón arriba a la izquierda (o tecla "i") para mostrarlo / ocultarlo; el
+    navegador recuerda la elección.
+  - En pantallas estrechas el índice empieza oculto y se superpone al texto.
+  - Marca la sección en la que estás y la mantiene a la vista en la barra.
+  Colores: los de hades.scss / hades.css.
+-->
+<style>
+  :root {
+    --hades-toc-w: 17.5rem;
+    --hades-toc-bg: #fafbfc;
+    --hades-toc-rule: #e4e7eb;
+    --hades-toc-ink: #1d2127;
+    --hades-toc-muted: #5d6470;
+    --hades-toc-faint: #8a919c;
+    --hades-toc-accent: #6d4bd1;
+  }
+
+  #hades-toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1030;
+    width: var(--hades-toc-w);
+    padding: 3.5rem 1.25rem 2rem 1.5rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--hades-toc-bg);
+    border-right: 1px solid var(--hades-toc-rule);
+    transition: transform 0.2s ease;
+    scrollbar-width: thin;
+  }
+
+  #hades-toc nav#TOC,
+  #hades-toc nav[role="doc-toc"] {
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    max-height: none !important;
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  #hades-toc h2 {
+    margin: 0 0 0.75rem !important;
+    padding: 0 !important;
+    border: 0 !important;
+    font-size: 0.72rem !important;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--hades-toc-faint) !important;
+  }
+
+  #hades-toc ul { list-style: none; margin: 0; padding-left: 0; }
+  #hades-toc ul ul { padding-left: 0.85rem; }
+  #hades-toc li { margin: 0; }
+  #hades-toc li::marker { content: none; }
+
+  #hades-toc a {
+    display: block;
+    padding: 0.2rem 0 0.2rem 0.6rem;
+    border-left: 2px solid transparent;
+    color: var(--hades-toc-muted);
+    text-decoration: none;
+    font-weight: 400;
+  }
+
+  #hades-toc > nav > ul > li > a { color: var(--hades-toc-ink); }
+  #hades-toc a:hover { color: var(--hades-toc-ink); }
+
+  #hades-toc a.active {
+    color: var(--hades-toc-ink);
+    font-weight: 600;
+    border-left-color: var(--hades-toc-accent);
+  }
+
+  #hades-toc .toc-section-number,
+  #hades-toc .header-section-number {
+    color: var(--hades-toc-faint);
+    margin-right: 0.45em;
+  }
+
+  #hades-toc-toggle {
+    position: fixed;
+    top: 0.75rem;
+    left: calc(var(--hades-toc-w) - 2.75rem);
+    z-index: 1031;
+    width: 2rem;
+    height: 2rem;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--hades-toc-rule);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--hades-toc-muted);
+    cursor: pointer;
+    transition: left 0.2s ease;
+  }
+
+  #hades-toc-toggle:hover { color: var(--hades-toc-ink); border-color: #c9ced6; }
+  #hades-toc-toggle:focus-visible { outline: 2px solid var(--hades-toc-accent); outline-offset: 2px; }
+
+  /* El contenido deja sitio a la barra */
+  body.hades-toc { padding-left: var(--hades-toc-w); transition: padding-left 0.2s ease; }
+
+  body.hades-toc-closed { padding-left: 0; }
+  body.hades-toc-closed #hades-toc { transform: translateX(-100%); }
+  body.hades-toc-closed #hades-toc-toggle { left: 0.75rem; }
+
+  /* Quarto: sin sus columnas laterales, una sola columna centrada */
+  body.hades-toc #quarto-sidebar-toc-left,
+  body.hades-toc #quarto-margin-sidebar.hades-empty,
+  body.hades-toc #quarto-toc-target { display: none !important; }
+
+  body.hades-toc #quarto-content { display: block !important; }
+
+  body.hades-toc #quarto-content > main.content,
+  body.hades-toc #quarto-document-content {
+    max-width: 52rem;
+    margin: 0 auto !important;
+    padding: 0 2rem;
+  }
+
+  /* Las tablas anchas pueden usar el espacio libre a la derecha de la
+     columna de texto (ya no hay índice en el margen) antes de desplazarse */
+  body.hades-toc {
+    --hades-offset: var(--hades-toc-w);
+    --hades-text-left: calc(var(--hades-offset) + max(0px, (100vw - var(--hades-offset) - 52rem) / 2) + 2rem);
+  }
+  body.hades-toc-closed { --hades-offset: 0px; }
+
+  body.hades-toc .cell-output-display,
+  body.hades-toc .quarto-float-tbl .cell-output-display { overflow: visible !important; }
+
+  body.hades-toc main table {
+    max-width: calc(100vw - var(--hades-text-left) - 2rem) !important;
+  }
+
+  /* Pantallas estrechas: el índice se superpone y empieza oculto */
+  @media (max-width: 1000px) {
+    body.hades-toc { padding-left: 0; --hades-offset: 0px; }
+    body.hades-toc { padding-top: 2.5rem; }
+    body.hades-toc:not(.hades-toc-closed) #hades-toc { box-shadow: 0 0 24px rgba(21, 24, 29, 0.12); }
+  }
+
+  @media print {
+    #hades-toc, #hades-toc-toggle { display: none !important; }
+    body.hades-toc { padding-left: 0 !important; }
+  }
+</style>
+<script>
+  (function () {
+    var toc = document.querySelector("nav#TOC, nav[role='doc-toc']");
+    if (!toc || !toc.querySelector("a")) return;
+
+    var KEY = "hades-toc-closed";
+    var narrow = window.matchMedia("(max-width: 1000px)");
+    var body = document.body;
+
+    function stored() {
+      try { return localStorage.getItem(KEY); } catch (e) { return null; }
+    }
+
+    function store(closed) {
+      try { localStorage.setItem(KEY, closed ? "1" : "0"); } catch (e) { /* sin almacenamiento */ }
+    }
+
+    // Barra lateral con el índice
+    var oldParent = toc.parentElement;
+    var aside = document.createElement("aside");
+    aside.id = "hades-toc";
+    aside.setAttribute("aria-label", "Índice");
+    aside.appendChild(toc);
+    body.appendChild(aside);
+
+    // La columna de margen de Quarto se oculta solo si queda vacía
+    var margin = document.getElementById("quarto-margin-sidebar");
+    if (margin && !margin.textContent.trim() && !margin.querySelector("img, svg, figure")) {
+      margin.classList.add("hades-empty");
+    }
+    if (oldParent && oldParent !== margin && !oldParent.textContent.trim()) {
+      oldParent.style.display = "none";
+    }
+
+    // Todo desplegado: la barra tiene sitio de sobra
+    toc.querySelectorAll("ul.collapse").forEach(function (ul) {
+      ul.classList.add("show");
+    });
+
+    // Botón para mostrar / ocultar
+    var button = document.createElement("button");
+    button.id = "hades-toc-toggle";
+    button.type = "button";
+    button.innerHTML =
+      '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">' +
+      '<rect x="1.75" y="2.25" width="12.5" height="11.5" rx="1.5"/><path d="M6 2.5v11"/></svg>';
+    body.appendChild(button);
+
+    function setClosed(closed, remember) {
+      body.classList.toggle("hades-toc-closed", closed);
+      button.setAttribute("aria-expanded", closed ? "false" : "true");
+      button.title = closed ? "Mostrar el índice (i)" : "Ocultar el índice (i)";
+      if (remember) store(closed);
+    }
+
+    body.classList.add("hades-toc");
+    setClosed(narrow.matches || stored() === "1", false);
+
+    button.addEventListener("click", function () {
+      setClosed(!body.classList.contains("hades-toc-closed"), !narrow.matches);
+    });
+
+    document.addEventListener("keydown", function (ev) {
+      var t = ev.target;
+      if (ev.key !== "i" || ev.ctrlKey || ev.metaKey || ev.altKey) return;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      button.click();
+    });
+
+    // En pantallas estrechas, al elegir una sección se cierra
+    aside.addEventListener("click", function (ev) {
+      if (narrow.matches && ev.target.closest("a")) setClosed(true, false);
+    });
+
+    narrow.addEventListener("change", function (ev) {
+      setClosed(ev.matches || stored() === "1", false);
+    });
+
+    // Sección actual: se marca (pandoc no lo hace; Quarto sí) y se mantiene
+    // a la vista dentro de la barra
+    var links = Array.prototype.slice.call(toc.querySelectorAll("a[href^='#']"));
+    var targets = links.map(function (a) {
+      return document.getElementById(decodeURIComponent(a.getAttribute("href").slice(1)));
+    });
+
+    var ticking = false;
+
+    function update() {
+      ticking = false;
+      var current = -1;
+      for (var i = 0; i < targets.length; i++) {
+        if (targets[i] && targets[i].getBoundingClientRect().top < 120) current = i;
+      }
+      links.forEach(function (a, i) { a.classList.toggle("active", i === current); });
+
+      var active = links[current];
+      if (!active) return;
+      var a = active.getBoundingClientRect();
+      var b = aside.getBoundingClientRect();
+      if (a.top < b.top + 40 || a.bottom > b.bottom - 40) {
+        aside.scrollTop += a.top - b.top - b.height / 3;
+      }
+    }
+
+    window.addEventListener("scroll", function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+
+    update();
+  })();
+</script>
