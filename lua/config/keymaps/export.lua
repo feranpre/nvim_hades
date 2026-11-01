@@ -20,6 +20,10 @@ function M.setup(buf)
 	keys.buffer(buf, "n", "<localleader>eP", export("pdf", true), "export to [P]df and open")
 
 	keys.buffer(buf, "n", "<localleader>eH", export("html", true), "export to [H]tml and open")
+
+	keys.buffer(buf, "n", "<localleader>ex", function()
+		require("config.utils.export").cancel()
+	end, "cancel e[x]port")
 end
 
 return M

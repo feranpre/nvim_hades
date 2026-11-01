@@ -137,7 +137,7 @@ $endif$
 
 % ---------- Numeración de secciones ----------
 $if(numbersections)$
-\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$3$endif$}
+\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
 $else$
 \setcounter{secnumdepth}{-\maxdimen}
 $endif$
@@ -214,7 +214,7 @@ $if(unidad-numero)$Unidad $unidad-numero$$if(asignatura)$\ \textperiodcentered\ 
 
 \titleformat{\paragraph}[runin]
   {\headfontsb\normalsize\color{heading}}
-  {}{0pt}{}[.\ ]
+  {\textcolor{accentdark}{\theparagraph}}{0.6em}{}[.\ ]
 \titlespacing*{\paragraph}{0pt}{8pt}{0pt}
 
 % Sin numerar (# Título {.unnumbered}): mismo aspecto
@@ -233,6 +233,9 @@ $if(unidad-numero)$Unidad $unidad-numero$$if(asignatura)$\ \textperiodcentered\ 
   {\titlerule*[0.6pc]{\textcolor{ruledark}{.}}\contentspage}
 \titlecontents{subsubsection}[6.6em]{\small\color{muted}}
   {\contentslabel{2.8em}}{\hspace*{-2.8em}}
+  {\titlerule*[0.6pc]{\textcolor{ruledark}{.}}\contentspage}
+\titlecontents{paragraph}[10.2em]{\small\color{muted}}
+  {\contentslabel{3.6em}}{\hspace*{-3.6em}}
   {\titlerule*[0.6pc]{\textcolor{ruledark}{.}}\contentspage}
 
 % ---------- Cajas ----------

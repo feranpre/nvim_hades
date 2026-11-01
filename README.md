@@ -24,6 +24,19 @@ Al pulsar Intro en una línea `#'` se continúa el comentario. Al guardar, el
 código se formatea con [air](https://posit-dev.github.io/air/) (si está
 instalado) y se revisa con lintr (si el paquete está instalado).
 
+## Exportar (`,ep` / `,eh`)
+
+Mientras exporta aparece una ventana abajo a la derecha con la barra de
+progreso, el bloque en curso (y el paso dentro del bloque cuando feR recorre
+muchas variables), el tiempo transcurrido y una estimación de lo que queda.
+También se ve en la barra de estado. `,ex` (o `:ExportCancel`) la cancela.
+
+El índice y la numeración se leen tanto de una cabecera de Quarto (`toc`,
+`toc-depth`, `number-sections`) como de una de rmarkdown
+(`output: html_document: toc / toc_depth / number_sections`).
+
+Para que el progreso se lea bien, pon nombre a los bloques: `#+ descriptivos`.
+
 ## Quarto / R Markdown / Markdown
 
 Dentro de un chunk aparece el menú `,r` del lenguaje (R va a la misma consola

@@ -1,7 +1,8 @@
 -- config/utils/export.lua
 --
--- Exporta el buffer actual (.md, .qmd, .Rmd) a PDF o HTML usando
--- scripts/md_to_pdf.py y las plantillas de scripts/pandoc_templates.
+-- Exporta el buffer actual (.md, .qmd, .Rmd, .R) a PDF o HTML usando
+-- scripts/md_to_pdf.py y las plantillas de scripts/templates/hades.
+-- Mientras tanto muestra una ventana de progreso (config.utils.export_progress).
 local M = {}
 
 M.script = vim.fs.joinpath(vim.fn.stdpath("config"), "scripts", "md_to_pdf.py")
@@ -16,7 +17,8 @@ local SUPPORTED_FT = {
 	r = true,
 }
 
--- Exportaciones en curso, para no lanzar dos veces la misma
+-- Exportaciones en curso (clave archivo:formato -> { proc, progress }),
+-- para no lanzar dos veces la misma y poder cancelarlas
 local running = {}
 
 local function tail(text, n)
@@ -71,24 +73,46 @@ function M.export(format, opts)
 		end)
 	end
 
-	running[key] = true
-
 	local name = vim.fs.basename(file)
+	local progress = require("config.utils.export_progress").new(name, format)
 
-	vim.notify("Exportando " .. name .. " a " .. format .. "...", vim.log.levels.INFO)
+	-- stderr llega a trozos: se junta en líneas completas
+	local pending = ""
 
-	vim.system({ python, M.script, file, "--to", format }, {
-		cwd = vim.fs.dirname(file),
-		text = true,
-	}, function(result)
+	local function on_stderr(_, data)
+		if not data then
+			return
+		end
+
+		pending = pending .. data
+		local lines = vim.split(pending, "\n", { plain = true })
+		pending = table.remove(lines)
+
+		vim.schedule(function()
+			for _, line in ipairs(lines) do
+				progress:feed(line)
+			end
+		end)
+	end
+
+	local function on_exit(result)
 		vim.schedule(function()
 			running[key] = nil
 
+			if pending ~= "" then
+				progress:feed(pending)
+			end
+
+			local summary = progress:finish()
+
+			if progress.cancelled then
+				vim.notify("Exportación de " .. name .. " cancelada", vim.log.levels.WARN)
+				return
+			end
+
 			if result.code ~= 0 then
-				vim.notify(
-					"Error al exportar " .. name .. ":\n" .. tail(result.stderr, 15),
-					vim.log.levels.ERROR
-				)
+				local log = vim.list_slice(progress.log, math.max(1, #progress.log - 14))
+				vim.notify("Error al exportar " .. name .. ":\n" .. table.concat(log, "\n"), vim.log.levels.ERROR)
 				return
 			end
 
@@ -96,17 +120,55 @@ function M.export(format, opts)
 			local stdout = vim.trim(result.stdout or "")
 			local output = stdout ~= "" and tail(stdout, 1) or nil
 
-			vim.notify("Exportado: " .. (output or name), vim.log.levels.INFO)
+			vim.notify(
+				"Exportado " .. table.concat(summary, "\n") .. "\n" .. (output or name),
+				vim.log.levels.INFO
+			)
 
 			if opts.open and output then
 				vim.ui.open(output)
 			end
 		end)
-	end)
+	end
+
+	local ok, proc = pcall(vim.system, { python, M.script, file, "--to", format }, {
+		cwd = vim.fs.dirname(file),
+		text = true,
+		stderr = on_stderr,
+		-- grupo de procesos propio: al cancelar se puede matar también a quarto y R
+		detach = true,
+	}, on_exit)
+
+	if not ok then
+		progress:finish()
+		vim.notify("No se pudo lanzar la exportación: " .. tostring(proc), vim.log.levels.ERROR)
+		return
+	end
+
+	running[key] = { proc = proc, progress = progress }
+end
+
+-- Cancela las exportaciones en curso (todas, o solo las del archivo indicado)
+function M.cancel(file)
+	local n = 0
+
+	for key, job in pairs(running) do
+		if not file or vim.startswith(key, file .. ":") then
+			job.progress.cancelled = true
+			-- el proceso es líder de su grupo (detach): -pid llega a quarto y R
+			pcall(vim.uv.kill, -job.proc.pid, "sigterm")
+			n = n + 1
+		end
+	end
+
+	if n == 0 then
+		vim.notify("No hay ninguna exportación en marcha", vim.log.levels.INFO)
+	end
 end
 
 -- :Export [pdf|html]   exporta el buffer actual (pdf por defecto)
 -- :Export! [pdf|html]  exporta y abre el resultado
+-- :ExportCancel        cancela las exportaciones en curso
 function M.create_command()
 	vim.api.nvim_create_user_command("Export", function(cmd)
 		M.export(cmd.args ~= "" and cmd.args or "pdf", { open = cmd.bang })
@@ -118,6 +180,10 @@ function M.create_command()
 			return M.formats
 		end,
 	})
+
+	vim.api.nvim_create_user_command("ExportCancel", function()
+		M.cancel()
+	end, { desc = "Cancelar las exportaciones en curso" })
 end
 
 return M

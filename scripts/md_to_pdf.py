@@ -38,6 +38,7 @@ import json
 import os
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import tempfile
@@ -65,18 +66,41 @@ def log(msg):
     print(msg, file=sys.stderr, flush=True)
 
 
-def run(cmd, cwd):
+# Perfil de R que informa del progreso (bloque en curso, pasos de feR) con
+# líneas "@@hades ..." por stderr; las lee config/utils/export.lua
+PROGRESS_PROFILE = SCRIPT_DIR / "hades_progress.R"
+
+
+def r_env():
+    """Entorno para los procesos de R: carga hades_progress.R como perfil."""
+    env = dict(os.environ)
+    if PROGRESS_PROFILE.is_file() and os.environ.get("HADES_PROGRESS", "1") != "0":
+        # hades_progress.R carga después el perfil que habría usado R
+        env["HADES_R_PROFILE_USER"] = os.environ.get("R_PROFILE_USER", "")
+        env["R_PROFILE_USER"] = str(PROGRESS_PROFILE)
+    return env
+
+
+def phase(name):
+    """Fase de la exportación, para la ventana de progreso de Neovim."""
+    log("@@hades phase " + name)
+
+
+def run(cmd, cwd, env=None):
     log("$ " + " ".join(str(c) for c in cmd))
     # stdout del proceso hijo a stderr: stdout queda solo para la ruta final
-    result = subprocess.run([str(c) for c in cmd], cwd=cwd, stdout=sys.stderr)
+    result = subprocess.run([str(c) for c in cmd], cwd=cwd, stdout=sys.stderr, env=env)
     if result.returncode != 0:
         raise ExportError(f"'{cmd[0]}' terminó con código {result.returncode}")
 
 
 def front_matter(path):
-    """Devuelve el bloque YAML inicial (sin los ---) o None."""
+    """Devuelve el bloque YAML inicial (sin los ---) o None. En un .R el YAML
+    va en comentarios #' (knitr::spin) y se devuelve sin ese prefijo."""
     text = path.read_text(encoding="utf-8")
     lines = text.splitlines()
+    if path.suffix.lower() == ".r":
+        lines = [re.sub(r"^#' ?", "", l) for l in lines if l.startswith("#'")]
     if not lines or lines[0].strip() != "---":
         return None
     for i, line in enumerate(lines[1:], start=1):
@@ -85,20 +109,38 @@ def front_matter(path):
     return None
 
 
+TRUE_VALUES = ("true", "yes", "on")
+
+
+def toc_options(yaml_text):
+    """
+    Índice y numeración del YAML, tanto al estilo quarto (toc, toc-depth,
+    number-sections, arriba del todo) como al de rmarkdown (dentro de
+    output: html_document: toc, toc_depth, number_sections), que quarto y
+    pandoc ignoran. Devuelve {"toc": bool, "toc-depth": int,
+    "number-sections": bool} solo con lo que aparezca.
+    """
+    opts = {}
+    if not yaml_text:
+        return opts
+    for line in yaml_text.splitlines():
+        m = re.match(r"^\s*(toc|toc[-_]depth|number[-_]sections)\s*:\s*([^#]+?)\s*(#.*)?$", line)
+        if not m:
+            continue
+        key = m.group(1).replace("_", "-")
+        value = m.group(2).strip().strip("\"'").lower()
+        if key == "toc-depth":
+            if value.isdigit():
+                opts[key] = int(value)
+        else:
+            opts[key] = value in TRUE_VALUES
+    return opts
+
+
 def has_title(yaml_text):
     if not yaml_text:
         return False
     return any(line.startswith(("title:", "pagetitle:")) for line in yaml_text.splitlines())
-
-
-def yaml_flag(yaml_text, key):
-    """True si el YAML tiene `key: true` en el nivel superior."""
-    if not yaml_text:
-        return False
-    for line in yaml_text.splitlines():
-        if line.startswith(key + ":"):
-            return line.split(":", 1)[1].strip().lower() in ("true", "yes")
-    return False
 
 
 def modern_citeproc(pandoc_cmd):
@@ -137,14 +179,19 @@ def pdf_engine():
 # ---------------------------------------------------------------------------
 
 
-def quarto_metadata(tmp, workdir):
-    """quarto.yaml con ${.} y ${rel} sustituidos por la carpeta de plantillas."""
+def quarto_metadata(tmp, workdir, extra=None):
+    """quarto.yaml con ${.} y ${rel} sustituidos por la carpeta de plantillas,
+    más las opciones de `extra` (p. ej. el índice de una cabecera rmarkdown)."""
     template = TEMPLATES_DIR / "quarto.yaml"
     if not template.is_file():
         raise ExportError(f"No se encuentra la plantilla {template}")
     text = template.read_text(encoding="utf-8")
     text = text.replace("${rel}", os.path.relpath(TEMPLATES_DIR, workdir))
     text = text.replace("${.}", str(TEMPLATES_DIR))
+    for key, value in (extra or {}).items():
+        if isinstance(value, bool):
+            value = "true" if value else "false"
+        text += f"\n{key}: {value}\n"
     meta = Path(tmp) / "quarto-metadata.yaml"
     meta.write_text(text, encoding="utf-8")
     return meta
@@ -195,12 +242,12 @@ def quarto_render(input_file, output_file, output_format):
     """Renderiza con quarto aplicando las plantillas de Hades."""
     workdir = input_file.parent
     source, date_text = literal_date_copy(input_file)
-    cleanup = []
-    if source:
-        leftovers = [workdir / f"{source.stem}{ext}" for ext in ("_files", ".tex", ".log")]
-        cleanup = [source] + [p for p in leftovers if not p.exists()]
-    else:
-        source = input_file
+    cleanup = [source] if source else []
+    source = source or input_file
+    # Intermedios de quarto que quedan si se interrumpe (o falla) la
+    # exportación; solo se borran si no existían antes
+    leftovers = [workdir / f"{source.stem}{ext}" for ext in ("_files", ".tex", ".log", ".rmarkdown", ".knit.md")]
+    cleanup += [p for p in leftovers if not p.exists()]
 
     try:
         with tempfile.TemporaryDirectory(prefix="hades-export-") as tmp:
@@ -213,7 +260,7 @@ def quarto_render(input_file, output_file, output_format):
                 "--output",
                 output_file.name,
                 "--metadata-file",
-                quarto_metadata(tmp, workdir),
+                quarto_metadata(tmp, workdir, toc_options(front_matter(input_file))),
                 # para encontrar apa.csl / referencias.bib de la plantilla
                 "--resource-path",
                 os.pathsep.join([str(workdir), str(TEMPLATES_DIR)]),
@@ -233,7 +280,8 @@ def quarto_render(input_file, output_file, output_format):
             # Si no hay LaTeX en el PATH, quarto puede usar su propio TinyTeX
             if output_format == "pdf" and any(shutil.which(e) for e in PDF_ENGINES):
                 cmd += ["--pdf-engine", pdf_engine()]
-            run(cmd, cwd=workdir)
+            phase("render")
+            run(cmd, cwd=workdir, env=r_env())
     finally:
         remove(cleanup)
 
@@ -269,7 +317,8 @@ def knit_rmd(input_file):
         f"output_file = {r_string(tmp_name)}, quiet = TRUE)"
     )
     try:
-        run(["Rscript", "-e", r_code], cwd=input_file.parent)
+        phase("render")
+        run(["Rscript", "-e", r_code], cwd=input_file.parent, env=r_env())
     except ExportError:
         remove(cleanup)
         raise
@@ -373,11 +422,15 @@ def _convert(input_file, output_file, output_format):
                 meta.write_text(source_yaml + "\n", encoding="utf-8")
                 cmd += ["--metadata-file", meta]
 
-            # Opciones que pandoc no lee del YAML del documento (sí quarto)
-            if yaml_flag(source_yaml, "number-sections"):
+            # Opciones que pandoc no lee del YAML del documento (sí quarto),
+            # también si vienen en una cabecera de rmarkdown (output: ...)
+            toc = toc_options(source_yaml)
+            if toc.get("number-sections"):
                 cmd += ["--number-sections"]
-            if yaml_flag(source_yaml, "toc"):
+            if toc.get("toc"):
                 cmd += ["--toc"]
+            if "toc-depth" in toc:
+                cmd += ["--toc-depth", str(toc["toc-depth"])]
 
             if output_format == "pdf":
                 cmd += ["--pdf-engine", pdf_engine()]
@@ -389,6 +442,7 @@ def _convert(input_file, output_file, output_format):
             if shutil.which("mermaid-filter"):
                 cmd += ["--filter", "mermaid-filter"]
 
+            phase("pandoc")
             run(cmd, cwd=workdir)
     finally:
         remove(cleanup)
@@ -435,12 +489,18 @@ def parse_args(argv):
 
 
 def main(argv=None):
+    # Cancelar desde Neovim envía SIGTERM: convertirlo en una excepción para
+    # que se ejecuten los finally (limpieza de intermedios)
+    signal.signal(signal.SIGTERM, lambda *_: (_ for _ in ()).throw(KeyboardInterrupt()))
     args = parse_args(argv)
     try:
         output = convert(args.input, args.output, args.to)
     except ExportError as e:
         log(f"ERROR: {e}")
         return 1
+    except KeyboardInterrupt:
+        log("Exportación cancelada")
+        return 130
 
     print(output)
     log(f"Conversión correcta: {output}")

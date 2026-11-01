@@ -51,6 +51,10 @@ return {
 				},
 
 				lualine_x = {
+					-- exportación en curso (,ep / ,eh): "󰑮 informe.R 42%"
+					function()
+						return require("config.utils.export_progress").status()
+					end,
 					"filetype",
 					"encoding",
 					"fileformat",
