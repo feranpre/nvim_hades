@@ -1,5 +1,5 @@
 {
-    "text-color": "#1e1a24",
+    "text-color": "#1d2127",
     "background-color": "#f6f4f9",
     "line-number-color": "#a49db0",
     "line-number-background-color": null,
@@ -61,7 +61,7 @@
             "underline": false
         },
         "ControlFlow": {
-            "text-color": "#5b3a8f",
+            "text-color": "#4f33a8",
             "background-color": null,
             "bold": true,
             "italic": false,
@@ -117,7 +117,7 @@
             "underline": false
         },
         "Import": {
-            "text-color": "#5b3a8f",
+            "text-color": "#4f33a8",
             "background-color": null,
             "bold": false,
             "italic": false,
@@ -131,7 +131,7 @@
             "underline": false
         },
         "Keyword": {
-            "text-color": "#5b3a8f",
+            "text-color": "#4f33a8",
             "background-color": null,
             "bold": true,
             "italic": false,
@@ -152,7 +152,7 @@
             "underline": false
         },
         "Preprocessor": {
-            "text-color": "#5b3a8f",
+            "text-color": "#4f33a8",
             "background-color": null,
             "bold": false,
             "italic": false,
@@ -180,7 +180,7 @@
             "underline": false
         },
         "Variable": {
-            "text-color": "#1e1a24",
+            "text-color": "#1d2127",
             "background-color": null,
             "bold": false,
             "italic": false,

@@ -1,21 +1,24 @@
 /*-- scss:defaults --*/
-// hades.scss — HTML exportado desde .qmd / .Rmd (tema de Quarto sobre "cosmo")
+// hades.scss — HTML exportado desde .qmd / .Rmd / .R (tema de Quarto sobre "cosmo")
 //
-// Replica el diseño de template.tex y hades.css: texto casi negro, mucho
-// blanco y un único color de acento (#9b5de5). Si cambias algo aquí,
-// cámbialo también allí.
+// Diseño sobrio: texto gris muy oscuro, mucho blanco, filetes finos y un único
+// color de acento (violeta #6d4bd1) reservado para lo que orienta la lectura
+// (números de sección, enlaces, el índice activo). La misma paleta está en
+// hades.css (HTML desde .md) y en template.tex (PDF). Los colores de las
+// cajas y avisos son los de la paleta categórica de los gráficos (README.md).
 
-$hades-ink: #1e1a24;
-$hades-heading: #2a2235;
-$hades-accent: #9b5de5;
-$hades-accent-dark: #5b3a8f;
-$hades-muted: #6b6577;
-$hades-rule: #e3deea;
-$hades-rule-dark: #cfc7da;
-$hades-tint: #f7f5fa;
-$hades-code-bg: #f6f4f9;
+$hades-ink: #1d2127;
+$hades-heading: #15181d;
+$hades-accent: #6d4bd1;
+$hades-accent-dark: #4f33a8;
+$hades-accent-tint: #f1edfc;
+$hades-muted: #5d6470;
+$hades-faint: #8a919c;
+$hades-rule: #e4e7eb;
+$hades-rule-strong: #c9ced6;
+$hades-tint: #f6f7f9;
 
-$primary: $hades-accent-dark;
+$primary: $hades-accent;
 $body-color: $hades-ink;
 $link-color: $hades-accent-dark;
 $link-decoration: none;
@@ -25,52 +28,66 @@ $font-family-monospace: "Fira Mono", "DejaVu Sans Mono", Menlo, Consolas, monosp
 $headings-font-family: "Fira Sans", "Liberation Sans", "Helvetica Neue", Arial, sans-serif;
 $headings-font-weight: 600;
 $headings-color: $hades-heading;
-$font-size-root: 17px;
-$line-height-base: 1.6;
+$font-size-root: 16px;
+$line-height-base: 1.65;
 
 $code-color: $hades-ink;
 $code-bg: $hades-tint;
-$code-block-bg: $hades-code-bg;
-$code-block-border-left: #cdb3f1;
+$code-block-bg: $hades-tint;
+$code-block-border-left: false;
 
-$callout-color-note: #3a7ca5;
-$callout-color-tip: #2e8b74;
-$callout-color-important: #9b5de5;
-$callout-color-warning: #b7791f;
-$callout-color-caution: #b3403a;
+$callout-color-note: #2a78c6;
+$callout-color-tip: #12927d;
+$callout-color-important: #6d4bd1;
+$callout-color-warning: #b07d00;
+$callout-color-caution: #c0392b;
 
 $toc-color: $hades-muted;
-$table-border-color: $hades-heading;
+$toc-active-border: $hades-accent;
+$table-border-color: $hades-rule;
+$table-striped-bg: transparent;
 
 /*-- scss:rules --*/
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+p { margin-bottom: 0.75rem; }
 
 // --- Bloque de título -------------------------------------------------------
 
 #title-block-header {
-  margin-bottom: 1.75rem;
+  margin-bottom: 2rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid $hades-rule;
 
   &::before {
     content: "";
     display: block;
-    width: 5.5rem;
-    height: 2px;
+    width: 3rem;
+    height: 3px;
+    border-radius: 2px;
     background: $hades-accent;
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.25rem;
   }
 
   .title {
-    font-size: 2.25rem;
+    font-size: 2.1rem;
+    font-weight: 600;
     line-height: 1.2;
+    letter-spacing: -0.01em;
     margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
   }
 
   .subtitle {
-    margin-top: 0.6rem;
+    margin-top: 0.5rem;
     font-family: $headings-font-family;
     font-weight: 400;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     color: $hades-muted;
   }
 
@@ -80,14 +97,12 @@ $table-border-color: $hades-heading;
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 0 0.75rem;
-    margin-top: 1.1rem;
+    margin-top: 1rem;
     font-family: $headings-font-family;
     font-size: 0.85rem;
   }
 
-  .quarto-title-meta-heading {
-    display: none;
-  }
+  .quarto-title-meta-heading { display: none; }
 
   .quarto-title-meta-contents p {
     margin: 0;
@@ -96,80 +111,220 @@ $table-border-color: $hades-heading;
 
   .quarto-title-meta > div:first-child .quarto-title-meta-contents p {
     color: $hades-ink;
-  }
-
-  // separador "·" entre autor y fecha
-  .quarto-title-meta > div + div::before,
-  .quarto-title-meta > div:first-child:not(:last-child)::after {
-    color: $hades-muted;
+    font-weight: 500;
   }
 
   .quarto-title-meta > div + div {
     display: flex;
     gap: 0.75rem;
 
-    &::before { content: "·"; }
+    &::before { content: "·"; color: $hades-faint; }
   }
 }
 
 // --- Titulares --------------------------------------------------------------
 
-h1 { font-size: 1.55rem; margin-top: 2.2rem; }
-h2 { font-size: 1.2rem; margin-top: 1.6rem; border-bottom: 0; padding-bottom: 0; }
-h3 { font-size: 1.05rem; margin-top: 1.2rem; color: $hades-accent-dark; }
-// niveles 4 y 5 más pequeños que el 3 (como en el PDF)
-h4 { font-size: 0.95rem; margin-top: 1rem; }
-h5, h6 { font-size: 0.9rem; margin-top: 0.9rem; color: $hades-muted; }
+h1, h2, h3, h4, h5, h6 { letter-spacing: -0.005em; }
 
+h1 {
+  font-size: 1.6rem;
+  margin-top: 2.75rem;
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid $hades-rule;
+}
+
+h2 { font-size: 1.25rem; margin-top: 2rem; margin-bottom: 0.6rem; border-bottom: 0; padding-bottom: 0; }
+h3 { font-size: 1.06rem; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+// niveles 4 y 5 más pequeños que el 3 (como en el PDF)
+h4 { font-size: 0.97rem; margin-top: 1.25rem; margin-bottom: 0.4rem; }
+h5, h6 { font-size: 0.92rem; margin-top: 1rem; margin-bottom: 0.4rem; color: $hades-muted; }
+
+// El número de sección orienta sin gritar: acento solo en el primer nivel
 .header-section-number {
-  color: $hades-accent;
-  margin-right: 0.55em;
+  color: $hades-faint;
+  font-weight: 500;
+  margin-right: 0.6em;
+  font-variant-numeric: tabular-nums;
+}
+
+h1 .header-section-number { color: $hades-accent; }
+
+// --- Índice lateral ---------------------------------------------------------
+
+#TOC, nav[role="doc-toc"] {
+  font-size: 0.85rem;
+  line-height: 1.4;
+
+  h2, .toc-title, #toc-title {
+    font-family: $headings-font-family;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $hades-faint;
+    margin-bottom: 0.6rem;
+  }
+
+  ul { padding-left: 0; }
+  ul ul { padding-left: 0.85rem; }
+
+  a.nav-link {
+    color: $hades-muted;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+
+    &:hover { color: $hades-heading; }
+
+    &.active {
+      color: $hades-heading;
+      font-weight: 600;
+      border-left-color: $hades-accent;
+    }
+  }
+
+  > ul > li > a.nav-link { color: $hades-ink; }
+
+  .header-section-number,
+  .toc-section-number {
+    color: $hades-faint;
+    margin-right: 0.45em;
+  }
 }
 
 // --- Texto ------------------------------------------------------------------
 
 a:hover { text-decoration: underline; text-underline-offset: 2px; }
 
-ul > li::marker { color: $hades-accent; }
-ol > li::marker { color: $hades-accent-dark; }
+ul > li::marker { color: $hades-faint; }
+ol > li::marker { color: $hades-muted; }
 
-blockquote {
-  margin: 1rem 0;
-  padding: 0.1rem 0 0.1rem 1rem;
-  border-left: 2px solid $hades-rule-dark;
+strong { font-weight: 700; color: $hades-heading; }
+
+hr { border-top: 1px solid $hades-rule; opacity: 1; margin: 2rem 0; }
+
+blockquote, .blockquote {
+  margin: 1.25rem 0;
+  padding: 0.15rem 0 0.15rem 1rem;
+  border-left: 3px solid $hades-rule-strong;
   color: $hades-muted;
   font-size: 1rem;
+
+  > :last-child { margin-bottom: 0; }
 }
 
-figcaption, .figure-caption, caption {
+// --- Figuras y tablas: leyendas iguales para las dos -----------------------
+
+figure.figure, .quarto-float { margin: 1.75rem 0; }
+
+figcaption, .figure-caption, caption,
+.quarto-float-caption, .quarto-float-caption-top, .quarto-float-caption-bottom {
   font-size: 0.85rem;
+  line-height: 1.45;
   color: $hades-muted;
+  text-align: left !important;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-// --- Tablas (estilo booktabs) ----------------------------------------------
+// "Figura 1" / "Tabla 1" en las leyendas de crossref
+.quarto-float-caption strong, figcaption strong, caption strong {
+  color: $hades-heading;
+}
+
+.quarto-figure img, figure img { border-radius: 2px; }
+
+// --- Tablas: estilo booktabs, iguales las de feR y las de kable ------------
+
+// Las tablas anchas se desplazan en horizontal en vez de romper las celdas
+.cell-output-display:has(> table),
+.quarto-float-tbl .cell-output-display {
+  max-width: 100%;
+  overflow-x: auto;
+}
 
 table, .table {
+  // bloque desplazable: una tabla ancha no se sale de la columna de texto
+  display: block;
+  overflow-x: auto;
+  width: fit-content;
+  min-width: 50%;
+  max-width: 100%;
+  margin: 1.25rem 0;
+  font-size: 0.875rem !important;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+  color: $hades-ink;
+  border-collapse: collapse;
   border-top: 1.5px solid $hades-heading;
   border-bottom: 1.5px solid $hades-heading;
 
-  > thead > tr > th {
-    font-weight: 700;
-    border-bottom: 1px solid $hades-heading;
+  // sin bandas ni fondos (kable añade table-striped)
+  --bs-table-striped-bg: transparent;
+  --bs-table-hover-bg: #{$hades-tint};
+  --bs-table-bg: transparent;
+
+  > thead > tr > th, > thead > tr > td {
+    font-family: $headings-font-family;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: $hades-heading;
     background: transparent;
-    color: $hades-ink;
+    border-bottom: 1px solid $hades-heading !important;
+    vertical-align: bottom;
+    white-space: nowrap;
   }
 
-  > :not(caption) > * > * {
-    border-bottom-width: 0;
+  > tbody > tr > td, > tbody > tr > th {
+    border-bottom: 1px solid $hades-rule;
+    white-space: nowrap;
   }
+
+  > tbody > tr:last-child > td, > tbody > tr:last-child > th { border-bottom: 0; }
+
+  th, td { padding: 0.4rem 0.75rem !important; }
+
+  > :not(caption) > * > * { box-shadow: none !important; }
+
+  tbody tr:hover > * { background: $hades-tint; }
+
+  &.small, &.table-sm { font-size: 0.875rem !important; }
+
+  // caption dentro de la tabla (tablas sin crossref)
+  > caption { caption-side: top; padding: 0 0 0.5rem; }
 }
 
-// --- Callouts: mismo aspecto que las cajas del PDF --------------------------
+// las tablas sin borde de pandoc (tablas de una línea de feR) mantienen el filete
+table.table > :not(:first-child) { border-top: 0; }
+
+// --- Código -----------------------------------------------------------------
+
+:not(pre) > code {
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  font-size: 0.86em;
+}
+
+div.sourceCode, pre.sourceCode, .cell-output pre {
+  background: $hades-tint;
+  border: 1px solid $hades-rule;
+  border-left: 1px solid $hades-rule;
+  border-radius: 6px;
+}
+
+div.sourceCode pre.sourceCode { border: 0; }
+
+pre code { font-size: 0.85rem; line-height: 1.5; }
+
+.cell-output pre { padding: 0.7rem 1rem; }
+
+// --- Callouts: filete a la izquierda, fondo muy suave ----------------------
 
 div.callout {
+  margin: 1.25rem 0;
   border: 0 !important;
-  border-left: 2.5px solid !important;
-  border-radius: 0 !important;
+  border-left: 3px solid !important;
+  border-radius: 0 4px 4px 0 !important;
   box-shadow: none;
 
   .callout-header {
@@ -179,51 +334,66 @@ div.callout {
     font-weight: 600;
     font-size: 0.85rem;
   }
+
+  .callout-body-container { color: $hades-ink; }
+}
+
+@each $name, $c in ("note": #2a78c6, "tip": #12927d, "important": #6d4bd1,
+                     "warning": #b07d00, "caution": #c0392b) {
+  div.callout-#{$name}.callout {
+    background: mix($c, white, 4%);
+    border-left-color: $c !important;
+
+    .callout-title-container, .callout-icon::before { color: mix($c, black, 80%); }
+  }
 }
 
 // --- Cajas de template.tex (cajas.lua): ::: {.resumen} etc. ----------------
 
 @mixin hades-box($c) {
-  margin: 1rem 0;
-  padding: 0.65rem 1rem;
-  border-left: 2.5px solid $c;
-  background: mix($c, white, 5%);
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid $c;
+  border-radius: 0 4px 4px 0;
+  background: mix($c, white, 4%);
   > :last-child { margin-bottom: 0; }
 }
 
 .resumen { @include hades-box($hades-accent); }
-.ejemplo { @include hades-box(#2e8b74); }
-.definicion { @include hades-box(#8e4a7e); }
-.nota { @include hades-box(#b7791f); }
+.ejemplo { @include hades-box(#12927d); }
+.definicion { @include hades-box(#c2457a); }
+.nota { @include hades-box(#b07d00); }
 
 .resumen::before {
   content: "RESUMEN";
   display: block;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.3rem;
   font-family: $headings-font-family;
   font-weight: 600;
   font-size: 0.72rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   color: $hades-accent-dark;
 }
 
 .formuladestacada {
-  margin: 1rem 0;
-  padding: 0.4rem 1rem;
-  border: 0.6px solid $hades-rule-dark;
+  margin: 1.25rem 0;
+  padding: 0.5rem 1rem;
+  border: 1px solid $hades-rule;
+  border-radius: 4px;
   text-align: center;
 }
 
 .competencias {
-  margin: 1rem 0;
-  padding: 0.65rem 1rem;
-  border: 0.6px solid $hades-rule;
-  border-left: 2.5px solid $hades-accent;
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid $hades-rule;
+  border-left: 3px solid $hades-accent;
+  border-radius: 0 4px 4px 0;
   > :last-child { margin-bottom: 0; }
 }
 
 .cajatitulo {
-  margin: 1.5rem 0 1rem;
+  margin: 1.75rem 0 1rem;
   text-align: center;
   font-family: $headings-font-family;
   font-weight: 600;
@@ -235,9 +405,26 @@ div.callout {
   &::after {
     content: "";
     display: block;
-    width: 3.5rem;
-    height: 1.5px;
-    margin: 0.4rem auto 0;
+    width: 3rem;
+    height: 2px;
+    border-radius: 2px;
+    margin: 0.45rem auto 0;
     background: $hades-accent;
   }
+}
+
+// --- Bibliografía y notas ---------------------------------------------------
+
+.csl-entry { margin-bottom: 0.5rem; }
+
+#footnotes, section.footnotes {
+  font-size: 0.88rem;
+  color: $hades-muted;
+}
+
+// --- Impresión --------------------------------------------------------------
+
+@media print {
+  table, figure, .callout, .resumen, .ejemplo, .definicion, .nota { break-inside: avoid; }
+  table > tbody > tr > td { white-space: normal; }
 }

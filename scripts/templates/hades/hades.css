@@ -1,31 +1,32 @@
 /* ---------------------------------------------------------------------------
    hades.css — HTML exportado desde .md (template.html)
 
-   Replica el diseño de template.tex: texto casi negro, mucho blanco y un único
-   color de acento (#9b5de5) para filetes, numeración y viñetas.
+   Mismo diseño que hades.scss (HTML de Quarto) y template.tex: texto gris muy
+   oscuro, mucho blanco, filetes finos y un único acento violeta (#6d4bd1).
    Si cambias algo aquí, cámbialo también en template.tex y hades.scss.
    --------------------------------------------------------------------------- */
 
 :root {
-  --ink: #1e1a24;
-  --heading: #2a2235;
-  --accent: #9b5de5;
-  --accent-dark: #5b3a8f;
-  --muted: #6b6577;
-  --rule: #e3deea;
-  --rule-dark: #cfc7da;
-  --tint: #f7f5fa;
-  --code-bg: #f6f4f9;
+  --ink: #1d2127;
+  --heading: #15181d;
+  --accent: #6d4bd1;
+  --accent-dark: #4f33a8;
+  --muted: #5d6470;
+  --faint: #8a919c;
+  --rule: #e4e7eb;
+  --rule-dark: #c9ced6;
+  --tint: #f6f7f9;
+  --code-bg: #f6f7f9;
 
-  --resumen: #9b5de5;
-  --ejemplo: #2e8b74;
-  --definicion: #8e4a7e;
-  --nota: #b7791f;
-  --c-note: #3a7ca5;
-  --c-tip: #2e8b74;
-  --c-important: #9b5de5;
-  --c-warning: #b7791f;
-  --c-caution: #b3403a;
+  --resumen: #6d4bd1;
+  --ejemplo: #12927d;
+  --definicion: #c2457a;
+  --nota: #b07d00;
+  --c-note: #2a78c6;
+  --c-tip: #12927d;
+  --c-important: #6d4bd1;
+  --c-warning: #b07d00;
+  --c-caution: #c0392b;
 
   --font-body: "Lato", "Carlito", "Liberation Sans", "Helvetica Neue", Arial, sans-serif;
   --font-head: "Fira Sans", "Liberation Sans", "Helvetica Neue", Arial, sans-serif;
@@ -34,14 +35,14 @@
 
 * { box-sizing: border-box; }
 
-html { font-size: 17px; }
+html { font-size: 16px; }
 
 body {
   margin: 0;
   background: #fff;
   color: var(--ink);
   font-family: var(--font-body);
-  line-height: 1.6;
+  line-height: 1.65;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   hyphens: auto;
@@ -54,7 +55,7 @@ body {
   padding: 3.5rem 1.5rem 4rem;
 }
 
-p { margin: 0 0 0.6rem; }
+p { margin: 0 0 0.75rem; }
 
 /* --- Bloque de título ----------------------------------------------------- */
 
@@ -65,8 +66,9 @@ p { margin: 0 0 0.6rem; }
 }
 
 .title-rule {
-  width: 5.5rem;
-  height: 2px;
+  width: 3rem;
+  height: 3px;
+  border-radius: 2px;
   background: var(--accent);
   margin-bottom: 1.4rem;
 }
@@ -85,8 +87,9 @@ p { margin: 0 0 0.6rem; }
   margin: 0;
   font-family: var(--font-head);
   font-weight: 600;
-  font-size: 2.25rem;
+  font-size: 2.1rem;
   line-height: 1.2;
+  letter-spacing: -0.01em;
   color: var(--heading);
   border: 0;
   padding: 0;
@@ -121,18 +124,21 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.25;
 }
 
-h1 { font-size: 1.55rem; margin: 2.2rem 0 0.6rem; }
-h2 { font-size: 1.2rem; margin: 1.6rem 0 0.5rem; }
-h3 { font-size: 1.05rem; margin: 1.2rem 0 0.4rem; color: var(--accent-dark); }
-h4 { font-size: 0.95rem; margin: 1rem 0 0.4rem; }
-h5, h6 { font-size: 0.9rem; margin: 0.9rem 0 0.4rem; color: var(--muted); }
+h1 { font-size: 1.6rem; margin: 2.75rem 0 0.9rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--rule); }
+h2 { font-size: 1.25rem; margin: 2rem 0 0.6rem; }
+h3 { font-size: 1.06rem; margin: 1.5rem 0 0.5rem; }
+h4 { font-size: 0.97rem; margin: 1.25rem 0 0.4rem; }
+h5, h6 { font-size: 0.92rem; margin: 1rem 0 0.4rem; color: var(--muted); }
 
+/* el número orienta sin gritar: acento solo en el primer nivel */
 .header-section-number {
-  color: var(--accent);
-  margin-right: 0.55em;
+  color: var(--faint);
+  font-weight: 500;
+  margin-right: 0.6em;
+  font-variant-numeric: tabular-nums;
 }
 
-h3 .header-section-number { color: var(--accent-dark); }
+h1 .header-section-number { color: var(--accent); }
 
 /* --- Índice --------------------------------------------------------------- */
 
@@ -142,18 +148,21 @@ nav#TOC {
   border-bottom: 1px solid var(--rule);
 }
 
-nav#TOC > h2 { margin-top: 0; font-size: 1.55rem; }
+nav#TOC { font-size: 0.92rem; }
+nav#TOC > h2 {
+  margin: 0 0 0.6rem; border: 0; padding: 0;
+  font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--faint);
+}
 
 nav#TOC ul { list-style: none; margin: 0; padding: 0; }
 nav#TOC li::marker { content: none; }
 nav#TOC > ul > li { margin-top: 0.4rem; }
-nav#TOC > ul > li > a { font-family: var(--font-head); font-weight: 600; color: var(--heading); }
+nav#TOC > ul > li > a { font-family: var(--font-head); font-weight: 500; color: var(--heading); }
 nav#TOC ul ul { padding-left: 1.6rem; }
-nav#TOC ul ul a { color: var(--ink); }
+nav#TOC ul ul a { color: var(--muted); }
 nav#TOC a { text-decoration: none; }
 nav#TOC a:hover { color: var(--accent-dark); }
-nav#TOC .toc-section-number { color: var(--accent); margin-right: 0.55em; }
-nav#TOC ul ul .toc-section-number { color: var(--muted); }
+nav#TOC .toc-section-number { color: var(--faint); margin-right: 0.55em; }
 
 /* --- Texto ---------------------------------------------------------------- */
 
@@ -162,26 +171,32 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
 
 ul, ol { padding-left: 1.4rem; margin: 0.3rem 0 0.7rem; }
 li { margin: 0.15rem 0; }
-ul > li::marker { color: var(--accent); }
+ul > li::marker { color: var(--faint); }
 ul ul > li::marker { content: "– "; }
-ul ul ul > li::marker { content: "• "; color: var(--muted); }
-ol > li::marker { color: var(--accent-dark); }
+ul ul ul > li::marker { content: "• "; }
+ol > li::marker { color: var(--muted); }
+
+strong { color: var(--heading); }
 
 hr { border: 0; border-top: 1px solid var(--rule); margin: 2rem 0; }
 
 img, svg, video { max-width: 100%; height: auto; }
 
-figure { margin: 1.5rem 0; text-align: center; }
+figure { margin: 1.75rem 0; }
 
+/* leyendas iguales para figuras y tablas */
 figcaption, caption {
   font-size: 0.85rem;
+  line-height: 1.45;
   color: var(--muted);
+  text-align: left;
+  margin-top: 0.5rem;
 }
 
 blockquote {
   margin: 1rem 0;
-  padding: 0.1rem 0 0.1rem 1rem;
-  border-left: 2px solid var(--rule-dark);
+  padding: 0.15rem 0 0.15rem 1rem;
+  border-left: 3px solid var(--rule-dark);
   color: var(--muted);
 }
 
@@ -196,14 +211,15 @@ code {
 
 :not(pre) > code {
   background: var(--tint);
-  padding: 0.08em 0.3em;
-  border-radius: 3px;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
 }
 
 pre, div.sourceCode {
   background: var(--code-bg);
-  border-left: 2px solid #cdb3f1;
-  margin: 0.8rem 0;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  margin: 1rem 0;
 }
 
 pre {
@@ -216,35 +232,49 @@ div.sourceCode pre { border: 0; margin: 0; background: transparent; }
 
 /* --- Tablas (estilo booktabs) -------------------------------------------- */
 
+/* bloque desplazable: una tabla ancha no se sale de la columna de texto */
 table {
+  display: block;
+  overflow-x: auto;
+  width: fit-content;
+  min-width: 50%;
+  max-width: 100%;
   border-collapse: collapse;
-  margin: 1.2rem auto;
-  min-width: 40%;
-  font-size: 0.95rem;
+  margin: 1.25rem 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
   border-top: 1.5px solid var(--heading);
   border-bottom: 1.5px solid var(--heading);
 }
 
 thead th {
-  font-weight: 700;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--heading);
+  vertical-align: bottom;
   border-bottom: 1px solid var(--heading);
 }
 
-th, td { padding: 0.35rem 0.75rem; }
+th, td { padding: 0.4rem 0.75rem; white-space: nowrap; }
+tbody tr + tr > * { border-top: 1px solid var(--rule); }
+tbody tr:hover > * { background: var(--tint); }
 
 caption { caption-side: top; padding-bottom: 0.4rem; }
 
 /* "Tabla 1." / "Figura 1." en las leyendas generadas por quarto/crossref */
-caption strong, figcaption strong { color: var(--accent-dark); }
+caption strong, figcaption strong { color: var(--heading); }
 
 /* --- Cajas (cajas.lua / template.tex) ------------------------------------ */
 
 .resumen, .ejemplo, .definicion, .nota, .callout {
   --c: var(--resumen);
-  margin: 1rem 0;
-  padding: 0.65rem 1rem;
-  border-left: 2.5px solid var(--c);
-  background: color-mix(in srgb, var(--c) 5%, #fff);
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--c);
+  border-radius: 0 4px 4px 0;
+  background: color-mix(in srgb, var(--c) 4%, #fff);
 }
 
 .resumen > :last-child, .ejemplo > :last-child, .definicion > :last-child,
@@ -258,7 +288,7 @@ caption strong, figcaption strong { color: var(--accent-dark); }
   font-family: var(--font-head);
   font-weight: 600;
   font-size: 0.72rem;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   color: var(--accent-dark);
 }
 
@@ -277,7 +307,7 @@ caption strong, figcaption strong { color: var(--accent-dark); }
   margin: 1rem 0;
   padding: 0.65rem 1rem;
   border: 0.6px solid var(--rule);
-  border-left: 2.5px solid var(--accent);
+  border-left: 3px solid var(--accent);
 }
 
 .cajatitulo {
@@ -305,7 +335,7 @@ caption strong, figcaption strong { color: var(--accent-dark); }
   font-family: var(--font-head);
   font-weight: 600;
   font-size: 0.85rem;
-  color: color-mix(in srgb, var(--c) 75%, #000);
+  color: color-mix(in srgb, var(--c) 80%, #000);
   margin-bottom: 0.2rem;
 }
 
@@ -358,5 +388,6 @@ ul.task-list li input[type="checkbox"] { margin-right: 0.5em; }
 @media print {
   html { font-size: 11pt; }
   .page { max-width: none; padding: 0; }
+  th, td { white-space: normal; }
   pre, blockquote, table, .resumen, .ejemplo, .definicion, .nota, .callout { break-inside: avoid; }
 }

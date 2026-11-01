@@ -5,7 +5,7 @@ Quarto y R Markdown a PDF y HTML desde Neovim.
 
 PDF y HTML comparten el mismo diseño: texto casi negro sobre blanco,
 titulares en Fira Sans, texto en Lato y un único color de acento
-(`#9b5de5`) reservado para filetes, numeración y viñetas.
+(`#6d4bd1`) reservado para filetes, numeración y viñetas.
 
 ## Uso
 
@@ -151,5 +151,5 @@ indiques otro con `csl:`. Para colocar la bibliografía en un sitio concreto:
 
 Los colores están al principio de `template.tex` (sección `Color`), de
 `hades.css` (`:root`) y de `hades.scss` (variables `$hades-*`); si cambias uno,
-cambia los tres para que PDF y HTML sigan igual. `accent` (`#9B5DE5`) es el
+cambia los tres para que PDF y HTML sigan igual. `accent` (`#6D4BD1`) es el
 color de acento; `heading` e `ink`, los casi negros de titulares y texto.
