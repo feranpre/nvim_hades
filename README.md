@@ -31,9 +31,14 @@ progreso, el bloque en curso (y el paso dentro del bloque cuando feR recorre
 muchas variables), el tiempo transcurrido y una estimación de lo que queda.
 También se ve en la barra de estado. `,ex` (o `:ExportCancel`) la cancela.
 
-El índice y la numeración se leen tanto de una cabecera de Quarto (`toc`,
-`toc-depth`, `number-sections`) como de una de rmarkdown
-(`output: html_document: toc / toc_depth / number_sections`).
+Los `.R`, `.qmd` y `.Rmd` se exportan con Quarto, así que la cabecera es la
+de Quarto (`format: html: ...`; los snippets `_informe` / `informe` la traen
+hecha). El índice y la numeración también se leen de una cabecera antigua de
+rmarkdown (`output: html_document: toc / toc_depth / number_sections`).
+
+En HTML, `toc-expand` decide cuántos niveles del índice lateral se ven
+desplegados: con `toc-expand: 1` solo se ve el primero (los demás se abren al
+llegar a cada sección); con `toc-expand: true`, todos hasta `toc-depth`.
 
 Para que el progreso se lea bien, pon nombre a los bloques: `#+ descriptivos`.
 

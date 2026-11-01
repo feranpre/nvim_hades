@@ -116,7 +116,10 @@ $table-border-color: $hades-heading;
 
 h1 { font-size: 1.55rem; margin-top: 2.2rem; }
 h2 { font-size: 1.2rem; margin-top: 1.6rem; border-bottom: 0; padding-bottom: 0; }
-h3 { font-size: 1rem; margin-top: 1.2rem; color: $hades-accent-dark; }
+h3 { font-size: 1.05rem; margin-top: 1.2rem; color: $hades-accent-dark; }
+// niveles 4 y 5 más pequeños que el 3 (como en el PDF)
+h4 { font-size: 0.95rem; margin-top: 1rem; }
+h5, h6 { font-size: 0.9rem; margin-top: 0.9rem; color: $hades-muted; }
 
 .header-section-number {
   color: $hades-accent;
