@@ -42,6 +42,20 @@ function M.setup(buf)
 
 	keys.buffer(buf, "n", "<localleader>sc", "<Plug>RSendChain", "send pipe [c]hain up to cursor")
 
+	-- Todo el script hasta la línea del cursor (incluida)
+	keys.buffer(buf, "n", "<localleader>su", "<Plug>RSendAboveLines", "send [u]p to here")
+
+	-- La sección del cursor (#' ## Título o # Título ----), ver gO / ]] / [[
+	keys.buffer(buf, "n", "<localleader>ss", function()
+		local first, last = require("config.utils.outline").section_range(buf)
+		local lines = vim.api.nvim_buf_get_lines(buf, first - 1, last, false)
+		require("r.send").source_lines(lines)
+		vim.notify(("Sección enviada a R (líneas %d-%d)"):format(first, last), vim.log.levels.INFO)
+	end, "send current [s]ection")
+
+	-- Evaluar la línea e insertar el resultado debajo como comentario
+	keys.buffer(buf, "n", "<localleader>so", "<Plug>RInsertLineOutput", "insert line [o]utput as comment")
+
 	keys.buffer(buf, "n", "<C-CR>", function()
 		require("config.utils.r_send").smart()
 	end, "smart run block + move down")
@@ -126,6 +140,9 @@ function M.setup(buf)
 
 	-- Insertar <-, |> en modo inserción (<M-->, <M-m>)
 	require("config.keymaps.r_editing").setup(buf)
+
+	-- Índice (gO) y saltos entre secciones (]] [[): títulos #' y # Sección ----
+	require("config.utils.outline").setup(buf)
 end
 
 return M

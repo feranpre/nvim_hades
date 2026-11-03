@@ -91,6 +91,9 @@ return {
 				MkdnCreateLinkFromClipboard = false,
 				-- <C-Space> es de blink.cmp
 				MkdnToggleToDo = false,
+				-- ]] / [[ son de config.utils.outline (también en quarto y R)
+				MkdnNextHeading = false,
+				MkdnPrevHeading = false,
 			},
 		},
 	},

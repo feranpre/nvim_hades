@@ -13,6 +13,10 @@ Pulsando `,` aparece el menú de which-key con todo lo disponible en cada sitio.
 | `,rl` / `,rp` | línea (o selección) / párrafo |
 | `,sf` | mandar el archivo entero |
 | `,sc` | mandar el pipeline desde el principio hasta el paso del cursor (para depurarlo paso a paso) |
+| `,ss` | mandar la sección del cursor (de su título al siguiente) |
+| `,su` | mandar todo el script hasta la línea del cursor |
+| `,so` | evaluar la línea e insertar el resultado debajo como comentario |
+| `gO` / `]]` / `[[` | índice del documento / sección siguiente / anterior. Títulos: `#' ## Título` y secciones de RStudio `# Título ----` |
 | `,vt` / `,vs` | `str()` / `summary()` del objeto bajo el cursor en ventana flotante (repetir para entrar, `q` cierra) |
 | `,vd` | ver un data.frame |
 | `,p` / `,h` / `,o` | imprimir objeto / ayuda / explorador de objetos |
@@ -30,6 +34,12 @@ Mientras exporta aparece una ventana abajo a la derecha con la barra de
 progreso, el bloque en curso (y el paso dentro del bloque cuando feR recorre
 muchas variables), el tiempo transcurrido y una estimación de lo que queda.
 También se ve en la barra de estado. `,ex` (o `:ExportCancel`) la cancela.
+
+`,ew` exporta cada vez que guardas (pregunta el formato; otra vez `,ew` lo
+quita). La primera vez abre el resultado: los visores de PDF que recargan
+solos (zathura, evince, okular, sioyek) muestran siempre la última versión; en
+HTML basta con recargar el navegador. Si guardas mientras exporta, se vuelve a
+exportar al terminar.
 
 Los `.R`, `.qmd` y `.Rmd` se exportan con Quarto, así que la cabecera es la
 de Quarto (`format: html: ...`; los snippets `_informe` / `informe` la traen
@@ -57,6 +67,17 @@ que los `.R`); fuera, el de quarto (`,q`) o markdown (`,m`, `,t`).
 | `,ep` / `,eh` (`,eP` / `,eH` abren) | exportar a PDF / HTML con `scripts/templates/hades` |
 | `,qr` / `,qp` | quarto render / preview |
 | `,qn` / `,qh` / `,qP` | presentación nueva / a HTML / a PDF |
+
+### Escribir texto (markdown, quarto, R markdown)
+
+- Las líneas largas se ven partidas por palabras (el archivo no cambia) y
+  `j` / `k` se mueven por líneas de pantalla.
+- `gO` abre el índice del documento; `]]` / `[[` saltan entre secciones.
+- Con una selección: `,mb` negrita, `,mi` cursiva, `,mc` código, `,mk` enlace.
+- Ortografía en castellano e inglés: `<leader>s` (o `:Ortografia`) la activa;
+  la primera vez descarga el diccionario. `z=` da sugerencias, `]s` / `[s`
+  saltan entre errores y `zg` añade la palabra al diccionario. Si el
+  diccionario está instalado, se activa sola en estos archivos.
 
 ## Snippets de R (escribir el prefijo y elegir en el menú de completado)
 

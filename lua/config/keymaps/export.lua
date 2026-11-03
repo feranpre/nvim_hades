@@ -21,6 +21,10 @@ function M.setup(buf)
 
 	keys.buffer(buf, "n", "<localleader>eH", export("html", true), "export to [H]tml and open")
 
+	keys.buffer(buf, "n", "<localleader>ew", function()
+		require("config.utils.export").toggle_watch(buf)
+	end, "export on [w]rite (on/off)")
+
 	keys.buffer(buf, "n", "<localleader>ex", function()
 		require("config.utils.export").cancel()
 	end, "cancel e[x]port")

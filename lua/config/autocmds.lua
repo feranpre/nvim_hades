@@ -47,6 +47,9 @@ vim.api.nvim_create_autocmd("FileType", {
 		-- Markdown-style section folding
 		if ft == "markdown" or ft == "quarto" or ft == "rmd" then
 			require("config.utils.markdown_folding").setup()
+
+			-- Texto: líneas partidas por palabras, ortografía, formato, índice
+			require("config.utils.prose").setup(buf)
 		end
 
 		-- R

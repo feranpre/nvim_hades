@@ -27,7 +27,8 @@ local function tail(text, n)
 end
 
 ---@param format "pdf"|"html"
----@param opts? { open?: boolean, buf?: integer }
+---@param opts? { open?: boolean, buf?: integer, quiet?: boolean }
+---  quiet: sin aviso al terminar bien ni si ya se está exportando (al guardar)
 function M.export(format, opts)
 	opts = opts or {}
 	local buf = opts.buf or vim.api.nvim_get_current_buf()
@@ -63,7 +64,12 @@ function M.export(format, opts)
 	local key = file .. ":" .. format
 
 	if running[key] then
-		vim.notify("Ya se está exportando " .. vim.fs.basename(file) .. " a " .. format, vim.log.levels.WARN)
+		if opts.quiet then
+			-- al guardar durante una exportación: se repite al terminar
+			running[key].again = true
+		else
+			vim.notify("Ya se está exportando " .. vim.fs.basename(file) .. " a " .. format, vim.log.levels.WARN)
+		end
 		return
 	end
 
@@ -97,6 +103,7 @@ function M.export(format, opts)
 
 	local function on_exit(result)
 		vim.schedule(function()
+			local again = running[key] and running[key].again
 			running[key] = nil
 
 			if pending ~= "" then
@@ -104,6 +111,13 @@ function M.export(format, opts)
 			end
 
 			local summary = progress:finish(result.code == 0 and not progress.cancelled)
+
+			-- se guardó otra vez mientras exportaba: se exporta la versión nueva
+			if again and not progress.cancelled and vim.api.nvim_buf_is_valid(buf) then
+				vim.schedule(function()
+					M.export(format, { buf = buf, quiet = true })
+				end)
+			end
 
 			if progress.cancelled then
 				vim.notify("Exportación de " .. name .. " cancelada", vim.log.levels.WARN)
@@ -119,6 +133,10 @@ function M.export(format, opts)
 			-- El script imprime la ruta del archivo generado en stdout
 			local stdout = vim.trim(result.stdout or "")
 			local output = stdout ~= "" and tail(stdout, 1) or nil
+
+			if opts.quiet then
+				return
+			end
 
 			vim.notify(
 				"Exportado " .. table.concat(summary, "\n") .. "\n" .. (output or name),
@@ -146,6 +164,44 @@ function M.export(format, opts)
 	end
 
 	running[key] = { proc = proc, progress = progress }
+end
+
+-- Exportar al guardar: ,ew lo activa (pregunta el formato) o lo quita.
+-- Los visores de PDF que recargan solos (zathura, evince, okular, sioyek)
+-- muestran cada versión; en HTML basta con recargar el navegador.
+function M.toggle_watch(buf)
+	buf = buf or vim.api.nvim_get_current_buf()
+	local name = vim.fs.basename(vim.api.nvim_buf_get_name(buf))
+	local group = vim.api.nvim_create_augroup("HadesExportWatch" .. buf, { clear = true })
+
+	if vim.b[buf].hades_export_watch then
+		vim.b[buf].hades_export_watch = nil
+		vim.notify("Ya no se exporta " .. name .. " al guardar", vim.log.levels.INFO)
+		return
+	end
+
+	vim.ui.select(M.formats, { prompt = "Exportar al guardar a" }, function(format)
+		if not format then
+			return
+		end
+
+		vim.b[buf].hades_export_watch = format
+
+		vim.api.nvim_create_autocmd("BufWritePost", {
+			group = group,
+			buffer = buf,
+			callback = function()
+				if vim.b[buf].hades_export_watch then
+					M.export(vim.b[buf].hades_export_watch, { buf = buf, quiet = true })
+				end
+			end,
+		})
+
+		vim.notify("Se exportará " .. name .. " a " .. format .. " cada vez que guardes (,ew para quitarlo)")
+
+		-- primera exportación, y se abre para tenerla a la vista
+		M.export(format, { buf = buf, open = true })
+	end)
 end
 
 -- Cancela las exportaciones en curso (todas, o solo las del archivo indicado)
