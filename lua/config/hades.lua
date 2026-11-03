@@ -2,6 +2,9 @@ return {
 	leader = " ",
 	localleader = ",",
 
+	-- carpeta donde se crean los proyectos nuevos (portada, <leader>p)
+	projects_dir = "~/Proyectos",
+
 	-- colorscheme = "tokyonight-storm",
 	colorscheme = "catppuccin-frappe",
 	-- colorscheme = "oldworld",

@@ -23,6 +23,22 @@ return {
 ]],
 
 					keys = {
+						{
+							icon = " ",
+							key = "p",
+							desc = "Proyectos",
+							action = function()
+								require("config.utils.projects").pick()
+							end,
+						},
+						{
+							icon = " ",
+							key = "P",
+							desc = "Nuevo proyecto",
+							action = function()
+								require("config.utils.projects").new()
+							end,
+						},
 						{ icon = " ", key = "f", desc = "Find file", action = ":Telescope find_files" },
 						{ icon = " ", key = "n", desc = "New file", action = ":ene | startinsert" },
 						{ icon = " ", key = "r", desc = "Recent files", action = ":Telescope oldfiles" },
@@ -50,6 +66,21 @@ return {
 
 				sections = {
 					{ section = "header" },
+					{
+						icon = " ",
+						title = "Proyectos recientes",
+						section = "projects",
+						indent = 2,
+						padding = 1,
+						limit = 8,
+						-- lista propia (config.utils.projects), no los repositorios git
+						dirs = function()
+							return require("config.utils.projects").paths()
+						end,
+						action = function(dir)
+							require("config.utils.projects").open(dir)
+						end,
+					},
 					{ section = "keys", gap = 1, padding = 1 },
 					{ section = "startup" },
 				},

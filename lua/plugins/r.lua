@@ -14,6 +14,9 @@ return {
 			local opts = {
 				R_args = { "--quiet", "--no-save" },
 				auto_quit = true,
+				-- R arranca en el directorio de trabajo de Neovim, que es la
+				-- carpeta del proyecto abierto (config.utils.projects)
+				setwd = "nvim",
 				user_maps_only = true,
 				Rout_more_colors = true,
 				rconsole_width = 40,

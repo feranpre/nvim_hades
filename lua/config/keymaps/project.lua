@@ -12,6 +12,18 @@ end
 
 keys.group("n", "<localleader>P", "[P]roject")
 
+-- Proyectos (config.utils.projects): lista de recientes y crear carpetas nuevas
+local function projects(fn)
+	return function()
+		require("config.utils.projects")[fn]()
+	end
+end
+
+keys.map("n", "<leader>p", projects("pick"), "[p]royectos recientes")
+keys.map("n", "<localleader>Pp", projects("pick"), "[p]royectos recientes (abrir)")
+keys.map("n", "<localleader>PN", projects("new"), "[N]uevo proyecto (carpeta)")
+keys.map("n", "<localleader>Pa", projects("add_current"), "[a]ñadir carpeta actual a proyectos")
+
 keys.map("n", "<localleader>Pc", project("create"), "[c]reate project (.Rproj, .lintr, air.toml)")
 keys.map("n", "<localleader>Pd", project("folders"), "create [d]irectories (DATOS_BASE, DATOS_R...)")
 keys.map("n", "<localleader>Pg", project("git"), "[g]it init + .gitignore")

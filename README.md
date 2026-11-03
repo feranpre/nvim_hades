@@ -77,7 +77,25 @@ En scripts `.R` (informes al estilo `knitr::spin`, se exportan con `,ep` / `,eh`
 
 En `.qmd`: `informe`, `compare_vars`, `rfig`, `rtbl`, `rchunk`… En `.Rmd`: `informe`.
 
-## Proyectos (`,P`, en cualquier buffer)
+## Proyectos
+
+Cada proyecto es una carpeta. La portada de Neovim muestra los **proyectos
+recientes** (teclas `1`…`8`), `p` abre la lista completa y `P` crea uno nuevo.
+
+| Atajo | Acción |
+|---|---|
+| `<leader>p` / `,Pp` / `:Projects` | lista de proyectos: `Enter` abre, `Ctrl-n` nuevo, `Ctrl-x` quitar de la lista, `Ctrl-a` añadir la carpeta actual |
+| `,PN` / `:ProjectNew` | nuevo proyecto: carpeta (por defecto en `~/Proyectos`, se cambia en `lua/config/hades.lua`) y tipo: análisis de R (`.Rproj`, `.lintr`, `air.toml`, carpetas `DATOS_*`, git), R básico o carpeta vacía |
+| `,Pa` / `:ProjectAdd` | añadir la carpeta actual a la lista |
+
+Al abrir un proyecto, Neovim cambia su directorio de trabajo a esa carpeta y
+abre el último archivo que editaste en ella (o la carpeta, con oil). Si es un
+proyecto de R (tiene `.Rproj`, `DESCRIPTION`, `renv.lock` o scripts de R),
+también cambia el de R: `setwd()` si R ya está abierto; si no, R arrancará en
+esa carpeta. Abrir `nvim` dentro de una carpeta con `.Rproj` la apunta en la
+lista.
+
+### Utilidades de proyecto de R (`,P`, en cualquier buffer)
 
 La raíz del proyecto es la carpeta con un `.Rproj` más cercana a la carpeta de
 trabajo de Neovim (o esa misma carpeta).

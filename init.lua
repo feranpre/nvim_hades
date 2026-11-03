@@ -55,5 +55,6 @@ require("config.folding").setup()
 
 require("config.keymaps")
 require("config.utils.export").create_command()
+require("config.utils.projects").setup()
 
 vim.cmd.colorscheme(Hades.colorscheme)
