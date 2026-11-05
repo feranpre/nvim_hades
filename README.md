@@ -23,6 +23,12 @@ Pulsando `,` aparece el menú de which-key con todo lo disponible en cada sitio.
 | `Alt+-` / `Alt+m` | insertar ` <- ` / ` \|> ` |
 | `,ep` / `,eh` | exportar a PDF / HTML (los `#'` son el texto, como `knitr::spin`) |
 | `,b…` | desarrollo de paquetes (build, check, test, document…) |
+| `,rC` / `:RRebuildCompl [paquete]` | rehacer el autocompletado de un paquete reinstalado sin cambiar de versión (feR por defecto) |
+
+R.nvim solo rehace la lista de autocompletado de un paquete cuando cambia su
+versión: si reinstalas feR con funciones nuevas y la misma versión, no
+aparecen al escribir `feR::`. `,rC` la rehace en un R aparte y hace que el
+autocompletado la vuelva a leer sin reiniciar nada.
 
 Al pulsar Intro en una línea `#'` se continúa el comentario. Al guardar, el
 código se formatea con [air](https://posit-dev.github.io/air/) (si está

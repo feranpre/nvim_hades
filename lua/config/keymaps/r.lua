@@ -17,6 +17,10 @@ function M.setup(buf)
 
 	keys.buffer(buf, "n", "<localleader>rc", "<Plug>RClearConsole", "clear R [c]onsole")
 
+	-- Rehacer el autocompletado de feR tras reinstalarlo sin cambiar de versión
+	-- (:RRebuildCompl otro_paquete para otro)
+	keys.buffer(buf, "n", "<localleader>rC", "<cmd>RRebuildCompl<CR>", "rebuild [C]ompletion (feR)")
+
 	---------------------------------------------------------------------------
 	-- Execution
 	---------------------------------------------------------------------------

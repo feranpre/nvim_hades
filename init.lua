@@ -57,5 +57,6 @@ require("config.keymaps")
 require("config.utils.export").create_command()
 require("config.utils.projects").setup()
 require("config.utils.prose").create_commands()
+require("config.utils.r_compl").create_command()
 
 vim.cmd.colorscheme(Hades.colorscheme)
