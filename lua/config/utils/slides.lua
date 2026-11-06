@@ -222,4 +222,78 @@ function M.pdf()
 	run_steps({ render_cmd(file), export }, vim.fn.fnamemodify(file, ":h"), "Slides pdf " .. name)
 end
 
+---------------------------------------------------------------------------
+-- Importar un PowerPoint / LibreOffice (.pptx, .ppt, .odp)
+---------------------------------------------------------------------------
+
+-- Convierte la presentación con scripts/odp2qmd.py en una carpeta con el
+-- .qmd, las imágenes y el tema, y abre el .qmd. Los .pptx/.ppt necesitan
+-- LibreOffice (soffice) para pasarlos antes a .odp.
+function M.import(file)
+	local function run(src)
+		src = vim.fn.fnamemodify(vim.fn.expand(src), ":p")
+
+		if vim.fn.filereadable(src) == 0 then
+			vim.notify("No existe " .. src, vim.log.levels.ERROR)
+			return
+		end
+
+		local name = slug(vim.fn.fnamemodify(src, ":t:r"))
+		local outdir = vim.fn.fnamemodify(src, ":h") .. "/" .. name
+		local script = vim.fn.stdpath("config") .. "/scripts/odp2qmd.py"
+
+		if vim.uv.fs_stat(outdir .. "/" .. name .. ".qmd") then
+			vim.notify("Ya existe " .. outdir .. "/" .. name .. ".qmd (bórralo o renómbralo para volver a importar)", vim.log.levels.WARN)
+			vim.cmd.edit(vim.fn.fnameescape(outdir .. "/" .. name .. ".qmd"))
+			return
+		end
+
+		vim.notify("Importando " .. vim.fn.fnamemodify(src, ":t") .. "...", vim.log.levels.INFO)
+
+		vim.system({ "python3", script, src, "-o", outdir, "-n", name }, { text = true }, function(res)
+			vim.schedule(function()
+				if res.code ~= 0 then
+					vim.notify("Error al importar:\n" .. (res.stderr or ""), vim.log.levels.ERROR)
+					return
+				end
+
+				local qmd = vim.trim(res.stdout or ""):match("[^\n]+$")
+				local warnings = vim.trim(res.stderr or "")
+
+				vim.notify(
+					"Presentación importada en " .. vim.fn.fnamemodify(outdir, ":~")
+						.. "\n,qp vista previa · ,qh html · ,qP pdf · tecla S: notas del ponente"
+						.. (warnings ~= "" and ("\n" .. warnings) or ""),
+					vim.log.levels.INFO
+				)
+
+				if qmd then
+					vim.cmd.edit(vim.fn.fnameescape(qmd))
+				end
+			end)
+		end)
+	end
+
+	if file and file ~= "" then
+		run(file)
+		return
+	end
+
+	vim.ui.input({ prompt = "Presentación (.pptx, .odp): ", completion = "file" }, function(input)
+		if input and input ~= "" then
+			run(input)
+		end
+	end)
+end
+
+function M.create_command()
+	vim.api.nvim_create_user_command("SlidesImport", function(cmd)
+		M.import(cmd.args)
+	end, {
+		nargs = "?",
+		complete = "file",
+		desc = "Convertir un PowerPoint / LibreOffice (.pptx, .odp) en diapositivas Quarto",
+	})
+end
+
 return M

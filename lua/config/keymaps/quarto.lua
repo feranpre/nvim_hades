@@ -28,6 +28,7 @@ local context = {
 		{ "n", "<localleader>qn", slides("new"), "[n]ew presentation" },
 		{ "n", "<localleader>qh", slides("html"), "slides to [h]tml" },
 		{ "n", "<localleader>qP", slides("pdf"), "slides to [P]DF (decktape)" },
+		{ "n", "<localleader>qi", slides("import"), "[i]mport PowerPoint / .odp" },
 	},
 }
 

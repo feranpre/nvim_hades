@@ -73,6 +73,7 @@ que los `.R`); fuera, el de quarto (`,q`) o markdown (`,m`, `,t`).
 | `,ep` / `,eh` (`,eP` / `,eH` abren) | exportar a PDF / HTML con `scripts/templates/hades` |
 | `,qr` / `,qp` | quarto render / preview |
 | `,qn` / `,qh` / `,qP` | presentación nueva / a HTML / a PDF |
+| `,qi` / `:SlidesImport archivo` | importar un PowerPoint o LibreOffice (`.pptx`, `.ppt`, `.odp`); también `i` en la portada |
 
 ### Escribir texto (markdown, quarto, R markdown)
 
@@ -84,6 +85,24 @@ que los `.R`); fuera, el de quarto (`,q`) o markdown (`,m`, `,t`).
   la primera vez descarga el diccionario. `z=` da sugerencias, `]s` / `[s`
   saltan entre errores y `zg` añade la palabra al diccionario. Si el
   diccionario está instalado, se activa sola en estos archivos.
+
+### Presentaciones de clase (Quarto + reveal.js)
+
+Cada `##` es una diapositiva y `::: notes` son las notas del ponente: en el
+navegador, `S` abre la vista del ponente (notas, reloj y siguiente
+diapositiva), `F` pantalla completa y `O` la vista general.
+
+`,qi` convierte un PowerPoint o LibreOffice (`scripts/odp2qmd.py`; los `.pptx`
+necesitan LibreOffice) en una carpeta con el `.qmd`, las imágenes, el tema
+`odp.scss` sacado del patrón y `ajustar.html`. Conserva el aspecto: el título
+va en la banda del patrón y cada cuadro de texto o imagen queda en su sitio
+(`::: {.absolute .caja style="left: …px; top: …px; …"}`, en una diapositiva de
+1280 px de ancho). El texto de los cuadros es markdown normal. Si no cabe, la
+letra se reduce sola, como en PowerPoint. No se convierten las animaciones ni
+las tablas.
+
+Para imprimir con notas: abrir el `.html` con `?print-pdf&showNotes=separate-page`
+al final de la dirección e imprimir a PDF desde el navegador.
 
 ## Snippets de R (escribir el prefijo y elegir en el menú de completado)
 

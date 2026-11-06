@@ -1,0 +1,61 @@
+<!--
+  ajustar.html — reduce la letra de un cuadro de texto (.caja) si su texto no
+  cabe, como "encoger el texto al desbordar" de LibreOffice / PowerPoint.
+  Lo usan las presentaciones convertidas con scripts/odp2qmd.py
+  (include-after-body en el YAML).
+-->
+<script>
+  (function () {
+    function fit(box) {
+      if (box.dataset.ajustado) return;
+      var size = parseFloat(window.getComputedStyle(box).fontSize);
+      var min = size * 0.4;
+      var guard = 0;
+      // la caja tiene alto fijo: se reduce hasta que el texto cabe. Como en
+      // LibreOffice, un desborde pequeño (5 %) se deja pasar
+      var limit = box.clientHeight * 1.05 + 1;
+      while (box.scrollHeight > limit && size > min && guard < 60) {
+        size = size * 0.95;
+        box.style.fontSize = size + "px";
+        guard++;
+      }
+      box.dataset.ajustado = "1";
+    }
+
+    function fitSlide(slide) {
+      if (!slide) return;
+      slide.querySelectorAll(".caja").forEach(fit);
+    }
+
+    function fitAll() {
+      document.querySelectorAll(".reveal .slides section").forEach(function (s) {
+        var hidden = s.style.display === "none";
+        if (hidden) s.style.display = "block";
+        fitSlide(s);
+        if (hidden) s.style.display = "";
+      });
+    }
+
+    function start() {
+      var fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+      fonts.then(function () {
+        if (window.Reveal && Reveal.isReady && Reveal.isReady()) {
+          fitAll();
+        }
+      });
+    }
+
+    if (window.Reveal) {
+      Reveal.on("ready", function (ev) {
+        fitAll();
+        fitSlide(ev.currentSlide);
+      });
+      Reveal.on("slidechanged", function (ev) {
+        fitSlide(ev.currentSlide);
+      });
+      Reveal.on("pdf-ready", fitAll);
+    }
+
+    window.addEventListener("load", start);
+  })();
+</script>

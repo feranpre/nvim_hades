@@ -52,6 +52,14 @@ return {
 							end,
 						},
 						{
+							icon = "󰈧 ",
+							key = "i",
+							desc = "Import PowerPoint (.pptx, .odp)",
+							action = function()
+								require("config.utils.slides").import()
+							end,
+						},
+						{
 							icon = " ",
 							key = "c",
 							desc = "Config",
