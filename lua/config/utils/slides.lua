@@ -6,7 +6,8 @@ M.template_dir = vim.fn.stdpath("config") .. "/scripts/templates/slides"
 
 -- Archivos de la plantilla que se copian junto a la presentación
 local SUPPORT_FILES = {
-	"hades.scss",
+	"clase.scss",
+	"encajar.html",
 	"img/ejemplo.svg",
 }
 

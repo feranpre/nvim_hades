@@ -88,18 +88,38 @@ que los `.R`); fuera, el de quarto (`,q`) o markdown (`,m`, `,t`).
 
 ### Presentaciones de clase (Quarto + reveal.js)
 
-Cada `##` es una diapositiva y `::: notes` son las notas del ponente: en el
-navegador, `S` abre la vista del ponente (notas, reloj y siguiente
-diapositiva), `F` pantalla completa y `O` la vista general.
+`,qn` crea una presentación nueva (o `s` en la portada). Se escribe en
+markdown normal, sin posiciones; la plantilla trae un ejemplo de cada cosa:
 
-`,qi` convierte un PowerPoint o LibreOffice (`scripts/odp2qmd.py`; los `.pptx`
-necesitan LibreOffice) en una carpeta con el `.qmd`, las imágenes, el tema
-`odp.scss` sacado del patrón y `ajustar.html`. Conserva el aspecto: el título
-va en la banda del patrón y cada cuadro de texto o imagen queda en su sitio
-(`::: {.absolute .caja style="left: …px; top: …px; …"}`, en una diapositiva de
-1280 px de ancho). El texto de los cuadros es markdown normal. Si no cabe, la
-letra se reduce sola, como en PowerPoint. No se convierten las animaciones ni
-las tablas.
+```markdown
+## Título de la diapositiva          <- banda de color arriba
+- puntos, **negrita**, [rojo]{.rojo}, [verde]{.verde}, [azul]{.azul}
+![](img/foto.png){.r-stretch}        <- ocupa el alto que queda
+::: {.caja} / {.aviso} / {.gris}     <- cuadros de color
+::: {.grande}                        <- frase grande
+:::: {.columns}                      <- columnas (::: {.column width="50%"})
+. . .                                <- lo siguiente aparece al avanzar
+[respuesta]{.fragment}               <- lo mismo dentro de una línea
+::: notes                            <- notas del ponente
+## {.portada}                        <- portada / cierre
+## {background-image="img/x.png" background-size="contain"}  <- imagen a pantalla completa
+```
+
+Si el contenido no cabe, la letra de esa diapositiva se reduce sola. Los
+colores están al principio de `clase.scss`.
+
+En el navegador: `S` vista del ponente (notas, reloj y siguiente), `F`
+pantalla completa, `O` vista general. Para proyectar: pantallas en modo
+«extender», la ventana de la presentación al proyector (y `F`), la del
+ponente en el portátil.
+
+`,qi` (o `i` en la portada, o `:SlidesImport archivo`) convierte un
+PowerPoint o LibreOffice (`.pptx`, `.ppt`, `.odp`; los `.pptx` necesitan
+LibreOffice) a este formato con `scripts/odp2qmd.py`: títulos, texto, listas,
+cuadros de color, columnas, imágenes y notas. No convierte animaciones ni
+tablas. Con `python3 scripts/odp2qmd.py archivo --fiel` se copia la
+composición exacta (cuadros con posición fija), más parecida al original pero
+más incómoda de editar.
 
 Para imprimir con notas: abrir el `.html` con `?print-pdf&showNotes=separate-page`
 al final de la dirección e imprimir a PDF desde el navegador.

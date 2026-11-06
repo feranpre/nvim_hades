@@ -1,0 +1,61 @@
+<!--
+  encajar.html — si el contenido de una diapositiva no cabe, reduce su letra
+  hasta que quepa (y las imágenes con {.r-stretch} se recolocan). Así se
+  puede escribir sin preocuparse del tamaño. Lo incluye el YAML de las
+  presentaciones (include-after-body: encajar.html).
+-->
+<script>
+  (function () {
+    function height() {
+      return (window.Reveal && Reveal.getConfig().height) || 720;
+    }
+
+    function overflow(slide) {
+      var top = slide.getBoundingClientRect().top;
+      var scale = (window.Reveal && Reveal.getScale && Reveal.getScale()) || 1;
+      var bottom = 0;
+      Array.prototype.forEach.call(slide.children, function (el) {
+        if (el.tagName === "ASIDE" || el.classList.contains("absolute")) return;
+        var r = el.getBoundingClientRect();
+        if (r.height === 0) return;
+        bottom = Math.max(bottom, (r.bottom - top) / scale);
+      });
+      return bottom - height();
+    }
+
+    function fit(slide) {
+      if (!slide || slide.dataset.encajado) return;
+      var size = 100;
+      var guard = 0;
+      while (overflow(slide) > 2 && size > 45 && guard < 40) {
+        size -= 4;
+        slide.style.fontSize = size + "%";
+        guard++;
+      }
+      slide.dataset.encajado = "1";
+      if (guard && window.Reveal) Reveal.layout();
+    }
+
+    function fitAll() {
+      document.querySelectorAll(".reveal .slides > section").forEach(function (s) {
+        var hidden = getComputedStyle(s).display === "none";
+        if (hidden) s.style.display = "block";
+        fit(s);
+        if (hidden) s.style.display = "";
+      });
+    }
+
+    if (window.Reveal) {
+      Reveal.on("ready", function (ev) {
+        var fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+        fonts.then(function () {
+          fit(ev.currentSlide);
+        });
+      });
+      Reveal.on("slidechanged", function (ev) {
+        fit(ev.currentSlide);
+      });
+      Reveal.on("pdf-ready", fitAll);
+    }
+  })();
+</script>

@@ -1,44 +1,75 @@
 ---
-# Plantilla de clase (nvim_hades). Atajos en Neovim (buffer quarto):
-#   ,qp  vista previa en el navegador (se recarga al guardar)
-#   ,qh  generar el .html
-#   ,qP  exportar a PDF (decktape)
+# Presentación de clase (nvim_hades). Cada "##" es una diapositiva.
+# Neovim: ,qp vista previa (se recarga al guardar) · ,qh html · ,qP pdf.
 # En el navegador: S = vista del ponente (notas, reloj, siguiente diapositiva),
 # F = pantalla completa, O = vista general, ? = ayuda.
-title: "{{title}}"
-subtitle: "Asignatura · Tema"
-author: "{{author}}"
-date: "{{date}}"
-date-format: long
-lang: es
+# Colores y letra: clase.scss (arriba del todo).
+pagetitle: "{{title}}"
 format:
   revealjs:
-    theme: [default, hades.scss]
-    # 16:9
+    theme: [default, clase.scss]
     width: 1280
     height: 720
+    margin: 0.05
+    center: false
     slide-number: c/t
-    footer: "{{title}}"
     transition: fade
-    # Un único .html que funciona sin internet (para clase)
+    transition-speed: fast
+    # Un único .html que funciona sin internet
     embed-resources: true
-    self-contained-math: true
     html-math-method: katex
-    code-line-numbers: false
-    title-slide-attributes:
-      data-background-color: "#2A2235"
+    self-contained-math: true
+    include-after-body: encajar.html
+    pdf-max-pages-per-slide: 1
 ---
 
-# Primer bloque {background-color="#2A2235"}
+## {.portada}
 
-## Texto e imagen
+[Asignatura · Tema]{.titulo-pequeno}
+
+[{{title}}]{.titulo}
+
+&nbsp;
+
+{{author}}
+
+::: notes
+Notas para el ponente: solo se ven en la vista del ponente (tecla S).
+:::
+
+## Texto y listas
+
+- Cada `##` es una diapositiva; el título va en la banda de arriba
+- Las listas se escriben como siempre
+  - con sangría para el segundo nivel
+- **Negrita**, *cursiva*, [texto en rojo]{.rojo}, [en verde]{.verde}, [en azul]{.azul}
+
+::: {.caja}
+Un cuadro destacado: `::: {.caja}`. También `{.aviso}` (rosa) y `{.gris}`.
+:::
+
+::: notes
+Si hay demasiado texto, la letra de la diapositiva se reduce sola.
+:::
+
+## Imagen que ocupa lo que queda
+
+Una línea de texto encima
+
+![](img/ejemplo.svg){fig-align="center" .r-stretch}
+
+::: notes
+`{.r-stretch}` hace que la imagen ocupe todo el alto libre de la diapositiva.
+Sin él, `{width="60%"}` fija el ancho.
+:::
+
+## Texto e imagen en columnas
 
 :::: {.columns}
 
 ::: {.column width="55%"}
-- Cada `##` es una diapositiva
-- Cada `#` abre una sección (fondo morado oscuro)
-- Las imágenes van en `img/`
+- Columna de texto
+- La imagen se ajusta al ancho de su columna
 :::
 
 ::: {.column width="45%"}
@@ -47,75 +78,62 @@ format:
 
 ::::
 
-::: notes
-Notas para el ponente: solo se ven en la vista del ponente (tecla S).
-:::
-
-## Fórmulas
-
-La media aritmética $\bar{x}$ de una muestra de tamaño $n$:
-
-::: {.formula}
-$$
-\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i
-$$
-:::
-
-Y la varianza muestral, $s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2$.
-
-::: notes
-Recordar por qué se divide entre $n-1$.
-:::
-
-## Cajas
-
-::: {.definicion}
-**Definición.** Una *variable aleatoria* asigna un número a cada resultado de un experimento.
-:::
-
-::: {.ejemplo}
-**Ejemplo.** El número de caras al lanzar tres monedas.
-:::
-
-::: {.nota}
-**Nota.** También existen `.resumen` y `.formula`.
-:::
-
 ## Paso a paso
 
-::: {.incremental}
-- Primero aparece esto
-- Luego esto
-- Y al final esto
-:::
+- Lo que va después de `. . .` aparece al avanzar
 
 . . .
 
-Una pausa (`. . .`) muestra lo siguiente al avanzar.
+- Como esto
 
-## {background-image="img/ejemplo.svg" background-size="contain"}
+. . .
 
-::: notes
-Diapositiva sin título con una imagen a pantalla completa: `##` vacío con
-`background-image`.
+::: {.aviso .centrado}
+O un cuadro con la respuesta
 :::
 
-# Segundo bloque {background-color="#2A2235"}
+## Respuestas en la misma línea
 
-## Código
+- ¿Pregunta 1?\
+  [→ respuesta que aparece al avanzar]{.fragment .azul}
+- ¿Pregunta 2?\
+  [→ otra respuesta]{.fragment .azul}
+
+::: notes
+`[texto]{.fragment}` aparece al avanzar; la barra `\` al final de una línea
+la parte sin empezar otro punto.
+:::
+
+## Idea clave
+
+::: {.grande .centrado}
+Una frase grande para lo que tienen que recordar
+:::
+
+## Fórmulas y código
+
+La media de una muestra de tamaño $n$:
+
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i
+$$
 
 ```r
 x <- c(4, 8, 15, 16, 23, 42)
 mean(x)
 ```
 
-Con ```` ```{r} ```` (o ```` ```{python} ````) el código se ejecuta al generar las
-diapositivas y se muestra el resultado.
+## {.sin-titulo background-image="img/ejemplo.svg" background-size="contain"}
 
-## Tabla
+::: notes
+Diapositiva sin título con una imagen a pantalla completa. Con
+`background-size="contain"` se ve entera en cualquier pantalla (16:9, 4:3...).
+:::
 
-| Estadístico | Fórmula | Interpretación |
-|---|---|---|
-| Media | $\bar{x} = \frac{1}{n}\sum x_i$ | Valor central |
-| Mediana | $x_{(n+1)/2}$ | Valor que deja la mitad a cada lado |
-| Desviación típica | $s = \sqrt{s^2}$ | Dispersión respecto a la media |
+## {.portada}
+
+[¿Preguntas?]{.titulo}
+
+&nbsp;
+
+{{author}}

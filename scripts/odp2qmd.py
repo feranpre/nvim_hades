@@ -6,19 +6,24 @@ presentación Quarto + reveal.js que se edita en Neovim.
     python3 odp2qmd.py clase.odp            # crea ./clase/clase.qmd
     python3 odp2qmd.py clase.pptx -o dir    # .pptx/.ppt: se pasa antes a .odp
                                             # con LibreOffice (soffice)
+    python3 odp2qmd.py clase.odp --fiel     # copia exacta de la composición
 
-Resultado (en la carpeta de salida):
-    <nombre>.qmd   una diapositiva "##" por página, con las notas del ponente
-    img/           imágenes (recortadas como en el original) y el fondo
-    odp.scss       tema: colores, letra y fondo del patrón de diapositivas
-    ajustar.html   reduce la letra de un cuadro si el texto no cabe (como
-                   "encoger al desbordar" de LibreOffice)
+Por defecto (modo sencillo) cada diapositiva es markdown normal, sin
+posiciones, con el tema de las presentaciones de clase (clase.scss):
+    - el título es el "## Título";
+    - el texto y las listas, tal cual; los cuadros que estaban uno al lado del
+      otro van en columnas; los cuadros con fondo de color, en ::: {.caja},
+      {.aviso} o {.gris}; el texto muy grande, en {.grande};
+    - las imágenes se ajustan solas ({.r-stretch} o el ancho original); una
+      imagen a pantalla completa va de fondo y se ve entera en cualquier
+      pantalla;
+    - las notas del ponente van en ::: notes.
+    Carpeta de salida: <nombre>.qmd, img/, clase.scss y encajar.html (reduce
+    la letra de una diapositiva si su contenido no cabe).
 
-Cada diapositiva conserva la composición original: el título va en la banda
-del patrón (el "## Título") y cada cuadro de texto o imagen queda en su sitio
-con {.absolute left= top= width= height=} (píxeles en una diapositiva de
-1280 px de ancho). El texto de los cuadros es markdown normal: se puede
-editar, y mover un cuadro es cambiar sus números.
+Con --fiel se conserva la composición original: cada cuadro queda en su sitio
+con {.absolute} y un tema propio sacado del patrón (odp.scss, ajustar.html).
+Se parece más al original, pero es más incómodo de editar.
 
 Limitaciones: no se convierten las animaciones, las tablas ni las formas
 dibujadas (salvo rectángulos con texto y líneas/flechas); los gráficos y
@@ -168,7 +173,8 @@ class Run:
 
 
 class Converter:
-    def __init__(self, src, outdir, name):
+    def __init__(self, src, outdir, name, faithful=False):
+        self.faithful = faithful
         self.src = Path(src)
         self.out = Path(outdir)
         self.name = name
@@ -245,7 +251,7 @@ class Converter:
                 dp = mp.get(q("draw:style-name"))
                 if self.st.get("drawing-page", dp, "fill") == "solid":
                     info["background_color"] = self.st.get("drawing-page", dp, "fill-color")
-        if info["background_src"]:
+        if info["background_src"] and self.faithful:
             info["background"] = self.background(info["background_src"], info["overlay"], master_name)
         return info
 
@@ -408,7 +414,7 @@ class Converter:
             css = []
             if color and color.lower() not in ("#000000",) and not href:
                 css.append("color: " + color)
-            if size and base_size and abs(size - base_size) / base_size > 0.12:
+            if self.faithful and size and base_size and abs(size - base_size) / base_size > 0.12:
                 css.append("font-size: %gpx" % self.fpx(size))
             if underline and not href:
                 css.append("text-decoration: underline")
@@ -760,6 +766,151 @@ class Converter:
         out += ["::: notes"] + (notes if notes else [""]) + [":::", ""]
         return out
 
+    # -- modo sencillo -----------------------------------------------------------
+
+    # cuadros del tema clase.scss: color de referencia -> clase
+    BOX_CLASSES = (("caja", (0xD1, 0xE4, 0xF7)), ("aviso", (0xF0, 0xD4, 0xEE)), ("gris", (0xE6, 0xE8, 0xEB)))
+
+    def box_class(self, color):
+        """Color de relleno -> la clase de cuadro del tema que más se le parece"""
+        try:
+            rgb = tuple(int(color[i : i + 2], 16) for i in (1, 3, 5))
+        except (TypeError, ValueError):
+            return "caja"
+        # gris si no tiene color (r, g y b parecidos)
+        if max(rgb) - min(rgb) < 25:
+            return "gris"
+        return min(self.BOX_CLASSES, key=lambda c: sum((a - b) ** 2 for a, b in zip(rgb, c[1])))[0]
+
+    def elements(self, page, title):
+        """Cuadros de texto e imágenes de la diapositiva (sin el título)"""
+        master = page.get(q("draw:master-page-name"))
+        body_size = self.outline_size(master, 1)
+        out = []
+        background = None
+        for fr in page:
+            tag = local(fr.tag)
+            if tag not in ("frame", "custom-shape", "rect") or (title and fr is title[0]):
+                continue
+            x = length_cm(fr.get(q("svg:x")))
+            y = length_cm(fr.get(q("svg:y")))
+            w = length_cm(fr.get(q("svg:width")))
+            h = length_cm(fr.get(q("svg:height")))
+            cls = fr.get(q("presentation:class"))
+            fam, sname = self.frame_style(fr)
+
+            img = fr.find(q("draw:image"))
+            if tag == "frame" and img is not None and img.get(q("xlink:href")):
+                href = img.get(q("xlink:href")).lstrip("./")
+                if not href.startswith("Pictures/"):
+                    fallback = [i for i in fr.findall(q("draw:image")) if (i.get(q("xlink:href")) or "").startswith("Pictures/")]
+                    if not fallback:
+                        continue
+                    href = fallback[0].get(q("xlink:href"))
+                path = self.image(href, self.st.get("graphic", sname, "clip"))
+                if not path:
+                    continue
+                if w >= self.page_w * 0.95 and h >= self.page_h * 0.95:
+                    background = path
+                else:
+                    out.append({"kind": "img", "x": x, "y": y, "w": w, "h": h, "path": path})
+                continue
+
+            tb = fr.find(q("draw:text-box")) if tag == "frame" else fr
+            if tb is None:
+                continue
+            lines, size, align = self.text_box(fr, tb, master, cls)
+            if not lines:
+                continue
+            classes = []
+            if self.st.get(fam, sname, "fill") == "solid":
+                classes.append(self.box_class(self.st.get(fam, sname, "fill-color", "#ffffff")))
+            words = sum(len(l.split()) for l in lines)
+            if cls != "outline" and size and size >= body_size * 1.3 and words <= 25:
+                classes.append("grande")
+            if align == "center" and not any(l.lstrip().startswith(("- ", "1.")) for l in lines):
+                classes.append("centrado")
+            out.append({"kind": "text", "x": x, "y": y, "w": w, "h": h, "lines": lines, "classes": classes})
+        return out, background
+
+    @staticmethod
+    def rows(elements):
+        """Agrupa en filas los elementos que están uno al lado del otro"""
+        rows = []
+        for el in sorted(elements, key=lambda e: (e["y"], e["x"])):
+            placed = False
+            for row in rows:
+                top = min(e["y"] for e in row)
+                bottom = max(e["y"] + e["h"] for e in row)
+                overlap = min(bottom, el["y"] + el["h"]) - max(top, el["y"])
+                side = all(el["x"] >= e["x"] + e["w"] - 0.3 or el["x"] + el["w"] <= e["x"] + 0.3 for e in row)
+                if side and overlap > 0.3 * min(el["h"], bottom - top):
+                    row.append(el)
+                    placed = True
+                    break
+            if not placed:
+                rows.append([el])
+        for row in rows:
+            row.sort(key=lambda e: e["x"])
+        return rows
+
+    def render_element(self, el, stretch=False, alone=False):
+        if el["kind"] == "img":
+            if stretch:
+                return ["![](%s){fig-align=\"center\" .r-stretch}" % el["path"]]
+            # sola en su fila: el mismo ancho relativo que en el original
+            width = ' width="%d%%"' % min(100, round(el["w"] / self.page_w * 100)) if alone else ""
+            return ["![](%s){fig-align=\"center\"%s}" % (el["path"], width)]
+        if el["classes"]:
+            return ["::: {%s}" % " ".join("." + c for c in el["classes"])] + el["lines"] + [":::"]
+        return el["lines"]
+
+    def slide_simple(self, page, index, title, count):
+        elements, background = self.elements(page, title)
+        attrs = []
+        if background:
+            attrs += ['background-image="%s"' % background, 'background-size="contain"', 'background-color="black"']
+
+        text = title[1] if title and title[1] else ""
+        portada = not text and not background and (index in (1, count)) and elements
+        if portada:
+            attrs.insert(0, ".portada")
+        elif not text:
+            attrs.insert(0, ".sin-titulo")
+
+        heading = "## " + text
+        if attrs:
+            heading += (" " if text else "") + "{" + " ".join(attrs) + "}"
+        out = [heading, ""]
+
+        rows = self.rows(elements)
+        for r, row in enumerate(rows):
+            if portada:
+                for el in row:
+                    if el["kind"] == "text" and any(c in ("caja", "aviso", "gris") for c in el["classes"]):
+                        el["classes"] = ["titulo"]
+                    elif el["kind"] == "text":
+                        el["classes"] = [c for c in el["classes"] if c != "grande"]
+            if len(row) == 1:
+                last = r == len(rows) - 1
+                out += self.render_element(row[0], stretch=last and row[0]["kind"] == "img", alone=True)
+                out.append("")
+                continue
+            total = sum(e["w"] for e in row) or 1
+            out.append(":::: {.columns}")
+            out.append("")
+            for el in row:
+                out.append('::: {.column width="%d%%"}' % max(10, round(el["w"] / total * 100)))
+                out += self.render_element(el)
+                out.append(":::")
+                out.append("")
+            out.append("::::")
+            out.append("")
+
+        notes = self.notes(page)
+        out += ["::: notes"] + (notes if notes else [""]) + [":::", ""]
+        return out
+
     # -- salida ----------------------------------------------------------------
 
     @staticmethod
@@ -919,16 +1070,56 @@ $presentation-heading-letter-spacing: normal;
         masters = [p_.get(q("draw:master-page-name")) for p_ in pages]
         main_master = max(set(masters), key=masters.count)
 
+        templates = Path(__file__).with_name("templates") / "slides"
+        title = self.name.replace("_", " ")
+
+        if not self.faithful:
+            slides = []
+            for i, (page, t) in enumerate(zip(pages, titles), 1):
+                slides += self.slide_simple(page, i, t, len(pages))
+            for f in ("clase.scss", "encajar.html"):
+                if not (self.out / f).exists():
+                    shutil.copyfile(templates / f, self.out / f)
+            header = """---
+# Convertido con nvim_hades/scripts/odp2qmd.py desde {src}
+# Cada "##" es una diapositiva. Clases del tema (clase.scss):
+#   ::: {{.caja}} / {{.aviso}} / {{.gris}}   cuadros de color
+#   ::: {{.grande}}  frase grande · ::: {{.centrado}}  centrado
+#   :::: {{.columns}} + ::: {{.column width="50%"}}   columnas
+#   . . .   lo que sigue aparece al avanzar · ::: notes  notas (tecla S)
+# Neovim: ,qp vista previa · ,qh html · ,qP pdf.
+# En el navegador: S = vista del ponente, F = pantalla completa, O = vista general.
+pagetitle: "{title}"
+format:
+  revealjs:
+    theme: [default, clase.scss]
+    width: 1280
+    height: 720
+    margin: 0.05
+    center: false
+    slide-number: c/t
+    transition: fade
+    transition-speed: fast
+    embed-resources: true
+    html-math-method: katex
+    self-contained-math: true
+    include-after-body: encajar.html
+    pdf-max-pages-per-slide: 1
+---
+
+""".format(src=self.src.name, title=title.replace('"', '\\"'))
+            self.write(header, slides)
+            return
+
         slides = []
-        for i, (page, title) in enumerate(zip(pages, titles), 1):
-            cls = "." + variants[title[2]] if title and title[2] in variants else None
-            slides += self.slide(page, i, title, cls)
+        for i, (page, title_) in enumerate(zip(pages, titles), 1):
+            cls = "." + variants[title_[2]] if title_ and title_[2] in variants else None
+            slides += self.slide(page, i, title_, cls)
 
         theme = self.theme(main_master, base, [(st, cls) for st, cls in variants.items()])
         (self.out / "odp.scss").write_text(theme, encoding="utf-8")
-        shutil.copyfile(Path(__file__).with_name("templates") / "slides" / "ajustar.html", self.out / "ajustar.html")
+        shutil.copyfile(templates / "ajustar.html", self.out / "ajustar.html")
 
-        title = self.name.replace("_", " ")
         header = """---
 # Convertido con nvim_hades/scripts/odp2qmd.py desde {src}
 # Cada "##" es una diapositiva. Los cuadros van con {{.absolute left= top=
@@ -955,7 +1146,9 @@ format:
 ---
 
 """.format(src=self.src.name, w=WIDTH_PX, h=self.height_px, title=title.replace('"', '\\"'))
+        self.write(header, slides)
 
+    def write(self, header, slides):
         qmd = self.out / (self.name + ".qmd")
         text = header + "\n".join(slides).rstrip() + "\n"
         text = re.sub(r"\n{3,}", "\n\n", text)
@@ -984,6 +1177,9 @@ def main():
     ap.add_argument("file")
     ap.add_argument("-o", "--outdir", help="carpeta de salida (por defecto ./<nombre>)")
     ap.add_argument("-n", "--name", help="nombre del .qmd (por defecto el del archivo)")
+    ap.add_argument("--fiel", action="store_true",
+                    help="copiar la composición exacta (cuadros con posición fija) en vez de "
+                         "diapositivas sencillas en markdown")
     args = ap.parse_args()
 
     src = Path(args.file).expanduser().resolve()
@@ -1001,7 +1197,7 @@ def main():
         src_odp = src
 
     try:
-        Converter(src_odp, outdir, name).run()
+        Converter(src_odp, outdir, name, faithful=args.fiel).run()
     finally:
         if tmp:
             shutil.rmtree(tmp, ignore_errors=True)

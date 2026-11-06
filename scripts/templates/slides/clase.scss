@@ -1,0 +1,202 @@
+/*-- scss:defaults --*/
+// clase.scss — tema sencillo para las presentaciones de clase (nvim_hades)
+//
+// Todo se escribe en markdown, sin posiciones:
+//   ## Título                     una diapositiva (banda de color arriba)
+//   - puntos / texto / ![](img/x.png)
+//   . . .                         lo que sigue aparece al avanzar (entre
+//                                 bloques; dentro de una columna o cuadro:
+//                                 ::: {.fragment} ... :::)
+//   :::: {.columns} ... ::::      columnas (::: {.column width="50%"})
+//   ::: {.caja}                   cuadro destacado (azul)
+//   ::: {.aviso}                  cuadro de aviso / respuesta (rosa)
+//   ::: {.gris}                   cuadro neutro (definiciones)
+//   ::: {.grande}                 frase grande, para una idea clave
+//   ::: {.centrado}               texto centrado
+//   [texto]{.rojo} / {.verde} / {.azul}  texto de color
+//   [texto]{.fragment}            aparece al avanzar (dentro de una línea)
+//   ## {.portada}                 diapositiva de portada / cierre (sin banda)
+//   ::: notes                     notas del ponente (tecla S)
+//
+// Las imágenes se ajustan solas: {.r-stretch} ocupa el alto que queda en
+// la diapositiva; en columnas, el ancho de la columna.
+// Si el contenido no cabe, la letra de la diapositiva se reduce sola
+// (encajar.html).
+
+// --- Colores (cámbialos aquí) ----------------------------------------------
+$color-banda: #729fcf;        // banda del título
+$color-banda-texto: #111111;
+$color-texto: #1d2127;
+$color-enlace: #1f4e8c;
+$color-caja: #d1e4f7;         // .caja
+$color-aviso: #f0d4ee;        // .aviso
+$color-aviso-borde: #b062a8;
+$color-gris: #e6e8eb;         // .gris
+$color-fondo: #ffffff;
+
+// --- Letra ------------------------------------------------------------------
+$font-family-sans-serif: "Fira Sans", "Lato", "Liberation Sans", Arial, sans-serif;
+$presentation-heading-font: "Fira Sans", "Liberation Sans", Arial, sans-serif;
+$presentation-font-size-root: 34px;
+$presentation-heading-font-weight: 700;
+$presentation-heading-text-transform: none;
+$presentation-heading-letter-spacing: normal;
+$presentation-h2-font-size: 1.35em;
+
+$body-bg: $color-fondo;
+$body-color: $color-texto;
+$link-color: $color-enlace;
+$presentation-heading-color: $color-banda-texto;
+$code-block-font-size: 0.7em;
+
+/*-- scss:rules --*/
+
+.reveal .slides section {
+  text-align: left;
+}
+
+// Título: banda de color arriba, a todo lo ancho
+.reveal .slides section > h2 {
+  margin: -0.4em -1em 0.7em;
+  padding: 0.35em 1em;
+  background: $color-banda;
+  color: $color-banda-texto;
+  text-align: center;
+  line-height: 1.15;
+}
+
+.reveal .slides section.sin-titulo > h2,
+.reveal .slides section > h2:empty {
+  display: none;
+}
+
+// Portada y cierre: sin banda, contenido centrado en vertical
+.reveal .slides section.portada {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+
+  > h2 {
+    display: none;
+  }
+
+  h1, .titulo {
+    display: block;
+    background: $color-banda;
+    padding: 0.25em 0.5em;
+    margin: 0.15em 0;
+    font-size: 1.9em;
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  .titulo-pequeno {
+    display: block;
+    background: $color-banda;
+    padding: 0.2em 0.5em;
+    margin: 0.15em 0;
+    font-size: 1.3em;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0.2em 0;
+  }
+}
+
+// Listas
+.reveal ul,
+.reveal ol {
+  margin-left: 1.1em;
+}
+
+.reveal li {
+  margin: 0.25em 0;
+}
+
+// cada nivel un poco más pequeño que el anterior, solo una vez
+.reveal li li {
+  font-size: 0.88em;
+}
+
+.reveal li li li {
+  font-size: 0.95em;
+}
+
+.reveal ul ul > li::marker {
+  content: "– ";
+}
+
+// Cuadros
+@mixin cuadro($bg) {
+  background: $bg;
+  padding: 0.45em 0.8em;
+  margin: 0.5em 0;
+  border-radius: 4px;
+
+  > :first-child { margin-top: 0; }
+  > :last-child { margin-bottom: 0; }
+}
+
+.reveal .caja { @include cuadro($color-caja); }
+.reveal .gris { @include cuadro($color-gris); }
+.reveal .aviso {
+  @include cuadro($color-aviso);
+  border-left: 6px solid $color-aviso-borde;
+}
+
+.reveal .grande {
+  font-size: 1.45em;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.reveal .centrado {
+  text-align: center;
+}
+
+.reveal .pequeno {
+  font-size: 0.7em;
+}
+
+// Texto de color: [texto]{.rojo} / [texto]{.verde} / [texto]{.azul}
+.reveal .rojo { color: #c9211e; }
+.reveal .verde { color: #2e7d32; }
+.reveal .azul { color: #1f4e8c; }
+
+// Imágenes: nunca más grandes que la diapositiva
+.reveal .slides section img {
+  max-width: 100%;
+  max-height: 520px;
+  object-fit: contain;
+}
+
+.reveal .column img {
+  max-height: 460px;
+}
+
+.reveal .quarto-figure {
+  margin: 0.3em 0;
+}
+
+.reveal .quarto-figure-center > figure,
+.reveal p.centrado {
+  text-align: center;
+}
+
+// Enlaces largos: que se partan en vez de salirse
+.reveal a {
+  word-break: break-word;
+}
+
+// Columnas centradas en vertical
+.reveal .columns {
+  align-items: center;
+}
+
+// Pie y número de diapositiva
+.reveal .slide-number {
+  font-size: 0.5em;
+}
