@@ -108,6 +108,12 @@ markdown normal, sin posiciones; la plantilla trae un ejemplo de cada cosa:
 Si el contenido no cabe, la letra de esa diapositiva se reduce sola. Los
 colores están al principio de `clase.scss`.
 
+Fórmulas en LaTeX: `$...$` en línea y `$$...$$` aparte. Se convierten a
+MathML (`html-math-method: mathml`), que dibuja el propio navegador: no hace
+falta internet ni al generar ni al presentar. Para que se vean como en LaTeX
+conviene tener una fuente matemática instalada (Fedora: `stix-math-fonts`;
+Debian/Ubuntu: `fonts-stix`).
+
 En el navegador: `S` vista del ponente (notas, reloj y siguiente), `F`
 pantalla completa, `O` vista general. Para proyectar: pantallas en modo
 «extender», la ventana de la presentación al proyector (y `F`), la del

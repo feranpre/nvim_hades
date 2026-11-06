@@ -186,6 +186,18 @@ $code-block-font-size: 0.7em;
   text-align: center;
 }
 
+// Fórmulas (MathML: las dibuja el navegador, sin internet)
+.reveal math {
+  font-family: "Latin Modern Math", "STIX Two Math", "Cambria Math", math;
+  font-size: 1.05em;
+}
+
+.reveal math[display="block"] {
+  margin: 0.4em auto;
+  font-size: 1.25em;
+  math-style: normal;  // sumatorios y fracciones a tamaño completo
+}
+
 // Enlaces largos: que se partan en vez de salirse
 .reveal a {
   word-break: break-word;

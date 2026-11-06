@@ -1101,8 +1101,8 @@ format:
     transition: fade
     transition-speed: fast
     embed-resources: true
-    html-math-method: katex
-    self-contained-math: true
+    # fórmulas con MathML: las dibuja el navegador, sin internet
+    html-math-method: mathml
     include-after-body: encajar.html
     pdf-max-pages-per-slide: 1
 ---
