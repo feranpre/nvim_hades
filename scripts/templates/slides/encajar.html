@@ -45,7 +45,23 @@
       });
     }
 
+    // Divisores de sección ("# Título" o "{.seccion}"): fondo del color del tema
+    function secciones() {
+      var color = getComputedStyle(document.documentElement).getPropertyValue("--color-seccion").trim();
+      if (!color) return;
+      var changed = false;
+      document.querySelectorAll(".reveal .slides section.level1:not(#title-slide), .reveal .slides section.seccion")
+        .forEach(function (s) {
+          if (!s.hasAttribute("data-background-color") && !s.hasAttribute("data-background-image")) {
+            s.setAttribute("data-background-color", color);
+            changed = true;
+          }
+        });
+      if (changed && window.Reveal) Reveal.sync();
+    }
+
     if (window.Reveal) {
+      Reveal.on("ready", secciones);
       Reveal.on("ready", function (ev) {
         var fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
         fonts.then(function () {

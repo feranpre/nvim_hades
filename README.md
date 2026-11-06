@@ -92,6 +92,7 @@ que los `.R`); fuera, el de quarto (`,q`) o markdown (`,m`, `,t`).
 markdown normal, sin posiciones; la plantilla trae un ejemplo de cada cosa:
 
 ```markdown
+# Bloque                             <- divisor de sección (fondo de color, título grande)
 ## Título de la diapositiva          <- banda de color arriba
 - puntos, **negrita**, [rojo]{.rojo}, [verde]{.verde}, [azul]{.azul}
 ![](img/foto.png){.r-stretch}        <- ocupa el alto que queda

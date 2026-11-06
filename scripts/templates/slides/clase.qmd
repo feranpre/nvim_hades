@@ -37,6 +37,10 @@ format:
 Notas para el ponente: solo se ven en la vista del ponente (tecla S).
 :::
 
+# Primer bloque
+
+Un `#` es un divisor de sección (esta línea es opcional)
+
 ## Texto y listas
 
 - Cada `##` es una diapositiva; el título va en la banda de arriba
@@ -129,6 +133,8 @@ mean(x)
 Diapositiva sin título con una imagen a pantalla completa. Con
 `background-size="contain"` se ve entera en cualquier pantalla (16:9, 4:3...).
 :::
+
+# Segundo bloque
 
 ## {.portada}
 

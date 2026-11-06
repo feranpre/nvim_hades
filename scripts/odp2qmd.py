@@ -873,6 +873,16 @@ class Converter:
 
         text = title[1] if title and title[1] else ""
         portada = not text and not background and (index in (1, count)) and elements
+
+        # una sola frase corta destacada y nada más: divisor de sección ("# ...")
+        if not text and not background and not portada and len(elements) == 1:
+            el = elements[0]
+            plain = " ".join(el.get("lines", [])).replace("**", "").strip()
+            if (el["kind"] == "text" and plain and len(plain.split()) <= 6 and len(el["lines"]) == 1
+                    and any(c in ("caja", "aviso", "gris", "grande") for c in el["classes"])):
+                notes = self.notes(page)
+                return ["# " + plain, ""] + ["::: notes"] + (notes if notes else [""]) + [":::", ""]
+
         if portada:
             attrs.insert(0, ".portada")
         elif not text:
@@ -1084,7 +1094,7 @@ $presentation-heading-letter-spacing: normal;
 # Convertido con nvim_hades/scripts/odp2qmd.py desde {src}
 # Cada "##" es una diapositiva. Clases del tema (clase.scss):
 #   ::: {{.caja}} / {{.aviso}} / {{.gris}}   cuadros de color
-#   ::: {{.grande}}  frase grande · ::: {{.centrado}}  centrado
+#   # Título  divisor de sección · ::: {{.grande}}  frase grande · ::: {{.centrado}}  centrado
 #   :::: {{.columns}} + ::: {{.column width="50%"}}   columnas
 #   . . .   lo que sigue aparece al avanzar · ::: notes  notas (tecla S)
 # Neovim: ,qp vista previa · ,qh html · ,qP pdf.
