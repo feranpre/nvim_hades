@@ -22,7 +22,12 @@
 % ---------- Idioma y tipografía ----------
 \usepackage{fontspec}
 \usepackage{polyglossia}
+% Idioma: el de "lang" en la cabecera (p. ej. en-GB); castellano si no hay
+$if(polyglossia-lang)$
+\setmainlanguage[$for(polyglossia-lang.options)$$polyglossia-lang.options$$sep$,$endfor$]{$polyglossia-lang.name$}
+$else$
 \setmainlanguage{spanish}
+$endif$
 \usepackage{etoolbox}
 % "Tabla" en lugar de "Cuadro"
 \gappto\captionsspanish{\renewcommand{\tablename}{Tabla}\renewcommand{\listtablename}{Índice de tablas}}
@@ -161,7 +166,7 @@ $endif$
 \newcommand{\unidadtitulo}{$if(unidad-titulo)$$unidad-titulo$$else$$title$$endif$}
 % Antetítulo: "Unidad 1 · Asignatura" (o lo que haya de eso)
 \newcommand*{\kicker}{%
-$if(unidad-numero)$Unidad $unidad-numero$$if(asignatura)$\ \textperiodcentered\ $asignatura$$endif$$else$$if(asignatura)$$asignatura$$endif$$endif$%
+$if(unidad-numero)$$if(etiqueta-unidad)$$etiqueta-unidad$$else$Unidad$endif$ $unidad-numero$$if(asignatura)$\ \textperiodcentered\ $asignatura$$endif$$else$$if(asignatura)$$asignatura$$endif$$endif$%
 }
 \newcommand{\institucionpie}{$if(pie-institucion)$$pie-institucion$$else$$if(institucion)$$institucion$$endif$$endif$}
 
@@ -251,7 +256,7 @@ $if(unidad-numero)$Unidad $unidad-numero$$if(asignatura)$\ \textperiodcentered\ 
 }
 
 % Uso en Markdown:  ::: {.resumen}  …  :::
-\newtcolorbox{resumen}{hadesbox=boxresumen, before upper={{\headfontsb\footnotesize\color{accentdark}RESUMEN}\par\vspace{3pt}}}
+\newtcolorbox{resumen}{hadesbox=boxresumen, before upper={{\headfontsb\footnotesize\color{accentdark}$if(etiqueta-resumen)$$etiqueta-resumen$$else$RESUMEN$endif$}\par\vspace{3pt}}}
 \newtcolorbox{ejemplo}{hadesbox=boxejemplo}
 \newtcolorbox{definicion}{hadesbox=boxdefinicion}
 \newtcolorbox{nota}{hadesbox=boxnota}
