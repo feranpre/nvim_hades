@@ -1,0 +1,25 @@
+{
+  "_supervivencia": {
+    "prefix": "_supervivencia",
+    "body": [
+      "survival(\"${2:TIEMPO}\", \"${3:EVENTO}\"${4:, group = \"${5:GRUPO}\"}, data = ${1:datos},",
+      "         time_name = \"${6:Tiempo (meses)}\")",
+      "$0"
+    ],
+    "description": "feR: Kaplan-Meier, tablas y log-rank (opcionalmente por grupos)"
+  },
+  "_supervivencia__base": {
+    "prefix": "_supervivencia__base",
+    "body": [
+      "library(survival)",
+      "# EVENTO: 1/TRUE = evento (muerte, fallo...), 0/FALSE = censurado",
+      "km <- survfit(Surv(${2:TIEMPO}, ${3:EVENTO}) ~ ${4:1}, data = ${1:DATOS})",
+      "km                                   # n, eventos y mediana",
+      "summary(km, times = c(${5:12, 24, 60}))  # supervivencia a esos tiempos",
+      "plot(km, conf.int = TRUE, mark.time = TRUE, xlab = \"${6:Tiempo}\", ylab = \"Supervivencia\")",
+      "# Por grupos (~ GRUPO): survdiff(Surv(${2}, ${3}) ~ GRUPO, data = ${1})",
+      "$0"
+    ],
+    "description": "survival: Kaplan-Meier, mediana y log-rank"
+  }
+}

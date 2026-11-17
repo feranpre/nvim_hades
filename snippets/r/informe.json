@@ -1,5 +1,5 @@
 {
-  "informe": {
+  "_informe": {
     "prefix": "_informe",
     "body": [
       "#' ---",
@@ -27,6 +27,7 @@
       "#'",
       "#+ setup, include = FALSE",
       "library(feR)",
+      "defaults(lang = \"es\")",
       "",
       "# Mostrar los resultados de feR como tablas en el informe sin results = 'asis'",
       "# (quitar cuando feR traiga su propio método knit_print)",
@@ -34,15 +35,50 @@
       "  knitr::asis_output(paste(utils::capture.output(print(x)), collapse = \"\\n\"))",
       "}, envir = asNamespace(\"knitr\"))",
       "",
+      "load(\"DATOS_R/datos.RData\")",
+      "",
+      "#' # ${3:Descripción de la muestra}",
+      "#'",
+      "$0"
+    ],
+    "description": "feR: cabecera de informe (.R con #') lista para exportar con ,ep / ,eh"
+  },
+  "_informe__base": {
+    "prefix": "_informe__base",
+    "body": [
+      "#' ---",
+      "#' title: \"${1:Título del informe}\"",
+      "#' author: \"Fernando Andrés-Pretel\"",
+      "#' date: today",
+      "#' date-format: \"DD/MM/YYYY\"",
+      "#' toc: true",
+      "#' toc-depth: ${2:3}",
+      "#' number-sections: true",
+      "#' fig-width: 7",
+      "#' fig-height: 4.5",
+      "#' format:",
+      "#'   html:",
+      "#'     toc-location: left",
+      "#'     toc-expand: true",
+      "#'     embed-resources: true",
+      "#'   pdf: default",
+      "#' execute:",
+      "#'   echo: false",
+      "#'   message: false",
+      "#'   warning: false",
+      "#'   error: true",
+      "#' ---",
+      "#'",
+      "#+ setup, include = FALSE",
       "load(\"DATOS_R/DATOS.RData\")",
       "",
       "#' # ${3:Descripción de la muestra}",
       "#'",
       "$0"
     ],
-    "description": "Cabecera de informe (.R con #') lista para exportar con ,ep / ,eh"
+    "description": "R base: cabecera de informe (.R con #') lista para exportar con ,ep / ,eh"
   },
-  "seccion": {
+  "_seccion": {
     "prefix": "_seccion",
     "body": [
       "#'",
@@ -54,7 +90,7 @@
     ],
     "description": "Nueva sección con texto"
   },
-  "texto": {
+  "_texto": {
     "prefix": "_texto",
     "body": [
       "#'",
@@ -64,7 +100,7 @@
     ],
     "description": "Bloque de texto #'"
   },
-  "figura": {
+  "_fig": {
     "prefix": "_fig",
     "body": [
       "#+",
@@ -74,7 +110,7 @@
     ],
     "description": "Figura numerada (citar en el texto con @fig-nombre)"
   },
-  "tabla": {
+  "_tabla": {
     "prefix": "_tabla",
     "body": [
       "#+",
@@ -84,15 +120,15 @@
     ],
     "description": "Tabla numerada (citar en el texto con @tbl-nombre)"
   },
-  "asis": {
+  "_asis": {
     "prefix": "_asis",
     "body": [
       "#+ results = 'asis'",
       "$0"
     ],
-    "description": "Chunk cuya salida es markdown (p. ej. print() de feR dentro de un bucle)"
+    "description": "Chunk cuya salida es markdown (p. ej. cat() o print() de feR dentro de un bucle)"
   },
-  "nota": {
+  "_nota": {
     "prefix": "_nota",
     "body": [
       "#' ::: {.${1|nota,resumen,ejemplo,definicion|}}",
@@ -102,7 +138,7 @@
     ],
     "description": "Caja de la plantilla (nota, resumen, ejemplo, definición)"
   },
-  "formula": {
+  "_formula": {
     "prefix": "_formula",
     "body": [
       "#' \\$\\$",
@@ -111,18 +147,5 @@
       "$0"
     ],
     "description": "Fórmula en bloque"
-  },
-  "compare_vars": {
-    "prefix": "_compare_vars",
-    "body": [
-      "#+ results = 'asis'",
-      "vars <- c(${1:\"EDAD\", \"SEXO\"})",
-      "for (v in vars) {",
-      "  # do.call: feR reevalúa los argumentos y falla con DATOS[[v]] dentro de knitr",
-      "  print(do.call(compare, list(DATOS[[v]], y = DATOS[[\"${2:GRUPO}\"]], x_name = v, y_name = \"${3:${2}}\")))",
-      "}",
-      "$0"
-    ],
-    "description": "feR: comparar varias variables con un grupo"
   }
 }

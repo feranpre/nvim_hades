@@ -48,7 +48,7 @@ HTML basta con recargar el navegador. Si guardas mientras exporta, se vuelve a
 exportar al terminar.
 
 Los `.R`, `.qmd` y `.Rmd` se exportan con Quarto, así que la cabecera es la
-de Quarto (`format: html: ...`; los snippets `_informe` / `informe` la traen
+de Quarto (`format: html: ...`; el snippet `_informe` la trae
 hecha). El índice y la numeración también se leen de una cabecera antigua de
 rmarkdown (`output: html_document: toc / toc_depth / number_sections`).
 
@@ -133,22 +133,35 @@ al final de la dirección e imprimir a PDF desde el navegador.
 
 ## Snippets de R (escribir el prefijo y elegir en el menú de completado)
 
-En scripts `.R` (informes al estilo `knitr::spin`, se exportan con `,ep` / `,eh`):
+Todos empiezan por `_`. Por defecto usan **feR** (`datos`, en
+`DATOS_R/datos.RData`); la variante `__base` hace lo mismo con R base o
+paquetes estándar (`DATOS`, en `DATOS_R/DATOS.RData`). Los de análisis,
+regresión, supervivencia, gráficos y datos funcionan en `.R`, `.qmd` y `.Rmd`.
+Están en `snippets/r/*.json`.
 
-| Prefijo | Inserta |
-|---|---|
-| `_informe` | cabecera YAML + chunk `setup` (feR, datos) lista para exportar |
-| `_seccion` / `_texto` | sección `#' ##` con texto / bloque de texto `#'` |
-| `_fig` / `_tabla` | figura / tabla numeradas (citar con `@fig-nombre` / `@tbl-nombre`) |
-| `_nota` | caja de la plantilla: nota, resumen, ejemplo, definición |
-| `_formula` | fórmula en bloque |
-| `_asis` | chunk con `results = 'asis'` |
-| `_compare_vars` | comparar varias variables con un grupo (feR) |
-| `_carga_datos` | leer `DATOS_BASE/…`, limpiar nombres y guardar en `DATOS_R` |
-| `_describe`, `_describe_grupo`, `_compare`, `_compare_pareado`, `_cor` | funciones de feR (también en `.qmd` / `.Rmd`) |
-| `_supervivencia`, `_reg_lineal_mult`, `_reg_log_bin`, `_reg_ordinal`, `_gg_*`, `_teoria` | análisis y gráficos habituales |
+| Prefijo (feR) | `__base` | Inserta |
+|---|:-:|---|
+| `_carga_datos` | ✓ | leer `DATOS_BASE/…` y guardar en `DATOS_R` |
+| `_cargar` | ✓ | cargar los datos ya preparados |
+| `_factor`, `_cortar`, `_recodificar`, `_filtrar`, `_fechas`, `_exportar` | | preparar variables (R base) |
+| `_describe`, `_describe_grupo`, `_describe_todo` | ✓ | descripción de una, varias o por grupos |
+| `_compare`, `_compare_pareado`, `_compare_vars` | ✓ | comparar con un grupo / pareado / varias variables |
+| `_cor`, `_normalidad`, `_homocedasticidad` | ✓ | correlación, normalidad, igualdad de varianzas |
+| `_fiabilidad`, `_acuerdo` | ✓ | alfa/omega de una escala, kappa/Bland-Altman |
+| `_tabla_cruzada` | | tabla de contingencia con % |
+| `_reg`, `_reg_lineal`, `_reg_log_bin`, `_reg_ordinal`, `_reg_cox` | ✓ (no `_reg`) | regresiones |
+| `_supervivencia` | ✓ | Kaplan-Meier y log-rank |
+| `_gg_boxplot`, `_gg_barras`, `_gg_histograma`, `_gg_dispersion`, `_gg_save` | ✓ | gráficos (ggplot2 con el tema de feR / R base) |
+| `_gg_radar`, `_graficos` | | radar (fmsb) / gráficos de un resultado de feR |
+| `_require`, `_funcion`, `_por_variable`, `_paquetes` | | utilidades (solo `.R`) |
 
-En `.qmd`: `informe`, `compare_vars`, `rfig`, `rtbl`, `rchunk`… En `.Rmd`: `informe`.
+Informes: en `.R` (al estilo `knitr::spin`, se exportan con `,ep` / `,eh`)
+`_informe` / `_informe__base`, `_seccion`, `_texto`, `_fig`, `_tabla`, `_nota`,
+`_formula`, `_asis`; en `.qmd` / `.Rmd`, `_informe` / `_informe__base`,
+`_rchunk`, `_rfig`, `_rtbl`.
+
+El texto de teoría que antes era el snippet `_teoria` está en
+`scripts/templates/r/teoria.R` (feR lo genera con `theory = TRUE`).
 
 ## Proyectos
 

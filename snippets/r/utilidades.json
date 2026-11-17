@@ -1,0 +1,52 @@
+{
+  "_require": {
+    "prefix": "_require",
+    "body": [
+      "if (!requireNamespace(\"${1:paquete}\", quietly = TRUE)) {",
+      "  stop(\"Package \\\"${1}\\\" must be installed to use this function\", call. = FALSE)",
+      "}",
+      "$0"
+    ],
+    "description": "Comprobar dentro de una función que un paquete está instalado"
+  },
+  "_funcion": {
+    "prefix": "_funcion",
+    "body": [
+      "#' ${2:Título}",
+      "#'",
+      "#' ${3:Descripción}",
+      "#'",
+      "#' @param ${4:x} ${5:descripción}",
+      "#' @return ${6:qué devuelve}",
+      "#' @export",
+      "${1:nombre} <- function(${4}) {",
+      "  $0",
+      "}"
+    ],
+    "description": "Función con documentación roxygen"
+  },
+  "_por_variable": {
+    "prefix": "_por_variable",
+    "body": [
+      "vars <- c(${2:\"VAR1\", \"VAR2\"})",
+      "res <- lapply(vars, function(v) {",
+      "  x <- ${1:datos}[[v]]",
+      "  ${0:summary(x)}",
+      "})",
+      "names(res) <- vars",
+      "res"
+    ],
+    "description": "Aplicar lo mismo a varias variables (lapply)"
+  },
+  "_paquetes": {
+    "prefix": "_paquetes",
+    "body": [
+      "paquetes <- c(${1:\"feR\", \"ggplot2\"})",
+      "faltan <- setdiff(paquetes, rownames(installed.packages()))",
+      "if (length(faltan)) install.packages(faltan)",
+      "invisible(lapply(paquetes, library, character.only = TRUE))",
+      "$0"
+    ],
+    "description": "Instalar (si faltan) y cargar paquetes"
+  }
+}

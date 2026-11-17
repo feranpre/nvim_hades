@@ -31,26 +31,6 @@
         "path": "./json/json.json"
       },
       {
-        "language": "r",
-        "path": "./r/regresion.json"
-      },
-      {
-        "language": "r",
-        "path": "./r/trabajo.json"
-      },
-      {
-        "language": "r",
-        "path": "./r/base_r.json"
-      },
-      {
-        "language": "r",
-        "path": "./r/graficos.json"
-      },
-      {
-        "language": "r",
-        "path": "./r/package.json"
-      },
-      {
         "language": "markdown",
         "path": "./markdown/markdown.json"
       },
@@ -64,19 +44,7 @@
       },
       {
         "language": "quarto",
-        "path": "./quarto/quarto_python.json"
-      },
-      {
-        "language": "quarto",
-        "path": "./quarto/quarto_r.json"
-      },
-      {
-        "language": "quarto",
         "path": "./quarto/quarto_base.json"
-      },
-      {
-        "language": "rmd",
-        "path": "./rmd/rmd.json"
       },
       {
         "language": "rmd",
@@ -88,19 +56,79 @@
       },
       {
         "language": "r",
-        "path": "./r/informe.json"
-      },
-      {
-        "language": "r",
-        "path": "./r/feR.json"
+        "path": "./r/datos.json"
       },
       {
         "language": "quarto",
-        "path": "./r/feR.json"
+        "path": "./r/datos.json"
       },
       {
         "language": "rmd",
-        "path": "./r/feR.json"
+        "path": "./r/datos.json"
+      },
+      {
+        "language": "r",
+        "path": "./r/analisis.json"
+      },
+      {
+        "language": "quarto",
+        "path": "./r/analisis.json"
+      },
+      {
+        "language": "rmd",
+        "path": "./r/analisis.json"
+      },
+      {
+        "language": "r",
+        "path": "./r/regresion.json"
+      },
+      {
+        "language": "quarto",
+        "path": "./r/regresion.json"
+      },
+      {
+        "language": "rmd",
+        "path": "./r/regresion.json"
+      },
+      {
+        "language": "r",
+        "path": "./r/supervivencia.json"
+      },
+      {
+        "language": "quarto",
+        "path": "./r/supervivencia.json"
+      },
+      {
+        "language": "rmd",
+        "path": "./r/supervivencia.json"
+      },
+      {
+        "language": "r",
+        "path": "./r/graficos.json"
+      },
+      {
+        "language": "quarto",
+        "path": "./r/graficos.json"
+      },
+      {
+        "language": "rmd",
+        "path": "./r/graficos.json"
+      },
+      {
+        "language": "r",
+        "path": "./r/utilidades.json"
+      },
+      {
+        "language": "r",
+        "path": "./r/informe.json"
+      },
+      {
+        "language": "quarto",
+        "path": "./r/documento.json"
+      },
+      {
+        "language": "rmd",
+        "path": "./r/documento.json"
       }
     ]
   }

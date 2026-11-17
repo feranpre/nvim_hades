@@ -1,0 +1,260 @@
+{
+  "_describe": {
+    "prefix": "_describe",
+    "body": [
+      "describe(${1:datos}[[\"${2:VARIABLE}\"]], x_name = \"${3:Etiqueta}\")",
+      "$0"
+    ],
+    "description": "feR: describir una variable"
+  },
+  "_describe__base": {
+    "prefix": "_describe__base",
+    "body": [
+      "x <- ${1:DATOS}[[\"${2:VARIABLE}\"]]",
+      "if (is.numeric(x)) {",
+      "  c(n = sum(!is.na(x)), NAs = sum(is.na(x)),",
+      "    media = mean(x, na.rm = TRUE), dt = sd(x, na.rm = TRUE),",
+      "    quantile(x, c(0, 0.25, 0.5, 0.75, 1), na.rm = TRUE))",
+      "  hist(x, main = \"${3:Etiqueta}\", xlab = \"\")",
+      "} else {",
+      "  tab <- table(x, useNA = \"ifany\")",
+      "  cbind(n = tab, \"%\" = round(100 * prop.table(tab), 1))",
+      "}",
+      "$0"
+    ],
+    "description": "R base: describir una variable (numérica o categórica)"
+  },
+  "_describe_todo": {
+    "prefix": "_describe_todo",
+    "body": [
+      "describe(${1:datos}${2:[, c(\"EDAD\", \"SEXO\")]})",
+      "$0"
+    ],
+    "description": "feR: describir todas (o varias) variables de los datos"
+  },
+  "_describe_todo__base": {
+    "prefix": "_describe_todo__base",
+    "body": [
+      "summary(${1:DATOS}${2:[, c(\"EDAD\", \"SEXO\")]})",
+      "$0"
+    ],
+    "description": "R base: resumen de todas (o varias) variables"
+  },
+  "_describe_grupo": {
+    "prefix": "_describe_grupo",
+    "body": [
+      "describe(${1:datos}[[\"${2:VARIABLE}\"]], y = ${1}[[\"${3:GRUPO}\"]],",
+      "         x_name = \"${4:Etiqueta}\", y_name = \"${5:Grupo}\")",
+      "$0"
+    ],
+    "description": "feR: describir una variable por grupos"
+  },
+  "_describe_grupo__base": {
+    "prefix": "_describe_grupo__base",
+    "body": [
+      "# Numérica: resumen por grupo",
+      "aggregate(${2:VARIABLE} ~ ${3:GRUPO}, data = ${1:DATOS},",
+      "          FUN = function(x) c(n = length(x), media = mean(x), dt = sd(x), mediana = median(x)))",
+      "boxplot(${2} ~ ${3}, data = ${1})",
+      "",
+      "# Categórica: tabla con % por columna",
+      "# tab <- table(${1}[[\"${2}\"]], ${1}[[\"${3}\"]], useNA = \"ifany\")",
+      "# round(100 * prop.table(tab, margin = 2), 1)",
+      "$0"
+    ],
+    "description": "R base: describir una variable por grupos"
+  },
+  "_compare": {
+    "prefix": "_compare",
+    "body": [
+      "compare(${1:datos}[[\"${2:VARIABLE}\"]], y = ${1}[[\"${3:GRUPO}\"]],",
+      "        x_name = \"${4:Etiqueta}\", y_name = \"${5:Grupo}\")",
+      "$0"
+    ],
+    "description": "feR: comparar una variable entre grupos (elige el test)"
+  },
+  "_compare__base": {
+    "prefix": "_compare__base",
+    "body": [
+      "# Numérica y 2 grupos: t de Welch (normal) o Mann-Whitney (no normal)",
+      "t.test(${2:VARIABLE} ~ ${3:GRUPO}, data = ${1:DATOS})",
+      "wilcox.test(${2} ~ ${3}, data = ${1})",
+      "",
+      "# Numérica y >2 grupos: ANOVA (normal) o Kruskal-Wallis (no normal)",
+      "# summary(aov(${2} ~ ${3}, data = ${1})); TukeyHSD(aov(${2} ~ ${3}, data = ${1}))",
+      "# kruskal.test(${2} ~ ${3}, data = ${1})",
+      "",
+      "# Categórica: chi-cuadrado (o Fisher si hay frecuencias esperadas < 5)",
+      "# tab <- table(${1}[[\"${2}\"]], ${1}[[\"${3}\"]])",
+      "# chisq.test(tab); fisher.test(tab)",
+      "$0"
+    ],
+    "description": "R base: comparar una variable entre grupos (hay que elegir el test)"
+  },
+  "_compare_pareado": {
+    "prefix": "_compare_pareado",
+    "body": [
+      "compare(${1:datos}[[\"${2:ANTES}\"]], y = ${1}[[\"${3:DESPUES}\"]], paired = TRUE,",
+      "        x_name = \"${4:Antes}\", y_name = \"${5:Después}\")",
+      "$0"
+    ],
+    "description": "feR: comparar medidas pareadas (antes/después)"
+  },
+  "_compare_pareado__base": {
+    "prefix": "_compare_pareado__base",
+    "body": [
+      "dif <- ${1:DATOS}[[\"${3:DESPUES}\"]] - ${1}[[\"${2:ANTES}\"]]",
+      "shapiro.test(dif)",
+      "t.test(${1}[[\"${3}\"]], ${1}[[\"${2}\"]], paired = TRUE)",
+      "wilcox.test(${1}[[\"${3}\"]], ${1}[[\"${2}\"]], paired = TRUE)",
+      "# Categórica (2x2 pareada): mcnemar.test(table(${1}[[\"${2}\"]], ${1}[[\"${3}\"]]))",
+      "$0"
+    ],
+    "description": "R base: comparar medidas pareadas (antes/después)"
+  },
+  "_compare_vars": {
+    "prefix": "_compare_vars",
+    "body": [
+      "vars <- c(${1:\"EDAD\", \"SEXO\"})",
+      "for (v in vars) {",
+      "  # do.call: feR reevalúa los argumentos y falla con datos[[v]] dentro de knitr",
+      "  print(do.call(compare, list(${2:datos}[[v]], y = ${2}[[\"${3:GRUPO}\"]], x_name = v, y_name = \"${4:${3}}\")))",
+      "}",
+      "$0"
+    ],
+    "description": "feR: comparar varias variables con un grupo"
+  },
+  "_compare_vars__base": {
+    "prefix": "_compare_vars__base",
+    "body": [
+      "vars <- c(${1:\"EDAD\", \"SEXO\"})",
+      "grupo <- ${2:DATOS}[[\"${3:GRUPO}\"]]",
+      "p <- sapply(vars, function(v) {",
+      "  x <- ${2}[[v]]",
+      "  if (is.numeric(x)) {",
+      "    if (nlevels(factor(grupo)) == 2) wilcox.test(x ~ grupo)[[\"p.value\"]] else kruskal.test(x ~ grupo)[[\"p.value\"]]",
+      "  } else {",
+      "    fisher.test(table(x, grupo), simulate.p.value = TRUE)[[\"p.value\"]]",
+      "  }",
+      "})",
+      "data.frame(variable = vars, p = round(p, 3), row.names = NULL)",
+      "$0"
+    ],
+    "description": "R base: p-valor de varias variables frente a un grupo"
+  },
+  "_cor": {
+    "prefix": "_cor",
+    "body": [
+      "correlation(${1:datos}[, c(${2:\"VAR1\", \"VAR2\"})])",
+      "$0"
+    ],
+    "description": "feR: correlaciones entre variables"
+  },
+  "_cor__base": {
+    "prefix": "_cor__base",
+    "body": [
+      "vars <- c(${2:\"VAR1\", \"VAR2\"})",
+      "round(cor(${1:DATOS}[, vars], use = \"pairwise.complete.obs\", method = \"${3|spearman,pearson,kendall|}\"), 2)",
+      "cor.test(${1}[[vars[1]]], ${1}[[vars[2]]], method = \"${3}\")",
+      "pairs(${1}[, vars])",
+      "$0"
+    ],
+    "description": "R base: matriz de correlaciones y test de una correlación"
+  },
+  "_normalidad": {
+    "prefix": "_normalidad",
+    "body": [
+      "normality(${1:datos}[[\"${2:VARIABLE}\"]]${3:, y = ${1}[[\"GRUPO\"]]})",
+      "$0"
+    ],
+    "description": "feR: normalidad de una variable (global o por grupos)"
+  },
+  "_normalidad__base": {
+    "prefix": "_normalidad__base",
+    "body": [
+      "x <- ${1:DATOS}[[\"${2:VARIABLE}\"]]",
+      "shapiro.test(x)",
+      "qqnorm(x); qqline(x)",
+      "# Por grupos: tapply(x, ${1}[[\"GRUPO\"]], function(g) shapiro.test(g)[[\"p.value\"]])",
+      "$0"
+    ],
+    "description": "R base: normalidad (Shapiro-Wilk y gráfico Q-Q)"
+  },
+  "_homocedasticidad": {
+    "prefix": "_homocedasticidad",
+    "body": [
+      "homoscedasticity(${1:datos}[[\"${2:VARIABLE}\"]], y = ${1}[[\"${3:GRUPO}\"]])",
+      "$0"
+    ],
+    "description": "feR: igualdad de varianzas entre grupos"
+  },
+  "_homocedasticidad__base": {
+    "prefix": "_homocedasticidad__base",
+    "body": [
+      "bartlett.test(${2:VARIABLE} ~ ${3:GRUPO}, data = ${1:DATOS})  # datos normales",
+      "fligner.test(${2} ~ ${3}, data = ${1})   # robusto",
+      "# car::leveneTest(${2} ~ ${3}, data = ${1})",
+      "$0"
+    ],
+    "description": "R base: igualdad de varianzas entre grupos"
+  },
+  "_fiabilidad": {
+    "prefix": "_fiabilidad",
+    "body": [
+      "reliability(${1:datos}[, ${2:paste0(\"ITEM\", 1:10)}]${3:, reverse = c(\"ITEM3\")})",
+      "$0"
+    ],
+    "description": "feR: fiabilidad de una escala (alfa, omega, ítems)"
+  },
+  "_fiabilidad__base": {
+    "prefix": "_fiabilidad__base",
+    "body": [
+      "items <- na.omit(${1:DATOS}[, ${2:paste0(\"ITEM\", 1:10)}])",
+      "k <- ncol(items)",
+      "alfa <- k / (k - 1) * (1 - sum(apply(items, 2, var)) / var(rowSums(items)))",
+      "alfa",
+      "# Alfa si se elimina cada ítem",
+      "sapply(names(items), function(i) {",
+      "  it <- items[, setdiff(names(items), i)]",
+      "  (k - 1) / (k - 2) * (1 - sum(apply(it, 2, var)) / var(rowSums(it)))",
+      "})",
+      "$0"
+    ],
+    "description": "R base: alfa de Cronbach de una escala"
+  },
+  "_acuerdo": {
+    "prefix": "_acuerdo",
+    "body": [
+      "agreement(${1:datos}[[\"${2:OBS1}\"]], ${1}[[\"${3:OBS2}\"]], x_name = \"${4:Observador 1}\", y_name = \"${5:Observador 2}\")",
+      "$0"
+    ],
+    "description": "feR: acuerdo entre observadores (kappa, CCI, Bland-Altman)"
+  },
+  "_acuerdo__base": {
+    "prefix": "_acuerdo__base",
+    "body": [
+      "# Categórica: kappa de Cohen",
+      "tab <- table(${1:DATOS}[[\"${2:OBS1}\"]], ${1}[[\"${3:OBS2}\"]])",
+      "po <- sum(diag(tab)) / sum(tab)",
+      "pe <- sum(rowSums(tab) * colSums(tab)) / sum(tab)^2",
+      "c(acuerdo = po, kappa = (po - pe) / (1 - pe))",
+      "",
+      "# Numérica: Bland-Altman",
+      "# d <- ${1}[[\"${3}\"]] - ${1}[[\"${2}\"]]; m <- (${1}[[\"${3}\"]] + ${1}[[\"${2}\"]]) / 2",
+      "# lim <- mean(d, na.rm = TRUE) + c(-1.96, 0, 1.96) * sd(d, na.rm = TRUE)",
+      "# plot(m, d); abline(h = lim, lty = c(2, 1, 2))",
+      "$0"
+    ],
+    "description": "R base: acuerdo entre dos observadores (kappa de Cohen o Bland-Altman)"
+  },
+  "_tabla_cruzada": {
+    "prefix": "_tabla_cruzada",
+    "body": [
+      "tab <- table(${1:datos}[[\"${2:FILAS}\"]], ${1}[[\"${3:COLUMNAS}\"]], useNA = \"ifany\")",
+      "addmargins(tab)",
+      "round(100 * prop.table(tab, margin = ${4|2,1|}), 1)",
+      "$0"
+    ],
+    "description": "Tabla de contingencia con % por filas o columnas"
+  }
+}

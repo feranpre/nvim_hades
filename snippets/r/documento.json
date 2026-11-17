@@ -1,0 +1,120 @@
+{
+  "_informe": {
+    "prefix": "_informe",
+    "body": [
+      "---",
+      "title: \"${1:Título del informe}\"",
+      "author: \"Fernando Andrés-Pretel\"",
+      "date: today",
+      "date-format: \"DD/MM/YYYY\"",
+      "toc: true",
+      "toc-depth: ${2:3}",
+      "number-sections: true",
+      "fig-width: 7",
+      "fig-height: 4.5",
+      "format:",
+      "  html:",
+      "    toc-location: left",
+      "    toc-expand: true",
+      "    embed-resources: true",
+      "  pdf: default",
+      "execute:",
+      "  echo: false",
+      "  message: false",
+      "  warning: false",
+      "  error: true",
+      "---",
+      "",
+      "```{r}",
+      "#| label: setup",
+      "#| include: false",
+      "library(feR)",
+      "defaults(lang = \"es\")",
+      "",
+      "# Mostrar los resultados de feR como tablas en el informe sin results = 'asis'",
+      "# (quitar cuando feR traiga su propio método knit_print)",
+      "registerS3method(\"knit_print\", \"feR\", function(x, ...) {",
+      "  knitr::asis_output(paste(utils::capture.output(print(x)), collapse = \"\\n\"))",
+      "}, envir = asNamespace(\"knitr\"))",
+      "",
+      "load(\"DATOS_R/datos.RData\")",
+      "```",
+      "",
+      "# ${3:Descripción de la muestra}",
+      "",
+      "$0"
+    ],
+    "description": "feR: cabecera de informe .qmd/.Rmd lista para exportar con ,ep / ,eh"
+  },
+  "_informe__base": {
+    "prefix": "_informe__base",
+    "body": [
+      "---",
+      "title: \"${1:Título del informe}\"",
+      "author: \"Fernando Andrés-Pretel\"",
+      "date: today",
+      "date-format: \"DD/MM/YYYY\"",
+      "toc: true",
+      "toc-depth: ${2:3}",
+      "number-sections: true",
+      "fig-width: 7",
+      "fig-height: 4.5",
+      "format:",
+      "  html:",
+      "    toc-location: left",
+      "    toc-expand: true",
+      "    embed-resources: true",
+      "  pdf: default",
+      "execute:",
+      "  echo: false",
+      "  message: false",
+      "  warning: false",
+      "  error: true",
+      "---",
+      "",
+      "```{r}",
+      "#| label: setup",
+      "#| include: false",
+      "load(\"DATOS_R/DATOS.RData\")",
+      "```",
+      "",
+      "# ${3:Descripción de la muestra}",
+      "",
+      "$0"
+    ],
+    "description": "R base: cabecera de informe .qmd/.Rmd lista para exportar con ,ep / ,eh"
+  },
+  "_rchunk": {
+    "prefix": "_rchunk",
+    "body": [
+      "```{r}",
+      "#| echo: ${1|false,true|}",
+      "#| results: ${2|asis,markup|}",
+      "$0",
+      "```"
+    ],
+    "description": "Chunk de R (salida como markdown, sin código)"
+  },
+  "_rfig": {
+    "prefix": "_rfig",
+    "body": [
+      "```{r}",
+      "#| label: fig-${1:nombre}",
+      "#| fig-cap: \"${2:Título de la figura}\"",
+      "${0:plot()}",
+      "```"
+    ],
+    "description": "Figura numerada (citar con @fig-nombre)"
+  },
+  "_rtbl": {
+    "prefix": "_rtbl",
+    "body": [
+      "```{r}",
+      "#| label: tbl-${1:nombre}",
+      "#| tbl-cap: \"${2:Título de la tabla}\"",
+      "knitr::kable(${0:df}, digits = 2)",
+      "```"
+    ],
+    "description": "Tabla numerada (citar con @tbl-nombre)"
+  }
+}

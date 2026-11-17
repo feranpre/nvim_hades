@@ -1,0 +1,121 @@
+{
+  "_carga_datos": {
+    "prefix": "_carga_datos",
+    "body": [
+      "# Carpetas: ,Pd las crea (DATOS_BASE, DATOS_R, DATOS_EXPORTADOS, GRAFICOS)",
+      "rm(list = ls(all.names = TRUE))",
+      "",
+      "# xlsx, xls, ods, csv, sav, dta, sas7bdat, rds... (el formato sale de la extensión)",
+      "datos <- feR::load(\"DATOS_BASE/${1:datos}.${2:xlsx}\", sheet = ${3:1}, labels = \"${4|factor,values|}\")",
+      "",
+      "$0",
+      "",
+      "save(datos, file = \"DATOS_R/datos.RData\")"
+    ],
+    "description": "feR: cargar los datos originales y guardarlos en DATOS_R/datos.RData"
+  },
+  "_carga_datos__base": {
+    "prefix": "_carga_datos__base",
+    "body": [
+      "# Carpetas: ,Pd las crea (DATOS_BASE, DATOS_R, DATOS_EXPORTADOS, GRAFICOS)",
+      "rm(list = ls(all.names = TRUE))",
+      "",
+      "# Elegir el formato de los datos originales",
+      "DATOS <- readxl::read_excel(\"DATOS_BASE/${1:datos}.xlsx\", sheet = 1)",
+      "# DATOS <- foreign::read.spss(\"DATOS_BASE/${1}.sav\", to.data.frame = TRUE)",
+      "# DATOS <- readODS::read_ods(\"DATOS_BASE/${1}.ods\")",
+      "# DATOS <- read.csv2(\"DATOS_BASE/${1}.csv\")",
+      "DATOS <- as.data.frame(DATOS)",
+      "",
+      "# Nombres limpios en mayúsculas: EDAD, FECHA_ALTA...",
+      "DATOS <- janitor::clean_names(DATOS, case = \"all_caps\")",
+      "",
+      "$0",
+      "",
+      "save(DATOS, file = \"DATOS_R/DATOS.RData\")"
+    ],
+    "description": "R base: cargar los datos originales, limpiar nombres y guardar en DATOS_R/DATOS.RData"
+  },
+  "_cargar": {
+    "prefix": "_cargar",
+    "body": [
+      "library(feR)",
+      "load(\"DATOS_R/${1:datos}.RData\")",
+      "$0"
+    ],
+    "description": "feR: cargar los datos ya preparados (DATOS_R/datos.RData)"
+  },
+  "_cargar__base": {
+    "prefix": "_cargar__base",
+    "body": [
+      "load(\"DATOS_R/${1:DATOS}.RData\")",
+      "$0"
+    ],
+    "description": "R base: cargar los datos ya preparados (DATOS_R/DATOS.RData)"
+  },
+  "_factor": {
+    "prefix": "_factor",
+    "body": [
+      "${1:datos}[[\"${2:VARIABLE}\"]] <- factor(${1}[[\"${2}\"]],",
+      "  levels = c(${3:1, 2}),",
+      "  labels = c(${4:\"No\", \"Sí\"})",
+      ")",
+      "$0"
+    ],
+    "description": "Convertir una variable codificada en factor con etiquetas"
+  },
+  "_cortar": {
+    "prefix": "_cortar",
+    "body": [
+      "${1:datos}[[\"${2:EDAD}_CAT\"]] <- cut(${1}[[\"${2}\"]],",
+      "  breaks = c(${3:-Inf, 40, 65, Inf}),",
+      "  labels = c(${4:\"<40\", \"40-64\", \">=65\"}),",
+      "  right = FALSE",
+      ")",
+      "table(${1}[[\"${2}_CAT\"]], useNA = \"ifany\")",
+      "$0"
+    ],
+    "description": "Agrupar una variable numérica en intervalos (cut)"
+  },
+  "_recodificar": {
+    "prefix": "_recodificar",
+    "body": [
+      "${1:datos}[[\"${2:VARIABLE}_REC\"]] <- ${1}[[\"${2}\"]]",
+      "levels(${1}[[\"${2}_REC\"]]) <- list(",
+      "  \"${3:Nuevo A}\" = c(${4:\"a1\", \"a2\"}),",
+      "  \"${5:Nuevo B}\" = c(${6:\"b1\", \"b2\"})",
+      ")",
+      "table(${1}[[\"${2}\"]], ${1}[[\"${2}_REC\"]], useNA = \"ifany\")",
+      "$0"
+    ],
+    "description": "Recodificar categorías de una variable (agrupar niveles)"
+  },
+  "_filtrar": {
+    "prefix": "_filtrar",
+    "body": [
+      "${1:datos}_${2:sub} <- subset(${1}, ${3:EDAD >= 18}, select = c(${4:EDAD, SEXO}))",
+      "nrow(${1}_${2})",
+      "$0"
+    ],
+    "description": "Seleccionar filas (y columnas) de los datos"
+  },
+  "_fechas": {
+    "prefix": "_fechas",
+    "body": [
+      "${1:datos}[[\"${2:FECHA_INICIO}\"]] <- as.Date(${1}[[\"${2}\"]], format = \"${3:%d/%m/%Y}\")",
+      "${1}[[\"${4:FECHA_FIN}\"]] <- as.Date(${1}[[\"${4}\"]], format = \"${3}\")",
+      "${1}[[\"${5:TIEMPO}\"]] <- as.numeric(${1}[[\"${4}\"]] - ${1}[[\"${2}\"]])${6: / 365.25}",
+      "$0"
+    ],
+    "description": "Convertir texto en fecha y calcular la diferencia en días o años"
+  },
+  "_exportar": {
+    "prefix": "_exportar",
+    "body": [
+      "writexl::write_xlsx(${1:datos}, \"DATOS_EXPORTADOS/${2:datos}.xlsx\")",
+      "# write.csv2(${1}, \"DATOS_EXPORTADOS/${2}.csv\", row.names = FALSE)",
+      "$0"
+    ],
+    "description": "Exportar los datos a Excel o CSV (DATOS_EXPORTADOS)"
+  }
+}
