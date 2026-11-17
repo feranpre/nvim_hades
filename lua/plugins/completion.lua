@@ -57,6 +57,17 @@ return {
                     "path",
                     "snippets",
                     "buffer",
+                    "rutas",
+                },
+
+                providers = {
+                    -- rutas relativas sin "./" dentro de cadenas y enlaces
+                    -- ("DATOS_BASE/..."), en R, Quarto, Rmd y markdown
+                    rutas = {
+                        name = "Ruta",
+                        module = "config.utils.blink_rutas",
+                        score_offset = 5,
+                    },
                 },
             },
 

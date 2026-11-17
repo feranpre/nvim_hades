@@ -30,6 +30,13 @@ versión: si reinstalas feR con funciones nuevas y la misma versión, no
 aparecen al escribir `feR::`. `,rC` la rehace en un R aparte y hace que el
 autocompletado la vuelva a leer sin reiniciar nada.
 
+Las rutas relativas dentro de una cadena se completan sin poner `./` delante:
+`feR::load("DATOS_BASE/` propone los archivos de esa carpeta (y `"DAT`, las
+carpetas que empiezan así). En los `.R` se buscan desde el directorio de
+trabajo (el de R); en `.qmd`, `.Rmd` y `.md`, desde la carpeta del documento,
+también en enlaces `](img/`. Fuente `rutas` de blink.cmp
+(`lua/config/utils/blink_rutas.lua`).
+
 Al pulsar Intro en una línea `#'` se continúa el comentario. Al guardar, el
 código se formatea con [air](https://posit-dev.github.io/air/) (si está
 instalado) y se revisa con lintr (si el paquete está instalado).
