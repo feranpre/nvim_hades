@@ -120,6 +120,14 @@
     ],
     "description": "Tabla numerada (citar en el texto con @tbl-nombre)"
   },
+  "_chunk": {
+    "prefix": "_chunk",
+    "body": [
+      "#+ results = \"asis\", echo = FALSE, comment = ''",
+      "$0"
+    ],
+    "description": "Chunk básico: results = 'asis', sin código ni ##"
+  },
   "_asis": {
     "prefix": "_asis",
     "body": [

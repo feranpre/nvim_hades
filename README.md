@@ -141,7 +141,7 @@ Están en `snippets/r/*.json`.
 
 | Prefijo (feR) | `__base` | Inserta |
 |---|:-:|---|
-| `_carga_datos` | ✓ | leer `DATOS_BASE/…` y guardar en `DATOS_R` |
+| `_carga_datos` | ✓ | script de importación: cabecera, `source("00_config.R")`, leer `DATOS_BASE/…` y guardar en `DATOS_R` |
 | `_cargar` | ✓ | cargar los datos ya preparados |
 | `_factor`, `_cortar`, `_recodificar`, `_filtrar`, `_fechas`, `_exportar` | | preparar variables (R base) |
 | `_describe`, `_describe_grupo`, `_describe_todo` | ✓ | descripción de una, varias o por grupos |
@@ -157,8 +157,8 @@ Están en `snippets/r/*.json`.
 
 Informes: en `.R` (al estilo `knitr::spin`, se exportan con `,ep` / `,eh`)
 `_informe` / `_informe__base`, `_seccion`, `_texto`, `_fig`, `_tabla`, `_nota`,
-`_formula`, `_asis`; en `.qmd` / `.Rmd`, `_informe` / `_informe__base`,
-`_rchunk`, `_rfig`, `_rtbl`.
+`_formula`, `_asis`, `_chunk` (asis, sin código ni `##`); en `.qmd` / `.Rmd`,
+`_informe` / `_informe__base`, `_chunk`, `_rchunk`, `_rfig`, `_rtbl`.
 
 El texto de teoría que antes era el snippet `_teoria` está en
 `scripts/templates/r/teoria.R` (feR lo genera con `theory = TRUE`).
