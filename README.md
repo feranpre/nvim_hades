@@ -153,6 +153,7 @@ Están en `snippets/r/*.json`.
 | `_supervivencia` | ✓ | Kaplan-Meier y log-rank |
 | `_gg_boxplot`, `_gg_barras`, `_gg_histograma`, `_gg_dispersion`, `_gg_save` | ✓ | gráficos (ggplot2 con el tema de feR / R base) |
 | `_gg_radar`, `_graficos` | | radar (fmsb) / gráficos de un resultado de feR |
+| `_config` | ✓ | `00_config.R`: rutas, grupo, variables, `defaults()` de feR, opciones de knitr y tema de gráficos (solo `.R`) |
 | `_require`, `_funcion`, `_por_variable`, `_paquetes` | | utilidades (solo `.R`) |
 
 Informes: en `.R` (al estilo `knitr::spin`, se exportan con `,ep` / `,eh`)
