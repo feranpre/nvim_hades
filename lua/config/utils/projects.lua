@@ -259,6 +259,49 @@ end
 -- Selector (telescope)
 ---------------------------------------------------------------------------
 
+--- Ruta para mostrar en `width` caracteres: entera si cabe; si no, desde
+--- el final con tantas carpetas como quepan, y la siguiente cortada si
+--- queda sitio:
+---   ~/trabajo/dir1/persona1/proyecto1
+---   ../dir1/persona1/proyecto1
+---   ../persona1/proyecto1
+---   ../per../proyecto1
+---   ../proyecto1
+function M.fit_path(path, width)
+	local full = vim.fn.fnamemodify(path, ":~")
+	local w = vim.fn.strchars
+
+	if not width or w(full) <= width then
+		return full
+	end
+
+	local parts = vim.split(full, "/", { plain = true })
+	local name = parts[#parts]
+	local prefix = "../"
+
+	-- Ni siquiera cabe ../nombre: el final del nombre
+	if w(prefix .. name) > width then
+		return "…" .. vim.fn.strcharpart(name, w(name) - (width - 1))
+	end
+
+	local rest = name
+	for i = #parts - 1, 1, -1 do
+		local dir = parts[i]
+		if w(prefix .. dir .. "/" .. rest) <= width then
+			rest = dir .. "/" .. rest
+		else
+			-- "per../": lo que quepa de la carpeta, seguido de ".."
+			local room = width - w(prefix .. "../" .. rest)
+			if room >= 1 then
+				rest = vim.fn.strcharpart(dir, 0, room) .. "../" .. rest
+			end
+			break
+		end
+	end
+
+	return prefix .. rest
+end
+
 local function ago(t)
 	local d = os.time() - (t or 0)
 

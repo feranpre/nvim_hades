@@ -72,6 +72,16 @@ return {
 					},
 				},
 
+				-- Rutas: enteras si caben; si no, desde la última carpeta hacia
+				-- atrás (../persona1/proyecto1), sin abreviar cada carpeta
+				formats = {
+					file = function(item, ctx)
+						local fname = require("config.utils.projects").fit_path(item.file, ctx.width)
+						local dir, file = fname:match("^(.*/)(.+)$")
+						return dir and { { dir, hl = "dir" }, { file, hl = "file" } } or { { fname, hl = "file" } }
+					end,
+				},
+
 				sections = {
 					{ section = "header" },
 					{

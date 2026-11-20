@@ -1,5 +1,6 @@
 -- lintr (R): nvim-lint no lo trae, se define aquí. Respeta el .lintr del
 -- proyecto (lo busca en la carpeta del archivo y sus padres; ,Pc lo crea).
+-- En Quarto y R Markdown, lintr revisa solo los bloques de R.
 local function lintr_linter()
 	local severity = vim.diagnostic.severity
 
@@ -32,6 +33,8 @@ end
 -- Linters lentos (arrancan R): solo al guardar, no al salir de inserción
 local SLOW = {
 	r = true,
+	quarto = true,
+	rmd = true,
 }
 
 return {
@@ -83,6 +86,8 @@ return {
 						if result.code == 0 then
 							vim.schedule(function()
 								lint.linters_by_ft.r = { "lintr" }
+								lint.linters_by_ft.quarto = { "lintr" }
+								lint.linters_by_ft.rmd = { "lintr" }
 							end)
 						end
 					end
