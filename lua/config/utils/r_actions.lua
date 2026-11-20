@@ -4,6 +4,8 @@
 -- así salen en el menú normal de code actions (<leader>la / gra) junto a las
 -- del resto de servidores.
 --
+-- Funcionan en .R y, en Quarto / R Markdown, dentro de los bloques ```{r}.
+--
 --   * line_length_linter (lintr): parte la línea larga
 --       - comentario de línea completa  -> se reparte en varias líneas
 --       - comentario al final           -> se sube encima de la línea
@@ -63,11 +65,44 @@ function M.line_limit(bufnr)
 end
 
 local function indent_unit(bufnr)
+	if vim.bo[bufnr].filetype ~= "r" then
+		return "  "
+	end
 	local sw = vim.bo[bufnr].shiftwidth
 	if sw == 0 then
 		sw = vim.bo[bufnr].tabstop
 	end
 	return string.rep(" ", sw > 0 and sw or 2)
+end
+
+---------------------------------------------------------------------------
+-- Zonas con código R
+---------------------------------------------------------------------------
+
+--- Filas (0-based, inclusivas) con código R: todo el archivo en .R; en
+--- Quarto / R Markdown, el interior de los bloques ```{r ...}
+---@return {first: integer, last: integer}[]
+function M.r_regions(bufnr)
+	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+	if vim.bo[bufnr].filetype == "r" then
+		return { { first = 0, last = #lines - 1 } }
+	end
+
+	local regions, start = {}, nil
+	for i, line in ipairs(lines) do
+		local row = i - 1
+		if not start then
+			if line:match("^%s*```+%s*{%s*[rR]%s*[,}]") or line:match("^%s*```+%s*{%s*[rR]%s+") then
+				start = row + 1
+			end
+		elseif line:match("^%s*```+%s*$") then
+			if row - 1 >= start then
+				table.insert(regions, { first = start, last = row - 1 })
+			end
+			start = nil
+		end
+	end
+	return regions
 end
 
 ---------------------------------------------------------------------------
@@ -268,17 +303,23 @@ local function line_edit(row, lines)
 	}
 end
 
-local function long_line_edits(bufnr, first, last)
+local function long_line_edits(bufnr, regions, first, last)
 	local limit = M.line_limit(bufnr)
 	local unit = indent_unit(bufnr)
 	local edits = {}
 
-	local lines = vim.api.nvim_buf_get_lines(bufnr, first, last + 1, false)
-	for i, text in ipairs(lines) do
-		if width(text) > limit then
-			local new = M.break_line(text, limit, unit)
-			if #new > 1 then
-				table.insert(edits, line_edit(first + i - 1, new))
+	for _, region in ipairs(regions) do
+		local from, to = math.max(first, region.first), math.min(last, region.last)
+		if from <= to then
+			local lines = vim.api.nvim_buf_get_lines(bufnr, from, to + 1, false)
+			for i, text in ipairs(lines) do
+				-- `#| opción: valor` (opciones de bloque de Quarto) no se tocan
+				if width(text) > limit and not text:match("^%s*#|") then
+					local new = M.break_line(text, limit, unit)
+					if #new > 1 then
+						table.insert(edits, line_edit(from + i - 1, new))
+					end
+				end
 			end
 		end
 	end
@@ -290,47 +331,50 @@ end
 -- Llaves en funciones de varias líneas
 ---------------------------------------------------------------------------
 
-local function buffer_root(bufnr)
-	local ok, parser = pcall(vim.treesitter.get_parser, bufnr, "r")
-	if not ok or not parser then
-		return nil
-	end
-	local tree = parser:parse()[1]
-	return tree and tree:root()
-end
-
--- Funciones de varias líneas cuyo cuerpo no va entre { }
-local function unbraced_functions(bufnr)
-	local root = buffer_root(bufnr)
-	if not root then
-		return {}
-	end
-
+-- Funciones de varias líneas cuyo cuerpo no va entre { }. Cada zona de
+-- código R se analiza por separado; `offset` es su primera fila en el buffer.
+---@return {node: TSNode, offset: integer}[]
+local function unbraced_functions(bufnr, regions)
 	local found = {}
-	walk(root, function(node)
-		if node:type() == "function_definition" then
-			local body = node:field("body")[1]
-			local start_row, _, end_row = node:range()
-			if body and body:type() ~= "braced_expression" and start_row ~= end_row and not body:has_error() then
-				table.insert(found, node)
-			end
+
+	for _, region in ipairs(regions) do
+		local lines = vim.api.nvim_buf_get_lines(bufnr, region.first, region.last + 1, false)
+		local root = parse_line(table.concat(lines, "\n"))
+		if root then
+			walk(root, function(node)
+				if node:type() == "function_definition" then
+					local body = node:field("body")[1]
+					local start_row, _, end_row = node:range()
+					if body and body:type() ~= "braced_expression" and start_row ~= end_row and not body:has_error() then
+						table.insert(found, { node = node, offset = region.first })
+					end
+				end
+			end)
 		end
-	end)
+	end
+
 	return found
 end
 
-local function brace_edits(bufnr, fn, unit)
+local function fn_range(f)
+	local s, _, e = f.node:range()
+	return s + f.offset, e + f.offset
+end
+
+local function brace_edits(bufnr, f, unit)
+	local fn, offset = f.node, f.offset
 	local params = fn:field("parameters")[1]
 	local body = fn:field("body")[1]
 	if not params or not body then
 		return nil
 	end
 
-	local fn_row = fn:start()
+	local fn_row = fn:start() + offset
 	local lead = leading(vim.api.nvim_buf_get_lines(bufnr, fn_row, fn_row + 1, false)[1] or "")
 
 	local _, _, p_row, p_col = params:range()
 	local b_row, b_col, e_row, e_col = body:range()
+	p_row, b_row, e_row = p_row + offset, b_row + offset, e_row + offset
 
 	-- Si detrás del cuerpo solo queda un comentario, la llave va al final
 	-- de la línea para no dejar el comentario detrás de "}"
@@ -375,29 +419,33 @@ function M.code_actions(bufnr, uri, range)
 	local unit = indent_unit(bufnr)
 	local row_first, row_last = range.start.line, range["end"].line
 	local line_count = vim.api.nvim_buf_line_count(bufnr)
+	local regions = M.r_regions(bufnr)
+	if #regions == 0 then
+		return actions
+	end
 
 	-- Líneas largas
-	local here, limit = long_line_edits(bufnr, row_first, math.min(row_last, line_count - 1))
+	local here, limit = long_line_edits(bufnr, regions, row_first, math.min(row_last, line_count - 1))
 	if #here > 0 then
 		local what = #here == 1 and "la línea" or (#here .. " líneas")
 		table.insert(actions, action(("R: partir %s (más de %d caracteres)"):format(what, limit), uri, here))
 	end
 
-	local all = long_line_edits(bufnr, 0, line_count - 1)
+	local all = long_line_edits(bufnr, regions, 0, line_count - 1)
 	if #all > #here then
 		table.insert(actions, action(("R: partir todas las líneas largas del archivo (%d)"):format(#all), uri, all))
 	end
 
 	-- Funciones sin llaves
-	local funcs = unbraced_functions(bufnr)
+	local funcs = unbraced_functions(bufnr, regions)
 	if #funcs > 0 then
 		-- La más interior que contenga el cursor
 		local inner
-		for _, fn in ipairs(funcs) do
-			local s, _, e = fn:range()
+		for _, f in ipairs(funcs) do
+			local s, e = fn_range(f)
 			if s <= row_first and e >= row_first then
-				if not inner or s >= inner:start() then
-					inner = fn
+				if not inner or s >= fn_range(inner) then
+					inner = f
 				end
 			end
 		end
