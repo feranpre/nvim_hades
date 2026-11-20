@@ -10,6 +10,12 @@ return {
 			"ConformInfo",
 		},
 
+		-- Los bloques de código de Quarto / R Markdown se localizan con el
+		-- parser de markdown de treesitter
+		init = function()
+			vim.treesitter.language.register("markdown", { "quarto", "rmd" })
+		end,
+
 		opts = {
 			formatters_by_ft = {
 				lua = {
@@ -57,6 +63,17 @@ return {
 					stop_after_first = true,
 				},
 
+				-- Quarto / R Markdown: se formatea cada bloque de código con el
+				-- formateador de su lenguaje (R con air/styler, Python con ruff...).
+				-- El texto, la cabecera YAML y las opciones #| no se tocan.
+				quarto = {
+					"injected",
+				},
+
+				rmd = {
+					"injected",
+				},
+
 				sh = {
 					"shfmt",
 				},
@@ -70,10 +87,26 @@ return {
 				lsp_format = "fallback",
 			},
 
+			formatters = {
+				injected = {
+					options = {
+						-- Un bloque con errores no impide formatear los demás
+						ignore_errors = true,
+
+						-- Solo bloques de código: ni la cabecera YAML ni el HTML
+						lang_to_formatters = {
+							yaml = {},
+							html = {},
+						},
+					},
+				},
+			},
+
 			-- R con styler arranca R y tarda más de 500 ms
 			format_on_save = function(bufnr)
+				local slow = { r = true, quarto = true, rmd = true }
 				return {
-					timeout_ms = vim.bo[bufnr].filetype == "r" and 5000 or 500,
+					timeout_ms = slow[vim.bo[bufnr].filetype] and 5000 or 500,
 					lsp_format = "fallback",
 				}
 			end,
