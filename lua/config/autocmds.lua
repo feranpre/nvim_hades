@@ -61,6 +61,9 @@ vim.api.nvim_create_autocmd("FileType", {
 
 			require("config.keymaps.r").setup(buf)
 
+			-- Code actions propias (líneas largas, llaves en funciones)
+			require("config.utils.r_actions").attach(buf)
+
 		-- Quarto / R Markdown
 		elseif ft == "quarto" or ft == "rmd" then
 			require("config.keymaps.quarto").setup(buf)
