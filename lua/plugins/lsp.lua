@@ -53,6 +53,7 @@ return {
 				"ruff",
 				"prettier",
 				"shfmt",
+				"air", -- R
 
 				-- Linters
 				"luacheck",
